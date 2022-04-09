@@ -1,0 +1,62 @@
+{
+  "block.seaweed.break": {
+    "category": "blocks",
+    "subtitle": "subtitles.block.generic.break",
+    "sounds": [
+      "greenery:wet_grass_break1",
+      "greenery:wet_grass_break2",
+      "greenery:wet_grass_break3",
+      "greenery:wet_grass_break4"
+    ]
+  },
+
+  "block.seaweed.footsteps": {
+    "category": "blocks",
+    "subtitle": "subtitles.block.generic.footsteps",
+    "sounds": [
+      "greenery:wet_grass_hit1",
+      "greenery:wet_grass_hit2",
+      "greenery:wet_grass_hit3",
+      "greenery:wet_grass_hit4",
+      "greenery:wet_grass_hit5",
+      "greenery:wet_grass_hit6"
+    ]
+  },
+
+  "block.seaweed.place": {
+    "category": "blocks",
+    "subtitle": "subtitles.block.generic.place",
+    "sounds": [
+      "greenery:wet_grass_break1",
+      "greenery:wet_grass_break2",
+      "greenery:wet_grass_break3",
+      "greenery:wet_grass_break4"
+    ]
+  },
+
+  "block.seaweed.hit": {
+    "category": "blocks",
+    "subtitle": "subtitles.block.generic.hit",
+    "sounds": [
+      "greenery:wet_grass_hit1",
+      "greenery:wet_grass_hit2",
+      "greenery:wet_grass_hit3",
+      "greenery:wet_grass_hit4",
+      "greenery:wet_grass_hit5",
+      "greenery:wet_grass_hit6"
+    ]
+  },
+
+  "block.seaweed.fall": {
+    "category": "blocks",
+    "subtitle": "subtitles.block.generic.fall",
+    "sounds": [
+      "greenery:wet_grass_hit1",
+      "greenery:wet_grass_hit2",
+      "greenery:wet_grass_hit3",
+      "greenery:wet_grass_hit4",
+      "greenery:wet_grass_hit5",
+      "greenery:wet_grass_hit6"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+itemGroup.greenery=Backported Flora
+
+# Items
+item.kelp_soup.name=Kelp Soup
+item.dried_kelp.name=Dried Kelp
+
+# Plants
+tile.seagrass.name=Seagrass
+tile.rivergrass.name=Rivergrass
+tile.kelp.name=Kelp
+tile.lily_of_the_valley.name=Lily of the Valley
+tile.cornflower.name=Cornflower
+tile.wither_rose.name=Wither Rose
+tile.cattail.name=Cattail
+tile.arrowhead.name=Arrowhead
+tile.tallgrass.name=Grass
+tile.tallfern.name=Fern
+tile.ryegrass.name=Ryegrass
+
+# Blocks
+tile.dried_kelp_block.name=Dried Kelp Block

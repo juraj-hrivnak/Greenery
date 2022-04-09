@@ -1,0 +1,43 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "crop"
+  },
+  "variants": {
+    "level": {
+      "0": { },
+      "1": { },
+      "2": { },
+      "3": { },
+      "4": { },
+      "5": { },
+      "6": { },
+      "7": { },
+      "8": { },
+      "9": { },
+      "10": { },
+      "11": { },
+      "12": { },
+      "13": { },
+      "14": { },
+      "15": { }
+    },
+    "variant": {
+      "single": {
+        "textures": {
+          "crop": "greenery:blocks/seagrass"
+        }
+      },
+      "bottom": {
+        "textures": {
+          "crop": "greenery:blocks/tall_seagrass_bottom"
+        }
+      },
+      "top": {
+        "textures": {
+          "crop": "greenery:blocks/tall_seagrass_top"
+        }
+      }
+    }
+  }
+}

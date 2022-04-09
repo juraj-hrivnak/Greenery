@@ -1,0 +1,19 @@
+# Gradle
+.gradle/
+build/
+
+# Forge Gradle
+run/
+
+# InteliJ
+.idea/**/dictionaries
+.idea/**/libraries
+.idea/**/gradle.xml
+.idea/**/tasks.xml
+.idea/**/workspace.xml
+out/
+*.iml
+
+# Visual Studio Code
+.history/
+src/main/resources/assets/divergentunderground/

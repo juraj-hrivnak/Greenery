@@ -1,0 +1,12 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "cross",
+    "textures": {
+      "cross": "greenery:blocks/lily_of_the_valley"
+    }
+  },
+  "variants": {
+    "normal": [{ }]
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "particle": "blocks/dirt",
+      "bottom": "blocks/dirt",
+      "side": "blocks/dirt",
+      "top": "blocks/grass_top"
+    }
+  },
+  "variants": {
+    "snowy": {
+      "false": {
+        "model": "greenery:grass",
+        "textures": {
+          "overlay": "greenery:blocks/grass_side_overlay"
+        }
+      },
+      "true": {
+        "model": "greenery:grass_snowy",
+        "textures": {
+          "overlay": "greenery:blocks/grass_snowed_side_overlay"
+        }
+      }
+    },
+    "inventory": {
+      "model": "greenery:grass",
+      "textures": {
+        "overlay": "greenery:blocks/grass_side_overlay"
+      }
+    }
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "greenery:arrowhead/arrowhead",
+    "textures": {
+      "bottom": "greenery:blocks/arrowhead/bottom",
+      "particle": "greenery:blocks/arrowhead/age_3"
+    }
+  },
+  "variants": {
+    "age": {
+      "0": {
+        "textures": {
+          "leaf": "greenery:blocks/arrowhead/age_0"
+        }
+      },
+      "1": {
+        "textures": {
+          "leaf": "greenery:blocks/arrowhead/age_1"
+        }
+      },
+      "2": {
+        "textures": {
+          "leaf": "greenery:blocks/arrowhead/age_2"
+        }
+      },
+      "3": {
+        "textures": {
+          "leaf": "greenery:blocks/arrowhead/age_3"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "greenery:dried_kelp_block",
+    "textures": {
+      "particle": "greenery:blocks/dried_kelp_side",
+      "down": "greenery:blocks/dried_kelp_bottom",
+      "up": "greenery:blocks/dried_kelp_top",
+      "north": "greenery:blocks/dried_kelp_side",
+      "east": "greenery:blocks/dried_kelp_side",
+      "south": "greenery:blocks/dried_kelp_side",
+      "west": "greenery:blocks/dried_kelp_side"
+    }
+  },
+  "variants": {
+    "normal": [{ }],
+    "inventory": [{ }]
+  }
+}

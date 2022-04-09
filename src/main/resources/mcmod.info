@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "greenery",
+    "name": "Greenery",
+    "description": "Adds a bunch of new flora.",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [ "TeksturePako" ],
+    "credits": "",
+    "logoFile": "assets/greenery/logo.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

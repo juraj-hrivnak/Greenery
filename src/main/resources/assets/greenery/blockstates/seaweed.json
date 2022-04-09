@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "position=single,variant=kelp":  { "model": "greenery:kelp_single" },
+        "position=bottom,variant=kelp":  { "model": "greenery:kelp_bottom" },
+        "position=middle,variant=kelp":  { "model": "greenery:kelp_middle" },
+        "position=top,variant=kelp":  { "model": "greenery:kelp_top" }
+    }
+}
