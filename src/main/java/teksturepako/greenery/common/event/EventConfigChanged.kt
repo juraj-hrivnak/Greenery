@@ -6,15 +6,18 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.registry.ModWorldgen
 
 @Mod.EventBusSubscriber
 object EventConfigChanged {
+
     @SubscribeEvent
     @JvmStatic fun onConfigChanged(event: ConfigChangedEvent) {
         if (event.modID == Greenery.MODID) {
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
-            ModWorldgen.register()
+            Greenery.generators.clear()
+            Greenery.loadGenerators()
         }
+
     }
+
 }

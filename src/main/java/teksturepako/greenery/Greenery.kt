@@ -6,6 +6,7 @@ import net.minecraft.item.Item
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.event.RegistryEvent
+import net.minecraftforge.fml.common.IWorldGenerator
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
@@ -23,7 +24,13 @@ import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
-import teksturepako.greenery.common.registry.ModWorldgen
+import teksturepako.greenery.common.util.WorldGenUtil.parseValidBiomeTypes
+import teksturepako.greenery.common.world.IGreeneryWorldGenerator
+import teksturepako.greenery.common.world.WorldGenHook
+import teksturepako.greenery.common.world.crop.WorldGenArrowhead
+import teksturepako.greenery.common.world.crop.WorldGenCattail
+import teksturepako.greenery.common.world.grass.WorldGenFerns
+import teksturepako.greenery.common.world.grass.WorldGenTallGrass
 import teksturepako.greenery.proxy.IProxy
 
 
@@ -50,15 +57,15 @@ object Greenery {
 
     val creativeTab = ModCreativeTab()
 
-    fun isDynamicTreesLoaded(): Boolean = (Loader.isModLoaded("dynamictrees"))
+    private fun dynamicTreesLoaded(): Boolean = (Loader.isModLoaded("dynamictrees"))
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
-    lateinit var LOGGER: Logger
+    lateinit var logger: Logger
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent) {
-        LOGGER = event.modLog
+        logger = event.modLog
         proxy.preInit(event)
     }
 
@@ -66,8 +73,8 @@ object Greenery {
     @Suppress("DEPRECATION")
     fun init(event: FMLInitializationEvent) {
         proxy.init(event)
+        GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
         GameRegistry.registerFuelHandler(ModFuelHandler())
-        ModWorldgen.register()
         ModRecipes.register()
     }
 
@@ -80,23 +87,23 @@ object Greenery {
     @SubscribeEvent
     @JvmStatic
     fun onRegisterBlocks(event: RegistryEvent.Register<Block>) {
-        LOGGER.info("Registering blocks")
+        logger.info("Registering blocks")
         ModBlocks.register(event.registry)
-        if (isDynamicTreesLoaded()) {
+        if (dynamicTreesLoaded()) {
             DirtHelper.registerSoil(ModBlocks.blockGrass, DirtHelper.DIRTLIKE)
         }
     }
 
     @SubscribeEvent
     @JvmStatic fun onRegisterItems(event: RegistryEvent.Register<Item>) {
-        LOGGER.info("Registering items")
+        logger.info("Registering items")
         ModBlocks.registerItemBlocks(event.registry)
         ModItems.register(event.registry)
     }
 
     @SubscribeEvent
     @JvmStatic fun onRegisterSoundEvents(event: RegistryEvent.Register<SoundEvent>) {
-        LOGGER.info("Registering sounds")
+        logger.info("Registering sounds")
         ModSoundEvents.register(event.registry)
     }
 
@@ -104,7 +111,7 @@ object Greenery {
     @SubscribeEvent
     @JvmStatic
     fun onRegisterBlockColorHandlers(event: ColorHandlerEvent.Block) {
-        LOGGER.info("Registering Block Color Handlers")
+        logger.info("Registering Block Color Handlers")
         proxy.registerBlockColourHandlers(ModBlocks.blockArrowhead, event)
         proxy.registerBlockColourHandlers(ModBlocks.blockTallGrass, event)
         proxy.registerBlockColourHandlers(ModBlocks.blockTallFern, event)
@@ -116,12 +123,36 @@ object Greenery {
     @SubscribeEvent
     @JvmStatic
     fun onRegisterItemColorHandlers(event: ColorHandlerEvent.Item) {
-        LOGGER.info("Registering Item Color Handlers")
+        logger.info("Registering Item Color Handlers")
         proxy.registerItemColourHandlers(ModItems.itemBlockArrowhead, event)
         proxy.registerItemColourHandlers(ModBlocks.blockTallGrass.itemBlock, event)
         proxy.registerItemColourHandlers(ModBlocks.blockTallFern.itemBlock, event)
         proxy.registerItemColourHandlers(ModBlocks.blockRyegrass.itemBlock, event)
         proxy.registerItemColourHandlers(ModBlocks.blockGrass.itemBlock, event)
+    }
+
+    val generators: MutableList<IGreeneryWorldGenerator> = ArrayList()
+
+    fun loadGenerators(): MutableList<IGreeneryWorldGenerator> {
+        if (generators.isEmpty()) {
+
+            generators.add(WorldGenCattail())
+            generators.add(WorldGenArrowhead())
+            generators.add(WorldGenTallGrass())
+            generators.add(WorldGenFerns())
+
+            logger.info("Loading world generators:")
+            for (generator in generators) {
+                logger.info(
+                    "> " + generator.javaClass.name
+                        .replace("teksturepako.greenery.common.world.", "")
+                )
+                parseValidBiomeTypes(generator.validBiomeTypes)
+            }
+
+            logger.info("-------------------")
+        }
+        return generators
     }
 
 }

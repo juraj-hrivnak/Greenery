@@ -9,16 +9,31 @@ import net.minecraftforge.fml.common.IWorldGenerator
 import teksturepako.greenery.ModConfig
 import teksturepako.greenery.common.block.flower.AbstractFlower
 import teksturepako.greenery.common.util.WorldGenUtil
+import teksturepako.greenery.config.Config
 import java.util.*
 
 abstract class WorldGenCustomFlowers(protected val flower: AbstractFlower) : IWorldGenerator {
     private val defaultState = flower.defaultState
 
+    private val config = Config.generation.arrowhead
+
+    private val generationChance = config.generationChance
+    private val patchAttempts = config.patchAttempts
+    private val plantAttempts = config.plantAttempts
+    private val validBiomeTypes = config.validBiomeTypes
+
     abstract fun getGenerationPos(world: World, rand: Random, chunkPos: ChunkPos): BlockPos
 
     abstract fun canGenerateInWorld(world: World): Boolean
 
-    override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkGenerator, chunkProvider: IChunkProvider) {
+    override fun generate(
+        rand: Random,
+        chunkX: Int,
+        chunkZ: Int,
+        world: World,
+        chunkGenerator: IChunkGenerator,
+        chunkProvider: IChunkProvider
+    ) {
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
         if (flower.isBiomeValid(biome) && canGenerateInWorld(world)) {
             val chunkPos = world.getChunk(chunkX, chunkZ).pos

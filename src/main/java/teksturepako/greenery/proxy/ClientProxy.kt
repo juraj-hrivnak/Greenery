@@ -31,7 +31,7 @@ class ClientProxy : IProxy {
     companion object {
         @SubscribeEvent
         @JvmStatic fun registerModels(event: ModelRegistryEvent) {
-            Greenery.LOGGER.info("Registering models")
+            Greenery.logger.info("Registering models")
             ModBlocks.registerModels()
             ModItems.registerModels()
         }

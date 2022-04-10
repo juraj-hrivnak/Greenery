@@ -20,6 +20,16 @@ object Config {
         @JvmField
         val cattail = Cattail()
 
+        @Name("Grass")
+        @Comment("Options for Grass")
+        @JvmField
+        val grass = Grass()
+
+        @Name("Fern")
+        @Comment("Options for Fern")
+        @JvmField
+        val fern = Fern()
+
         class Arrowhead {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
@@ -49,6 +59,11 @@ object Config {
             )
             @JvmField
             var validBiomeTypes = arrayOf("RIVER", "WET", "SWAMP", "LUSH")
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
         }
 
         class Cattail {
@@ -80,7 +95,85 @@ object Config {
             )
             @JvmField
             var validBiomeTypes = arrayOf("RIVER", "WET", "SWAMP", "LUSH")
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
         }
+
+        class Grass {
+            @Name("Generation Chance")
+            @Comment("The chance to attempt generating in a given chunk.")
+            @Config.RangeDouble(min = 0.0, max = 1.0)
+            @SlidingOption
+            @JvmField
+            var generationChance = 0.5
+
+            @Name("Patch Generation Attempts")
+            @Comment("Attempts to generate a patch in a given chunk.")
+            @Config.RangeInt(min = 0, max = 32)
+            @SlidingOption
+            @JvmField
+            var patchAttempts = 16
+
+            @Name("Plant Generation Attempts")
+            @Comment("Attempts to generate a plant in every patch.")
+            @Config.RangeInt(min = 0, max = 64)
+            @SlidingOption
+            @JvmField
+            var plantAttempts = 64
+
+            @Name("Valid Biome Dictionary Types")
+            @Comment(
+                "A list of biome dictionary types in which a plant can generate.",
+                "Leave empty to disable checking for biome dictionary types."
+            )
+            @JvmField
+            var validBiomeTypes = emptyArray<String>()
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
+        }
+
+        class Fern {
+            @Name("Generation Chance")
+            @Comment("The chance to attempt generating in a given chunk.")
+            @Config.RangeDouble(min = 0.0, max = 1.0)
+            @SlidingOption
+            @JvmField
+            var generationChance = 0.5
+
+            @Name("Patch Generation Attempts")
+            @Comment("Attempts to generate a patch in a given chunk.")
+            @Config.RangeInt(min = 0, max = 32)
+            @SlidingOption
+            @JvmField
+            var patchAttempts = 16
+
+            @Name("Plant Generation Attempts")
+            @Comment("Attempts to generate a plant in every patch.")
+            @Config.RangeInt(min = 0, max = 64)
+            @SlidingOption
+            @JvmField
+            var plantAttempts = 64
+
+            @Name("Valid Biome Dictionary Types")
+            @Comment(
+                "A list of biome dictionary types in which a plant can generate.",
+                "Leave empty to disable checking for biome dictionary types."
+            )
+            @JvmField
+            var validBiomeTypes = emptyArray<String>()
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
+        }
+
 
     }
 

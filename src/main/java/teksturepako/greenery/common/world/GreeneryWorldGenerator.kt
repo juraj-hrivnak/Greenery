@@ -4,20 +4,19 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.fml.common.IWorldGenerator
 import teksturepako.greenery.common.block.AbstractGreeneryCropBase
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
 import java.util.*
 
-abstract class GreeneryWorldGenerator : IWorldGenerator {
+abstract class GreeneryWorldGenerator : IGreeneryWorldGenerator {
 
     abstract val block: AbstractGreeneryCropBase
 
     abstract val generationChance: Double
     abstract val patchAttempts: Int
     abstract val plantAttempts: Int
-    abstract val validBiomeTypes: Array<String>
+    abstract val inverted: Boolean
 
     override fun generate(
         rand: Random,
@@ -31,7 +30,7 @@ abstract class GreeneryWorldGenerator : IWorldGenerator {
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
-        if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes)) {
+        if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
             for (i in 0..patchAttempts) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8

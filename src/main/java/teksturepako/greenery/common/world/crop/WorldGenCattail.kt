@@ -12,6 +12,7 @@ class WorldGenCattail : GreeneryWorldGenerator() {
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
     override val plantAttempts = config.plantAttempts
-    override val validBiomeTypes = config.validBiomeTypes
+    override val validBiomeTypes = config.validBiomeTypes.toMutableList()
+    override val inverted = config.inverted
 
 }

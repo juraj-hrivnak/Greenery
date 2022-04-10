@@ -6,6 +6,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
+import teksturepako.greenery.Greenery.logger
 
 object WorldGenUtil {
     fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome {
@@ -24,15 +25,19 @@ object WorldGenUtil {
         return false
     }
 
-    fun areBiomeTypesValid(biome: Biome, types: Array<String>): Boolean {
+    fun areBiomeTypesValid(biome: Biome, types: MutableList<String>, inverted: Boolean): Boolean {
         for (type in types) {
-            return BiomeDictionary.hasType(biome, getBiomeTypesFromString(type))
+            if (!inverted) {
+                while (BiomeDictionary.hasType(biome, getBiomeTypesFromString(type))) return true
+            } else {
+                while (BiomeDictionary.hasType(biome, getBiomeTypesFromString(type))) return false
+            }
         }
-        return types.isEmpty()
+        return if (!inverted) types.isEmpty() else types.isNotEmpty()
     }
 
     private fun getBiomeTypesFromString(type: String): BiomeDictionary.Type {
-        return when (type.toUpperCase()) {
+        return when (type) {
             "HOT" -> BiomeDictionary.Type.HOT
             "COLD" -> BiomeDictionary.Type.COLD
             "SPARSE" -> BiomeDictionary.Type.SPARSE
@@ -64,7 +69,52 @@ object WorldGenUtil {
             "WASTELAND" -> BiomeDictionary.Type.WASTELAND
             "BEACH" -> BiomeDictionary.Type.BEACH
             "VOID" -> BiomeDictionary.Type.VOID
-            else -> BiomeDictionary.Type.VOID
+            else -> {
+                BiomeDictionary.Type.VOID
+            }
+        }
+    }
+
+    fun parseValidBiomeTypes(types: MutableList<String>) {
+        val validTypes = arrayOf(
+            "HOT",
+            "COLD",
+            "SPARSE",
+            "DENSE",
+            "WET",
+            "DRY",
+            "SAVANNA",
+            "CONIFEROUS",
+            "JUNGLE",
+            "SPOOKY",
+            "DEAD",
+            "LUSH",
+            "NETHER",
+            "END",
+            "MUSHROOM",
+            "MAGICAL",
+            "RARE",
+            "OCEAN",
+            "RIVER",
+            "WATER",
+            "MESA",
+            "FOREST",
+            "PLAINS",
+            "MOUNTAIN",
+            "HILLS",
+            "SWAMP",
+            "SANDY",
+            "SNOWY",
+            "WASTELAND",
+            "BEACH",
+            "VOID"
+        )
+
+        for (type in types) {
+            if (type !in validTypes) {
+                logger.warn("   ├── Typo in \"valid biome dictionary types\" config:")
+                logger.warn("   └── \"$type\"")
+            }
         }
     }
 
