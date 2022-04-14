@@ -27,7 +27,7 @@ class BlockTallFern : AbstractTallGrass(NAME) {
             .withProperty(SINGLE, false)
     }
 
-    public override fun getAgeProperty(): PropertyInteger {
+    override fun getAgeProperty(): PropertyInteger {
         return AGE
     }
 

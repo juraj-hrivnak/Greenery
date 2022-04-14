@@ -113,12 +113,12 @@ object ModBlocks {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerColorHandlers(event: ColorHandlerEvent.Block) {
-        blockArrowhead.registerColorHandler(event)
-        blockTallGrass.registerColorHandler(event)
-        blockTallFern.registerColorHandler(event)
-        blockRyegrass.registerColorHandler(event)
-        blockGrass.registerColorHandler(event)
+    fun registerBlockColorHandlers(event: ColorHandlerEvent.Block) {
+        blockArrowhead.registerBlockColorHandler(event)
+        blockTallGrass.registerBlockColorHandler(event)
+        blockTallFern.registerBlockColorHandler(event)
+        blockRyegrass.registerBlockColorHandler(event)
+        blockGrass.registerBlockColorHandler(event)
     }
 
 }

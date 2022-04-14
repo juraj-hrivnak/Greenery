@@ -30,6 +30,14 @@ object Config {
         @JvmField
         val fern = Fern()
 
+        @Name("Global Grass Generation Multiplier")
+        @Comment("Multiplies the patch attempts of grass by given number.")
+        @Config.RangeInt(min = 1, max = 4)
+        @SlidingOption
+        @JvmField
+        var generationMultiplier = 1
+
+
         class Arrowhead {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")

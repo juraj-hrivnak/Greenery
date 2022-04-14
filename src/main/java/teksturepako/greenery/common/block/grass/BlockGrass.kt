@@ -68,12 +68,12 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerColorHandler(event: ColorHandlerEvent.Block) {
+    fun registerBlockColorHandler(event: ColorHandlerEvent.Block) {
         Greenery.proxy.registerGrassColourHandler(this, event)
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemBlockColorHandler(event: ColorHandlerEvent.Item) {
+    fun registerItemColorHandler(event: ColorHandlerEvent.Item) {
         Greenery.proxy.registerItemColourHandler(itemBlock, event)
     }
 

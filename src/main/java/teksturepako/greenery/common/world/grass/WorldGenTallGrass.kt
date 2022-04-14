@@ -4,23 +4,22 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.fml.common.IWorldGenerator
+import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
-import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.config.Config
 import java.util.*
 
 class WorldGenTallGrass : IGreeneryWorldGenerator {
 
-    private val block = ModBlocks.blockTallGrass
+    override val block = ModBlocks.blockTallGrass
     private val config = Config.generation.grass
 
-    private val generationChance = config.generationChance
-    private val patchAttempts = config.patchAttempts
-    private val plantAttempts = config.plantAttempts
+    override val generationChance = config.generationChance
+    override val patchAttempts = config.patchAttempts
+    override val plantAttempts = config.plantAttempts
     override val validBiomeTypes = config.validBiomeTypes.toMutableList()
-    private val inverted = config.inverted
+    override val inverted = config.inverted
 
     override fun generate(
         rand: Random,
@@ -35,7 +34,7 @@ class WorldGenTallGrass : IGreeneryWorldGenerator {
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
         if (rand.nextDouble() < generationChance && WorldGenUtil.areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
-            repeat(patchAttempts) {
+            for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
 
@@ -49,7 +48,7 @@ class WorldGenTallGrass : IGreeneryWorldGenerator {
     }
 
     private fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
-        repeat(plantAttempts) {
+        for (i in 0..plantAttempts) {
             val pos = targetPos.add(
                 rand.nextInt(8) - rand.nextInt(8),
                 rand.nextInt(4) - rand.nextInt(4),

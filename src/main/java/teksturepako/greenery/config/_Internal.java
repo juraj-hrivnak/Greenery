@@ -12,7 +12,7 @@ import static net.minecraftforge.common.config.Config.Name;
  * Required because the config manager also picks up the INSTANCE field
  * that Kotlin object classes generate.
  */
-@Config(modid = Greenery.MODID, name = Greenery.MODID + "/worldGen")
+@Config(modid = Greenery.MODID, name = Greenery.MODID + "/worldgen")
 public final class _Internal {
 
     @Name("Generation")

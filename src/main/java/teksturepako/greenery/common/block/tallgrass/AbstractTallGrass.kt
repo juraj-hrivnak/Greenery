@@ -1,34 +1,26 @@
 package teksturepako.greenery.common.block.tallgrass
 
-import net.minecraft.block.Block
-import net.minecraft.block.BlockCrops
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
-import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.IBlockState
-import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
 import net.minecraft.item.Item
-import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemStack
 import net.minecraft.stats.StatList
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.EnumFacing
 import net.minecraft.util.NonNullList
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.ForgeHooks
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.block.GreeneryCropBase
 import java.util.*
 
-abstract class AbstractTallGrass(name: String) : BlockCrops() {
+abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
@@ -48,41 +40,12 @@ abstract class AbstractTallGrass(name: String) : BlockCrops() {
         )
     }
 
-    lateinit var itemBlock: Item
-
     init {
         setRegistryName(name)
         translationKey = name
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab
     }
-
-    fun createItemBlock(): Item {
-        itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
-        return itemBlock
-    }
-
-    @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
-        Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
-    }
-
-    @SideOnly(Side.CLIENT)
-    fun registerColorHandler(event: ColorHandlerEvent.Block) {
-        Greenery.proxy.registerGrassColourHandler(this, event)
-    }
-
-    @SideOnly(Side.CLIENT)
-    fun registerItemBlockColorHandler(event: ColorHandlerEvent.Item) {
-        Greenery.proxy.registerItemColourHandler(itemBlock, event)
-    }
-
-    @SideOnly(Side.CLIENT)
-    override fun getOffsetType(): EnumOffsetType {
-        return EnumOffsetType.XZ
-    }
-
-    abstract override fun getAgeProperty(): PropertyInteger
 
     override fun getSeed(): Item {
         return itemBlock
@@ -92,77 +55,23 @@ abstract class AbstractTallGrass(name: String) : BlockCrops() {
         return itemBlock
     }
 
-    override fun canSustainBush(state: IBlockState): Boolean {
-        return false
-    }
-
-
-    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        if (!worldIn.isRemote) {
-            if (!worldIn.isAreaLoaded(pos, 1)) return
-            if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
-                val age = getAge(state)
-                if (age <= this.maxAge && rand.nextDouble() < 0.12) {
-                    this.grow(worldIn, pos, state)
-                }
-            }
-        }
-    }
-
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean {
-        return true
-    }
-
-    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean {
-        return true
-    }
-
-    override fun isFullCube(state: IBlockState): Boolean {
-        return false
-    }
-
-    override fun isOpaqueCube(state: IBlockState): Boolean {
-        return false
-    }
-
-    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
-        entityIn.motionX = entityIn.motionX / ((getAge(state) + 1) * 0.1 + 1)
-        entityIn.motionZ = entityIn.motionZ / ((getAge(state) + 1) * 0.1 + 1)
-    }
-
-    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
-        if (!canBlockStay(worldIn, pos, state)) {
-            dropBlockAsItem(worldIn, pos, state, 0)
-            worldIn.setBlockToAir(pos)
-        }
-    }
-
-    // Placement
-    override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean {
-        return canBlockStay(worldIn, pos, defaultState)
-    }
-
-    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
-        return canBlockStay(worldIn, pos, defaultState)
-    }
-
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        if (down.material in ALLOWED_SOILS || down.block == Blocks.DIRT) {
-            return true
-        } else return down.block == this && getAge(down) == this.maxAge && return down2.material in ALLOWED_SOILS || down2.block == Blocks.DIRT
+        return if (worldIn.isAirBlock(pos) || worldIn.getBlockState(pos).block == this)
+                (down.material in ALLOWED_SOILS || down.block == Blocks.DIRT) ||
+                (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS) else false
     }
 
 
     // Growing
-    override fun getBonemealAgeIncrease(worldIn: World): Int {
-        return super.getBonemealAgeIncrease(worldIn) / this.maxAge
-    }
-
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
-        return (getAge(state) < this.maxAge + 1) && worldIn.getBlockState(pos.up()).block != this
+        return when {
+            worldIn.getBlockState(pos.up()).block == this -> false
+            worldIn.getBlockState(pos.down()).block == this -> (getAge(state) < this.maxAge)
+            else -> true
+        }
     }
 
     override fun grow(worldIn: World, pos: BlockPos, state: IBlockState) {

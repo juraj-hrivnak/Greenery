@@ -4,19 +4,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import teksturepako.greenery.common.block.AbstractGreeneryCropBase
+import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
 import java.util.*
 
 abstract class GreeneryWorldGenerator : IGreeneryWorldGenerator {
-
-    abstract val block: AbstractGreeneryCropBase
-
-    abstract val generationChance: Double
-    abstract val patchAttempts: Int
-    abstract val plantAttempts: Int
-    abstract val inverted: Boolean
 
     override fun generate(
         rand: Random,

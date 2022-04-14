@@ -27,7 +27,7 @@ class BlockRyegrass : AbstractTallGrass(NAME) {
             .withProperty(SINGLE, false)
     }
 
-    public override fun getAgeProperty(): PropertyInteger {
+    override fun getAgeProperty(): PropertyInteger {
         return AGE
     }
 
@@ -39,6 +39,7 @@ class BlockRyegrass : AbstractTallGrass(NAME) {
         return BlockStateContainer(this, AGE, TOP, SINGLE)
     }
 
+    @Deprecated("")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
@@ -50,6 +51,7 @@ class BlockRyegrass : AbstractTallGrass(NAME) {
         }
     }
 
+    @Deprecated("")
     @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {

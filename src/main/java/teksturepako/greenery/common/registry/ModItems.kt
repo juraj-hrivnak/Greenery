@@ -51,12 +51,12 @@ object ModItems {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerColorHandlers(event: ColorHandlerEvent.Item) {
-        itemBlockArrowhead.registerColorHandler(event)
-        blockTallGrass.registerItemBlockColorHandler(event)
-        blockTallFern.registerItemBlockColorHandler(event)
-        blockRyegrass.registerItemBlockColorHandler(event)
-        blockGrass.registerItemBlockColorHandler(event)
+    fun registerItemColorHandlers(event: ColorHandlerEvent.Item) {
+        itemBlockArrowhead.registerItemColorHandler(event)
+        blockTallGrass.registerItemColorHandler(event)
+        blockTallFern.registerItemColorHandler(event)
+        blockRyegrass.registerItemColorHandler(event)
+        blockGrass.registerItemColorHandler(event)
     }
 
     fun initOreDictionary() {

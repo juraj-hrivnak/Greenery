@@ -40,13 +40,13 @@ class ClientProxy : IProxy {
         @SubscribeEvent
         @JvmStatic
         fun registerBlockColorHandlers(event: ColorHandlerEvent.Block) {
-            ModBlocks.registerColorHandlers(event)
+            ModBlocks.registerBlockColorHandlers(event)
         }
 
         @SubscribeEvent
         @JvmStatic
         fun registerItemColorHandlers(event: ColorHandlerEvent.Item) {
-            ModItems.registerColorHandlers(event)
+            ModItems.registerItemColorHandlers(event)
         }
     }
 

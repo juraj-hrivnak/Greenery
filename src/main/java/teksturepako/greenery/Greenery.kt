@@ -14,14 +14,14 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
+import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import teksturepako.greenery.client.ModCreativeTab
 import teksturepako.greenery.common.handler.ModFuelHandler
 import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
-import teksturepako.greenery.common.util.WorldGenUtil.parseValidBiomeTypes
-import teksturepako.greenery.common.world.IGreeneryWorldGenerator
+import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.crop.WorldGenArrowhead
 import teksturepako.greenery.common.world.crop.WorldGenCattail

@@ -49,7 +49,7 @@ abstract class AbstractWaterCropItemBlock(name: String, private val blockToUse: 
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerColorHandler(event: ColorHandlerEvent.Item) {
+    fun registerItemColorHandler(event: ColorHandlerEvent.Item) {
         Greenery.proxy.registerItemColourHandler(this, event)
     }
 
