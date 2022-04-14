@@ -2,6 +2,7 @@ package teksturepako.greenery.common.registry
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item
+import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
@@ -109,6 +110,15 @@ object ModBlocks {
         if (ModConfig.Cornflower.enabled) blockCornflower.registerItemModel()
         if (ModConfig.LilyOfTheValley.enabled) blockLilyOfTheValley.registerItemModel()
         if (ModConfig.WitherRose.enabled) blockWitherRose.registerItemModel()
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerColorHandlers(event: ColorHandlerEvent.Block) {
+        blockArrowhead.registerColorHandler(event)
+        blockTallGrass.registerColorHandler(event)
+        blockTallFern.registerColorHandler(event)
+        blockRyegrass.registerColorHandler(event)
+        blockGrass.registerColorHandler(event)
     }
 
 }

@@ -9,8 +9,10 @@ import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
+import teksturepako.greenery.Greenery
 import java.util.*
 
 abstract class AbstractGreeneryCropBase : BlockCrops() {
@@ -21,6 +23,11 @@ abstract class AbstractGreeneryCropBase : BlockCrops() {
     @SideOnly(Side.CLIENT)
     override fun getOffsetType(): EnumOffsetType {
         return EnumOffsetType.XZ
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerColorHandler(event: ColorHandlerEvent.Block) {
+        Greenery.proxy.registerGrassColourHandler(this, event)
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {

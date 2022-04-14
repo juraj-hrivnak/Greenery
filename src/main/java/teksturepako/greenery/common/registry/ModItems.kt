@@ -1,6 +1,7 @@
 package teksturepako.greenery.common.registry
 
 import net.minecraft.item.Item
+import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.oredict.OreDictionary
@@ -11,6 +12,10 @@ import teksturepako.greenery.common.block.crop.ItemBlockCattail
 import teksturepako.greenery.common.item.ItemDriedKelp
 import teksturepako.greenery.common.item.ItemKelpSoup
 import teksturepako.greenery.common.item.ItemModIcon
+import teksturepako.greenery.common.registry.ModBlocks.blockGrass
+import teksturepako.greenery.common.registry.ModBlocks.blockRyegrass
+import teksturepako.greenery.common.registry.ModBlocks.blockTallFern
+import teksturepako.greenery.common.registry.ModBlocks.blockTallGrass
 
 object ModItems {
 
@@ -43,6 +48,15 @@ object ModItems {
 
         itemBlockCattail.registerItemModel()
         itemBlockArrowhead.registerItemModel()
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerColorHandlers(event: ColorHandlerEvent.Item) {
+        itemBlockArrowhead.registerColorHandler(event)
+        blockTallGrass.registerItemBlockColorHandler(event)
+        blockTallFern.registerItemBlockColorHandler(event)
+        blockRyegrass.registerItemBlockColorHandler(event)
+        blockGrass.registerItemBlockColorHandler(event)
     }
 
     fun initOreDictionary() {

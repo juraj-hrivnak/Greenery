@@ -9,8 +9,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.relauncher.Side
 
-
-
 @Mod.EventBusSubscriber(Side.SERVER)
 class ServerProxy : IProxy {
     override fun preInit(event: FMLPreInitializationEvent) {
@@ -33,12 +31,12 @@ class ServerProxy : IProxy {
         throw IProxy.WrongSideException("Tried to call ${::registerItemBlockRenderer.name} on server")
     }
 
-    override fun registerBlockColourHandlers(block: Block, event: ColorHandlerEvent.Block) {
-        throw IProxy.WrongSideException("Tried to call ${::registerBlockColourHandlers.name} on server")
+    override fun registerGrassColourHandler(block: Block, event: ColorHandlerEvent.Block) {
+        throw IProxy.WrongSideException("Tried to call ${::registerGrassColourHandler.name} on server")
     }
 
-    override fun registerItemColourHandlers(item: Item, event: ColorHandlerEvent.Item) {
-        throw IProxy.WrongSideException("Tried to call ${::registerItemColourHandlers.name} on server")
+    override fun registerItemColourHandler(item: Item, event: ColorHandlerEvent.Item) {
+        throw IProxy.WrongSideException("Tried to call ${::registerItemColourHandler.name} on server")
     }
 
 }

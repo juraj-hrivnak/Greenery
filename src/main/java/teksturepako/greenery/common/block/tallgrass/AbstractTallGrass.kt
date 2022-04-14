@@ -21,6 +21,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -64,6 +65,16 @@ abstract class AbstractTallGrass(name: String) : BlockCrops() {
     @SideOnly(Side.CLIENT)
     fun registerItemModel() {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerColorHandler(event: ColorHandlerEvent.Block) {
+        Greenery.proxy.registerGrassColourHandler(this, event)
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerItemBlockColorHandler(event: ColorHandlerEvent.Item) {
+        Greenery.proxy.registerItemColourHandler(itemBlock, event)
     }
 
     @SideOnly(Side.CLIENT)

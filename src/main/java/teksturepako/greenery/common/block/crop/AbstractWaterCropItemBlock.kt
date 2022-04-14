@@ -13,6 +13,7 @@ import net.minecraft.util.*
 import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.World
+import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.util.BlockSnapshot
 import net.minecraftforge.event.ForgeEventFactory
 import net.minecraftforge.fml.relauncher.Side
@@ -45,6 +46,11 @@ abstract class AbstractWaterCropItemBlock(name: String, private val blockToUse: 
     @SideOnly(Side.CLIENT)
     fun registerItemModel() {
         Greenery.proxy.registerItemRenderer(this, 0, registryName.toString())
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerColorHandler(event: ColorHandlerEvent.Item) {
+        Greenery.proxy.registerItemColourHandler(this, event)
     }
 
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack> {

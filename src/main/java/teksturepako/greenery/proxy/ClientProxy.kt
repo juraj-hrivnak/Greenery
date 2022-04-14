@@ -30,10 +30,23 @@ import teksturepako.greenery.common.registry.ModItems
 class ClientProxy : IProxy {
     companion object {
         @SubscribeEvent
-        @JvmStatic fun registerModels(event: ModelRegistryEvent) {
+        @JvmStatic
+        fun registerModels(event: ModelRegistryEvent) {
             Greenery.logger.info("Registering models")
             ModBlocks.registerModels()
             ModItems.registerModels()
+        }
+
+        @SubscribeEvent
+        @JvmStatic
+        fun registerBlockColorHandlers(event: ColorHandlerEvent.Block) {
+            ModBlocks.registerColorHandlers(event)
+        }
+
+        @SubscribeEvent
+        @JvmStatic
+        fun registerItemColorHandlers(event: ColorHandlerEvent.Item) {
+            ModItems.registerColorHandlers(event)
         }
     }
 
@@ -59,7 +72,7 @@ class ClientProxy : IProxy {
         )
     }
 
-    override fun registerBlockColourHandlers(block: Block, event: ColorHandlerEvent.Block) {
+    override fun registerGrassColourHandler(block: Block, event: ColorHandlerEvent.Block) {
         val blockColors: BlockColors = event.blockColors
         val grassColourHandler = IBlockColor(
             fun(_: IBlockState?, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int): Int {
@@ -71,7 +84,7 @@ class ClientProxy : IProxy {
         blockColors.registerBlockColorHandler(grassColourHandler, block)
     }
 
-    override fun registerItemColourHandlers(item: Item, event: ColorHandlerEvent.Item) {
+    override fun registerItemColourHandler(item: Item, event: ColorHandlerEvent.Item) {
         val blockColors = event.blockColors
         val itemColors = event.itemColors
         val itemBlockColourHandler = IItemColor { stack: ItemStack, tintIndex: Int ->

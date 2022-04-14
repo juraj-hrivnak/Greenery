@@ -4,9 +4,7 @@ import com.ferreusveritas.dynamictrees.systems.DirtHelper
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.util.SoundEvent
-import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fml.common.IWorldGenerator
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
@@ -15,8 +13,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.ModCreativeTab
 import teksturepako.greenery.common.handler.ModFuelHandler
@@ -56,8 +52,7 @@ object Greenery {
     const val CLIENT_PROXY = "teksturepako.greenery.proxy.ClientProxy"
 
     val creativeTab = ModCreativeTab()
-
-    private fun dynamicTreesLoaded(): Boolean = (Loader.isModLoaded("dynamictrees"))
+    val generators: MutableList<IGreeneryWorldGenerator> = ArrayList()
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
@@ -89,7 +84,7 @@ object Greenery {
     fun onRegisterBlocks(event: RegistryEvent.Register<Block>) {
         logger.info("Registering blocks")
         ModBlocks.register(event.registry)
-        if (dynamicTreesLoaded()) {
+        if (Loader.isModLoaded("dynamictrees")) {
             DirtHelper.registerSoil(ModBlocks.blockGrass, DirtHelper.DIRTLIKE)
         }
     }
@@ -106,32 +101,6 @@ object Greenery {
         logger.info("Registering sounds")
         ModSoundEvents.register(event.registry)
     }
-
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    @JvmStatic
-    fun onRegisterBlockColorHandlers(event: ColorHandlerEvent.Block) {
-        logger.info("Registering Block Color Handlers")
-        proxy.registerBlockColourHandlers(ModBlocks.blockArrowhead, event)
-        proxy.registerBlockColourHandlers(ModBlocks.blockTallGrass, event)
-        proxy.registerBlockColourHandlers(ModBlocks.blockTallFern, event)
-        proxy.registerBlockColourHandlers(ModBlocks.blockRyegrass, event)
-        proxy.registerBlockColourHandlers(ModBlocks.blockGrass, event)
-    }
-
-    @SideOnly(Side.CLIENT)
-    @SubscribeEvent
-    @JvmStatic
-    fun onRegisterItemColorHandlers(event: ColorHandlerEvent.Item) {
-        logger.info("Registering Item Color Handlers")
-        proxy.registerItemColourHandlers(ModItems.itemBlockArrowhead, event)
-        proxy.registerItemColourHandlers(ModBlocks.blockTallGrass.itemBlock, event)
-        proxy.registerItemColourHandlers(ModBlocks.blockTallFern.itemBlock, event)
-        proxy.registerItemColourHandlers(ModBlocks.blockRyegrass.itemBlock, event)
-        proxy.registerItemColourHandlers(ModBlocks.blockGrass.itemBlock, event)
-    }
-
-    val generators: MutableList<IGreeneryWorldGenerator> = ArrayList()
 
     fun loadGenerators(): MutableList<IGreeneryWorldGenerator> {
         if (generators.isEmpty()) {

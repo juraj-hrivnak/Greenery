@@ -22,6 +22,7 @@ import net.minecraft.util.SoundCategory
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.EnumPlantType
 import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fml.relauncher.Side
@@ -67,11 +68,21 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
     }
 
     @SideOnly(Side.CLIENT)
+    fun registerColorHandler(event: ColorHandlerEvent.Block) {
+        Greenery.proxy.registerGrassColourHandler(this, event)
+    }
+
+    @SideOnly(Side.CLIENT)
+    fun registerItemBlockColorHandler(event: ColorHandlerEvent.Item) {
+        Greenery.proxy.registerItemColourHandler(itemBlock, event)
+    }
+
+    @SideOnly(Side.CLIENT)
     override fun getRenderLayer(): BlockRenderLayer {
         return BlockRenderLayer.CUTOUT_MIPPED
     }
 
-    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState?, rand: Random) {
+    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
         if (!worldIn.isRemote) {
             if (!worldIn.isAreaLoaded(pos, 3)) return
             if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up())
@@ -82,7 +93,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
                 if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
                     for (i in 0..3) {
                         val blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1)
-                        if (blockpos.y >= 0 && blockpos.y < 256 && !worldIn.isBlockLoaded(blockpos)) {
+                        if (blockpos.y in 0..255 && !worldIn.isBlockLoaded(blockpos)) {
                             return
                         }
                         val iblockstate = worldIn.getBlockState(blockpos.up())
@@ -125,7 +136,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
         }
     }
 
-    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState? {
+    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val block = worldIn.getBlockState(pos.up()).block
         return state.withProperty(SNOWY, (block == Blocks.SNOW || block == Blocks.SNOW_LAYER))
     }
@@ -134,7 +145,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
         return defaultState
     }
 
-    override fun getMetaFromState(state: IBlockState?): Int {
+    override fun getMetaFromState(state: IBlockState): Int {
         return 0
     }
 
@@ -175,11 +186,11 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
         return canGrow(worldIn, pos, state, false)
     }
 
-    override fun canGrow(worldIn: World?, pos: BlockPos?, state: IBlockState?, isClient: Boolean): Boolean {
+    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
         return true
     }
 
-    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState?) {
+    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
         val defaultPos = pos.up()
         for (i in 0..127) {
             var blockPos = defaultPos
