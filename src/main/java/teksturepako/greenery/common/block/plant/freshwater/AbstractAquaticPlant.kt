@@ -17,6 +17,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Optional
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -85,14 +86,21 @@ abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapCol
             val up = world.getBlockState(pos.up(1))
             val up2 = world.getBlockState(pos.up(2))
 
-            if (up.block == blockPurifiedWater || up2.block == blockPurifiedWater) {
-                world.setBlockState(pos, blockPurifiedWater.defaultState, 3)
-            }
-            else if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
-                (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
-                world.setBlockState(pos, Blocks.WATER.defaultState, 3)
+            if (Loader.isModLoaded("simpledifficulty")) {
+                if (up.block == blockPurifiedWater || up2.block == blockPurifiedWater) {
+                    world.setBlockState(pos, blockPurifiedWater.defaultState, 3)
+                }
+                else if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
+                    (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
+                    world.setBlockState(pos, Blocks.WATER.defaultState, 3)
+                } else {
+                    world.setBlockState(pos, blockPurifiedWater.defaultState, 3)
+                }
             } else {
-                world.setBlockState(pos, blockPurifiedWater.defaultState, 3)
+                if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
+                    (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
+                    world.setBlockState(pos, Blocks.WATER.defaultState, 3)
+                }
             }
 
         }
@@ -119,14 +127,21 @@ abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapCol
         val up = worldIn.getBlockState(pos.up(1))
         val up2 = worldIn.getBlockState(pos.up(2))
 
-        if (up.block == blockPurifiedWater || up2.block == blockPurifiedWater) {
-            worldIn.setBlockState(pos, blockPurifiedWater.defaultState, 3)
-        }
-        else if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
-            (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
-            worldIn.setBlockState(pos, Blocks.WATER.defaultState, 3)
+        if (Loader.isModLoaded("simpledifficulty")) {
+            if (up.block == blockPurifiedWater || up2.block == blockPurifiedWater) {
+                worldIn.setBlockState(pos, blockPurifiedWater.defaultState, 3)
+            }
+            else if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
+                (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
+                worldIn.setBlockState(pos, Blocks.WATER.defaultState, 3)
+            } else {
+                worldIn.setBlockState(pos, blockPurifiedWater.defaultState, 3)
+            }
         } else {
-            worldIn.setBlockState(pos, blockPurifiedWater.defaultState, 3)
+            if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
+                (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
+                worldIn.setBlockState(pos, Blocks.WATER.defaultState, 3)
+            }
         }
     }
 

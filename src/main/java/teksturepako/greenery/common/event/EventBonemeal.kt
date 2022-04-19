@@ -42,7 +42,7 @@ object EventBonemeal {
 
     @SubscribeEvent
     @JvmStatic fun onBonemealUsedOnSoulsand(event: BonemealEvent) {
-        if (!ModConfig.WitherRose.enabled) return;
+        if (!ModConfig.WitherRose.enabled) return
 
         val world = event.world
         val block = event.block

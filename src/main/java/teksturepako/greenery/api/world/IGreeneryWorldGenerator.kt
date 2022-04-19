@@ -1,12 +1,13 @@
 package teksturepako.greenery.api.world
 
+import net.minecraft.block.Block
 import net.minecraftforge.fml.common.IWorldGenerator
 import teksturepako.greenery.common.block.GreeneryCropBase
 
 interface IGreeneryWorldGenerator : IWorldGenerator {
 
     /** The block to be generated. */
-    val block: GreeneryCropBase
+    val block: Block
 
     /** The chance to attempt generating in a given chunk. */
     val generationChance: Double

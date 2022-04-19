@@ -7,6 +7,7 @@ import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityLivingBase
+import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
@@ -14,6 +15,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
+import net.minecraftforge.fml.common.Loader
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.ModConfig
 import java.util.*
@@ -24,7 +26,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         const val NAME = "kelp"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
-        const val MAX_AGE = 15;
+        const val MAX_AGE = 15
 
         val IS_TOP_BLOCK: PropertyBool = PropertyBool.create("top")
         val AGE: PropertyInteger = PropertyInteger.create("remaining_height", 0, MAX_AGE)
@@ -37,6 +39,14 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
                 .withProperty(LEVEL, 15)
 
         tickRandomly = ModConfig.Kelp.growthEnabled
+    }
+
+    fun getMaxAge(): Int {
+        return MAX_AGE
+    }
+
+    fun getAgeProperty(): PropertyInteger {
+        return AGE
     }
 
     override fun getStateFromMeta(meta: Int): IBlockState {
@@ -62,7 +72,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         val age = if (down.block == this) {
             min(down.getValue(AGE) + 1, MAX_AGE)
         } else {
-            Random().nextInt(MAX_AGE / 2);
+            Random().nextInt(MAX_AGE / 2)
         }
 
         return defaultState.withProperty(AGE, age)
@@ -71,15 +81,17 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
         //Must have water above
         val up = worldIn.getBlockState(pos.up())
-        if (up.block != SDFluids.blockSaltWater
-            && up.block != this) return false
-
+        if (Loader.isModLoaded("simpledifficulty")) {
+            if (up.block != SDFluids.blockSaltWater
+                && up.block != this) return false
+        } else {
+            if (up.block != Blocks.WATER
+                && up.block != this) return false
+        }
 
         //Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
-        if (down.block == this) {
-            return true
-        } else return down.material in ALLOWED_SOILS
+        return if (down.block == this) true else down.material in ALLOWED_SOILS
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
@@ -95,10 +107,6 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
                 }
             }
         }
-    }
-
-    fun isBiomeValid(biome: Biome): Boolean {
-        return BiomeDictionary.hasType(biome, BiomeDictionary.Type.OCEAN)
     }
 
     private fun getTopPosition(worldIn: World, pos: BlockPos): BlockPos {

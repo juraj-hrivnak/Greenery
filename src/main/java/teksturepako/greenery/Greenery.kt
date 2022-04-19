@@ -27,6 +27,9 @@ import teksturepako.greenery.common.world.crop.WorldGenArrowhead
 import teksturepako.greenery.common.world.crop.WorldGenCattail
 import teksturepako.greenery.common.world.grass.WorldGenFerns
 import teksturepako.greenery.common.world.grass.WorldGenTallGrass
+import teksturepako.greenery.common.world.plant.WorldGenKelp
+import teksturepako.greenery.common.world.plant.WorldGenRivergrass
+import teksturepako.greenery.common.world.plant.WorldGenSeagrass
 import teksturepako.greenery.proxy.IProxy
 
 
@@ -43,7 +46,7 @@ import teksturepako.greenery.proxy.IProxy
 object Greenery {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "1.0"
+    const val VERSION = "1.0.1"
     const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);before:simpledifficulty;after:dynamictrees"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
@@ -109,6 +112,9 @@ object Greenery {
             generators.add(WorldGenArrowhead())
             generators.add(WorldGenTallGrass())
             generators.add(WorldGenFerns())
+            generators.add(WorldGenKelp())
+            generators.add(WorldGenRivergrass())
+            generators.add(WorldGenSeagrass())
 
             logger.info("Loading world generators:")
             for (generator in generators) {

@@ -10,6 +10,7 @@ import net.minecraft.util.IStringSerializable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
@@ -74,19 +75,25 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
         //Must have water above
         val up = worldIn.getBlockState(pos.up())
-        if (up.block != SDFluids.blockPurifiedWater &&
-            up.block != Blocks.WATER &&
-            up.block != Blocks.FLOWING_WATER &&
-            up.block != this
-        ) return false
-
+        if (Loader.isModLoaded("simpledifficulty")) {
+            if (up.block != SDFluids.blockPurifiedWater &&
+                up.block != Blocks.WATER &&
+                up.block != Blocks.FLOWING_WATER &&
+                up.block != this
+            ) return false
+        } else {
+            if (up.block != Blocks.WATER &&
+                up.block != Blocks.FLOWING_WATER &&
+                up.block != this
+            ) return false
+        }
 
         //Must have a SINGLE weed or valid soil below
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
-        if (down.block == this) {                       // if block down is weed
-            return down2.block != this                  // if 2 block down is weed return false
-        } else return down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
+        return if (down.block == this) {         // if block down is weed
+            down2.block != this                  // if 2 block down is weed return false
+        } else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
     }
 
 

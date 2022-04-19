@@ -45,17 +45,12 @@ abstract class GreeneryWorldGenerator : IGreeneryWorldGenerator {
                 rand.nextInt(8) - rand.nextInt(8)
             )
 
+            if (!world.isBlockLoaded(pos)) continue
+
             placePlant(world, pos, rand)
         }
     }
 
-    private fun placePlant(world: World, pos: BlockPos, rand: Random) {
-        val startingAge = rand.nextInt(block.maxAge)
-        val state = block.defaultState.withProperty(block.ageProperty, startingAge)
-
-        if (block.canBlockStay(world, pos, state)) {
-            world.setBlockState(pos, state, 2)
-        }
-    }
+    abstract fun placePlant(world: World, pos: BlockPos, rand: Random)
 
 }
