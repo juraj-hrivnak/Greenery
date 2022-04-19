@@ -13,11 +13,8 @@ import net.minecraft.util.EnumHand
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraft.world.biome.Biome
-import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.Loader
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.ModConfig
 import java.util.*
 import kotlin.math.min
 
@@ -38,7 +35,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
                 .withProperty(AGE, 0)
                 .withProperty(LEVEL, 15)
 
-        tickRandomly = ModConfig.Kelp.growthEnabled
+        tickRandomly = true
     }
 
     fun getMaxAge(): Int {
@@ -49,6 +46,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         return AGE
     }
 
+    @Deprecated("")
     override fun getStateFromMeta(meta: Int): IBlockState {
         return defaultState.withProperty(AGE, meta)
     }
@@ -61,6 +59,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         return BlockStateContainer(this, IS_TOP_BLOCK, AGE, LEVEL)
     }
 
+    @Deprecated("")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasKelpAbove = worldIn.getBlockState(pos.up()).block == this
         return state.withProperty(IS_TOP_BLOCK, !hasKelpAbove)
@@ -99,10 +98,19 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
             val age = state.getValue(AGE)
             if (age < MAX_AGE && rand.nextDouble() < 0.14) {
                 val up = worldIn.getBlockState(pos.up())
-                if (up.block == SDFluids.blockSaltWater) {
-                    val newBlockState = defaultState.withProperty(AGE, age + 1)
-                    if (canBlockStay(worldIn, pos.up(), newBlockState)) {
-                        worldIn.setBlockState(pos.up(), newBlockState)
+                if (Loader.isModLoaded("simpledifficulty")) {
+                    if (up.block == SDFluids.blockSaltWater) {
+                        val newBlockState = defaultState.withProperty(AGE, age + 1)
+                        if (canBlockStay(worldIn, pos.up(), newBlockState)) {
+                            worldIn.setBlockState(pos.up(), newBlockState)
+                        }
+                    }
+                } else {
+                    if (up.block == Blocks.WATER) {
+                        val newBlockState = defaultState.withProperty(AGE, age + 1)
+                        if (canBlockStay(worldIn, pos.up(), newBlockState)) {
+                            worldIn.setBlockState(pos.up(), newBlockState)
+                        }
                     }
                 }
             }

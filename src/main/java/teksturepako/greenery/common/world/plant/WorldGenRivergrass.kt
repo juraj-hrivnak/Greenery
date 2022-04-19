@@ -4,12 +4,9 @@ import com.charles445.simpledifficulty.api.SDFluids
 import net.minecraft.init.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraft.world.WorldType
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.fml.common.IWorldGenerator
 import net.minecraftforge.fml.common.Loader
-import teksturepako.greenery.ModConfig
 import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil

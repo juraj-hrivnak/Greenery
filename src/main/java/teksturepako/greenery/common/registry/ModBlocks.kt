@@ -6,13 +6,9 @@ import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
-import teksturepako.greenery.ModConfig
 import teksturepako.greenery.common.block.BlockDriedKelp
 import teksturepako.greenery.common.block.crop.BlockArrowhead
 import teksturepako.greenery.common.block.crop.BlockCattail
-import teksturepako.greenery.common.block.flower.BlockCornflower
-import teksturepako.greenery.common.block.flower.BlockLilyOfTheValley
-import teksturepako.greenery.common.block.flower.BlockWitherRose
 import teksturepako.greenery.common.block.grass.BlockGrass
 import teksturepako.greenery.common.block.plant.freshwater.BlockRivergrass
 import teksturepako.greenery.common.block.plant.saltwater.BlockKelp
@@ -26,9 +22,6 @@ object ModBlocks {
     val blockSeagrass = BlockSeagrass()
     val blockRivergrass = BlockRivergrass()
     val blockKelp = BlockKelp()
-    val blockLilyOfTheValley = BlockLilyOfTheValley()
-    val blockCornflower = BlockCornflower()
-    val blockWitherRose = BlockWitherRose()
     val blockDriedKelp = BlockDriedKelp()
 
     val blockCattail = BlockCattail()
@@ -42,7 +35,7 @@ object ModBlocks {
 
     fun register(registry: IForgeRegistry<Block>) {
 
-        if (ModConfig.Seagrass.enabled) registry.register(blockSeagrass)
+        registry.register(blockSeagrass)
 
         registry.register(blockRivergrass)
 
@@ -55,20 +48,12 @@ object ModBlocks {
         registry.register(blockRyegrass)
 
 
-        if (ModConfig.Kelp.enabled) {
-            registry.register(blockKelp)
-            if (ModConfig.Kelp.driedKelpEnabled) {
-                registry.register(blockDriedKelp)
-            }
-        }
-
-        if (ModConfig.Cornflower.enabled) registry.register(blockCornflower)
-        if (ModConfig.LilyOfTheValley.enabled) registry.register(blockLilyOfTheValley)
-        if (ModConfig.WitherRose.enabled) registry.register(blockWitherRose)
+        registry.register(blockKelp)
+        registry.register(blockDriedKelp)
     }
 
     fun registerItemBlocks(registry: IForgeRegistry<Item>) {
-        if (ModConfig.Seagrass.enabled) registry.register(blockSeagrass.createItemBlock())
+        registry.register(blockSeagrass.createItemBlock())
 
         registry.register(blockRivergrass.createItemBlock())
         registry.register(blockGrass.createItemBlock())
@@ -76,23 +61,13 @@ object ModBlocks {
         registry.register(blockTallFern.createItemBlock())
         registry.register(blockRyegrass.createItemBlock())
 
-
-        if (ModConfig.Kelp.enabled) {
-            registry.register(blockKelp.createItemBlock())
-            if (ModConfig.Kelp.driedKelpEnabled) {
-                registry.register(blockDriedKelp.createItemBlock())
-            }
-        }
-
-
-        if (ModConfig.Cornflower.enabled) registry.register(blockCornflower.createItemBlock())
-        if (ModConfig.LilyOfTheValley.enabled) registry.register(blockLilyOfTheValley.createItemBlock())
-        if (ModConfig.WitherRose.enabled) registry.register(blockWitherRose.createItemBlock())
+        registry.register(blockKelp.createItemBlock())
+        registry.register(blockDriedKelp.createItemBlock())
     }
 
     @SideOnly(Side.CLIENT)
     fun registerModels() {
-        if (ModConfig.Seagrass.enabled) blockSeagrass.registerItemModel()
+        blockSeagrass.registerItemModel()
 
         blockRivergrass.registerItemModel()
         blockGrass.registerItemModel()
@@ -100,16 +75,8 @@ object ModBlocks {
         blockTallFern.registerItemModel()
         blockRyegrass.registerItemModel()
 
-        if (ModConfig.Kelp.enabled) {
-            blockKelp.registerItemModel()
-            if (ModConfig.Kelp.driedKelpEnabled) {
-                blockDriedKelp.registerItemModel()
-            }
-        }
-
-        if (ModConfig.Cornflower.enabled) blockCornflower.registerItemModel()
-        if (ModConfig.LilyOfTheValley.enabled) blockLilyOfTheValley.registerItemModel()
-        if (ModConfig.WitherRose.enabled) blockWitherRose.registerItemModel()
+        blockKelp.registerItemModel()
+        blockDriedKelp.registerItemModel()
     }
 
     @SideOnly(Side.CLIENT)

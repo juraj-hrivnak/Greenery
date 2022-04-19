@@ -4,7 +4,6 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.registries.IForgeRegistry
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.ModConfig
 
 object ModSoundEvents {
     private fun createSoundEvent(path: String): SoundEvent {
@@ -22,14 +21,12 @@ object ModSoundEvents {
     val SEAWEED_FALL  = createSoundEvent("block.seaweed.fall")
 
     fun register(registry: IForgeRegistry<SoundEvent>) {
-        if (ModConfig.Seagrass.enabled || ModConfig.Kelp.enabled) {
-            registry.registerAll(
-                SEAWEED_BREAK,
-                SEAWEED_STEP,
-                SEAWEED_PLACE,
-                SEAWEED_HIT,
-                SEAWEED_FALL
-            )
-        }
+        registry.registerAll(
+            SEAWEED_BREAK,
+            SEAWEED_STEP,
+            SEAWEED_PLACE,
+            SEAWEED_HIT,
+            SEAWEED_FALL
+        )
     }
 }
