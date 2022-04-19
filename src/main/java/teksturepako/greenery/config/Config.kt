@@ -30,18 +30,18 @@ object Config {
         @JvmField
         val fern = Fern()
 
-        @Name("Fern")
-        @Comment("Options for Fern")
+        @Name("Kelp")
+        @Comment("Options for Kelp")
         @JvmField
         val kelp = Kelp()
 
-        @Name("Fern")
-        @Comment("Options for Fern")
+        @Name("Rivergrass")
+        @Comment("Options for Rivergrass")
         @JvmField
         val rivergrass = Rivergrass()
 
-        @Name("Fern")
-        @Comment("Options for Fern")
+        @Name("Seagrass")
+        @Comment("Options for Seagrass")
         @JvmField
         val seagrass = Seagrass()
 

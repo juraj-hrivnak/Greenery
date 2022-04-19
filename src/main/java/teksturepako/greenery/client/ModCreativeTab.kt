@@ -7,7 +7,7 @@ import teksturepako.greenery.common.registry.ModItems
 
 class ModCreativeTab : CreativeTabs(Greenery.MODID) {
     override fun createIcon(): ItemStack {
-        return ItemStack(ModItems.itemModIcon)
+        return ItemStack(ModItems.itemBlockCattail)
     }
 
     override fun hasSearchBar(): Boolean {
