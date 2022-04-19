@@ -17,8 +17,7 @@ object WorldGenUtil {
         while (world.getBlockState(topPos).material == Material.WATER) {
             topPos = topPos.up()
         }
-        val block = world.getBlockState(topPos).block
-        if (world.isAirBlock(topPos) || block == Blocks.ICE || block == Blocks.WATERLILY) {
+        if (world.isAirBlock(topPos) || world.getBlockState(topPos).material == Material.PLANTS) {
             return world.canSeeSky(topPos)
         }
         return false

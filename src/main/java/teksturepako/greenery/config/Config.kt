@@ -225,7 +225,7 @@ object Config {
                 "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
-            var validBiomeTypes = arrayOf("OCEAN")
+            var validBiomeTypes = arrayOf("OCEAN", "BEACH")
 
             @Name("Valid Biome Dictionary Types Inverted")
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
@@ -261,7 +261,7 @@ object Config {
                 "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
-            var validBiomeTypes = emptyArray<String>()
+            var validBiomeTypes = arrayOf("RIVER")
 
             @Name("Valid Biome Dictionary Types Inverted")
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
@@ -297,7 +297,7 @@ object Config {
                 "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
-            var validBiomeTypes = emptyArray<String>()
+            var validBiomeTypes = arrayOf("OCEAN", "BEACH")
 
             @Name("Valid Biome Dictionary Types Inverted")
             @Comment("Whether Valid Biome Dictionary Types are inverted.")

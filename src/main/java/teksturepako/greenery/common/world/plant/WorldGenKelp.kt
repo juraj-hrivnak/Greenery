@@ -62,11 +62,11 @@ class WorldGenKelp : IGreeneryWorldGenerator {
             if (!world.isBlockLoaded(pos)) continue
 
             if (Loader.isModLoaded("simpledifficulty")) {
-                if (world.getBlockState(pos).block == SDFluids.blockSaltWater && pos.y < 64) {
+                if (world.getBlockState(pos).block == SDFluids.blockSaltWater && pos.y < 64 && !WorldGenUtil.canSeeSky(world, targetPos)) {
                     placeKelp(world, pos, rand)
                 }
             } else {
-                if (world.getBlockState(pos).block == Blocks.WATER && pos.y < 64) {
+                if (world.getBlockState(pos).block == Blocks.WATER && pos.y < 64 && !WorldGenUtil.canSeeSky(world, targetPos)) {
                     placeKelp(world, pos, rand)
                 }
             }
