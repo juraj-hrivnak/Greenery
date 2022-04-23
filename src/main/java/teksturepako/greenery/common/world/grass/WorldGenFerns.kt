@@ -8,7 +8,7 @@ import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
-import teksturepako.greenery.config.Config
+import teksturepako.greenery.common.config.Config
 import java.util.*
 
 class WorldGenFerns : IGreeneryWorldGenerator {

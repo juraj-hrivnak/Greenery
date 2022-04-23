@@ -86,7 +86,7 @@ abstract class AbstractWaterCropItemBlock(name: String, private val blockToUse: 
                         return ActionResult(EnumActionResult.FAIL, itemstack)
                     }
 
-                    worldIn.setBlockState(blockpos1, blockToUse.defaultState)
+                    worldIn.setBlockState(blockpos1, blockToUse.defaultState, 3)
 
                     if (playerIn is EntityPlayerMP) {
                         CriteriaTriggers.PLACED_BLOCK.trigger(playerIn, blockpos1, itemstack)

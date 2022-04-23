@@ -1,8 +1,8 @@
-package teksturepako.greenery.config;
+package teksturepako.greenery.common.config;
 
 import net.minecraftforge.common.config.Config;
 import teksturepako.greenery.Greenery;
-import teksturepako.greenery.config.Config.Generation;
+import teksturepako.greenery.common.config.Config.Generation;
 
 import static net.minecraftforge.common.config.Config.Comment;
 import static net.minecraftforge.common.config.Config.Name;
