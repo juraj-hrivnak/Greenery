@@ -47,7 +47,6 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
 
         translationKey = NAME
         soundType = SoundType.GROUND
-        creativeTab = Greenery.creativeTab
 
         this.setHardness(1.5F)
         this.setResistance(2.0F)
@@ -210,7 +209,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
                 } else {
                     val tallGrass = ModBlocks.blockTallGrass.defaultState
                     if (ModBlocks.blockTallGrass.canBlockStay(worldIn, blockPos, tallGrass)) {
-                        worldIn.setBlockState(blockPos, tallGrass)
+                        worldIn.setBlockState(blockPos, tallGrass, 3)
                     }
                 }
             }
