@@ -1,6 +1,5 @@
 {
   "block.seaweed.break": {
-    "category": "blocks",
     "subtitle": "subtitles.block.generic.break",
     "sounds": [
       "greenery:wet_grass_break1",
@@ -11,7 +10,6 @@
   },
 
   "block.seaweed.footsteps": {
-    "category": "blocks",
     "subtitle": "subtitles.block.generic.footsteps",
     "sounds": [
       "greenery:wet_grass_hit1",
@@ -24,7 +22,6 @@
   },
 
   "block.seaweed.place": {
-    "category": "blocks",
     "subtitle": "subtitles.block.generic.place",
     "sounds": [
       "greenery:wet_grass_break1",
@@ -35,7 +32,6 @@
   },
 
   "block.seaweed.hit": {
-    "category": "blocks",
     "subtitle": "subtitles.block.generic.hit",
     "sounds": [
       "greenery:wet_grass_hit1",
@@ -48,7 +44,6 @@
   },
 
   "block.seaweed.fall": {
-    "category": "blocks",
     "subtitle": "subtitles.block.generic.fall",
     "sounds": [
       "greenery:wet_grass_hit1",

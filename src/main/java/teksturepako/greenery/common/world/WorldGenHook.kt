@@ -5,7 +5,6 @@ import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
 import net.minecraftforge.fml.common.IWorldGenerator
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import java.util.*
 
 class WorldGenHook : IWorldGenerator {

@@ -1,22 +1,20 @@
-package teksturepako.greenery.common.world.plant
+package teksturepako.greenery.common.world.grass
 
-import com.charles445.simpledifficulty.api.SDFluids
-import net.minecraft.init.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.fml.common.Loader
 import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
+import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
 import teksturepako.greenery.common.config.Config
 import java.util.*
 
-class WorldGenRivergrass : IGreeneryWorldGenerator {
+class WorldGenRyegrass : IGreeneryWorldGenerator {
 
-    override val block = ModBlocks.blockRivergrass
-    private val config = Config.generation.rivergrass
+    override val block = ModBlocks.blockRyegrass
+    private val config = Config.generation.ryegrass
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
@@ -36,8 +34,8 @@ class WorldGenRivergrass : IGreeneryWorldGenerator {
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
-        if (rand.nextDouble() < generationChance && WorldGenUtil.areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
-            for (i in 0..patchAttempts) {
+        if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
+            for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
 
@@ -53,39 +51,33 @@ class WorldGenRivergrass : IGreeneryWorldGenerator {
     private fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
         for (i in 0..plantAttempts) {
             val pos = targetPos.add(
-                    rand.nextInt(8) - rand.nextInt(8),
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(8) - rand.nextInt(8)
+                rand.nextInt(8) - rand.nextInt(8),
+                rand.nextInt(4) - rand.nextInt(4),
+                rand.nextInt(8) - rand.nextInt(8)
             )
 
-            if (!world.isBlockLoaded(pos)) continue
-
-            val block = world.getBlockState(pos).block
-
-            if (Loader.isModLoaded("simpledifficulty")) {
-                if ((block == SDFluids.blockPurifiedWater || block == Blocks.WATER) && pos.y < 64 && pos.y > 44 && !WorldGenUtil.canSeeSky(world, targetPos)) {
-                    placeRivergrass(world, pos, rand)
-                }
-            } else {
-                if (block == Blocks.WATER && pos.y < 64 && pos.y > 44 && !WorldGenUtil.canSeeSky(world, targetPos)) {
-                    placeRivergrass(world, pos, rand)
-                }
+            if (world.isAirBlock(pos)) {
+                placePlant(world, pos, rand)
             }
-
         }
     }
 
-    private fun placeRivergrass(world: World, pos: BlockPos, rand: Random) {
-        val state = block.defaultState
+    private fun placePlant(world: World, pos: BlockPos, rand: Random) {
+        val startingAge = rand.nextInt(block.maxAge)
+        val state = block.defaultState.withProperty(block.ageProperty, startingAge)
+        val maxState = block.defaultState.withProperty(block.ageProperty, block.maxAge)
 
         if (block.canBlockStay(world, pos, state)) {
             world.setBlockState(pos, state, 2)
 
-            if (rand.nextDouble() < 0.05) {
-                if (block.canBlockStay(world, pos.up(), state)) {
+            if (rand.nextDouble() < 0.2) {
+                world.setBlockState(pos, maxState, 2)
+
+                if (world.isAirBlock(pos.up()) && block.canBlockStay(world, pos.up(), state)) {
                     world.setBlockState(pos.up(), state, 2)
                 }
             }
         }
     }
 }
+

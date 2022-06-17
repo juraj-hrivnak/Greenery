@@ -37,6 +37,7 @@ class BlockTallGrass : AbstractTallGrass(NAME) {
         return BlockStateContainer(this, AGE, TOP)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
@@ -48,6 +49,7 @@ class BlockTallGrass : AbstractTallGrass(NAME) {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {

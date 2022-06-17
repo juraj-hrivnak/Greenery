@@ -1,8 +1,7 @@
-package teksturepako.greenery.api.world
+package teksturepako.greenery.common.world
 
 import net.minecraft.block.Block
 import net.minecraftforge.fml.common.IWorldGenerator
-import teksturepako.greenery.common.block.GreeneryCropBase
 
 interface IGreeneryWorldGenerator : IWorldGenerator {
 

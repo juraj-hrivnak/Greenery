@@ -39,7 +39,7 @@ class BlockDriedKelp : Block(Material.GRASS, MapColor.GRAY) {
         return 30
     }
 
-    override fun getHarvestTool(state: IBlockState): String? {
+    override fun getHarvestTool(state: IBlockState): String {
         return "hoe"
     }
 

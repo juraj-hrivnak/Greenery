@@ -59,9 +59,10 @@ abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        return if (worldIn.isAirBlock(pos) || worldIn.getBlockState(pos).block == this)
-                (down.material in ALLOWED_SOILS || down.block == Blocks.DIRT) ||
-                (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS) else false
+        return if (worldIn.isAirBlock(pos) || worldIn.getBlockState(pos).block == this) {
+            ((down.material in ALLOWED_SOILS || down.block == Blocks.DIRT)
+                    || (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS))
+        } else false
     }
 
 
@@ -89,19 +90,15 @@ abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
 
     // Drops
     override fun getDrops(
-        drops: NonNullList<ItemStack?>,
-        world: IBlockAccess?,
-        pos: BlockPos?,
-        state: IBlockState?,
+        drops: NonNullList<ItemStack>,
+        world: IBlockAccess,
+        pos: BlockPos,
+        state: IBlockState,
         fortune: Int
     ) {
         if (RANDOM.nextInt(8) != 0) return
         val seed = ForgeHooks.getGrassSeed(RANDOM, fortune)
         if (!seed.isEmpty) drops.add(seed)
-    }
-
-    override fun getItemDropped(state: IBlockState?, rand: Random?, fortune: Int): Item? {
-        return null
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int {

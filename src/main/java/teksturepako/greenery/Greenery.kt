@@ -4,6 +4,7 @@ import com.ferreusveritas.dynamictrees.systems.DirtHelper
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraft.util.SoundEvent
+import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.RegistryEvent
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
@@ -14,18 +15,25 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
-import teksturepako.greenery.api.world.IGreeneryWorldGenerator
 import teksturepako.greenery.client.ModCreativeTab
+import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.event.EventBonemeal
+import teksturepako.greenery.common.event.EventConfigChanged
+import teksturepako.greenery.common.event.EventUseHoe
+import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.handler.ModFuelHandler
 import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
+import teksturepako.greenery.common.util.WorldGenUtil.removeGrass
+import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.crop.WorldGenArrowhead
 import teksturepako.greenery.common.world.crop.WorldGenCattail
 import teksturepako.greenery.common.world.grass.WorldGenFerns
+import teksturepako.greenery.common.world.grass.WorldGenRyegrass
 import teksturepako.greenery.common.world.grass.WorldGenTallGrass
 import teksturepako.greenery.common.world.plant.WorldGenKelp
 import teksturepako.greenery.common.world.plant.WorldGenRivergrass
@@ -65,6 +73,7 @@ object Greenery {
     fun preInit(event: FMLPreInitializationEvent) {
         logger = event.modLog
         proxy.preInit(event)
+        removeGrass()
     }
 
     @Mod.EventHandler
@@ -74,6 +83,11 @@ object Greenery {
         GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
         GameRegistry.registerFuelHandler(ModFuelHandler())
         ModRecipes.register()
+
+        MinecraftForge.EVENT_BUS.register(EventBonemeal::class.java)
+        MinecraftForge.EVENT_BUS.register(EventConfigChanged::class.java)
+        MinecraftForge.EVENT_BUS.register(EventUseHoe::class.java)
+        if (Config.generation.removeGrass) MinecraftForge.TERRAIN_GEN_BUS.register(EventWorldGen::class.java)
     }
 
     @Mod.EventHandler
@@ -111,6 +125,7 @@ object Greenery {
             generators.add(WorldGenCattail())
             generators.add(WorldGenArrowhead())
             generators.add(WorldGenTallGrass())
+            generators.add(WorldGenRyegrass())
             generators.add(WorldGenFerns())
             generators.add(WorldGenKelp())
             generators.add(WorldGenRivergrass())
@@ -125,7 +140,7 @@ object Greenery {
                 parseValidBiomeTypes(generator.validBiomeTypes)
             }
 
-            logger.info("-------------------")
+            logger.info("-------------------------")
         }
         return generators
     }

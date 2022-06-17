@@ -7,7 +7,7 @@ import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
 import net.minecraftforge.fml.common.Loader
-import teksturepako.greenery.api.world.IGreeneryWorldGenerator
+import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.config.Config

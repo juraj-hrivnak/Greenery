@@ -25,6 +25,11 @@ object Config {
         @JvmField
         val grass = Grass()
 
+        @Name("Ryegrass")
+        @Comment("Options for Ryegrass")
+        @JvmField
+        val ryegrass = Ryegrass()
+
         @Name("Fern")
         @Comment("Options for Fern")
         @JvmField
@@ -52,6 +57,10 @@ object Config {
         @JvmField
         var generationMultiplier = 1
 
+        @Name("Remove Grass")
+        @Comment("Removes the minecraft grass.")
+        @JvmField
+        var removeGrass = true
 
         class Arrowhead {
             @Name("Generation Chance")
@@ -126,6 +135,42 @@ object Config {
         }
 
         class Grass {
+            @Name("Generation Chance")
+            @Comment("The chance to attempt generating in a given chunk.")
+            @Config.RangeDouble(min = 0.0, max = 1.0)
+            @SlidingOption
+            @JvmField
+            var generationChance = 0.5
+
+            @Name("Patch Generation Attempts")
+            @Comment("Attempts to generate a patch in a given chunk.")
+            @Config.RangeInt(min = 0, max = 32)
+            @SlidingOption
+            @JvmField
+            var patchAttempts = 16
+
+            @Name("Plant Generation Attempts")
+            @Comment("Attempts to generate a plant in every patch.")
+            @Config.RangeInt(min = 0, max = 64)
+            @SlidingOption
+            @JvmField
+            var plantAttempts = 64
+
+            @Name("Valid Biome Dictionary Types")
+            @Comment(
+                "A list of biome dictionary types in which a plant can generate.",
+                "Leave empty to disable checking for biome dictionary types."
+            )
+            @JvmField
+            var validBiomeTypes = emptyArray<String>()
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
+        }
+
+        class Ryegrass {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)

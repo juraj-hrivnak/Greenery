@@ -53,11 +53,11 @@ abstract class GreeneryCropBase : BlockCrops() {
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
         if (!worldIn.isRemote) {
-            if (!worldIn.isAreaLoaded(pos, 1)) return
+            if (!worldIn.isBlockLoaded(pos)) return
             if (!canBlockStay(worldIn, pos, state)) return
             if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
                 val age = getAge(state)
-                if (age < this.maxAge && rand.nextDouble() < 0.14) {
+                if (age <= this.maxAge && rand.nextDouble() < 0.13) {
                     grow(worldIn, pos, state)
                 }
             }

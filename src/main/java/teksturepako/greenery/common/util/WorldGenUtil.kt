@@ -6,8 +6,18 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
+import net.minecraftforge.fml.common.registry.ForgeRegistries
 
 object WorldGenUtil {
+
+    @Suppress("DEPRECATION")
+    private val allBiomes = ForgeRegistries.BIOMES.values
+    fun removeGrass() {
+        for (biome in allBiomes) {
+            biome.decorator.grassPerChunk = 0
+        }
+    }
+
     fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome {
         return world.getBiomeForCoordsBody(BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8))
     }
