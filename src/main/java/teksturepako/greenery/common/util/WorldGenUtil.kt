@@ -1,20 +1,30 @@
 package teksturepako.greenery.common.util
 
+import biomesoplenty.common.biome.BOPBiome
 import net.minecraft.block.material.Material
-import net.minecraft.init.Blocks
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
+import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 
 object WorldGenUtil {
 
     @Suppress("DEPRECATION")
     private val allBiomes = ForgeRegistries.BIOMES.values
-    fun removeGrass() {
-        for (biome in allBiomes) {
-            biome.decorator.grassPerChunk = 0
+    fun removeBOPGenerators() {
+        if (Loader.isModLoaded("biomesoplenty")) {
+            for (biome in allBiomes) {
+                if (biome is BOPBiome) {
+                    with(biome) {
+                        removeGenerator("grass")
+                        removeGenerator("ferns")
+                        removeGenerator("double_fern")
+                        removeGenerator("doublegrass")
+                    }
+                }
+            }
         }
     }
 

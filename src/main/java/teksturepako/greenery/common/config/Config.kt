@@ -58,7 +58,7 @@ object Config {
         var generationMultiplier = 1
 
         @Name("Remove Grass")
-        @Comment("Removes the minecraft grass.")
+        @Comment("Removes the vanilla and Biomes o' Plenty grass.")
         @JvmField
         var removeGrass = true
 

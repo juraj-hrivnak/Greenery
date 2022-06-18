@@ -27,7 +27,7 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
-import teksturepako.greenery.common.util.WorldGenUtil.removeGrass
+import teksturepako.greenery.common.util.WorldGenUtil.removeBOPGenerators
 import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.crop.WorldGenArrowhead
@@ -54,8 +54,8 @@ import teksturepako.greenery.proxy.IProxy
 object Greenery {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "1.3"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);before:simpledifficulty;after:dynamictrees"
+    const val VERSION = "1.4"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
@@ -73,7 +73,8 @@ object Greenery {
     fun preInit(event: FMLPreInitializationEvent) {
         logger = event.modLog
         proxy.preInit(event)
-        removeGrass()
+
+        if (Config.generation.removeGrass) removeBOPGenerators()
     }
 
     @Mod.EventHandler
@@ -87,7 +88,7 @@ object Greenery {
         MinecraftForge.EVENT_BUS.register(EventBonemeal::class.java)
         MinecraftForge.EVENT_BUS.register(EventConfigChanged::class.java)
         MinecraftForge.EVENT_BUS.register(EventUseHoe::class.java)
-        if (Config.generation.removeGrass) MinecraftForge.TERRAIN_GEN_BUS.register(EventWorldGen::class.java)
+        MinecraftForge.TERRAIN_GEN_BUS.register(EventWorldGen::class.java)
     }
 
     @Mod.EventHandler
