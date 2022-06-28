@@ -1,6 +1,7 @@
 package teksturepako.greenery.common.block.plant.saltwater
 
 import com.charles445.simpledifficulty.api.SDFluids
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.BlockLiquid.LEVEL
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
@@ -78,15 +79,11 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
     }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
-        //Must have water above
-        val up = worldIn.getBlockState(pos.up())
-        if (Loader.isModLoaded("simpledifficulty")) {
-            if (up.block != SDFluids.blockSaltWater
-                && up.block != this) return false
-        } else {
-            if (up.block != Blocks.WATER
-                && up.block != this) return false
-        }
+        val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
+        if (fluidState.isEmpty
+            || !isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
+            || !FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
+        ) return false
 
         //Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())

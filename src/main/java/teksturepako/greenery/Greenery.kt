@@ -54,8 +54,9 @@ import teksturepako.greenery.proxy.IProxy
 object Greenery {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "1.4"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
+    const val VERSION = "1.5"
+    const val DEPENDENCIES =
+        "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.0,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
