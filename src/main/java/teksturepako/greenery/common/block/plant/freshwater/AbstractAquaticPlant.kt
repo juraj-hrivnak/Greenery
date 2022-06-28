@@ -1,14 +1,11 @@
 package teksturepako.greenery.common.block.plant.freshwater
 
-import com.charles445.simpledifficulty.api.SDFluids.blockPurifiedWater
-import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
+import git.jbredwards.fluidlogged_api.api.block.BlockWaterloggedPlant
 import net.minecraft.block.Block
 import net.minecraft.block.IGrowable
-import net.minecraft.block.material.MapColor
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
-import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
 import net.minecraft.util.BlockRenderLayer
@@ -17,16 +14,13 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.Loader
-import net.minecraftforge.fml.common.Optional
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
 import java.util.*
 
-@Optional.Interface(iface = "git.jbredwards.fluidlogged_api.api.block.IFluidloggable", modid = "fluidlogged_api")
-abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapColor.WATER), IGrowable, IFluidloggable {
+abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Material.PLANTS), IGrowable {
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
             Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
@@ -77,32 +71,11 @@ abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapCol
     }
 
     //Block behavior
-    abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+    abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
     private fun checkAndDropBlock(world: IBlockAccess, pos: BlockPos, state: IBlockState) {
         if (!canBlockStay(world as World, pos, state)) {
             dropBlockAsItem(world, pos, state, 0)
-
-            val up = world.getBlockState(pos.up(1))
-            val up2 = world.getBlockState(pos.up(2))
-
-            if (Loader.isModLoaded("simpledifficulty")) {
-                if (up.block == blockPurifiedWater || up2.block == blockPurifiedWater) {
-                    world.setBlockState(pos, blockPurifiedWater.defaultState, 3)
-                }
-                else if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
-                    (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
-                    world.setBlockState(pos, Blocks.WATER.defaultState, 3)
-                } else {
-                    world.setBlockState(pos, blockPurifiedWater.defaultState, 3)
-                }
-            } else {
-                if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
-                    (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
-                    world.setBlockState(pos, Blocks.WATER.defaultState, 3)
-                }
-            }
-
         }
     }
 
@@ -121,30 +94,6 @@ abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapCol
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
         checkAndDropBlock(worldIn, pos, state)
     }
-
-    //Leave water when broken
-    override fun onPlayerDestroy(worldIn: World, pos: BlockPos, state: IBlockState) {
-        val up = worldIn.getBlockState(pos.up(1))
-        val up2 = worldIn.getBlockState(pos.up(2))
-
-        if (Loader.isModLoaded("simpledifficulty")) {
-            if (up.block == blockPurifiedWater || up2.block == blockPurifiedWater) {
-                worldIn.setBlockState(pos, blockPurifiedWater.defaultState, 3)
-            }
-            else if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
-                (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
-                worldIn.setBlockState(pos, Blocks.WATER.defaultState, 3)
-            } else {
-                worldIn.setBlockState(pos, blockPurifiedWater.defaultState, 3)
-            }
-        } else {
-            if ((up.block == Blocks.WATER || up.block == Blocks.FLOWING_WATER) ||
-                (up2.block == Blocks.WATER || up2.block == Blocks.FLOWING_WATER)) {
-                worldIn.setBlockState(pos, Blocks.WATER.defaultState, 3)
-            }
-        }
-    }
-
 
     // IGrowable implementation
     override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean {

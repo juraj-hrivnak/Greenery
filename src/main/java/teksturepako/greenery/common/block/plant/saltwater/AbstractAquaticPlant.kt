@@ -1,14 +1,11 @@
 package teksturepako.greenery.common.block.plant.saltwater
 
-import com.charles445.simpledifficulty.api.SDFluids
-import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
+import git.jbredwards.fluidlogged_api.api.block.BlockWaterloggedPlant
 import net.minecraft.block.Block
 import net.minecraft.block.IGrowable
-import net.minecraft.block.material.MapColor
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
-import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
 import net.minecraft.util.BlockRenderLayer
@@ -17,19 +14,16 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.Loader
-import net.minecraftforge.fml.common.Optional
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
 import java.util.*
 
-@Optional.Interface(iface = "git.jbredwards.fluidlogged_api.api.block.IFluidloggable", modid = "fluidlogged_api")
-abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapColor.WATER), IGrowable, IFluidloggable {
+abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Material.PLANTS), IGrowable {
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
-                Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
+            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
         )
     }
 
@@ -77,18 +71,7 @@ abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapCol
     }
 
     //Block behavior
-    abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
-
-    private fun checkAndDropBlock(world: IBlockAccess, pos: BlockPos, state: IBlockState) {
-        if (!canBlockStay(world as World, pos, state)) {
-            dropBlockAsItem(world, pos, state, 0)
-            if (Loader.isModLoaded("simpledifficulty")) {
-                world.setBlockState(pos, SDFluids.blockSaltWater.defaultState, 3)
-            } else {
-                world.setBlockState(pos, Blocks.WATER.defaultState, 3)
-            }
-        }
-    }
+    abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
     override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean {
         return false
@@ -105,16 +88,6 @@ abstract class AbstractAquaticPlant(name: String) : Block(Material.WATER, MapCol
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
         checkAndDropBlock(worldIn, pos, state)
     }
-
-    //Leave water when broken
-    override fun onPlayerDestroy(worldIn: World, pos: BlockPos, state: IBlockState) {
-        if (Loader.isModLoaded("simpledifficulty")) {
-            worldIn.setBlockState(pos, SDFluids.blockSaltWater.defaultState, 3)
-        } else {
-            worldIn.setBlockState(pos, Blocks.WATER.defaultState, 3)
-        }
-    }
-
 
     // IGrowable implementation
     override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean {

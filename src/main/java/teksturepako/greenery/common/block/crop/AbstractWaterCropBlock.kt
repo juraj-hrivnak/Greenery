@@ -10,6 +10,7 @@ import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
 import teksturepako.greenery.common.block.GreeneryCropBase
+import teksturepako.greenery.common.block.plant.freshwater.AbstractAquaticPlant
 
 abstract class AbstractWaterCropBlock(name: String) : GreeneryCropBase() {
 
@@ -42,7 +43,10 @@ abstract class AbstractWaterCropBlock(name: String) : GreeneryCropBase() {
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        return if ((worldIn.isAirBlock(pos) || worldIn.getBlockState(pos).block == this) && down.material == Material.WATER) {
+        return if ((worldIn.isAirBlock(pos)
+                    || worldIn.getBlockState(pos).block == this)
+            && down.material == Material.WATER
+        ) {
             down2.material in ALLOWED_SOILS
         } else false
     }

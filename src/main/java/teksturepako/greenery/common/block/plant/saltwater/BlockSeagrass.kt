@@ -1,17 +1,17 @@
 package teksturepako.greenery.common.block.plant.saltwater
 
 import com.charles445.simpledifficulty.api.SDFluids
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils.getFluidFromState
 import net.minecraft.block.BlockLiquid.LEVEL
 import net.minecraft.block.IGrowable
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
-import net.minecraft.init.Blocks
 import net.minecraft.util.IStringSerializable
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
@@ -72,15 +72,11 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
     }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
-        //Must have water above
-        val up = worldIn.getBlockState(pos.up())
-        if (Loader.isModLoaded("simpledifficulty")) {
-            if (up.block != SDFluids.blockSaltWater
-                && up.block != this) return false
-        } else {
-            if (up.block != Blocks.WATER
-                && up.block != this) return false
-        }
+        val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
+        if (fluidState.isEmpty
+            || !isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
+            || !FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
+        ) return false
 
         //Must have a SINGLE weed or valid soil below
         val down = worldIn.getBlockState(pos.down())
