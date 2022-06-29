@@ -1,6 +1,8 @@
 package teksturepako.greenery.common.util
 
-import biomesoplenty.common.biome.BOPBiome
+import biomesoplenty.api.biome.BOPBiomes
+import biomesoplenty.api.biome.IExtendedBiome
+import biomesoplenty.common.biome.vanilla.ExtendedBiomeWrapper
 import net.minecraft.block.material.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -12,20 +14,26 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 object WorldGenUtil {
 
     @Suppress("DEPRECATION")
-    private val allBiomes = ForgeRegistries.BIOMES.values
     fun removeBOPGenerators() {
-        if (Loader.isModLoaded("biomesoplenty")) {
-            for (biome in allBiomes) {
-                if (biome is BOPBiome) {
-                    with(biome) {
-                        removeGenerator("grass")
-                        removeGenerator("ferns")
-                        removeGenerator("double_fern")
-                        removeGenerator("doublegrass")
-                    }
-                }
-            }
+        if (!Loader.isModLoaded("biomesoplenty")) {
+            return
         }
+
+        for (biome in ForgeRegistries.BIOMES.values) {
+            getExtendedBiome(biome)?.generationManager?.removeGenerator("grass")
+            getExtendedBiome(biome)?.generationManager?.removeGenerator("ferns")
+            getExtendedBiome(biome)?.generationManager?.removeGenerator("double_fern")
+            getExtendedBiome(biome)?.generationManager?.removeGenerator("doublegrass")
+        }
+    }
+
+    private fun getExtendedBiome(biome: Biome?): IExtendedBiome? {
+        var eBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome)
+        if (eBiome == null) {
+            eBiome = ExtendedBiomeWrapper(biome)
+            BOPBiomes.REG_INSTANCE.registerBiome(eBiome, eBiome.getBaseBiome().biomeName.toLowerCase())
+        }
+        return eBiome
     }
 
     fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome {

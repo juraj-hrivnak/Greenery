@@ -79,7 +79,6 @@ object Greenery {
     }
 
     @Mod.EventHandler
-    @Suppress("DEPRECATION")
     fun init(event: FMLInitializationEvent) {
         proxy.init(event)
         GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
@@ -116,10 +115,16 @@ object Greenery {
     }
 
     @SubscribeEvent
-    @JvmStatic fun onRegisterSoundEvents(event: RegistryEvent.Register<SoundEvent>) {
+    @JvmStatic
+    fun onRegisterSoundEvents(event: RegistryEvent.Register<SoundEvent>) {
         logger.info("Registering sounds")
         ModSoundEvents.register(event.registry)
     }
+
+//    @SubscribeEvent
+//    @JvmStatic fun onRegisterBiomes(event: RegistryEvent.Register<Biome>) {
+//        if (Config.generation.removeGrass) removeBOPGenerators()
+//    }
 
     fun loadGenerators(): MutableList<IGreeneryWorldGenerator> {
         if (generators.isEmpty()) {
