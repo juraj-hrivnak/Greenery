@@ -1,0 +1,21 @@
+itemGroup.greenery=绿色植物
+
+# Items
+item.kelp_soup.name=海带汤
+item.dried_kelp.name=干海带
+
+# Plants
+tile.seagrass.name=海草
+tile.rivergrass.name=河草
+tile.kelp.name=海带
+tile.lily_of_the_valley.name=铃兰
+tile.cornflower.name=矢车菊
+tile.wither_rose.name=凋零玫瑰
+tile.cattail.name=香蒲
+tile.arrowhead.name=箭叶芋
+tile.tallgrass.name=草
+tile.tallfern.name=蕨菜
+tile.ryegrass.name=黑麦草
+
+# Blocks
+tile.dried_kelp_block.name=干海带块
