@@ -14,8 +14,7 @@ import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import net.minecraftforge.fml.common.gameevent.TickEvent
-import teksturepako.greenery.common.block.plant.saltwater.AbstractAquaticPlant
+import teksturepako.greenery.common.block.plant.aquatic.AbstractAquaticPlant
 import teksturepako.greenery.common.registry.ModBlocks
 import java.util.*
 

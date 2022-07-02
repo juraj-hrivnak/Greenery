@@ -1,14 +1,13 @@
-package teksturepako.greenery.common.block.plant.saltwater
+package teksturepako.greenery.common.block.plant.aquatic
 
-import com.charles445.simpledifficulty.api.SDFluids
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils.getFluidFromState
 import net.minecraft.block.BlockLiquid.LEVEL
 import net.minecraft.block.IGrowable
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.IStringSerializable
+import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
@@ -59,11 +58,13 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
         val hasSeagrassBelow = worldIn.getBlockState(pos.down()).block == this
         val hasSeagrassAbove = worldIn.getBlockState(pos.up()).block == this
 
-        return state.withProperty(VARIANT, when {
-            hasSeagrassBelow -> SeagrassVariant.TOP
-            hasSeagrassAbove -> SeagrassVariant.BOTTOM
-            else -> SeagrassVariant.SINGLE
-        })
+        return state.withProperty(
+            VARIANT, when {
+                hasSeagrassBelow -> SeagrassVariant.TOP
+                hasSeagrassAbove -> SeagrassVariant.BOTTOM
+                else -> SeagrassVariant.SINGLE
+            }
+        )
     }
 
     @SideOnly(Side.CLIENT)
@@ -96,5 +97,19 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
         worldIn.setBlockState(pos.up(), state)
+    }
+
+    @Deprecated("")
+    @Suppress("DEPRECATION")
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
+        return when (val actualState = getActualState(state, source, pos)) {
+            actualState.withProperty(VARIANT, SeagrassVariant.TOP) ->
+                TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, SeagrassVariant.SINGLE) ->
+                TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) ->
+                BOTTOM_AABB.offset(state.getOffset(source, pos))
+            else -> TOP_AABB.offset(state.getOffset(source, pos))
+        }
     }
 }

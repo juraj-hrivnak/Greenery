@@ -4,11 +4,11 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import teksturepako.greenery.common.world.IGreeneryWorldGenerator
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
-import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import java.util.*
 
 class WorldGenRyegrass : IGreeneryWorldGenerator {
@@ -48,7 +48,7 @@ class WorldGenRyegrass : IGreeneryWorldGenerator {
         }
     }
 
-    private fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
+    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
         for (i in 0..plantAttempts) {
             val pos = targetPos.add(
                 rand.nextInt(8) - rand.nextInt(8),

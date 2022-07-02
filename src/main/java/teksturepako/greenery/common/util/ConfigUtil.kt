@@ -3,7 +3,6 @@ package teksturepako.greenery.common.util
 import teksturepako.greenery.Greenery
 
 object ConfigUtil {
-
     fun parseValidBiomeTypes(types: MutableList<String>) {
         val validTypes = arrayOf(
             "HOT",

@@ -24,16 +24,17 @@ object WorldGenUtil {
             getExtendedBiome(biome)?.generationManager?.removeGenerator("ferns")
             getExtendedBiome(biome)?.generationManager?.removeGenerator("double_fern")
             getExtendedBiome(biome)?.generationManager?.removeGenerator("doublegrass")
+            getExtendedBiome(biome)?.generationManager?.removeGenerator("barley")
         }
     }
 
     private fun getExtendedBiome(biome: Biome?): IExtendedBiome? {
-        var eBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome)
-        if (eBiome == null) {
-            eBiome = ExtendedBiomeWrapper(biome)
-            BOPBiomes.REG_INSTANCE.registerBiome(eBiome, eBiome.getBaseBiome().biomeName.toLowerCase())
+        var extendedBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome)
+        if (extendedBiome == null) {
+            extendedBiome = ExtendedBiomeWrapper(biome)
+            BOPBiomes.REG_INSTANCE.registerBiome(extendedBiome, extendedBiome.getBaseBiome().biomeName.toLowerCase())
         }
-        return eBiome
+        return extendedBiome
     }
 
     fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome {

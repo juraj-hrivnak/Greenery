@@ -1,6 +1,5 @@
-package teksturepako.greenery.common.block.plant.saltwater
+package teksturepako.greenery.common.block.plant.aquatic
 
-import com.charles445.simpledifficulty.api.SDFluids
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.BlockLiquid.LEVEL
 import net.minecraft.block.properties.PropertyBool
@@ -11,10 +10,10 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
+import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.fml.common.Loader
 import teksturepako.greenery.Greenery
 import java.util.*
 import kotlin.math.min
@@ -95,19 +94,10 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
             val age = state.getValue(AGE)
             if (age < MAX_AGE && rand.nextDouble() < 0.14) {
                 val up = worldIn.getBlockState(pos.up())
-                if (Loader.isModLoaded("simpledifficulty")) {
-                    if (up.block == SDFluids.blockSaltWater) {
-                        val newBlockState = defaultState.withProperty(AGE, age + 1)
-                        if (canBlockStay(worldIn, pos.up(), newBlockState)) {
-                            worldIn.setBlockState(pos.up(), newBlockState)
-                        }
-                    }
-                } else {
-                    if (up.block == Blocks.WATER) {
-                        val newBlockState = defaultState.withProperty(AGE, age + 1)
-                        if (canBlockStay(worldIn, pos.up(), newBlockState)) {
-                            worldIn.setBlockState(pos.up(), newBlockState)
-                        }
+                if (up.block == Blocks.WATER) {
+                    val newBlockState = defaultState.withProperty(AGE, age + 1)
+                    if (canBlockStay(worldIn, pos.up(), newBlockState)) {
+                        worldIn.setBlockState(pos.up(), newBlockState)
                     }
                 }
             }
@@ -138,5 +128,17 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
 
         val newBlockState = defaultState.withProperty(AGE, topAge + 1)
         worldIn.setBlockState(topPos.up(), newBlockState)
+    }
+
+    @Deprecated("")
+    @Suppress("DEPRECATION")
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
+        return when (val actualState = getActualState(state, source, pos)) {
+            actualState.withProperty(IS_TOP_BLOCK, true) ->
+                TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(IS_TOP_BLOCK, false) ->
+                BOTTOM_AABB.offset(state.getOffset(source, pos))
+            else -> TOP_AABB.offset(state.getOffset(source, pos))
+        }
     }
 }

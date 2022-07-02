@@ -7,13 +7,14 @@ import net.minecraft.world.gen.IChunkGenerator
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
+import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
 import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import java.util.*
 
-class WorldGenTallGrass : IGreeneryWorldGenerator {
+class WorldGenNettle : IGreeneryWorldGenerator {
 
-    override val block = ModBlocks.blockTallGrass
-    private val config = Config.generation.grass
+    override val block = ModBlocks.blockNettle
+    private val config = Config.generation.nettle
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
@@ -33,7 +34,7 @@ class WorldGenTallGrass : IGreeneryWorldGenerator {
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
-        if (rand.nextDouble() < generationChance && WorldGenUtil.areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
+        if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
             for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
@@ -79,3 +80,4 @@ class WorldGenTallGrass : IGreeneryWorldGenerator {
         }
     }
 }
+

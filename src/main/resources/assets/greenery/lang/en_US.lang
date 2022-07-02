@@ -16,6 +16,11 @@ tile.arrowhead.name=Arrowhead
 tile.tallgrass.name=Grass
 tile.tallfern.name=Fern
 tile.ryegrass.name=Ryegrass
+tile.nettle.name=Nettle
+tile.barley.name=Barley
 
 # Blocks
 tile.dried_kelp_block.name=Dried Kelp Block
+
+# DamageSource
+death.attack.nettle=%1$s pricked to death by a nettle

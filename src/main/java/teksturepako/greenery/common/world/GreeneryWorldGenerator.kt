@@ -36,7 +36,7 @@ abstract class GreeneryWorldGenerator : IGreeneryWorldGenerator {
         }
     }
 
-    private fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
+    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
         for (i in 0..plantAttempts) {
             val pos = targetPos.add(
                 rand.nextInt(8) - rand.nextInt(8),

@@ -1,7 +1,10 @@
 package teksturepako.greenery.common.world
 
 import net.minecraft.block.Block
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import net.minecraftforge.fml.common.IWorldGenerator
+import java.util.*
 
 interface IGreeneryWorldGenerator : IWorldGenerator {
 
@@ -22,5 +25,8 @@ interface IGreeneryWorldGenerator : IWorldGenerator {
 
     /** Whether Valid Biome Dictionary Types are inverted. */
     val inverted: Boolean
+
+    /** Plant generator */
+    fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
 
 }

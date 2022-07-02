@@ -1,16 +1,14 @@
 package teksturepako.greenery.common.world.plant
 
-import com.charles445.simpledifficulty.api.SDFluids
-import net.minecraft.init.Blocks
+import net.minecraft.block.material.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.fml.common.Loader
-import teksturepako.greenery.common.world.IGreeneryWorldGenerator
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
-import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import java.util.*
 
 
@@ -51,7 +49,7 @@ class WorldGenKelp : IGreeneryWorldGenerator {
         }
     }
 
-    private fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
+    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
         for (i in 0..plantAttempts) {
             val pos = targetPos.add(
                 rand.nextInt(10) - rand.nextInt(10),
@@ -61,14 +59,14 @@ class WorldGenKelp : IGreeneryWorldGenerator {
 
             if (!world.isBlockLoaded(pos)) continue
 
-            if (Loader.isModLoaded("simpledifficulty")) {
-                if (world.getBlockState(pos).block == SDFluids.blockSaltWater && pos.y < 64 && !WorldGenUtil.canSeeSky(world, targetPos)) {
-                    placeKelp(world, pos, rand)
-                }
-            } else {
-                if (world.getBlockState(pos).block == Blocks.WATER && pos.y < 64 && !WorldGenUtil.canSeeSky(world, targetPos)) {
-                    placeKelp(world, pos, rand)
-                }
+            val blockState = world.getBlockState(pos)
+
+            if (blockState.material == Material.WATER && pos.y < 64 && pos.y > 44 && !WorldGenUtil.canSeeSky(
+                    world,
+                    targetPos
+                )
+            ) {
+                placeKelp(world, pos, rand)
             }
         }
     }

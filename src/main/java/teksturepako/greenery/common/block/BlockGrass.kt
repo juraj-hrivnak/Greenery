@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.grass
+package teksturepako.greenery.common.block
 
 import net.minecraft.block.Block
 import net.minecraft.block.BlockDirt

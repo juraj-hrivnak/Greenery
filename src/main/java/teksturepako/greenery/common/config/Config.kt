@@ -30,6 +30,16 @@ object Config {
         @JvmField
         val ryegrass = Ryegrass()
 
+        @Name("Nettle")
+        @Comment("Options for Nettle")
+        @JvmField
+        val nettle = Nettle()
+
+        @Name("Barley")
+        @Comment("Options for Barley")
+        @JvmField
+        val barley = Barley()
+
         @Name("Fern")
         @Comment("Options for Fern")
         @JvmField
@@ -58,7 +68,7 @@ object Config {
         var generationMultiplier = 1
 
         @Name("Remove Grass")
-        @Comment("Removes the vanilla and Biomes o' Plenty grass.")
+        @Comment("Removes the vanilla and Biomes O' Plenty grass.")
         @JvmField
         var removeGrass = true
 
@@ -162,12 +172,12 @@ object Config {
                 "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
-            var validBiomeTypes = emptyArray<String>()
+            var validBiomeTypes = arrayOf("SAVANNA", "PLAINS", "BEACH", "DRY")
 
             @Name("Valid Biome Dictionary Types Inverted")
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
             @JvmField
-            var inverted = false
+            var inverted = true
         }
 
         class Ryegrass {
@@ -198,7 +208,79 @@ object Config {
                 "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
+            var validBiomeTypes = arrayOf("SAVANNA", "PLAINS", "BEACH", "DRY")
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
+        }
+
+        class Nettle {
+            @Name("Generation Chance")
+            @Comment("The chance to attempt generating in a given chunk.")
+            @Config.RangeDouble(min = 0.0, max = 1.0)
+            @SlidingOption
+            @JvmField
+            var generationChance = 0.5
+
+            @Name("Patch Generation Attempts")
+            @Comment("Attempts to generate a patch in a given chunk.")
+            @Config.RangeInt(min = 0, max = 32)
+            @SlidingOption
+            @JvmField
+            var patchAttempts = 8
+
+            @Name("Plant Generation Attempts")
+            @Comment("Attempts to generate a plant in every patch.")
+            @Config.RangeInt(min = 0, max = 64)
+            @SlidingOption
+            @JvmField
+            var plantAttempts = 32
+
+            @Name("Valid Biome Dictionary Types")
+            @Comment(
+                "A list of biome dictionary types in which a plant can generate.",
+                "Leave empty to disable checking for biome dictionary types."
+            )
+            @JvmField
             var validBiomeTypes = emptyArray<String>()
+
+            @Name("Valid Biome Dictionary Types Inverted")
+            @Comment("Whether Valid Biome Dictionary Types are inverted.")
+            @JvmField
+            var inverted = false
+        }
+
+        class Barley {
+            @Name("Generation Chance")
+            @Comment("The chance to attempt generating in a given chunk.")
+            @Config.RangeDouble(min = 0.0, max = 1.0)
+            @SlidingOption
+            @JvmField
+            var generationChance = 0.5
+
+            @Name("Patch Generation Attempts")
+            @Comment("Attempts to generate a patch in a given chunk.")
+            @Config.RangeInt(min = 0, max = 32)
+            @SlidingOption
+            @JvmField
+            var patchAttempts = 1
+
+            @Name("Plant Generation Attempts")
+            @Comment("Attempts to generate a plant in every patch.")
+            @Config.RangeInt(min = 0, max = 64)
+            @SlidingOption
+            @JvmField
+            var plantAttempts = 8
+
+            @Name("Valid Biome Dictionary Types")
+            @Comment(
+                "A list of biome dictionary types in which a plant can generate.",
+                "Leave empty to disable checking for biome dictionary types."
+            )
+            @JvmField
+            var validBiomeTypes = arrayOf("DRY", "SPARSE")
 
             @Name("Valid Biome Dictionary Types Inverted")
             @Comment("Whether Valid Biome Dictionary Types are inverted.")

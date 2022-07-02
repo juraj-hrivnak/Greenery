@@ -57,7 +57,7 @@ abstract class GreeneryCropBase : BlockCrops() {
             if (!canBlockStay(worldIn, pos, state)) return
             if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
                 val age = getAge(state)
-                if (age <= this.maxAge && rand.nextDouble() < 0.13) {
+                if (age <= this.maxAge && rand.nextDouble() < 0.1) {
                     grow(worldIn, pos, state)
                 }
             }

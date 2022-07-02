@@ -1,19 +1,23 @@
 package teksturepako.greenery.common.world.grass
 
+import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraft.world.biome.Biome.REGISTRY
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
+import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
+import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
 import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import java.util.*
 
-class WorldGenTallGrass : IGreeneryWorldGenerator {
+class WorldGenBarley : IGreeneryWorldGenerator {
 
-    override val block = ModBlocks.blockTallGrass
-    private val config = Config.generation.grass
+    override val block = ModBlocks.blockBarley
+    private val config = Config.generation.barley
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
@@ -33,8 +37,20 @@ class WorldGenTallGrass : IGreeneryWorldGenerator {
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
-        if (rand.nextDouble() < generationChance && WorldGenUtil.areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
+        if ((rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted))
+            && biome != REGISTRY.getObject(ResourceLocation("biomesoplenty","pasture"))) {
             for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
+                val x = random.nextInt(16) + 8
+                val z = random.nextInt(16) + 8
+
+                val yRange = world.getHeight(chunkPos.getBlock(0, 0, 0).add(x, 0, z)).y + 32
+                val y = random.nextInt(yRange)
+
+                val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
+                generatePlants(world, random, pos)
+            }
+        } else if (biome == REGISTRY.getObject(ResourceLocation("biomesoplenty","pasture"))) {
+            for (i in 0..64 * 20) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
 
@@ -79,3 +95,4 @@ class WorldGenTallGrass : IGreeneryWorldGenerator {
         }
     }
 }
+

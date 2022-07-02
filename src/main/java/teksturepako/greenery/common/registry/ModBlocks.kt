@@ -9,13 +9,12 @@ import net.minecraftforge.registries.IForgeRegistry
 import teksturepako.greenery.common.block.BlockDriedKelp
 import teksturepako.greenery.common.block.crop.BlockArrowhead
 import teksturepako.greenery.common.block.crop.BlockCattail
-import teksturepako.greenery.common.block.grass.BlockGrass
-import teksturepako.greenery.common.block.plant.freshwater.BlockRivergrass
-import teksturepako.greenery.common.block.plant.saltwater.BlockKelp
-import teksturepako.greenery.common.block.plant.saltwater.BlockSeagrass
-import teksturepako.greenery.common.block.tallgrass.BlockRyegrass
-import teksturepako.greenery.common.block.tallgrass.BlockTallFern
-import teksturepako.greenery.common.block.tallgrass.BlockTallGrass
+import teksturepako.greenery.common.block.BlockGrass
+import teksturepako.greenery.common.block.plant.aquatic.BlockKelp
+import teksturepako.greenery.common.block.plant.aquatic.BlockRivergrass
+import teksturepako.greenery.common.block.plant.aquatic.BlockSeagrass
+import teksturepako.greenery.common.block.tallgrass.*
+
 
 object ModBlocks {
 
@@ -23,44 +22,39 @@ object ModBlocks {
     val blockRivergrass = BlockRivergrass()
     val blockKelp = BlockKelp()
     val blockDriedKelp = BlockDriedKelp()
-
     val blockCattail = BlockCattail()
     val blockArrowhead = BlockArrowhead()
-
     val blockGrass = BlockGrass()
-
     val blockTallGrass = BlockTallGrass()
     val blockTallFern = BlockTallFern()
     val blockRyegrass = BlockRyegrass()
+    val blockNettle = BlockNettle()
+    val blockBarley = BlockBarley()
 
     fun register(registry: IForgeRegistry<Block>) {
-
         registry.register(blockSeagrass)
-
         registry.register(blockRivergrass)
-
         registry.register(blockCattail)
         registry.register(blockArrowhead)
-
         registry.register(blockGrass)
         registry.register(blockTallGrass)
         registry.register(blockTallFern)
         registry.register(blockRyegrass)
-
-
+        registry.register(blockNettle)
+        registry.register(blockBarley)
         registry.register(blockKelp)
         registry.register(blockDriedKelp)
     }
 
     fun registerItemBlocks(registry: IForgeRegistry<Item>) {
         registry.register(blockSeagrass.createItemBlock())
-
         registry.register(blockRivergrass.createItemBlock())
         registry.register(blockGrass.createItemBlock())
         registry.register(blockTallGrass.createItemBlock())
         registry.register(blockTallFern.createItemBlock())
         registry.register(blockRyegrass.createItemBlock())
-
+        registry.register(blockNettle.createItemBlock())
+        registry.register(blockBarley.createItemBlock())
         registry.register(blockKelp.createItemBlock())
         registry.register(blockDriedKelp.createItemBlock())
     }
@@ -68,13 +62,13 @@ object ModBlocks {
     @SideOnly(Side.CLIENT)
     fun registerModels() {
         blockSeagrass.registerItemModel()
-
         blockRivergrass.registerItemModel()
         blockGrass.registerItemModel()
         blockTallGrass.registerItemModel()
         blockTallFern.registerItemModel()
         blockRyegrass.registerItemModel()
-
+        blockNettle.registerItemModel()
+        blockBarley.registerItemModel()
         blockKelp.registerItemModel()
         blockDriedKelp.registerItemModel()
     }
@@ -87,5 +81,4 @@ object ModBlocks {
         blockRyegrass.registerBlockColorHandler(event)
         blockGrass.registerBlockColorHandler(event)
     }
-
 }

@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.plant.freshwater
+package teksturepako.greenery.common.block.plant.aquatic
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.BlockLiquid.LEVEL
@@ -6,6 +6,7 @@ import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.IStringSerializable
+import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
@@ -95,5 +96,19 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
         worldIn.setBlockState(pos.up(), state)
+    }
+
+    @Deprecated("")
+    @Suppress("DEPRECATION")
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
+        return when (val actualState = getActualState(state, source, pos)) {
+            actualState.withProperty(VARIANT, RivergrassVariant.TOP) ->
+                TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, RivergrassVariant.SINGLE) ->
+                TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, RivergrassVariant.BOTTOM) ->
+                BOTTOM_AABB.offset(state.getOffset(source, pos))
+            else -> TOP_AABB.offset(state.getOffset(source, pos))
+        }
     }
 }

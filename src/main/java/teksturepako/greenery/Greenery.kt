@@ -32,9 +32,7 @@ import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.crop.WorldGenArrowhead
 import teksturepako.greenery.common.world.crop.WorldGenCattail
-import teksturepako.greenery.common.world.grass.WorldGenFerns
-import teksturepako.greenery.common.world.grass.WorldGenRyegrass
-import teksturepako.greenery.common.world.grass.WorldGenTallGrass
+import teksturepako.greenery.common.world.grass.*
 import teksturepako.greenery.common.world.plant.WorldGenKelp
 import teksturepako.greenery.common.world.plant.WorldGenRivergrass
 import teksturepako.greenery.common.world.plant.WorldGenSeagrass
@@ -54,7 +52,7 @@ import teksturepako.greenery.proxy.IProxy
 object Greenery {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "1.5"
+    const val VERSION = "1.6"
     const val DEPENDENCIES =
         "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.0,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
@@ -121,11 +119,6 @@ object Greenery {
         ModSoundEvents.register(event.registry)
     }
 
-//    @SubscribeEvent
-//    @JvmStatic fun onRegisterBiomes(event: RegistryEvent.Register<Biome>) {
-//        if (Config.generation.removeGrass) removeBOPGenerators()
-//    }
-
     fun loadGenerators(): MutableList<IGreeneryWorldGenerator> {
         if (generators.isEmpty()) {
 
@@ -133,6 +126,8 @@ object Greenery {
             generators.add(WorldGenArrowhead())
             generators.add(WorldGenTallGrass())
             generators.add(WorldGenRyegrass())
+            generators.add(WorldGenNettle())
+            generators.add(WorldGenBarley())
             generators.add(WorldGenFerns())
             generators.add(WorldGenKelp())
             generators.add(WorldGenRivergrass())
