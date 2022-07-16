@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.ModDamageSource
 
 class BlockNettle : AbstractTallGrass(NAME) {
@@ -31,6 +32,9 @@ class BlockNettle : AbstractTallGrass(NAME) {
             .withProperty(TOP, true)
             .withProperty(SINGLE, false)
     }
+
+    override val dropsList: MutableList<String>
+        get() = Config.generation.nettle.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
         return AGE

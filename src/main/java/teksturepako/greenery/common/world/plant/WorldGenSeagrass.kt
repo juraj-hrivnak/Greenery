@@ -1,10 +1,10 @@
 package teksturepako.greenery.common.world.plant
 
-import net.minecraft.block.material.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
+import net.minecraftforge.fluids.FluidRegistry
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
@@ -60,12 +60,15 @@ class WorldGenSeagrass : IGreeneryWorldGenerator {
 
             val blockState = world.getBlockState(pos)
 
-            if (blockState.material == Material.WATER && pos.y < 64 && pos.y > 44 && !WorldGenUtil.canSeeSky(
-                    world,
-                    targetPos
-                )
-            ) {
-                placeSeagrass(world, pos, rand)
+            for (fluidName in block.compatibleFluids) {
+                val fluidBlock = FluidRegistry.getFluid(fluidName).block
+                if (blockState.block == fluidBlock && pos.y < 64 && pos.y > 44 && !WorldGenUtil.canSeeSky(
+                        world,
+                        targetPos
+                    )
+                ) {
+                    placeSeagrass(world, pos, rand)
+                }
             }
         }
     }

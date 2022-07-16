@@ -9,9 +9,9 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
-import teksturepako.greenery.common.block.GreeneryCropBase
+import teksturepako.greenery.common.block.GreeneryPlant
 
-abstract class AbstractWaterCropBlock(name: String) : GreeneryCropBase() {
+abstract class AbstractWaterCropBlock(name: String) : GreeneryPlant() {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(

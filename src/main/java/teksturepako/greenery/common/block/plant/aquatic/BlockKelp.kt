@@ -15,6 +15,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import java.util.*
 import kotlin.math.min
 
@@ -31,12 +32,15 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
 
     init {
         defaultState = blockState.baseState
-                .withProperty(IS_TOP_BLOCK, false)
-                .withProperty(AGE, 0)
-                .withProperty(LEVEL, 15)
+            .withProperty(IS_TOP_BLOCK, false)
+            .withProperty(AGE, 0)
+            .withProperty(LEVEL, 15)
 
         tickRandomly = true
     }
+
+    override val compatibleFluids: MutableList<String>
+        get() = Config.generation.kelp.compatibleFluids.toMutableList()
 
     fun getMaxAge(): Int {
         return MAX_AGE

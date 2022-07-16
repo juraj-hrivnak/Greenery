@@ -8,6 +8,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 
 class BlockTallGrass : AbstractTallGrass(NAME) {
 
@@ -24,6 +25,9 @@ class BlockTallGrass : AbstractTallGrass(NAME) {
             .withProperty(AGE, 0)
             .withProperty(TOP, true)
     }
+
+    override val dropsList: MutableList<String>
+        get() = Config.generation.grass.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
         return AGE

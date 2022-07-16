@@ -6,7 +6,6 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
 import net.minecraft.init.Items
-import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
 import net.minecraft.stats.StatList
 import net.minecraft.tileentity.TileEntity
@@ -15,12 +14,12 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.common.ForgeHooks
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.block.GreeneryCropBase
+import teksturepako.greenery.common.block.GreeneryPlant
+import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
+abstract class AbstractTallGrass(name: String) : GreeneryPlant() {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
@@ -40,19 +39,13 @@ abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
         )
     }
 
+    abstract val dropsList: MutableList<String>
+
     init {
         setRegistryName(name)
         translationKey = name
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab
-    }
-
-    override fun getSeed(): Item {
-        return itemBlock
-    }
-
-    override fun getCrop(): Item {
-        return itemBlock
     }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
@@ -96,16 +89,13 @@ abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
         state: IBlockState,
         fortune: Int
     ) {
-        if (RANDOM.nextInt(8) != 0) return
-        val seed = ForgeHooks.getGrassSeed(RANDOM, fortune)
-        if (!seed.isEmpty) drops.add(seed)
+        DropsUtil.getDrops(dropsList, drops, world, pos, state, this.seed, fortune)
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int {
         return 1 + random.nextInt(fortune * 2 + 1)
     }
 
-    @Suppress("NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
     override fun harvestBlock(
         worldIn: World,
         player: EntityPlayer,
@@ -115,11 +105,10 @@ abstract class AbstractTallGrass(name: String) : GreeneryCropBase() {
         stack: ItemStack
     ) {
         if (!worldIn.isRemote && stack.item === Items.SHEARS) {
-            player.addStat(StatList.getBlockStats(this))
+            StatList.getBlockStats(this)?.let { player.addStat(it) }
             spawnAsEntity(worldIn, pos, ItemStack(this, 1))
         } else {
             super.harvestBlock(worldIn, player, pos, state, te, stack)
         }
     }
-
 }

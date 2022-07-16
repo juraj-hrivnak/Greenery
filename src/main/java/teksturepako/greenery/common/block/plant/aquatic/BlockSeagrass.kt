@@ -14,6 +14,7 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import java.util.*
 
 class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
@@ -38,9 +39,12 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
 
     init {
         defaultState = blockState.baseState
-                .withProperty(VARIANT, SeagrassVariant.SINGLE)
-                .withProperty(LEVEL, 15)
+            .withProperty(VARIANT, SeagrassVariant.SINGLE)
+            .withProperty(LEVEL, 15)
     }
+
+    override val compatibleFluids: MutableList<String>
+        get() = Config.generation.seagrass.compatibleFluids.toMutableList()
 
     override fun getStateFromMeta(meta: Int): IBlockState {
         return defaultState

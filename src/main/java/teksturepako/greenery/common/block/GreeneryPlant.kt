@@ -1,6 +1,5 @@
 package teksturepako.greenery.common.block
 
-import net.minecraft.block.Block
 import net.minecraft.block.BlockCrops
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.IBlockState
@@ -17,34 +16,53 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import java.util.*
 
-abstract class GreeneryCropBase : BlockCrops() {
-
-    public abstract override fun getAgeProperty(): PropertyInteger
-
-    abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+abstract class GreeneryPlant : BlockCrops() {
 
     lateinit var itemBlock: Item
 
+    /**
+     * Creates an Item Block
+     */
     fun createItemBlock(): Item {
         itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
         return itemBlock
     }
 
+    /**
+     * Registers a Item model for a given Item
+     */
     @SideOnly(Side.CLIENT)
     fun registerItemModel() {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 
+    /**
+     * Registers a color handler for a given Item
+     */
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandler(event: ColorHandlerEvent.Item) {
         Greenery.proxy.registerItemColourHandler(itemBlock, event)
     }
 
+    /**
+     * Registers a color handler for a given Block
+     */
     @SideOnly(Side.CLIENT)
     fun registerBlockColorHandler(event: ColorHandlerEvent.Block) {
         Greenery.proxy.registerGrassColourHandler(this, event)
     }
 
+    public abstract override fun getAgeProperty(): PropertyInteger
+
+    abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+
+    override fun getSeed(): Item {
+        return itemBlock
+    }
+
+    override fun getCrop(): Item {
+        return itemBlock
+    }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
         entityIn.motionX = entityIn.motionX / 1.1
@@ -52,14 +70,13 @@ abstract class GreeneryCropBase : BlockCrops() {
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        if (!worldIn.isRemote) {
-            if (!worldIn.isBlockLoaded(pos)) return
-            if (!canBlockStay(worldIn, pos, state)) return
-            if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
-                val age = getAge(state)
-                if (age <= this.maxAge && rand.nextDouble() < 0.1) {
-                    grow(worldIn, pos, state)
-                }
+        if (worldIn.isRemote) return
+        if (!worldIn.isBlockLoaded(pos)) return
+        if (!canBlockStay(worldIn, pos, state)) return
+        if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
+            val age = getAge(state)
+            if (age <= this.maxAge && rand.nextDouble() < 0.1) {
+                grow(worldIn, pos, state)
             }
         }
     }
@@ -77,24 +94,6 @@ abstract class GreeneryCropBase : BlockCrops() {
         return true
     }
 
-    @Deprecated("", ReplaceWith("false"))
-    override fun isFullCube(state: IBlockState): Boolean {
-        return false
-    }
-
-    @Deprecated("", ReplaceWith("false"))
-    override fun isOpaqueCube(state: IBlockState): Boolean {
-        return false
-    }
-
-    @Deprecated("", ReplaceWith("false"))
-    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
-        if (!canBlockStay(worldIn, pos, state)) {
-            dropBlockAsItem(worldIn, pos, state, 0)
-            worldIn.setBlockToAir(pos)
-        }
-    }
-
     override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean {
         return canBlockStay(worldIn, pos, defaultState)
     }
@@ -102,7 +101,6 @@ abstract class GreeneryCropBase : BlockCrops() {
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
         return canBlockStay(worldIn, pos, defaultState)
     }
-
 
     override fun getBonemealAgeIncrease(worldIn: World): Int {
         return super.getBonemealAgeIncrease(worldIn) / this.maxAge

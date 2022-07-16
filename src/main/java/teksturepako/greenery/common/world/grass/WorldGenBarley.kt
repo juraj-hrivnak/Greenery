@@ -6,7 +6,6 @@ import net.minecraft.world.World
 import net.minecraft.world.biome.Biome.REGISTRY
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil

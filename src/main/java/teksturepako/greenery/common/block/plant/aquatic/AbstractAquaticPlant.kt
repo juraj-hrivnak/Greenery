@@ -1,7 +1,6 @@
 package teksturepako.greenery.common.block.plant.aquatic
 
 import git.jbredwards.fluidlogged_api.api.block.BlockWaterloggedPlant
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.Block
 import net.minecraft.block.IGrowable
 import net.minecraft.block.material.Material
@@ -16,13 +15,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
+import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
-import javax.annotation.Nonnull
 
 abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Material.BARRIER), IGrowable {
     companion object {
@@ -34,6 +32,8 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
         val BOTTOM_AABB =
             AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 1.0, 0.899999988079071)
     }
+
+    abstract val compatibleFluids: MutableList<String>
 
     lateinit var itemBlock: Item
 
@@ -108,6 +108,6 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
     }
 
     override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean {
-        return FluidloggedUtils.isCompatibleFluid(FluidRegistry.getFluid("water"), fluid)
+        return FluidUtil.isFluidValid(compatibleFluids, fluid)
     }
 }

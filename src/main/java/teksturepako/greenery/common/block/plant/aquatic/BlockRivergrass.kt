@@ -13,6 +13,7 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import java.util.*
 
 class BlockRivergrass : AbstractAquaticPlant(NAME) {
@@ -40,6 +41,9 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
             .withProperty(VARIANT, RivergrassVariant.SINGLE)
             .withProperty(LEVEL, 15)
     }
+
+    override val compatibleFluids: MutableList<String>
+        get() = Config.generation.rivergrass.compatibleFluids.toMutableList()
 
     override fun getStateFromMeta(meta: Int): IBlockState {
         return defaultState
