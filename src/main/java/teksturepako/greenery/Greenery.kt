@@ -6,15 +6,18 @@ import net.minecraft.item.Item
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.RegistryEvent
+import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
+import teksturepako.greenery.client.GreeneryCommand
 import teksturepako.greenery.client.ModCreativeTab
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.event.EventBonemeal
@@ -76,6 +79,7 @@ object Greenery {
         if (Config.generation.removeGrass) removeBOPGenerators()
     }
 
+    @Suppress("DEPRECATION")
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent) {
         proxy.init(event)
@@ -93,6 +97,11 @@ object Greenery {
     fun postInit(event: FMLPostInitializationEvent) {
         proxy.postInit(event)
         ModItems.initOreDictionary()
+    }
+
+    @Mod.EventHandler
+    fun serverLoad(event: FMLServerStartingEvent) {
+        event.registerServerCommand(GreeneryCommand())
     }
 
     @SubscribeEvent

@@ -22,5 +22,8 @@ tile.barley.name=Barley
 # Blocks
 tile.dried_kelp_block.name=Dried Kelp Block
 
-# DamageSource
+# Damage Sources
 death.attack.nettle=%1$s pricked to death by a nettle
+
+# Commands
+commands.greenery.usage=greenery reload
