@@ -22,7 +22,8 @@ import teksturepako.greenery.client.ModSoundTypes
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
-abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Material.BARRIER), IGrowable {
+abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Material.PLANTS), IGrowable {
+
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
             Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
@@ -42,7 +43,7 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
         translationKey = name
         soundType = ModSoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
-        lightOpacity = 1
+        lightOpacity = 2
     }
 
     fun createItemBlock(): Item {
@@ -65,15 +66,17 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
         return BlockRenderLayer.CUTOUT
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun isFullCube(state: IBlockState): Boolean {
         return false
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
     }
 
-    override fun onEntityCollision(worldIn: World?, pos: BlockPos?, state: IBlockState?, entityIn: Entity) {
+    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
         entityIn.motionX = entityIn.motionX / 1.1
         entityIn.motionY = entityIn.motionY / 1.1
         entityIn.motionZ = entityIn.motionZ / 1.1
@@ -94,8 +97,9 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
         return canBlockStay(worldIn, pos, defaultState)
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
-        checkAndDropBlock(worldIn, pos, state)
+        super.checkAndDropBlock(worldIn, pos, state)
     }
 
     // IGrowable implementation
