@@ -46,7 +46,9 @@ abstract class GreeneryWorldGenerator : IGreeneryWorldGenerator {
 
             if (!world.isBlockLoaded(pos)) continue
 
-            placePlant(world, pos, rand)
+            if (world.isAirBlock(pos)) {
+                placePlant(world, pos, rand)
+            }
         }
     }
 
