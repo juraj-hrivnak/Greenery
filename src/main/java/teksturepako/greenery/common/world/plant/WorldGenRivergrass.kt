@@ -1,10 +1,11 @@
 package teksturepako.greenery.common.world.plant
 
-import net.minecraft.block.material.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.common.util.Constants
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
+import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.world.GreeneryWorldGenerator
 import java.util.*
 
@@ -29,13 +30,7 @@ class WorldGenRivergrass : GreeneryWorldGenerator() {
 
             if (!world.isBlockLoaded(pos)) continue
 
-            val blockState = world.getBlockState(pos)
-            if (block.compatibleFluids.isNotEmpty()) {
-                val blockName = blockState.block.registryName?.namespace
-                if (blockName in block.compatibleFluids) {
-                    placePlant(world, pos, rand)
-                }
-            } else if (blockState.material == Material.WATER) {
+            if (FluidUtil.canGenerateInFluids(block.compatibleFluids, world, pos)) {
                 placePlant(world, pos, rand)
             }
         }
@@ -44,12 +39,12 @@ class WorldGenRivergrass : GreeneryWorldGenerator() {
     override fun placePlant(world: World, pos: BlockPos, rand: Random) {
         val state = block.defaultState
 
-        if (block.canBlockStay(world, pos, state)) {
-            world.setBlockState(pos, state, 2)
+        if (block.canBlockGen(world, pos)) {
+            world.setBlockState(pos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
 
             if (rand.nextDouble() < 0.05) {
-                if (block.canBlockStay(world, pos.up(), state)) {
-                    world.setBlockState(pos.up(), state, 2)
+                if (block.canBlockGen(world, pos.up())) {
+                    world.setBlockState(pos.up(), state, Constants.BlockFlags.SEND_TO_CLIENTS)
                 }
             }
         }

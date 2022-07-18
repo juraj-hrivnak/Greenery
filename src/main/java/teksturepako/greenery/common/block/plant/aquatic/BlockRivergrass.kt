@@ -1,7 +1,6 @@
 package teksturepako.greenery.common.block.plant.aquatic
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import net.minecraft.block.BlockLiquid.LEVEL
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
@@ -14,6 +13,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
 class BlockRivergrass : AbstractAquaticPlant(NAME) {
@@ -39,12 +39,12 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
     init {
         defaultState = blockState.baseState
             .withProperty(VARIANT, RivergrassVariant.SINGLE)
-            .withProperty(LEVEL, 15)
     }
 
     override val compatibleFluids: MutableList<String>
         get() = Config.generation.rivergrass.compatibleFluids.toMutableList()
 
+    @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
     override fun getStateFromMeta(meta: Int): IBlockState {
         return defaultState
     }
@@ -54,9 +54,10 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
     }
 
     override fun createBlockState(): BlockStateContainer {
-        return BlockStateContainer(this, VARIANT, LEVEL)
+        return BlockStateContainer(this, VARIANT)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasRivergrassBelow = worldIn.getBlockState(pos.down()).block == this
         val hasRivergrassAbove = worldIn.getBlockState(pos.up()).block == this
@@ -77,10 +78,18 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        if (fluidState.isEmpty
-            || !isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
-            || !FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
-        ) return false
+        if (fluidState.isEmpty || !isFluidValid(state, worldIn, pos, fluidState.fluid)) return false
+
+        //Must have a SINGLE weed or valid soil below
+        val down = worldIn.getBlockState(pos.down())
+        val down2 = worldIn.getBlockState(pos.down(2))
+        return if (down.block == this) {         // if block down is weed
+            down2.block != this                  // if 2 block down is weed return false
+        } else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
+    }
+
+    fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
+        if (!FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)) return false
 
         //Must have a SINGLE weed or valid soil below
         val down = worldIn.getBlockState(pos.down())

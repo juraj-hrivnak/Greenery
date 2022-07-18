@@ -426,7 +426,7 @@ object Config {
             @Name("Compatible Fluids")
             @Comment("A list of compatible fluids.")
             @JvmField
-            var compatibleFluids = emptyArray<String>()
+            var compatibleFluids = arrayOf("water")
         }
 
         class Rivergrass {
@@ -475,7 +475,7 @@ object Config {
             @Name("Compatible Fluids")
             @Comment("A list of compatible fluids.")
             @JvmField
-            var compatibleFluids = emptyArray<String>()
+            var compatibleFluids = arrayOf("water")
         }
 
         class Seagrass {
@@ -524,7 +524,7 @@ object Config {
             @Name("Compatible Fluids")
             @Comment("A list of compatible fluids.")
             @JvmField
-            var compatibleFluids = emptyArray<String>()
+            var compatibleFluids = arrayOf("water")
         }
 
 

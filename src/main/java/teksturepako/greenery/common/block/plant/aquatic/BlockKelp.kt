@@ -1,13 +1,11 @@
 package teksturepako.greenery.common.block.plant.aquatic
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import net.minecraft.block.BlockLiquid.LEVEL
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityLivingBase
-import net.minecraft.init.Blocks
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.EnumHand
 import net.minecraft.util.math.AxisAlignedBB
@@ -16,6 +14,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 import kotlin.math.min
 
@@ -34,9 +33,6 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         defaultState = blockState.baseState
             .withProperty(IS_TOP_BLOCK, false)
             .withProperty(AGE, 0)
-            .withProperty(LEVEL, 15)
-
-        tickRandomly = true
     }
 
     override val compatibleFluids: MutableList<String>
@@ -50,7 +46,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         return AGE
     }
 
-    @Deprecated("")
+    @Deprecated("", ReplaceWith("false"))
     override fun getStateFromMeta(meta: Int): IBlockState {
         return defaultState.withProperty(AGE, meta)
     }
@@ -60,7 +56,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
     }
 
     override fun createBlockState(): BlockStateContainer {
-        return BlockStateContainer(this, IS_TOP_BLOCK, AGE, LEVEL)
+        return BlockStateContainer(this, IS_TOP_BLOCK, AGE)
     }
 
     @Deprecated("")
@@ -83,10 +79,15 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        if (fluidState.isEmpty
-            || !isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
-            || !FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
-        ) return false
+        if (fluidState.isEmpty || !isFluidValid(state, worldIn, pos, fluidState.fluid)) return false
+
+        //Must have kelp or valid soil below
+        val down = worldIn.getBlockState(pos.down())
+        return if (down.block == this) true else down.material in ALLOWED_SOILS
+    }
+
+    fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
+        if (!FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)) return false
 
         //Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
@@ -94,15 +95,15 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        if (!worldIn.isRemote) {
-            val age = state.getValue(AGE)
-            if (age < MAX_AGE && rand.nextDouble() < 0.14) {
-                val up = worldIn.getBlockState(pos.up())
-                if (up.block == Blocks.WATER) {
-                    val newBlockState = defaultState.withProperty(AGE, age + 1)
-                    if (canBlockStay(worldIn, pos.up(), newBlockState)) {
-                        worldIn.setBlockState(pos.up(), newBlockState)
-                    }
+        if (worldIn.isRemote) return
+        if (!worldIn.isBlockLoaded(pos.up())) return
+        val age = state.getValue(AGE)
+        if (age < MAX_AGE && rand.nextDouble() < 0.14) {
+            val fluidStateUp = FluidloggedUtils.getFluidState(worldIn, pos.up())
+            if (!fluidStateUp.isEmpty && isFluidValid(state, worldIn, pos.up(), fluidStateUp.fluid)) {
+                val newBlockState = defaultState.withProperty(AGE, age + 1)
+                if (canBlockStay(worldIn, pos.up(), newBlockState)) {
+                    worldIn.setBlockState(pos.up(), newBlockState)
                 }
             }
         }

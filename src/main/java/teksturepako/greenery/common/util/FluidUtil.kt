@@ -1,16 +1,18 @@
 package teksturepako.greenery.common.util
 
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
+import git.jbredwards.fluidlogged_api.api.block.IFluidloggableFluid
+import net.minecraft.util.math.BlockPos
+import net.minecraft.world.World
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fluids.FluidRegistry
 
 object FluidUtil {
-    fun isFluidValid(fluids: MutableList<String>, fluid: Fluid): Boolean {
-        if (fluids.isNotEmpty()) {
-            while (fluid.name in fluids) return true
-            return false
-        } else {
-            return FluidloggedUtils.isCompatibleFluid(FluidRegistry.WATER, fluid)
-        }
+    fun areFluidsValid(fluids: MutableList<String>, fluid: Fluid): Boolean {
+        while (fluid.name in fluids) return true
+        return false
+    }
+
+    fun canGenerateInFluids(fluids: MutableList<String>, world: World, pos: BlockPos): Boolean {
+        val block = world.getBlockState(pos).block
+        return block is IFluidloggableFluid && fluids.contains(block.fluid.name)
     }
 }

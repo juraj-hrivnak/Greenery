@@ -1,10 +1,11 @@
 package teksturepako.greenery.common.world.plant
 
-import net.minecraft.block.material.Material
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.common.util.Constants
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
+import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.world.GreeneryWorldGenerator
 import java.util.*
 
@@ -30,13 +31,7 @@ class WorldGenKelp : GreeneryWorldGenerator() {
 
             if (!world.isBlockLoaded(pos)) continue
 
-            val blockState = world.getBlockState(pos)
-            if (block.compatibleFluids.isNotEmpty()) {
-                val blockName = blockState.block.registryName?.namespace
-                if (blockName in block.compatibleFluids) {
-                    placePlant(world, pos, rand)
-                }
-            } else if (blockState.material == Material.WATER) {
+            if (FluidUtil.canGenerateInFluids(block.compatibleFluids, world, pos)) {
                 placePlant(world, pos, rand)
             }
         }
@@ -50,8 +45,8 @@ class WorldGenKelp : GreeneryWorldGenerator() {
             val kelpPos = pos.up(i)
             val state = block.defaultState.withProperty(block.getAgeProperty(), i + startingAge)
 
-            if (block.canBlockStay(world, kelpPos, state)) {
-                world.setBlockState(kelpPos, state, 2)
+            if (block.canBlockGen(world, kelpPos)) {
+                world.setBlockState(kelpPos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
             } else break
         }
     }

@@ -6,7 +6,6 @@ import net.minecraft.item.Item
 import net.minecraft.util.SoundEvent
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.RegistryEvent
-import net.minecraftforge.fluids.FluidRegistry
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.SidedProxy
@@ -20,9 +19,6 @@ import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCommand
 import teksturepako.greenery.client.ModCreativeTab
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.event.EventBonemeal
-import teksturepako.greenery.common.event.EventConfigChanged
-import teksturepako.greenery.common.event.EventUseHoe
 import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.handler.ModFuelHandler
 import teksturepako.greenery.common.recipe.ModRecipes
@@ -87,9 +83,6 @@ object Greenery {
         GameRegistry.registerFuelHandler(ModFuelHandler())
         ModRecipes.register()
 
-        MinecraftForge.EVENT_BUS.register(EventBonemeal::class.java)
-        MinecraftForge.EVENT_BUS.register(EventConfigChanged::class.java)
-        MinecraftForge.EVENT_BUS.register(EventUseHoe::class.java)
         MinecraftForge.TERRAIN_GEN_BUS.register(EventWorldGen::class.java)
     }
 

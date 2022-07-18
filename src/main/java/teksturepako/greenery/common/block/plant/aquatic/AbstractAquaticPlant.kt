@@ -61,6 +61,7 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 
+    @Deprecated("", ReplaceWith("NULL_AABB", "net.minecraft.block.Block.NULL_AABB"))
     override fun getCollisionBoundingBox(state: IBlockState, world: IBlockAccess, pos: BlockPos): AxisAlignedBB? {
         return NULL_AABB
     }
@@ -100,9 +101,7 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
-        if (worldIn.isAreaLoaded(pos, 1, false)) {
-            checkAndDropBlock(worldIn, pos, state)
-        }
+        checkAndDropBlock(worldIn, pos, state)
     }
 
     protected open fun checkAndDropBlock(worldIn: World, pos: BlockPos?, state: IBlockState?) {
@@ -127,7 +126,7 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
     }
 
     override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean {
-        return FluidUtil.isFluidValid(compatibleFluids, fluid)
+        return FluidUtil.areFluidsValid(compatibleFluids, fluid)
     }
 
     override fun onFluidDrain(world: World, pos: BlockPos, here: IBlockState, blockFlags: Int): EnumActionResult {
