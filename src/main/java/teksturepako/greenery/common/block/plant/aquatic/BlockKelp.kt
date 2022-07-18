@@ -86,7 +86,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         return if (down.block == this) true else down.material in ALLOWED_SOILS
     }
 
-    fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
+    override fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
         if (!FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)) return false
 
         //Must have kelp or valid soil below

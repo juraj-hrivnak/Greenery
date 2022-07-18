@@ -89,7 +89,7 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
         } else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
     }
 
-    fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
+    override fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
         if (!FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)) return false
 
         //Must have a SINGLE weed or valid soil below

@@ -88,8 +88,15 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
         entityIn.motionZ = entityIn.motionZ / 1.1
     }
 
-    //Block behavior
+    /**
+     * Determines whether the block can stay on the position based on its surroundings
+     */
     abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+
+    /**
+     * Optimized version of [canBlockStay] for use in world generation
+     */
+    abstract fun canBlockGen(worldIn: World, pos: BlockPos): Boolean
 
     override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean {
         return false
