@@ -1,28 +1,33 @@
 package teksturepako.greenery.common.block.plant.aquatic
 
-import git.jbredwards.fluidlogged_api.api.block.BlockWaterloggedPlant
+import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
+import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.Block
 import net.minecraft.block.IGrowable
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
+import net.minecraft.init.Blocks
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
 import net.minecraft.util.BlockRenderLayer
+import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.client.ModMaterials
 import teksturepako.greenery.client.ModSoundTypes
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
-abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Material.PLANTS), IGrowable {
+abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
@@ -83,14 +88,10 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
     }
 
     //Block behavior
-    abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+    abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
     override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean {
         return false
-    }
-
-    override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean {
-        return canBlockStay(worldIn, pos, defaultState)
     }
 
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
@@ -99,7 +100,21 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
-        super.checkAndDropBlock(worldIn, pos, state)
+        if (worldIn.isAreaLoaded(pos, 1, false)) {
+            checkAndDropBlock(worldIn, pos, state)
+        }
+    }
+
+    protected open fun checkAndDropBlock(worldIn: World, pos: BlockPos?, state: IBlockState?) {
+        if (!canBlockStay(worldIn, pos!!, state!!)) {
+            val fluidState = FluidloggedUtils.getFluidState(worldIn, pos, state)
+            if (!fluidState.isEmpty) {
+                dropBlockAsItem(worldIn, pos, state, 0)
+                worldIn.setBlockState(pos, fluidState.state, Constants.BlockFlags.DEFAULT)
+            } else {
+                worldIn.setBlockState(pos, Blocks.AIR.defaultState, Constants.BlockFlags.NO_RERENDER)
+            }
+        }
     }
 
     // IGrowable implementation
@@ -113,5 +128,12 @@ abstract class AbstractAquaticPlant(name: String) : BlockWaterloggedPlant(Materi
 
     override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean {
         return FluidUtil.isFluidValid(compatibleFluids, fluid)
+    }
+
+    override fun onFluidDrain(world: World, pos: BlockPos, here: IBlockState, blockFlags: Int): EnumActionResult {
+        world.playEvent(Constants.WorldEvents.BREAK_BLOCK_EFFECTS, pos, getStateId(here))
+        dropBlockAsItem(world, pos, here, 0)
+        world.setBlockState(pos, Blocks.AIR.defaultState, blockFlags)
+        return EnumActionResult.SUCCESS
     }
 }
