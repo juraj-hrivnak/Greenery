@@ -93,11 +93,6 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
      */
     abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
-    /**
-     * Optimized version of [canBlockStay] for use in world generation
-     */
-    abstract fun canBlockGen(worldIn: World, pos: BlockPos): Boolean
-
     override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean {
         return false
     }

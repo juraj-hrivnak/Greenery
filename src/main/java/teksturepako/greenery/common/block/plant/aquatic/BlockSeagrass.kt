@@ -89,18 +89,6 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
         } else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
     }
 
-    override fun canBlockGen(worldIn: World, pos: BlockPos): Boolean {
-        if (!FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)) return false
-
-        //Must have a SINGLE weed or valid soil below
-        val down = worldIn.getBlockState(pos.down())
-        val down2 = worldIn.getBlockState(pos.down(2))
-        return if (down.block == this) {         // if block down is weed
-            down2.block != this                  // if 2 block down is weed return false
-        } else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
-    }
-
-
     // IGrowable implementation
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
         val actualState = state.getActualState(worldIn, pos)

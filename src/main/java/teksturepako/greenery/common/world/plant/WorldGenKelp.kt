@@ -45,7 +45,7 @@ class WorldGenKelp : GreeneryWorldGenerator() {
             val kelpPos = pos.up(i)
             val state = block.defaultState.withProperty(block.getAgeProperty(), i + startingAge)
 
-            if (block.canBlockGen(world, kelpPos)) {
+            if (block.canBlockStay(world, kelpPos, state)) {
                 world.setBlockState(kelpPos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
             } else break
         }

@@ -39,11 +39,11 @@ class WorldGenSeagrass : GreeneryWorldGenerator() {
     override fun placePlant(world: World, pos: BlockPos, rand: Random) {
         val state = block.defaultState
 
-        if (block.canBlockGen(world, pos)) {
+        if (block.canBlockStay(world, pos, state)) {
             world.setBlockState(pos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
 
             if (rand.nextDouble() < 0.05) {
-                if (block.canBlockGen(world, pos.up())) {
+                if (block.canBlockStay(world, pos.up(), state)) {
                     world.setBlockState(pos.up(), state, Constants.BlockFlags.SEND_TO_CLIENTS)
                 }
             }
