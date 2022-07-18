@@ -13,6 +13,6 @@ object FluidUtil {
 
     fun canGenerateInFluids(fluids: MutableList<String>, world: World, pos: BlockPos): Boolean {
         val block = world.getBlockState(pos).block
-        return block is IFluidloggableFluid && fluids.contains(block.fluid.name)
+        return block is IFluidloggableFluid && block.fluid.name in fluids
     }
 }

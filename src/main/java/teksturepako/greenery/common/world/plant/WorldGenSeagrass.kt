@@ -33,7 +33,6 @@ class WorldGenSeagrass : GreeneryWorldGenerator() {
             if (FluidUtil.canGenerateInFluids(block.compatibleFluids, world, pos)) {
                 placePlant(world, pos, rand)
             }
-
         }
     }
 

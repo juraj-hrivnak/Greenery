@@ -11,7 +11,7 @@ interface IGreeneryWorldGenerator : IWorldGenerator {
     /** The block to be generated. */
     val block: Block
 
-    /** The chance to attempt generating in a given chunk. */
+    /** The chance to attempt to generate in a given chunk. */
     val generationChance: Double
 
     /** Attempts to generate a patch in a given chunk. */
