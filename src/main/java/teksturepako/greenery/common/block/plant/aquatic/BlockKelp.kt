@@ -1,6 +1,5 @@
 package teksturepako.greenery.common.block.plant.aquatic
 
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
@@ -14,7 +13,6 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 import kotlin.math.min
 
@@ -77,10 +75,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         return defaultState.withProperty(AGE, age)
     }
 
-    override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
-        val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        if (fluidState.isEmpty || !isFluidValid(state, worldIn, pos, fluidState.fluid)) return false
-
+    override fun canBlockStay(worldIn: World, pos: BlockPos): Boolean {
         //Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
         return if (down.block == this) true else down.material in ALLOWED_SOILS
@@ -91,10 +86,9 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         if (!worldIn.isBlockLoaded(pos.up())) return
         val age = state.getValue(AGE)
         if (age < MAX_AGE && rand.nextDouble() < 0.14) {
-            val fluidStateUp = FluidloggedUtils.getFluidState(worldIn, pos.up())
-            if (!fluidStateUp.isEmpty && isFluidValid(state, worldIn, pos.up(), fluidStateUp.fluid)) {
+            if (canGenerateBlockAt(worldIn, pos.up())) {
                 val newBlockState = defaultState.withProperty(AGE, age + 1)
-                if (canBlockStay(worldIn, pos.up(), newBlockState)) {
+                if (canBlockStay(worldIn, pos.up())) {
                     worldIn.setBlockState(pos.up(), newBlockState)
                 }
             }
@@ -116,7 +110,7 @@ class BlockKelp : AbstractAquaticPlant(NAME) {
         val topPos = getTopPosition(worldIn, pos)
         val topAge = worldIn.getBlockState(topPos).getValue(AGE)
 
-        return topAge < MAX_AGE && canBlockStay(worldIn, topPos.up(), state)
+        return topAge < MAX_AGE && canGenerateBlockAt(worldIn, topPos.up())
     }
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {

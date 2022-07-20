@@ -111,13 +111,13 @@ object EventBonemeal {
 
             if (Loader.isModLoaded("simpledifficulty")) {
                 if (world.getBlockState(blockPos).block == blockSaltWater &&
-                    ModBlocks.blockSeagrass.canPlaceBlockAt(world, blockPos)
+                    ModBlocks.blockSeagrass.canGenerateBlockAt(world, blockPos)
                 ) {
                     world.setBlockState(blockPos, ModBlocks.blockSeagrass.defaultState)
                 }
             } else {
                 if (world.getBlockState(blockPos).block == Blocks.WATER &&
-                    ModBlocks.blockSeagrass.canPlaceBlockAt(world, blockPos)
+                    ModBlocks.blockSeagrass.canGenerateBlockAt(world, blockPos)
                 ) {
                     world.setBlockState(blockPos, ModBlocks.blockSeagrass.defaultState)
                 }
@@ -136,12 +136,12 @@ object EventBonemeal {
 
             if (Loader.isModLoaded("simpledifficulty")) {
                 if ((block == blockPurifiedWater || block == Blocks.WATER)
-                    && ModBlocks.blockRivergrass.canPlaceBlockAt(world, blockPos)
+                    && ModBlocks.blockRivergrass.canGenerateBlockAt(world, blockPos)
                 ) {
                     world.setBlockState(blockPos, ModBlocks.blockRivergrass.defaultState)
                 }
             } else {
-                if (block == Blocks.WATER && ModBlocks.blockRivergrass.canPlaceBlockAt(world, blockPos)) {
+                if (block == Blocks.WATER && ModBlocks.blockRivergrass.canGenerateBlockAt(world, blockPos)) {
                     world.setBlockState(blockPos, ModBlocks.blockRivergrass.defaultState)
                 }
             }

@@ -7,8 +7,7 @@ import net.minecraftforge.fluids.Fluid
 
 object FluidUtil {
     fun areFluidsValid(fluids: MutableList<String>, fluid: Fluid): Boolean {
-        while (fluid.name in fluids) return true
-        return false
+        return fluid.name in fluids
     }
 
     fun canGenerateInFluids(fluids: MutableList<String>, world: World, pos: BlockPos): Boolean {

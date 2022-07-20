@@ -5,7 +5,6 @@ import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
-import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.world.GreeneryWorldGenerator
 import java.util.*
 
@@ -30,7 +29,7 @@ class WorldGenSeagrass : GreeneryWorldGenerator() {
 
             if (!world.isBlockLoaded(pos)) continue
 
-            if (FluidUtil.canGenerateInFluids(block.compatibleFluids, world, pos)) {
+            if (block.canGenerateBlockAt(world, pos)) {
                 placePlant(world, pos, rand)
             }
         }
@@ -39,14 +38,10 @@ class WorldGenSeagrass : GreeneryWorldGenerator() {
     override fun placePlant(world: World, pos: BlockPos, rand: Random) {
         val state = block.defaultState
 
-        if (block.canBlockStay(world, pos, state)) {
-            world.setBlockState(pos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
+        world.setBlockState(pos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
 
-            if (rand.nextDouble() < 0.05) {
-                if (block.canBlockStay(world, pos.up(), state)) {
-                    world.setBlockState(pos.up(), state, Constants.BlockFlags.SEND_TO_CLIENTS)
-                }
-            }
+        if (rand.nextDouble() < 0.05 && block.canGenerateBlockAt(world, pos.up())) {
+            world.setBlockState(pos.up(), state, Constants.BlockFlags.SEND_TO_CLIENTS)
         }
     }
 }

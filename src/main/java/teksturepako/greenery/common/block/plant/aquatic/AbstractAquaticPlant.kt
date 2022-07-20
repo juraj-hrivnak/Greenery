@@ -88,17 +88,32 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
         entityIn.motionZ = entityIn.motionZ / 1.1
     }
 
-    /**
-     * Determines whether the block can stay on the position based on its surroundings
-     */
-    abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
-
     override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean {
         return false
     }
 
+    /**
+     * Determines whether the block can stay on the position, based on its surroundings.
+     */
+    abstract fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
+
+    /**
+     * Determines whether the block can be generated on the position, based on [canBlockStay] and [FluidUtil.canGenerateInFluids].
+     */
+    fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean {
+        return FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(worldIn, pos)
+    }
+
+    /**
+     * Checks if there is a compatible fluid block on the placing position.
+     * Warning: This should not be used in world generation because of performance reasons!
+     */
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
-        return canBlockStay(worldIn, pos, defaultState)
+        val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
+        return (!fluidState.isEmpty
+                && isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
+                && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
+                && canBlockStay(worldIn, pos))
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
@@ -106,8 +121,8 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
         checkAndDropBlock(worldIn, pos, state)
     }
 
-    protected open fun checkAndDropBlock(worldIn: World, pos: BlockPos?, state: IBlockState?) {
-        if (!canBlockStay(worldIn, pos!!, state!!)) {
+    private fun checkAndDropBlock(worldIn: World, pos: BlockPos, state: IBlockState) {
+        if (!canBlockStay(worldIn, pos)) {
             val fluidState = FluidloggedUtils.getFluidState(worldIn, pos, state)
             if (!fluidState.isEmpty) {
                 dropBlockAsItem(worldIn, pos, state, 0)

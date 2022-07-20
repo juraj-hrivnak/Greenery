@@ -1,6 +1,5 @@
 package teksturepako.greenery.common.block.plant.aquatic
 
-import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
@@ -13,7 +12,6 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
 class BlockRivergrass : AbstractAquaticPlant(NAME) {
@@ -76,10 +74,7 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
         return EnumOffsetType.XZ
     }
 
-    override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
-        val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        if (fluidState.isEmpty || !isFluidValid(state, worldIn, pos, fluidState.fluid)) return false
-
+    override fun canBlockStay(worldIn: World, pos: BlockPos): Boolean {
         //Must have a SINGLE weed or valid soil below
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
@@ -92,7 +87,7 @@ class BlockRivergrass : AbstractAquaticPlant(NAME) {
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
         val actualState = state.getActualState(worldIn, pos)
         return actualState.getValue(VARIANT) == RivergrassVariant.SINGLE
-                && canBlockStay(worldIn, pos.up(), state)
+                && canGenerateBlockAt(worldIn, pos.up())
     }
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
