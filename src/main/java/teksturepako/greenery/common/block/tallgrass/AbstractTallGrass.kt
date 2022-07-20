@@ -39,7 +39,7 @@ abstract class AbstractTallGrass(name: String) : GreeneryPlant() {
         )
     }
 
-    abstract val dropsList: MutableList<String>
+    abstract val drops: MutableList<String>
 
     init {
         setRegistryName(name)
@@ -89,7 +89,7 @@ abstract class AbstractTallGrass(name: String) : GreeneryPlant() {
         state: IBlockState,
         fortune: Int
     ) {
-        DropsUtil.getDrops(dropsList, drops, world, pos, state, this.seed, fortune)
+        DropsUtil.getDrops(this.drops, drops, world, pos, state, this.seed, fortune)
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int {

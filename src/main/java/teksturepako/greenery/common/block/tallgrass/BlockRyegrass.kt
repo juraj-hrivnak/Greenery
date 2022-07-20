@@ -28,7 +28,7 @@ class BlockRyegrass : AbstractTallGrass(NAME) {
             .withProperty(SINGLE, false)
     }
 
-    override val dropsList: MutableList<String>
+    override val drops: MutableList<String>
         get() = Config.generation.ryegrass.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {

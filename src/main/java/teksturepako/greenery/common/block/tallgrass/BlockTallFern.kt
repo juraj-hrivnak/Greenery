@@ -28,7 +28,7 @@ class BlockTallFern : AbstractTallGrass(NAME) {
             .withProperty(SINGLE, false)
     }
 
-    override val dropsList: MutableList<String>
+    override val drops: MutableList<String>
         get() = Config.generation.fern.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
@@ -43,6 +43,7 @@ class BlockTallFern : AbstractTallGrass(NAME) {
         return BlockStateContainer(this, AGE, TOP, SINGLE)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
@@ -55,6 +56,7 @@ class BlockTallFern : AbstractTallGrass(NAME) {
     }
 
     @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {
             actualState.withProperty(TOP, true) ->

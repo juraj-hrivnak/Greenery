@@ -106,14 +106,6 @@ object Config {
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
             @JvmField
             var inverted = false
-
-            @Name("Drops")
-            @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
-            )
-            @JvmField
-            var drops = emptyArray<String>()
         }
 
         class Cattail {
@@ -150,14 +142,6 @@ object Config {
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
             @JvmField
             var inverted = false
-
-            @Name("Drops")
-            @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
-            )
-            @JvmField
-            var drops = emptyArray<String>()
         }
 
         class Grass {
@@ -201,7 +185,7 @@ object Config {
                 "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
-            var drops = arrayOf("\$defaultSeeds")
+            var drops = arrayOf("\$defaultSeeds | 0.2")
         }
 
         class Ryegrass {
@@ -245,7 +229,7 @@ object Config {
                 "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
-            var drops = arrayOf("\$defaultSeeds")
+            var drops = arrayOf("\$defaultSeeds | 0.2")
         }
 
         class Nettle {
@@ -377,7 +361,7 @@ object Config {
                 "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
-            var drops = arrayOf("\$defaultSeeds")
+            var drops = arrayOf("\$defaultSeeds | 0.2")
         }
 
         class Kelp {
@@ -414,14 +398,6 @@ object Config {
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
             @JvmField
             var inverted = false
-
-            @Name("Drops")
-            @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
-            )
-            @JvmField
-            var drops = emptyArray<String>()
 
             @Name("Compatible Fluids")
             @Comment("A list of compatible fluids.")
@@ -464,14 +440,6 @@ object Config {
             @JvmField
             var inverted = false
 
-            @Name("Drops")
-            @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
-            )
-            @JvmField
-            var drops = emptyArray<String>()
-
             @Name("Compatible Fluids")
             @Comment("A list of compatible fluids.")
             @JvmField
@@ -512,14 +480,6 @@ object Config {
             @Comment("Whether Valid Biome Dictionary Types are inverted.")
             @JvmField
             var inverted = false
-
-            @Name("Drops")
-            @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
-            )
-            @JvmField
-            var drops = emptyArray<String>()
 
             @Name("Compatible Fluids")
             @Comment("A list of compatible fluids.")
