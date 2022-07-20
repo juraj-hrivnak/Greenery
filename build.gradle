@@ -1,3 +1,5 @@
+//file:noinspection DifferentKotlinGradleVersion
+//file:noinspection GradlePackageUpdate
 buildscript {
     repositories {
         mavenCentral()
@@ -20,7 +22,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "kotlin"
 
 group = 'teksturepako'
-version = '1.12.2-1.8'
+version = '1.12.2-1.9'
 archivesBaseName = 'Greenery'
 
 minecraft {
