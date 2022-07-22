@@ -16,6 +16,14 @@ tile.arrowhead.name=慈姑
 tile.tallgrass.name=草
 tile.tallfern.name=蕨菜
 tile.ryegrass.name=黑麦草
+tile.nettle.name=荨麻
+tile.barley.name=大麦
 
 # Blocks
 tile.dried_kelp_block.name=干海带块
+
+# Damage Sources
+death.attack.nettle=%1$s被荨麻刺死了
+
+# Commands
+commands.greenery.usage=greenery reload
