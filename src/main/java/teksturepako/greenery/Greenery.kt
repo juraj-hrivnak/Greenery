@@ -20,7 +20,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCommand
 import teksturepako.greenery.client.ModCreativeTab
-import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.handler.ModFuelHandler
 import teksturepako.greenery.common.recipe.ModRecipes
@@ -28,7 +27,6 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
-import teksturepako.greenery.common.util.WorldGenUtil.removeBOPGenerators
 import teksturepako.greenery.common.world.IGreeneryWorldGenerator
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.crop.WorldGenArrowhead
@@ -53,8 +51,9 @@ import teksturepako.greenery.proxy.IProxy
 object Greenery {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "1.9"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
+    const val VERSION = "2.0"
+    const val DEPENDENCIES =
+        "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
@@ -72,8 +71,6 @@ object Greenery {
     fun preInit(event: FMLPreInitializationEvent) {
         logger = event.modLog
         proxy.preInit(event)
-
-        if (Config.generation.removeGrass) removeBOPGenerators()
     }
 
     @Suppress("DEPRECATION")

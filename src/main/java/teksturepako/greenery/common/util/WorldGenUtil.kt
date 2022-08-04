@@ -13,13 +13,10 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 
 object WorldGenUtil {
 
-    @Suppress("DEPRECATION")
-    fun removeBOPGenerators() {
-        if (!Loader.isModLoaded("biomesoplenty")) {
-            return
-        }
+    fun removeBOPGenerators(world: World) {
+        if (!Loader.isModLoaded("biomesoplenty") || world.isRemote) return
 
-        for (biome in ForgeRegistries.BIOMES.values) {
+        for (biome in ForgeRegistries.BIOMES.valuesCollection) {
             getExtendedBiome(biome)?.generationManager?.removeGenerator("grass")
             getExtendedBiome(biome)?.generationManager?.removeGenerator("ferns")
             getExtendedBiome(biome)?.generationManager?.removeGenerator("double_fern")

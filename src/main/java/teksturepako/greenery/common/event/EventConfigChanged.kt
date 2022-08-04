@@ -14,6 +14,7 @@ object EventConfigChanged {
     @JvmStatic fun onConfigChanged(event: ConfigChangedEvent) {
         if (event.modID == Greenery.MODID) {
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
+
             Greenery.generators.clear()
             Greenery.loadGenerators()
         }

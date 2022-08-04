@@ -5,6 +5,8 @@ import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
 import net.minecraftforge.fml.common.IWorldGenerator
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.util.WorldGenUtil.removeBOPGenerators
 import java.util.*
 
 class WorldGenHook : IWorldGenerator {
@@ -21,5 +23,7 @@ class WorldGenHook : IWorldGenerator {
         for (generator in generators) {
             generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
         }
+
+        if (Config.generation.removeGrass) removeBOPGenerators(world)
     }
 }
