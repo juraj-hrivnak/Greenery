@@ -9,23 +9,22 @@ import net.minecraft.world.World
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.Loader
-import net.minecraftforge.fml.common.registry.ForgeRegistries
 
 object WorldGenUtil {
 
     fun removeBOPGenerators(world: World) {
         if (!Loader.isModLoaded("biomesoplenty") || world.isRemote) return
 
-        for (biome in ForgeRegistries.BIOMES.valuesCollection) {
-            getExtendedBiome(biome)?.generationManager?.removeGenerator("grass")
-            getExtendedBiome(biome)?.generationManager?.removeGenerator("ferns")
-            getExtendedBiome(biome)?.generationManager?.removeGenerator("double_fern")
-            getExtendedBiome(biome)?.generationManager?.removeGenerator("doublegrass")
-            getExtendedBiome(biome)?.generationManager?.removeGenerator("barley")
+        for (biome in BOPBiomes.REG_INSTANCE.presentBiomes) {
+            getExtendedBiome(biome).generationManager.removeGenerator("grass")
+            getExtendedBiome(biome).generationManager.removeGenerator("ferns")
+            getExtendedBiome(biome).generationManager.removeGenerator("double_fern")
+            getExtendedBiome(biome).generationManager.removeGenerator("doublegrass")
+            getExtendedBiome(biome).generationManager.removeGenerator("barley")
         }
     }
 
-    private fun getExtendedBiome(biome: Biome?): IExtendedBiome? {
+    private fun getExtendedBiome(biome: Biome): IExtendedBiome {
         var extendedBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome)
         if (extendedBiome == null) {
             extendedBiome = ExtendedBiomeWrapper(biome)
