@@ -57,8 +57,9 @@ object EventBonemeal {
 
         if (event.block.material == Material.GRASS && event.block.isFullBlock) {
             if (!world.isRemote) {
-                growGrass(up, world, rand)
                 event.result = Event.Result.ALLOW
+                event.stack.count -= 1
+                growGrass(up, world, rand)
             } else if (event.entityPlayer == Minecraft.getMinecraft().player) {
                 Minecraft.getMinecraft().player.swingArm(event.hand!!)
                 spawnParticles(world, up, rand)
