@@ -5,6 +5,7 @@ import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.Block
 import net.minecraft.block.IGrowable
 import net.minecraft.block.material.Material
+import net.minecraft.block.state.BlockFaceShape
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.init.Blocks
@@ -80,6 +81,16 @@ abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_P
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun isOpaqueCube(state: IBlockState): Boolean {
         return false
+    }
+
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
+    override fun getBlockFaceShape(
+        worldIn: IBlockAccess,
+        state: IBlockState,
+        pos: BlockPos,
+        face: EnumFacing
+    ): BlockFaceShape {
+        return BlockFaceShape.UNDEFINED
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
