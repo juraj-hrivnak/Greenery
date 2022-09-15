@@ -14,7 +14,7 @@ import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import teksturepako.greenery.common.block.plant.aquatic.AbstractAquaticPlant
+import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
 import teksturepako.greenery.common.registry.ModBlocks
 import java.util.*
 
@@ -69,7 +69,7 @@ object EventBonemeal {
 
         if (Loader.isModLoaded("simpledifficulty")) {
             if ((upBlock == Blocks.WATER || upBlock == blockPurifiedWater) &&
-                block.material in AbstractAquaticPlant.ALLOWED_SOILS
+                block.material in AbstractSubmergedPlant.ALLOWED_SOILS
             ) {
                 if (!world.isRemote) {
                     growRivergrass(up, world, rand)
@@ -80,7 +80,7 @@ object EventBonemeal {
                 }
             }
 
-            if (upBlock == blockSaltWater && block.material in AbstractAquaticPlant.ALLOWED_SOILS) {
+            if (upBlock == blockSaltWater && block.material in AbstractSubmergedPlant.ALLOWED_SOILS) {
                 if (!world.isRemote) {
                     growSeagrass(up, world, rand)
                     event.result = Event.Result.ALLOW
@@ -90,7 +90,7 @@ object EventBonemeal {
                 }
             }
         } else {
-            if (upBlock == Blocks.WATER && block.material in AbstractAquaticPlant.ALLOWED_SOILS) {
+            if (upBlock == Blocks.WATER && block.material in AbstractSubmergedPlant.ALLOWED_SOILS) {
                 if (!world.isRemote) {
                     growSeagrass(up, world, rand)
                     event.result = Event.Result.ALLOW

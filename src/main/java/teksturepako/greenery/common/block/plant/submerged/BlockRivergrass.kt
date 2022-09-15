@@ -1,6 +1,5 @@
-package teksturepako.greenery.common.block.plant.aquatic
+package teksturepako.greenery.common.block.plant.submerged
 
-import net.minecraft.block.IGrowable
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
@@ -15,8 +14,8 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 import java.util.*
 
-class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
-    enum class SeagrassVariant : IStringSerializable {
+class BlockRivergrass : AbstractSubmergedPlant(NAME) {
+    enum class RivergrassVariant : IStringSerializable {
         SINGLE, BOTTOM, TOP;
 
         override fun getName(): String {
@@ -29,19 +28,19 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
     }
 
     companion object {
-        const val NAME = "seagrass"
+        const val NAME = "rivergrass"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
-        val VARIANT: PropertyEnum<SeagrassVariant> = PropertyEnum.create("variant", SeagrassVariant::class.java)
+        val VARIANT: PropertyEnum<RivergrassVariant> = PropertyEnum.create("variant", RivergrassVariant::class.java)
     }
 
     init {
         defaultState = blockState.baseState
-            .withProperty(VARIANT, SeagrassVariant.SINGLE)
+            .withProperty(VARIANT, RivergrassVariant.SINGLE)
     }
 
     override val compatibleFluids: MutableList<String>
-        get() = Config.generation.seagrass.compatibleFluids.toMutableList()
+        get() = Config.generation.rivergrass.compatibleFluids.toMutableList()
 
     @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
     override fun getStateFromMeta(meta: Int): IBlockState {
@@ -58,14 +57,14 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
 
     @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
-        val hasSeagrassBelow = worldIn.getBlockState(pos.down()).block == this
-        val hasSeagrassAbove = worldIn.getBlockState(pos.up()).block == this
+        val hasRivergrassBelow = worldIn.getBlockState(pos.down()).block == this
+        val hasRivergrassAbove = worldIn.getBlockState(pos.up()).block == this
 
         return state.withProperty(
             VARIANT, when {
-                hasSeagrassBelow -> SeagrassVariant.TOP
-                hasSeagrassAbove -> SeagrassVariant.BOTTOM
-                else -> SeagrassVariant.SINGLE
+                hasRivergrassBelow -> RivergrassVariant.TOP
+                hasRivergrassAbove -> RivergrassVariant.BOTTOM
+                else -> RivergrassVariant.SINGLE
             }
         )
     }
@@ -87,7 +86,7 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
     // IGrowable implementation
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
         val actualState = state.getActualState(worldIn, pos)
-        return actualState.getValue(VARIANT) == SeagrassVariant.SINGLE
+        return actualState.getValue(VARIANT) == RivergrassVariant.SINGLE
                 && canGenerateBlockAt(worldIn, pos.up())
     }
 
@@ -99,11 +98,11 @@ class BlockSeagrass : AbstractAquaticPlant(NAME), IGrowable {
     @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {
-            actualState.withProperty(VARIANT, SeagrassVariant.TOP) ->
+            actualState.withProperty(VARIANT, RivergrassVariant.TOP) ->
                 TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, SeagrassVariant.SINGLE) ->
+            actualState.withProperty(VARIANT, RivergrassVariant.SINGLE) ->
                 TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) ->
+            actualState.withProperty(VARIANT, RivergrassVariant.BOTTOM) ->
                 BOTTOM_AABB.offset(state.getOffset(source, pos))
             else -> TOP_AABB.offset(state.getOffset(source, pos))
         }

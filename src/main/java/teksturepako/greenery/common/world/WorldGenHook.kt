@@ -20,9 +20,7 @@ class WorldGenHook : IWorldGenerator {
         chunkProv: IChunkProvider
     ) {
         val generators: MutableList<IGreeneryWorldGenerator> = Greenery.loadGenerators()
-        for (generator in generators) {
-            generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
-        }
+        for (generator in generators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
         if (Config.generation.removeGrass) removeBOPGenerators(world)
     }

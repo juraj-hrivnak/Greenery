@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.plant.aquatic
+package teksturepako.greenery.common.block.plant.submerged
 
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
@@ -28,16 +28,16 @@ import teksturepako.greenery.client.ModSoundTypes
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
-abstract class AbstractAquaticPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable {
+abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
             Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
         )
         val TOP_AABB =
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 0.75, 0.899999988079071)
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
         val BOTTOM_AABB =
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 1.0, 0.899999988079071)
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
     }
 
     abstract val compatibleFluids: MutableList<String>

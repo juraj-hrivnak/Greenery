@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.crop
+package teksturepako.greenery.common.block.plant.emergent
 
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
@@ -7,11 +7,12 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 
-class BlockArrowhead : AbstractWaterCropBlock(NAME) {
+class BlockCattail : AbstractEmergentPlant(NAME) {
 
     companion object {
-        const val NAME = "arrowhead"
+        const val NAME = "cattail"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
+
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
     }
 
@@ -29,11 +30,11 @@ class BlockArrowhead : AbstractWaterCropBlock(NAME) {
     }
 
     override fun getSeed(): Item {
-        return ModItems.itemBlockArrowhead
+        return ModItems.itemBlockCattail
     }
 
     override fun getCrop(): Item {
-        return ModItems.itemBlockArrowhead
+        return ModItems.itemBlockCattail
     }
 
     override fun createBlockState(): BlockStateContainer {
@@ -42,4 +43,4 @@ class BlockArrowhead : AbstractWaterCropBlock(NAME) {
 
 }
 
-class ItemBlockArrowhead : AbstractWaterCropItemBlock(BlockArrowhead.NAME, ModBlocks.blockArrowhead)
+class ItemBlockCattail : AbstractEmergentItemBlock(BlockCattail.NAME, ModBlocks.blockCattail)

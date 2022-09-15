@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 
 @Suppress("DEPRECATION")
 object DropsUtil {
+
     fun getDrops(
         dropsList: MutableList<String>,
         drops: NonNullList<ItemStack>,

@@ -1,19 +1,24 @@
-package teksturepako.greenery.common.block.tallgrass
+package teksturepako.greenery.common.block.plant.upland.tall
 
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
+import net.minecraft.entity.Entity
+import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
+import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.util.ModDamageSource
 
-class BlockRyegrass : AbstractTallGrass(NAME) {
+class BlockNettle : AbstractTallPlant(NAME) {
 
     companion object {
-        const val NAME = "ryegrass"
+        const val NAME = "nettle"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
@@ -29,7 +34,7 @@ class BlockRyegrass : AbstractTallGrass(NAME) {
     }
 
     override val drops: MutableList<String>
-        get() = Config.generation.ryegrass.drops.toMutableList()
+        get() = Config.generation.nettle.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
         return AGE
@@ -77,4 +82,16 @@ class BlockRyegrass : AbstractTallGrass(NAME) {
         }
     }
 
+    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
+        entityIn.motionX = entityIn.motionX / 1.1
+        entityIn.motionZ = entityIn.motionZ / 1.1
+        if (entityIn is EntityPlayer) {
+            if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY) {
+                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+            }
+            if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY) {
+                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+            }
+        }
+    }
 }

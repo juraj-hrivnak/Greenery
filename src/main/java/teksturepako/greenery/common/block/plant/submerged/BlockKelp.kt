@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.plant.aquatic
+package teksturepako.greenery.common.block.plant.submerged
 
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
@@ -16,7 +16,7 @@ import teksturepako.greenery.common.config.Config
 import java.util.*
 import kotlin.math.min
 
-class BlockKelp : AbstractAquaticPlant(NAME) {
+class BlockKelp : AbstractSubmergedPlant(NAME) {
     companion object {
         const val NAME = "kelp"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"

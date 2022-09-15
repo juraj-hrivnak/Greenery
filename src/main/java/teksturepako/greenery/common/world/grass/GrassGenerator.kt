@@ -4,7 +4,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import teksturepako.greenery.common.block.tallgrass.AbstractTallGrass
+import teksturepako.greenery.common.block.plant.upland.tall.AbstractTallPlant
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
@@ -13,7 +13,7 @@ import java.util.*
 
 abstract class GrassGenerator : GreeneryWorldGenerator() {
 
-    abstract override val block: AbstractTallGrass
+    abstract override val block: AbstractTallPlant
 
     override fun generate(
         rand: Random,

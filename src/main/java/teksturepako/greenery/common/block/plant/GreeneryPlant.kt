@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block
+package teksturepako.greenery.common.block.plant
 
 import net.minecraft.block.BlockCrops
 import net.minecraft.block.properties.PropertyInteger
@@ -54,6 +54,9 @@ abstract class GreeneryPlant : BlockCrops() {
 
     public abstract override fun getAgeProperty(): PropertyInteger
 
+    /**
+     * Determines whether the block can stay on the position, based on its surroundings.
+     */
     abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
     override fun getSeed(): Item {
@@ -70,9 +73,7 @@ abstract class GreeneryPlant : BlockCrops() {
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        if (worldIn.isRemote) return
-        if (!worldIn.isBlockLoaded(pos)) return
-        if (!canBlockStay(worldIn, pos, state)) return
+        if (worldIn.isRemote || !worldIn.isBlockLoaded(pos) || !canBlockStay(worldIn, pos, state)) return
         if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
             val age = getAge(state)
             if (age <= this.maxAge && rand.nextDouble() < 0.1) {

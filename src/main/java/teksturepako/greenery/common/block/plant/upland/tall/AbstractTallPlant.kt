@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.tallgrass
+package teksturepako.greenery.common.block.plant.upland.tall
 
 import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
@@ -15,27 +15,27 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.block.GreeneryPlant
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractTallGrass(name: String) : GreeneryPlant() {
+abstract class AbstractTallPlant(name: String) : GreeneryPlant() {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
             Material.GRASS
         )
         val GRASS_TOP_AABB = arrayOf(
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 0.5, 0.899999988079071),
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 0.625, 0.899999988079071),
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 0.75, 0.899999988079071),
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 0.875, 0.899999988079071)
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
         )
         val GRASS_BOTTOM_AABB = arrayOf(
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 1.0, 0.899999988079071),
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 1.0, 0.899999988079071),
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 1.0, 0.899999988079071),
-            AxisAlignedBB(0.10000001192092896, 0.025, 0.10000001192092896, 0.899999988079071, 1.0, 0.899999988079071)
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
         )
     }
 
@@ -58,7 +58,6 @@ abstract class AbstractTallGrass(name: String) : GreeneryPlant() {
         } else false
     }
 
-
     // Growing
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
         return when {
@@ -79,7 +78,6 @@ abstract class AbstractTallGrass(name: String) : GreeneryPlant() {
         }
         worldIn.setBlockState(pos, withAge(newAge), 2)
     }
-
 
     // Drops
     override fun getDrops(

@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.crop
+package teksturepako.greenery.common.block.plant.emergent
 
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.block.Block
@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-abstract class AbstractWaterCropItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse) {
+abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse) {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(

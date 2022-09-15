@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.tallgrass
+package teksturepako.greenery.common.block.plant.upland.tall
 
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
@@ -10,10 +10,10 @@ import net.minecraft.world.IBlockAccess
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 
-class BlockBarley : AbstractTallGrass(NAME) {
+class BlockTallFern : AbstractTallPlant(NAME) {
 
     companion object {
-        const val NAME = "barley"
+        const val NAME = "tallfern"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
@@ -29,7 +29,7 @@ class BlockBarley : AbstractTallGrass(NAME) {
     }
 
     override val drops: MutableList<String>
-        get() = Config.generation.barley.drops.toMutableList()
+        get() = Config.generation.fern.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
         return AGE
@@ -43,7 +43,7 @@ class BlockBarley : AbstractTallGrass(NAME) {
         return BlockStateContainer(this, AGE, TOP, SINGLE)
     }
 
-    @Deprecated("")
+    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
@@ -55,8 +55,8 @@ class BlockBarley : AbstractTallGrass(NAME) {
         }
     }
 
-    @Deprecated("")
     @Suppress("DEPRECATION")
+    @Deprecated("Deprecated in Java")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {
             actualState.withProperty(TOP, true) ->
@@ -76,4 +76,5 @@ class BlockBarley : AbstractTallGrass(NAME) {
             )
         }
     }
+
 }

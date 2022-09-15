@@ -1,40 +1,33 @@
-package teksturepako.greenery.common.block.tallgrass
+package teksturepako.greenery.common.block.plant.upland.tall
 
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
-import net.minecraft.entity.Entity
-import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.item.ItemStack
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
-import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.ModDamageSource
 
-class BlockNettle : AbstractTallGrass(NAME) {
+class BlockTallGrass : AbstractTallPlant(NAME) {
 
     companion object {
-        const val NAME = "nettle"
+        const val NAME = "tallgrass"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
         val TOP: PropertyBool = PropertyBool.create("top")
-        val SINGLE: PropertyBool = PropertyBool.create("single")
     }
 
     init {
         defaultState = blockState.baseState
             .withProperty(AGE, 0)
             .withProperty(TOP, true)
-            .withProperty(SINGLE, false)
     }
 
     override val drops: MutableList<String>
-        get() = Config.generation.nettle.drops.toMutableList()
+        get() = Config.generation.grass.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
         return AGE
@@ -45,22 +38,22 @@ class BlockNettle : AbstractTallGrass(NAME) {
     }
 
     override fun createBlockState(): BlockStateContainer {
-        return BlockStateContainer(this, AGE, TOP, SINGLE)
+        return BlockStateContainer(this, AGE, TOP)
     }
 
-    @Deprecated("")
+    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
 
         return when {
-            hasTheSameBlockBelow -> state.withProperty(TOP, true).withProperty(SINGLE, false)
-            hasTheSameBlockAbove -> state.withProperty(TOP, false).withProperty(SINGLE, false)
-            else -> state.withProperty(TOP, true).withProperty(SINGLE, true)
+            hasTheSameBlockBelow -> state.withProperty(TOP, true)
+            hasTheSameBlockAbove -> state.withProperty(TOP, false)
+            else -> state.withProperty(TOP, true)
         }
     }
 
-    @Deprecated("")
+    @Deprecated("Deprecated in Java")
     @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {
@@ -82,16 +75,4 @@ class BlockNettle : AbstractTallGrass(NAME) {
         }
     }
 
-    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
-        entityIn.motionX = entityIn.motionX / 1.1
-        entityIn.motionZ = entityIn.motionZ / 1.1
-        if (entityIn is EntityPlayer) {
-            if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY) {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
-            }
-            if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY) {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
-            }
-        }
-    }
 }

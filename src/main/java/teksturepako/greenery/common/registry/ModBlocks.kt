@@ -8,12 +8,12 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
 import teksturepako.greenery.common.block.BlockDriedKelp
 import teksturepako.greenery.common.block.BlockGrass
-import teksturepako.greenery.common.block.crop.BlockArrowhead
-import teksturepako.greenery.common.block.crop.BlockCattail
-import teksturepako.greenery.common.block.plant.aquatic.BlockKelp
-import teksturepako.greenery.common.block.plant.aquatic.BlockRivergrass
-import teksturepako.greenery.common.block.plant.aquatic.BlockSeagrass
-import teksturepako.greenery.common.block.tallgrass.*
+import teksturepako.greenery.common.block.plant.emergent.BlockArrowhead
+import teksturepako.greenery.common.block.plant.emergent.BlockCattail
+import teksturepako.greenery.common.block.plant.upland.tall.*
+import teksturepako.greenery.common.block.plant.submerged.BlockKelp
+import teksturepako.greenery.common.block.plant.submerged.BlockRivergrass
+import teksturepako.greenery.common.block.plant.submerged.BlockSeagrass
 
 
 object ModBlocks {

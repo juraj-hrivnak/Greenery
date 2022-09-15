@@ -6,8 +6,8 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
-import teksturepako.greenery.common.block.crop.ItemBlockArrowhead
-import teksturepako.greenery.common.block.crop.ItemBlockCattail
+import teksturepako.greenery.common.block.plant.emergent.ItemBlockArrowhead
+import teksturepako.greenery.common.block.plant.emergent.ItemBlockCattail
 import teksturepako.greenery.common.item.ItemDriedKelp
 import teksturepako.greenery.common.item.ItemKelpSoup
 import teksturepako.greenery.common.registry.ModBlocks.blockGrass
