@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
-import teksturepako.greenery.client.GreeneryCommand
 import teksturepako.greenery.client.ModCreativeTab
 import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.handler.ModFuelHandler
@@ -51,7 +50,7 @@ import teksturepako.greenery.proxy.IProxy
 object Greenery {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "2.0"
+    const val VERSION = "2.1"
     const val DEPENDENCIES =
         "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
@@ -135,14 +134,9 @@ object Greenery {
 
             logger.info("Loading world generators:")
             for (generator in generators) {
-                logger.info(
-                    "> " + generator.javaClass.name
-                        .replace("teksturepako.greenery.common.world.", "")
-                )
+                logger.info("> \"${generator.block.registryName?.path}\"")
                 parseValidBiomeTypes(generator.validBiomeTypes)
             }
-
-            logger.info("-------------------------")
         }
         return generators
     }

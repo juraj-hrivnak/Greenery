@@ -51,50 +51,11 @@ object WorldGenUtil {
     fun areBiomeTypesValid(biome: Biome, types: MutableList<String>, inverted: Boolean): Boolean {
         for (type in types) {
             if (!inverted) {
-                while (BiomeDictionary.hasType(biome, getBiomeTypesFromString(type))) return true
+                while (BiomeDictionary.hasType(biome, BiomeDictionary.Type.getType(type))) return true
             } else {
-                while (BiomeDictionary.hasType(biome, getBiomeTypesFromString(type))) return false
+                while (BiomeDictionary.hasType(biome, BiomeDictionary.Type.getType(type))) return false
             }
         }
         return if (!inverted) types.isEmpty() else types.isNotEmpty()
-    }
-
-    private fun getBiomeTypesFromString(type: String): BiomeDictionary.Type {
-        return when (type) {
-            "HOT" -> BiomeDictionary.Type.HOT
-            "COLD" -> BiomeDictionary.Type.COLD
-            "SPARSE" -> BiomeDictionary.Type.SPARSE
-            "DENSE" -> BiomeDictionary.Type.DENSE
-            "WET" -> BiomeDictionary.Type.WET
-            "DRY" -> BiomeDictionary.Type.DRY
-            "SAVANNA" -> BiomeDictionary.Type.SAVANNA
-            "CONIFEROUS" -> BiomeDictionary.Type.CONIFEROUS
-            "JUNGLE" -> BiomeDictionary.Type.JUNGLE
-            "SPOOKY" -> BiomeDictionary.Type.SPOOKY
-            "DEAD" -> BiomeDictionary.Type.DEAD
-            "LUSH" -> BiomeDictionary.Type.LUSH
-            "NETHER" -> BiomeDictionary.Type.NETHER
-            "END" -> BiomeDictionary.Type.END
-            "MUSHROOM" -> BiomeDictionary.Type.MUSHROOM
-            "MAGICAL" -> BiomeDictionary.Type.MAGICAL
-            "RARE" -> BiomeDictionary.Type.RARE
-            "OCEAN" -> BiomeDictionary.Type.OCEAN
-            "RIVER" -> BiomeDictionary.Type.RIVER
-            "WATER" -> BiomeDictionary.Type.WATER
-            "MESA" -> BiomeDictionary.Type.MESA
-            "FOREST" -> BiomeDictionary.Type.FOREST
-            "PLAINS" -> BiomeDictionary.Type.PLAINS
-            "MOUNTAIN" -> BiomeDictionary.Type.MOUNTAIN
-            "HILLS" -> BiomeDictionary.Type.HILLS
-            "SWAMP" -> BiomeDictionary.Type.SWAMP
-            "SANDY" -> BiomeDictionary.Type.SANDY
-            "SNOWY" -> BiomeDictionary.Type.SNOWY
-            "WASTELAND" -> BiomeDictionary.Type.WASTELAND
-            "BEACH" -> BiomeDictionary.Type.BEACH
-            "VOID" -> BiomeDictionary.Type.VOID
-            else -> {
-                BiomeDictionary.Type.VOID
-            }
-        }
     }
 }
