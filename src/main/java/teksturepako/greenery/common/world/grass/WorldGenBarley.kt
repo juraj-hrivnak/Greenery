@@ -35,7 +35,8 @@ class WorldGenBarley : GrassGenerator() {
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
         if ((rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted))
-            && biome != REGISTRY.getObject(ResourceLocation("biomesoplenty","pasture"))) {
+            && biome != REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture"))
+        ) {
             for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
@@ -46,7 +47,7 @@ class WorldGenBarley : GrassGenerator() {
                 val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
                 generatePlants(world, random, pos)
             }
-        } else if (biome == REGISTRY.getObject(ResourceLocation("biomesoplenty","pasture"))) {
+        } else if (biome == REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture"))) {
             for (i in 0..64 * 20) {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8

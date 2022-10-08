@@ -9,7 +9,8 @@ import teksturepako.greenery.common.config.Config
 
 object EventWorldGen {
     @SubscribeEvent(priority = EventPriority.HIGH)
-    @JvmStatic fun removeGrass(event: Decorate) {
+    @JvmStatic
+    fun removeGrass(event: Decorate) {
         if (event.type == EventType.GRASS && Config.generation.removeGrass) {
             event.result = Event.Result.DENY
         }

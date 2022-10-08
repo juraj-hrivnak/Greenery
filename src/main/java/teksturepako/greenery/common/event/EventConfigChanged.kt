@@ -11,7 +11,8 @@ import teksturepako.greenery.Greenery
 object EventConfigChanged {
 
     @SubscribeEvent
-    @JvmStatic fun onConfigChanged(event: ConfigChangedEvent) {
+    @JvmStatic
+    fun onConfigChanged(event: ConfigChangedEvent) {
         if (event.modID == Greenery.MODID) {
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
 

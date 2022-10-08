@@ -97,7 +97,7 @@ class BlockKelp : AbstractSubmergedPlant(NAME) {
 
     private fun getTopPosition(worldIn: World, pos: BlockPos): BlockPos {
         var topPos = pos
-        while(worldIn.getBlockState(topPos.up()).block == this) {
+        while (worldIn.getBlockState(topPos.up()).block == this) {
             topPos = topPos.up()
         }
 

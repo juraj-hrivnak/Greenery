@@ -44,12 +44,13 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase() {
 
         return if ((worldIn.isAirBlock(pos)
                     || worldIn.getBlockState(pos).block == this)
-            && down.material == Material.WATER)
-        {
+            && down.material == Material.WATER
+        ) {
             down2.material in ALLOWED_SOILS
         } else false
     }
 
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return WATER_CROP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
     }

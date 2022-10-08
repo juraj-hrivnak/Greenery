@@ -107,7 +107,8 @@ object Greenery {
     }
 
     @SubscribeEvent
-    @JvmStatic fun onRegisterItems(event: RegistryEvent.Register<Item>) {
+    @JvmStatic
+    fun onRegisterItems(event: RegistryEvent.Register<Item>) {
         logger.info("Registering items")
         ModBlocks.registerItemBlocks(event.registry)
         ModItems.register(event.registry)

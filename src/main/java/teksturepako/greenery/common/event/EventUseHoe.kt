@@ -12,7 +12,8 @@ import teksturepako.greenery.common.registry.ModBlocks
 @Mod.EventBusSubscriber
 object EventUseHoe {
     @SubscribeEvent
-    @JvmStatic fun onHoeUsedOnGrass(event: UseHoeEvent) {
+    @JvmStatic
+    fun onHoeUsedOnGrass(event: UseHoeEvent) {
         if (event.world.getBlockState(event.pos).block == ModBlocks.blockGrass && event.world.isAirBlock(event.pos.up())) {
             event.world.setBlockState(event.pos, Blocks.FARMLAND.defaultState)
             event.entityPlayer.swingArm(EnumHand.MAIN_HAND)

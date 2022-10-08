@@ -15,10 +15,10 @@ object ModSoundEvents {
     }
 
     val SEAWEED_BREAK = createSoundEvent("block.seaweed.break")
-    val SEAWEED_STEP  = createSoundEvent("block.seaweed.footsteps")
+    val SEAWEED_STEP = createSoundEvent("block.seaweed.footsteps")
     val SEAWEED_PLACE = createSoundEvent("block.seaweed.place")
-    val SEAWEED_HIT   = createSoundEvent("block.seaweed.hit")
-    val SEAWEED_FALL  = createSoundEvent("block.seaweed.fall")
+    val SEAWEED_HIT = createSoundEvent("block.seaweed.hit")
+    val SEAWEED_FALL = createSoundEvent("block.seaweed.fall")
 
     fun register(registry: IForgeRegistry<SoundEvent>) {
         registry.registerAll(

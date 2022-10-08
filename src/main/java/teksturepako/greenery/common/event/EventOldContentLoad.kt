@@ -12,18 +12,18 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 object EventOldContentLoad {
 
     private val oldContent: Map<String, String> = mapOf(
-        "greenery:arrowhead"    to "greenery:plant/emergent/arrowhead",
-        "greenery:cattail"      to "greenery:plant/emergent/cattail",
+        "greenery:arrowhead" to "greenery:plant/emergent/arrowhead",
+        "greenery:cattail" to "greenery:plant/emergent/cattail",
 
-        "greenery:kelp"         to "greenery:plant/submerged/kelp",
-        "greenery:rivergrass"   to "greenery:plant/submerged/watermilfoil",
-        "greenery:seagrass"     to "greenery:plant/submerged/seagrass",
+        "greenery:kelp" to "greenery:plant/submerged/kelp",
+        "greenery:rivergrass" to "greenery:plant/submerged/watermilfoil",
+        "greenery:seagrass" to "greenery:plant/submerged/seagrass",
 
-        "greenery:barley"       to "greenery:plant/upland/tall/barley",
-        "greenery:nettle"       to "greenery:plant/upland/tall/nettle",
-        "greenery:ryegrass"     to "greenery:plant/upland/tall/ryegrass",
-        "greenery:tallfern"     to "greenery:plant/upland/tall/tallfern",
-        "greenery:tallgrass"    to "greenery:plant/upland/tall/tallgrass"
+        "greenery:barley" to "greenery:plant/upland/tall/barley",
+        "greenery:nettle" to "greenery:plant/upland/tall/nettle",
+        "greenery:ryegrass" to "greenery:plant/upland/tall/ryegrass",
+        "greenery:tallfern" to "greenery:plant/upland/tall/tallfern",
+        "greenery:tallgrass" to "greenery:plant/upland/tall/tallgrass"
     )
 
     @SubscribeEvent
