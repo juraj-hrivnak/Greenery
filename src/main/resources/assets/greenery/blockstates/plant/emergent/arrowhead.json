@@ -1,32 +1,32 @@
 {
   "forge_marker": 1,
   "defaults": {
-    "model": "greenery:arrowhead/arrowhead",
+    "model": "greenery:plant/emergent/arrowhead/arrowhead",
     "textures": {
-      "bottom": "greenery:blocks/arrowhead/bottom",
-      "particle": "greenery:blocks/arrowhead/age_3"
+      "bottom": "greenery:blocks/plant/emergent/arrowhead/bottom",
+      "particle": "greenery:blocks/plant/emergent/arrowhead/age_3"
     }
   },
   "variants": {
     "age": {
       "0": {
         "textures": {
-          "leaf": "greenery:blocks/arrowhead/age_0"
+          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_0"
         }
       },
       "1": {
         "textures": {
-          "leaf": "greenery:blocks/arrowhead/age_1"
+          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_1"
         }
       },
       "2": {
         "textures": {
-          "leaf": "greenery:blocks/arrowhead/age_2"
+          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_2"
         }
       },
       "3": {
         "textures": {
-          "leaf": "greenery:blocks/arrowhead/age_3"
+          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_3"
         }
       }
     }

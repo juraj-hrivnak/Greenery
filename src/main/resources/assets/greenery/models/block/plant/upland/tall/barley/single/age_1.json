@@ -1,0 +1,6 @@
+{
+    "parent": "greenery:block/cross",
+    "textures": {
+        "cross": "greenery:blocks/plant/upland/tall/barley/single/age_1"
+    }
+}

@@ -25,12 +25,12 @@
     "top": {
       "true": {
         "textures": {
-          "cross": "greenery:blocks/kelp"
+          "cross": "greenery:blocks/plant/submerged/kelp/kelp"
         }
       },
       "false": {
         "textures": {
-          "cross": "greenery:blocks/kelp_plant"
+          "cross": "greenery:blocks/plant/submerged/kelp/kelp_plant"
         }
       }
     }

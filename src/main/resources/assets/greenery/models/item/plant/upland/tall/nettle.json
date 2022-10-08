@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "greenery:items/Nettle_leaf"
+    "layer0": "greenery:items/nettle_leaf"
   }
 }

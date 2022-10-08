@@ -1,0 +1,25 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model": "crop"
+  },
+  "variants": {
+    "variant": {
+      "single": {
+        "textures": {
+          "crop": "greenery:blocks/plant/submerged/watermilfoil/watermilfoil"
+        }
+      },
+      "bottom": {
+        "textures": {
+          "crop": "greenery:blocks/plant/submerged/watermilfoil/tall_watermilfoil_bottom"
+        }
+      },
+      "top": {
+        "textures": {
+          "crop": "greenery:blocks/plant/submerged/watermilfoil/tall_watermilfoil_top"
+        }
+      }
+    }
+  }
+}

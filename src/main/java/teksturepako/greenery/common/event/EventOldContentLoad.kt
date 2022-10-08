@@ -16,7 +16,7 @@ object EventOldContentLoad {
         "greenery:cattail"      to "greenery:plant/emergent/cattail",
 
         "greenery:kelp"         to "greenery:plant/submerged/kelp",
-        "greenery:rivergrass"   to "greenery:plant/submerged/rivergrass",
+        "greenery:rivergrass"   to "greenery:plant/submerged/watermilfoil",
         "greenery:seagrass"     to "greenery:plant/submerged/seagrass",
 
         "greenery:barley"       to "greenery:plant/upland/tall/barley",

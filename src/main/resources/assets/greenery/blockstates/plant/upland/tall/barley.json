@@ -1,23 +1,23 @@
 {
   "variants": {
-    "age=0,single=false,top=true": { "model": "greenery:barley/grass_0" },
-    "age=1,single=false,top=true": { "model": "greenery:barley/grass_1" },
-    "age=2,single=false,top=true": { "model": "greenery:barley/grass_2" },
-    "age=3,single=false,top=true": { "model": "greenery:barley/grass_3" },
+    "age=0,single=false,top=true": { "model": "greenery:plant/upland/tall/barley/age_0" },
+    "age=1,single=false,top=true": { "model": "greenery:plant/upland/tall/barley/age_1" },
+    "age=2,single=false,top=true": { "model": "greenery:plant/upland/tall/barley/age_2" },
+    "age=3,single=false,top=true": { "model": "greenery:plant/upland/tall/barley/age_3" },
 
-    "age=0,single=false,top=false": { "model": "greenery:barley/grass_bottom" },
-    "age=1,single=false,top=false": { "model": "greenery:barley/grass_bottom" },
-    "age=2,single=false,top=false": { "model": "greenery:barley/grass_bottom" },
-    "age=3,single=false,top=false": { "model": "greenery:barley/grass_bottom" },
+    "age=0,single=false,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
+    "age=1,single=false,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
+    "age=2,single=false,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
+    "age=3,single=false,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
 
-    "age=0,single=true,top=false": { "model": "greenery:barley/grass_bottom" },
-    "age=1,single=true,top=false": { "model": "greenery:barley/grass_bottom" },
-    "age=2,single=true,top=false": { "model": "greenery:barley/grass_bottom" },
-    "age=3,single=true,top=false": { "model": "greenery:barley/grass_bottom" },
+    "age=0,single=true,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
+    "age=1,single=true,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
+    "age=2,single=true,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
+    "age=3,single=true,top=false": { "model": "greenery:plant/upland/tall/barley/bottom" },
 
-    "age=0,single=true,top=true": { "model": "greenery:barley/single/grass_0" },
-    "age=1,single=true,top=true": { "model": "greenery:barley/single/grass_1" },
-    "age=2,single=true,top=true": { "model": "greenery:barley/single/grass_2" },
-    "age=3,single=true,top=true": { "model": "greenery:barley/single/grass_3" }
+    "age=0,single=true,top=true": { "model": "greenery:plant/upland/tall/barley/single/age_0" },
+    "age=1,single=true,top=true": { "model": "greenery:plant/upland/tall/barley/single/age_1" },
+    "age=2,single=true,top=true": { "model": "greenery:plant/upland/tall/barley/single/age_2" },
+    "age=3,single=true,top=true": { "model": "greenery:plant/upland/tall/barley/single/age_3" }
   }
 }

@@ -1,6 +1,0 @@
-{
-    "parent": "block/cross",
-    "textures": {
-        "cross": "greenery:blocks/seaweed/kelp_middle"
-    }
-}

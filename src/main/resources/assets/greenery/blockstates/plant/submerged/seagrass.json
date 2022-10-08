@@ -7,17 +7,17 @@
     "variant": {
       "single": {
         "textures": {
-          "crop": "greenery:blocks/seagrass"
+          "crop": "greenery:blocks/plant/submerged/seagrass/seagrass"
         }
       },
       "bottom": {
         "textures": {
-          "crop": "greenery:blocks/tall_seagrass_bottom"
+          "crop": "greenery:blocks/plant/submerged/seagrass/tall_seagrass_bottom"
         }
       },
       "top": {
         "textures": {
-          "crop": "greenery:blocks/tall_seagrass_top"
+          "crop": "greenery:blocks/plant/submerged/seagrass/tall_seagrass_top"
         }
       }
     }

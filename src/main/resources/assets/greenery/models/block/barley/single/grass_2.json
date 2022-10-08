@@ -1,6 +1,0 @@
-{
-    "parent": "greenery:block/cross",
-    "textures": {
-        "cross": "greenery:blocks/barley/single/grass_2"
-    }
-}
