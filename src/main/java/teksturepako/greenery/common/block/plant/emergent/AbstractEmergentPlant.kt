@@ -9,9 +9,9 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
-import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
-abstract class AbstractEmergentPlant(name: String) : GreeneryPlant() {
+abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase() {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
@@ -26,7 +26,7 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlant() {
     }
 
     init {
-        setRegistryName(name)
+        setRegistryName("plant/emergent/$name")
         translationKey = name
         soundType = ModSoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab

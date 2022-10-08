@@ -11,12 +11,13 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
+import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import java.util.*
 
-abstract class GreeneryPlant : BlockCrops() {
+abstract class GreeneryPlantBase : BlockCrops() {
 
     lateinit var itemBlock: Item
 
@@ -73,11 +74,15 @@ abstract class GreeneryPlant : BlockCrops() {
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        if (worldIn.isRemote || !worldIn.isBlockLoaded(pos) || !canBlockStay(worldIn, pos, state)) return
+        if (worldIn.isRemote || !worldIn.isAreaLoaded(pos, 1) || !canBlockStay(worldIn, pos, state)) return
         if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
             val age = getAge(state)
-            if (age <= this.maxAge && rand.nextDouble() < 0.1) {
-                grow(worldIn, pos, state)
+            if (age <= this.maxAge) {
+                val f = getGrowthChance(this, worldIn, pos)
+                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / f).toInt() + 1) == 0)) {
+                    grow(worldIn, pos, state)
+                    ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
+                }
             }
         }
     }

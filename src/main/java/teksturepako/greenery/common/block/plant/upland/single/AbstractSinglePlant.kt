@@ -14,11 +14,11 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractSinglePlant(name: String) : GreeneryPlant() {
+abstract class AbstractSinglePlant(name: String) : GreeneryPlantBase() {
 
     companion object {
         val ALLOWED_SOILS = setOf<Material>(
@@ -35,7 +35,7 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlant() {
     abstract val drops: MutableList<String>
 
     init {
-        setRegistryName(name)
+        setRegistryName("plant/upland/single/$name")
         translationKey = name
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab

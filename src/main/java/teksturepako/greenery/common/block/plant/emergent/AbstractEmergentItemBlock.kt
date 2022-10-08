@@ -29,7 +29,7 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
     }
 
     init {
-        setRegistryName(name)
+        setRegistryName("plant/emergent/$name")
         translationKey = name
         creativeTab = Greenery.creativeTab
     }

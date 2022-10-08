@@ -3,9 +3,11 @@ package teksturepako.greenery.common.registry
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraftforge.client.event.ColorHandlerEvent
+import net.minecraftforge.fml.common.registry.GameRegistry
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
+import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.BlockDriedKelp
 import teksturepako.greenery.common.block.BlockGrass
 import teksturepako.greenery.common.block.plant.emergent.BlockArrowhead
@@ -14,7 +16,6 @@ import teksturepako.greenery.common.block.plant.upland.tall.*
 import teksturepako.greenery.common.block.plant.submerged.BlockKelp
 import teksturepako.greenery.common.block.plant.submerged.BlockRivergrass
 import teksturepako.greenery.common.block.plant.submerged.BlockSeagrass
-
 
 object ModBlocks {
 

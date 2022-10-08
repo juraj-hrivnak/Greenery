@@ -24,7 +24,9 @@ object DropsUtil {
         defaultItem: Item,
         fortune: Int
     ) {
+        val actualState = state.getActualState(world, pos)
         val random = (world as World).rand
+
         for (stringInput in dropsList) {
             val filteredInput = stringInput.filter { !it.isWhitespace() }.trim()
 
@@ -33,26 +35,16 @@ object DropsUtil {
                 raw = filteredInput.split("|")
             }
 
-            /**
-             * Declaring variables
-             */
-            val actualState = state.getActualState(world, pos)
             val blockStateIsValid: Boolean = if (raw.getOrNull(2) != null) {
                 val blockState = CommandBase.convertArgToBlockState(state.block, raw[2])
                 actualState == blockState
             } else true
 
-            /**
-             * Declaring variables
-             */
             var itemStackRaw: List<String> = emptyList()
             if (raw.getOrNull(0) != null) {
                 itemStackRaw = raw[0].split(":")
             }
 
-            /**
-             * Declaring variables
-             */
             val itemStack: ItemStack = if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) != null) {
                 ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation("${itemStackRaw[0]}:${itemStackRaw[1]}"))!!)
             } else {
@@ -70,20 +62,11 @@ object DropsUtil {
                 }
             }
 
-            /**
-             * Declaring variables
-             */
             val count: Int = if (itemStackRaw.getOrNull(2) != null) itemStackRaw[2].toInt() else 1
 
-            /**
-             * Declaring variables
-             */
             val chance: Double = if (raw.getOrNull(1) != null) raw[1].toDouble() else 0.0
 
-
-            /**
-             * Adding parsed loot to the list
-             */
+            // Adding parsed loot to the list
             if (random.nextDouble() < chance && blockStateIsValid) {
                 repeat(count + fortune) {
                     drops.add(itemStack)
