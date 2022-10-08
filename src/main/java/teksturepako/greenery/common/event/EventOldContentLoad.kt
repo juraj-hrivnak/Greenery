@@ -22,8 +22,8 @@ object EventOldContentLoad {
         "greenery:barley" to "greenery:plant/upland/tall/barley",
         "greenery:nettle" to "greenery:plant/upland/tall/nettle",
         "greenery:ryegrass" to "greenery:plant/upland/tall/ryegrass",
-        "greenery:tallfern" to "greenery:plant/upland/tall/tallfern",
-        "greenery:tallgrass" to "greenery:plant/upland/tall/tallgrass"
+        "greenery:tallfern" to "greenery:plant/upland/tall/eagle_fern",
+        "greenery:tallgrass" to "greenery:plant/upland/tall/foxtail"
     )
 
     @SubscribeEvent

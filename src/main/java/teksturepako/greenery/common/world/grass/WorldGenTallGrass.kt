@@ -5,7 +5,7 @@ import teksturepako.greenery.common.registry.ModBlocks
 
 class WorldGenTallGrass : GrassGenerator() {
 
-    override val block = ModBlocks.blockTallGrass
+    override val block = ModBlocks.blockFoxtail
     private val config = Config.generation.grass
 
     override val generationChance = config.generationChance

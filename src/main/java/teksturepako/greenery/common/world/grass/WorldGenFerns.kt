@@ -5,7 +5,7 @@ import teksturepako.greenery.common.registry.ModBlocks
 
 class WorldGenFerns : GrassGenerator() {
 
-    override val block = ModBlocks.blockTallFern
+    override val block = ModBlocks.blockEagleFern
     private val config = Config.generation.fern
 
     override val generationChance = config.generationChance

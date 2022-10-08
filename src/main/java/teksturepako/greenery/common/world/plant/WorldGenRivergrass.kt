@@ -10,7 +10,7 @@ import java.util.*
 
 class WorldGenRivergrass : GreeneryWorldGenerator() {
 
-    override val block = ModBlocks.blockRivergrass
+    override val block = ModBlocks.blockWatermilfoil
     private val config = Config.generation.rivergrass
 
     override val generationChance = config.generationChance

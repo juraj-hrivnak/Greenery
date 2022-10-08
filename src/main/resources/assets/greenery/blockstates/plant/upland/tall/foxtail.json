@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "age=0,top=true": { "model": "greenery:plant/upland/tall/foxtail/age_0" },
+    "age=1,top=true": { "model": "greenery:plant/upland/tall/foxtail/age_1" },
+    "age=2,top=true": { "model": "greenery:plant/upland/tall/foxtail/age_2" },
+    "age=3,top=true": { "model": "greenery:plant/upland/tall/foxtail/age_3" },
+
+    "age=0,top=false": { "model": "greenery:plant/upland/tall/foxtail/bottom" },
+    "age=1,top=false": { "model": "greenery:plant/upland/tall/foxtail/bottom" },
+    "age=2,top=false": { "model": "greenery:plant/upland/tall/foxtail/bottom" },
+    "age=3,top=false": { "model": "greenery:plant/upland/tall/foxtail/bottom" }
+  }
+}

@@ -141,13 +141,13 @@ object EventBonemeal {
 
             if (Loader.isModLoaded("simpledifficulty")) {
                 if ((block == blockPurifiedWater || block == Blocks.WATER)
-                    && ModBlocks.blockRivergrass.canGenerateBlockAt(world, blockPos)
+                    && ModBlocks.blockWatermilfoil.canGenerateBlockAt(world, blockPos)
                 ) {
-                    world.setBlockState(blockPos, ModBlocks.blockRivergrass.defaultState)
+                    world.setBlockState(blockPos, ModBlocks.blockWatermilfoil.defaultState)
                 }
             } else {
-                if (block == Blocks.WATER && ModBlocks.blockRivergrass.canGenerateBlockAt(world, blockPos)) {
-                    world.setBlockState(blockPos, ModBlocks.blockRivergrass.defaultState)
+                if (block == Blocks.WATER && ModBlocks.blockWatermilfoil.canGenerateBlockAt(world, blockPos)) {
+                    world.setBlockState(blockPos, ModBlocks.blockWatermilfoil.defaultState)
                 }
             }
         }
@@ -161,14 +161,14 @@ object EventBonemeal {
                 rand.nextInt(4) - rand.nextInt(4)
             )
 
-            if (ModBlocks.blockTallGrass.canPlaceBlockAt(world, blockPos)) {
+            if (ModBlocks.blockFoxtail.canPlaceBlockAt(world, blockPos)) {
                 world.notifyBlockUpdate(
                     blockPos,
                     world.getBlockState(blockPos),
-                    ModBlocks.blockTallGrass.defaultState,
+                    ModBlocks.blockFoxtail.defaultState,
                     Constants.BlockFlags.DEFAULT_AND_RERENDER
                 )
-                world.setBlockState(blockPos, ModBlocks.blockTallGrass.defaultState)
+                world.setBlockState(blockPos, ModBlocks.blockFoxtail.defaultState)
             }
         }
     }

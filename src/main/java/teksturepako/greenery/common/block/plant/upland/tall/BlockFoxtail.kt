@@ -10,26 +10,24 @@ import net.minecraft.world.IBlockAccess
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 
-class BlockTallFern : AbstractTallPlant(NAME) {
+class BlockFoxtail : AbstractTallPlant(NAME) {
 
     companion object {
-        const val NAME = "tallfern"
+        const val NAME = "foxtail"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
         val TOP: PropertyBool = PropertyBool.create("top")
-        val SINGLE: PropertyBool = PropertyBool.create("single")
     }
 
     init {
         defaultState = blockState.baseState
             .withProperty(AGE, 0)
             .withProperty(TOP, true)
-            .withProperty(SINGLE, false)
     }
 
     override val drops: MutableList<String>
-        get() = Config.generation.fern.drops.toMutableList()
+        get() = Config.generation.grass.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger {
         return AGE
@@ -40,7 +38,7 @@ class BlockTallFern : AbstractTallPlant(NAME) {
     }
 
     override fun createBlockState(): BlockStateContainer {
-        return BlockStateContainer(this, AGE, TOP, SINGLE)
+        return BlockStateContainer(this, AGE, TOP)
     }
 
     @Deprecated("Deprecated in Java")
@@ -49,14 +47,14 @@ class BlockTallFern : AbstractTallPlant(NAME) {
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
 
         return when {
-            hasTheSameBlockBelow -> state.withProperty(TOP, true).withProperty(SINGLE, false)
-            hasTheSameBlockAbove -> state.withProperty(TOP, false).withProperty(SINGLE, false)
-            else -> state.withProperty(TOP, true).withProperty(SINGLE, true)
+            hasTheSameBlockBelow -> state.withProperty(TOP, true)
+            hasTheSameBlockAbove -> state.withProperty(TOP, false)
+            else -> state.withProperty(TOP, true)
         }
     }
 
-    @Suppress("DEPRECATION")
     @Deprecated("Deprecated in Java")
+    @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
         return when (val actualState = getActualState(state, source, pos)) {
             actualState.withProperty(TOP, true) ->

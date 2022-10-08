@@ -207,8 +207,8 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
                 if (rand.nextInt(8) == 0) {
                     worldIn.getBiome(blockPos).plantFlower(worldIn, rand, blockPos)
                 } else {
-                    val tallGrass = ModBlocks.blockTallGrass.defaultState
-                    if (ModBlocks.blockTallGrass.canBlockStay(worldIn, blockPos, tallGrass)) {
+                    val tallGrass = ModBlocks.blockFoxtail.defaultState
+                    if (ModBlocks.blockFoxtail.canBlockStay(worldIn, blockPos, tallGrass)) {
                         worldIn.setBlockState(blockPos, tallGrass, 3)
                     }
                 }

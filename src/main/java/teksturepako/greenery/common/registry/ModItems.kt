@@ -12,8 +12,8 @@ import teksturepako.greenery.common.item.ItemDriedKelp
 import teksturepako.greenery.common.item.ItemKelpSoup
 import teksturepako.greenery.common.registry.ModBlocks.blockGrass
 import teksturepako.greenery.common.registry.ModBlocks.blockRyegrass
-import teksturepako.greenery.common.registry.ModBlocks.blockTallFern
-import teksturepako.greenery.common.registry.ModBlocks.blockTallGrass
+import teksturepako.greenery.common.registry.ModBlocks.blockEagleFern
+import teksturepako.greenery.common.registry.ModBlocks.blockFoxtail
 
 object ModItems {
 
@@ -40,8 +40,8 @@ object ModItems {
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandlers(event: ColorHandlerEvent.Item) {
         itemBlockArrowhead.registerItemColorHandler(event)
-        blockTallGrass.registerItemColorHandler(event)
-        blockTallFern.registerItemColorHandler(event)
+        blockFoxtail.registerItemColorHandler(event)
+        blockEagleFern.registerItemColorHandler(event)
         blockRyegrass.registerItemColorHandler(event)
         blockGrass.registerItemColorHandler(event)
     }
