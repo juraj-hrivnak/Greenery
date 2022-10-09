@@ -78,8 +78,7 @@ abstract class GreeneryPlantBase : BlockCrops() {
         if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
             val age = getAge(state)
             if (age <= this.maxAge) {
-                val f = getGrowthChance(this, worldIn, pos)
-                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / f).toInt() + 1) == 0)) {
+                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0)) {
                     grow(worldIn, pos, state)
                     ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
                 }
