@@ -15,97 +15,115 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 import java.util.*
 
-class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable {
-    enum class SeagrassVariant : IStringSerializable {
+class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
+{
+    enum class SeagrassVariant : IStringSerializable
+    {
         SINGLE, BOTTOM, TOP;
 
-        override fun getName(): String {
+        override fun getName(): String
+        {
             return name.toLowerCase()
         }
 
-        override fun toString(): String {
+        override fun toString(): String
+        {
             return getName()
         }
     }
 
-    companion object {
+    companion object
+    {
         const val NAME = "seagrass"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val VARIANT: PropertyEnum<SeagrassVariant> = PropertyEnum.create("variant", SeagrassVariant::class.java)
     }
 
-    init {
-        defaultState = blockState.baseState
-            .withProperty(VARIANT, SeagrassVariant.SINGLE)
+    init
+    {
+        defaultState = blockState.baseState.withProperty(VARIANT, SeagrassVariant.SINGLE)
     }
 
     override val compatibleFluids: MutableList<String>
         get() = Config.generation.seagrass.compatibleFluids.toMutableList()
 
     @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
-    override fun getStateFromMeta(meta: Int): IBlockState {
+    override fun getStateFromMeta(meta: Int): IBlockState
+    {
         return defaultState
     }
 
-    override fun getMetaFromState(state: IBlockState): Int {
+    override fun getMetaFromState(state: IBlockState): Int
+    {
         return 0
     }
 
-    override fun createBlockState(): BlockStateContainer {
+    override fun createBlockState(): BlockStateContainer
+    {
         return BlockStateContainer(this, VARIANT)
     }
 
     @Deprecated("Deprecated in Java")
-    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
+    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
+    {
         val hasSeagrassBelow = worldIn.getBlockState(pos.down()).block == this
         val hasSeagrassAbove = worldIn.getBlockState(pos.up()).block == this
 
         return state.withProperty(
-            VARIANT, when {
-                hasSeagrassBelow -> SeagrassVariant.TOP
-                hasSeagrassAbove -> SeagrassVariant.BOTTOM
-                else -> SeagrassVariant.SINGLE
-            }
+                VARIANT, when
+        {
+            hasSeagrassBelow -> SeagrassVariant.TOP
+            hasSeagrassAbove -> SeagrassVariant.BOTTOM
+            else             -> SeagrassVariant.SINGLE
+        }
         )
     }
 
     @SideOnly(Side.CLIENT)
-    override fun getOffsetType(): EnumOffsetType {
+    override fun getOffsetType(): EnumOffsetType
+    {
         return EnumOffsetType.XZ
     }
 
-    override fun canBlockStay(worldIn: World, pos: BlockPos): Boolean {
+    override fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
+    {
         //Must have a SINGLE weed or valid soil below
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
-        return if (down.block == this) {         // if block down is weed
+        return if (down.block == this)
+        {         // if block down is weed
             down2.block != this                  // if 2 block down is weed return false
-        } else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
+        }
+        else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
     }
 
     // IGrowable implementation
-    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
+    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
+    {
         val actualState = state.getActualState(worldIn, pos)
-        return actualState.getValue(VARIANT) == SeagrassVariant.SINGLE
-                && canGenerateBlockAt(worldIn, pos.up())
+        return actualState.getValue(VARIANT) == SeagrassVariant.SINGLE && canGenerateBlockAt(worldIn, pos.up())
     }
 
-    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
+    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
+    {
         worldIn.setBlockState(pos.up(), state)
     }
 
     @Deprecated("")
     @Suppress("DEPRECATION")
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
-        return when (val actualState = getActualState(state, source, pos)) {
-            actualState.withProperty(VARIANT, SeagrassVariant.TOP) ->
-                TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, SeagrassVariant.SINGLE) ->
-                TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) ->
-                BOTTOM_AABB.offset(state.getOffset(source, pos))
-            else -> TOP_AABB.offset(state.getOffset(source, pos))
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
+    {
+        return when (val actualState = getActualState(state, source, pos))
+        {
+            actualState.withProperty(VARIANT, SeagrassVariant.TOP)    -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, SeagrassVariant.SINGLE) -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) -> BOTTOM_AABB.offset(
+                    state.getOffset(
+                            source, pos
+                    )
+            )
+            else                                                      -> TOP_AABB.offset(state.getOffset(source, pos))
         }
     }
 }

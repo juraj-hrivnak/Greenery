@@ -18,65 +18,62 @@ import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractSinglePlant(name: String) : GreeneryPlantBase() {
+abstract class AbstractSinglePlant(name: String) : GreeneryPlantBase()
+{
 
-    companion object {
-        val ALLOWED_SOILS = setOf<Material>(
-            Material.GRASS
-        )
+    companion object
+    {
+        val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
         val AABB = arrayOf(
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
+                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
+                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
+                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
+                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
         )
     }
 
     abstract val drops: MutableList<String>
 
-    init {
+    init
+    {
         setRegistryName("plant/upland/single/$name")
         translationKey = name
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab
     }
 
-    override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean {
+    override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+    {
         val down = worldIn.getBlockState(pos.down())
         return down.material in ALLOWED_SOILS
     }
 
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
+    @Deprecated("Deprecated in Java", ReplaceWith("false"))
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
+    {
         return AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
     }
 
     // Drops
-    override fun getDrops(
-        drops: NonNullList<ItemStack>,
-        world: IBlockAccess,
-        pos: BlockPos,
-        state: IBlockState,
-        fortune: Int
-    ) {
+    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
+    {
         DropsUtil.getDrops(this.drops, drops, world, pos, state, this.seed, fortune)
     }
 
-    override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int {
+    override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int
+    {
         return 1 + random.nextInt(fortune * 2 + 1)
     }
 
-    override fun harvestBlock(
-        worldIn: World,
-        player: EntityPlayer,
-        pos: BlockPos,
-        state: IBlockState,
-        te: TileEntity?,
-        stack: ItemStack
-    ) {
-        if (!worldIn.isRemote && stack.item === Items.SHEARS) {
+    override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
+    {
+        if (!worldIn.isRemote && stack.item === Items.SHEARS)
+        {
             StatList.getBlockStats(this)?.let { player.addStat(it) }
             spawnAsEntity(worldIn, pos, ItemStack(this, 1))
-        } else {
+        }
+        else
+        {
             super.harvestBlock(worldIn, player, pos, state, te, stack)
         }
     }

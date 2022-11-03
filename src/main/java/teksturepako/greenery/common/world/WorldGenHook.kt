@@ -9,17 +9,11 @@ import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.WorldGenUtil.removeBOPGenerators
 import java.util.*
 
-class WorldGenHook : IWorldGenerator {
-
-    override fun generate(
-        rand: Random,
-        chunkX: Int,
-        chunkZ: Int,
-        world: World,
-        chunkGen: IChunkGenerator,
-        chunkProv: IChunkProvider
-    ) {
-        val generators: MutableList<IGreeneryWorldGenerator> = Greenery.loadGenerators()
+class WorldGenHook : IWorldGenerator
+{
+    override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGen: IChunkGenerator, chunkProv: IChunkProvider)
+    {
+        val generators: MutableList<IPlantGenerator> = Greenery.loadGenerators()
         for (generator in generators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
         if (Config.generation.removeGrass) removeBOPGenerators(world)

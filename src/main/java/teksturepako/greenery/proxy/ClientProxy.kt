@@ -27,11 +27,14 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 
 @Mod.EventBusSubscriber(Side.CLIENT)
-class ClientProxy : IProxy {
-    companion object {
+class ClientProxy : IProxy
+{
+    companion object
+    {
         @SubscribeEvent
         @JvmStatic
-        fun registerModels(event: ModelRegistryEvent) {
+        fun registerModels(event: ModelRegistryEvent)
+        {
             Greenery.logger.info("Registering models")
             ModBlocks.registerModels()
             ModItems.registerModels()
@@ -39,52 +42,60 @@ class ClientProxy : IProxy {
 
         @SubscribeEvent
         @JvmStatic
-        fun registerBlockColorHandlers(event: ColorHandlerEvent.Block) {
+        fun registerBlockColorHandlers(event: ColorHandlerEvent.Block)
+        {
             ModBlocks.registerBlockColorHandlers(event)
         }
 
         @SubscribeEvent
         @JvmStatic
-        fun registerItemColorHandlers(event: ColorHandlerEvent.Item) {
+        fun registerItemColorHandlers(event: ColorHandlerEvent.Item)
+        {
             ModItems.registerItemColorHandlers(event)
         }
     }
 
-    override fun preInit(event: FMLPreInitializationEvent) {
+    override fun preInit(event: FMLPreInitializationEvent)
+    {
 
     }
 
-    override fun init(event: FMLInitializationEvent) {
+    override fun init(event: FMLInitializationEvent)
+    {
 
     }
 
-    override fun postInit(event: FMLPostInitializationEvent) {
+    override fun postInit(event: FMLPostInitializationEvent)
+    {
 
     }
 
-    override fun registerItemRenderer(item: Item, meta: Int, id: String) {
+    override fun registerItemRenderer(item: Item, meta: Int, id: String)
+    {
         ModelLoader.setCustomModelResourceLocation(item, meta, ModelResourceLocation(id))
     }
 
-    override fun registerItemBlockRenderer(itemBlock: Item, meta: Int, id: String) {
-        ModelLoader.setCustomModelResourceLocation(
-            itemBlock, meta, ModelResourceLocation(id, "inventory")
-        )
+    override fun registerItemBlockRenderer(itemBlock: Item, meta: Int, id: String)
+    {
+        ModelLoader.setCustomModelResourceLocation(itemBlock, meta, ModelResourceLocation(id, "inventory"))
     }
 
-    override fun registerGrassColourHandler(block: Block, event: ColorHandlerEvent.Block) {
+    override fun registerGrassColourHandler(block: Block, event: ColorHandlerEvent.Block)
+    {
         val blockColors: BlockColors = event.blockColors
-        val grassColourHandler = IBlockColor(
-            fun(_: IBlockState?, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int): Int {
-                return if (blockAccess != null && pos != null) {
-                    BiomeColorHelper.getGrassColorAtPos(blockAccess, pos)
-                } else return ColorizerGrass.getGrassColor(0.5, 1.0)
+        val grassColourHandler = IBlockColor(fun(_: IBlockState?, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int): Int
+        {
+            return if (blockAccess != null && pos != null)
+            {
+                BiomeColorHelper.getGrassColorAtPos(blockAccess, pos)
             }
-        )
+            else return ColorizerGrass.getGrassColor(0.5, 1.0)
+        })
         blockColors.registerBlockColorHandler(grassColourHandler, block)
     }
 
-    override fun registerItemColourHandler(item: Item, event: ColorHandlerEvent.Item) {
+    override fun registerItemColourHandler(item: Item, event: ColorHandlerEvent.Item)
+    {
         val blockColors = event.blockColors
         val itemColors = event.itemColors
         val itemBlockColourHandler = IItemColor { stack: ItemStack, tintIndex: Int ->

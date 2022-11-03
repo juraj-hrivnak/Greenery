@@ -8,12 +8,15 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.Greenery
 
 @Mod.EventBusSubscriber
-object EventConfigChanged {
+object EventConfigChanged
+{
 
     @SubscribeEvent
     @JvmStatic
-    fun onConfigChanged(event: ConfigChangedEvent) {
-        if (event.modID == Greenery.MODID) {
+    fun onConfigChanged(event: ConfigChangedEvent)
+    {
+        if (event.modID == Greenery.MODID)
+        {
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
 
             Greenery.generators.clear()

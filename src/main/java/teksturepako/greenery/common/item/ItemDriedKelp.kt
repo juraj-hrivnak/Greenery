@@ -6,24 +6,29 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-class ItemDriedKelp : ItemFood(1, 0.6f, false) {
-    companion object {
+class ItemDriedKelp : ItemFood(1, 0.6f, false)
+{
+    companion object
+    {
         const val NAME = "dried_kelp"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
     }
 
-    init {
+    init
+    {
         setRegistryName(NAME)
         translationKey = NAME
         creativeTab = Greenery.creativeTab
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
+    fun registerItemModel()
+    {
         Greenery.proxy.registerItemRenderer(this, 0, registryName.toString())
     }
 
-    override fun getMaxItemUseDuration(stack: ItemStack): Int {
+    override fun getMaxItemUseDuration(stack: ItemStack): Int
+    {
         return 16
     }
 }

@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.plant.emergent
+package teksturepako.greenery.common.block.plant.floating
 
 import net.minecraft.advancements.CriteriaTriggers
 import net.minecraft.block.Block
@@ -20,8 +20,9 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
+abstract class AbstractFloatingItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
 {
+
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(
@@ -31,7 +32,7 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
 
     init
     {
-        setRegistryName("plant/emergent/$name")
+        setRegistryName("plant/floating/$name")
         translationKey = name
         creativeTab = Greenery.creativeTab
     }

@@ -10,9 +10,11 @@ import net.minecraft.world.IBlockAccess
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 
-class BlockBarley : AbstractTallPlant(NAME) {
+class BlockBarley : AbstractTallPlant(NAME)
+{
 
-    companion object {
+    companion object
+    {
         const val NAME = "barley"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
@@ -21,49 +23,64 @@ class BlockBarley : AbstractTallPlant(NAME) {
         val SINGLE: PropertyBool = PropertyBool.create("single")
     }
 
-    init {
-        defaultState = blockState.baseState
-            .withProperty(AGE, 0)
-            .withProperty(TOP, true)
-            .withProperty(SINGLE, false)
+    init
+    {
+        defaultState = blockState.baseState.withProperty(AGE, 0).withProperty(TOP, true).withProperty(SINGLE, false)
     }
 
     override val drops: MutableList<String>
         get() = Config.generation.barley.drops.toMutableList()
 
-    override fun getAgeProperty(): PropertyInteger {
+    override fun getAgeProperty(): PropertyInteger
+    {
         return AGE
     }
 
-    override fun getMaxAge(): Int {
+    override fun getMaxAge(): Int
+    {
         return 3
     }
 
-    override fun createBlockState(): BlockStateContainer {
+    override fun createBlockState(): BlockStateContainer
+    {
         return BlockStateContainer(this, AGE, TOP, SINGLE)
     }
 
     @Deprecated("")
-    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
+    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
+    {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
         val hasTheSameBlockAbove = worldIn.getBlockState(pos.up()).block == this
 
-        return when {
+        return when
+        {
             hasTheSameBlockBelow -> state.withProperty(TOP, true).withProperty(SINGLE, false)
             hasTheSameBlockAbove -> state.withProperty(TOP, false).withProperty(SINGLE, false)
-            else -> state.withProperty(TOP, true).withProperty(SINGLE, true)
+            else                 -> state.withProperty(TOP, true).withProperty(SINGLE, true)
         }
     }
 
     @Deprecated("")
     @Suppress("DEPRECATION")
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB {
-        return when (val actualState = getActualState(state, source, pos)) {
-            actualState.withProperty(TOP, true) ->
-                GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
-            actualState.withProperty(TOP, false) ->
-                GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
-            else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
+    {
+        return when (val actualState = getActualState(state, source, pos))
+        {
+            actualState.withProperty(
+                    TOP, true
+            )    -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+                    state.getOffset(
+                            source, pos
+                    )
+            )
+            actualState.withProperty(
+                    TOP, false
+            )    -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+                    state.getOffset(source, pos)
+            )
+            else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+                    state.getOffset(source, pos)
+            )
         }
     }
 }

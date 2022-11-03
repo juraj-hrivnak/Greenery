@@ -27,7 +27,7 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
-import teksturepako.greenery.common.world.IGreeneryWorldGenerator
+import teksturepako.greenery.common.world.IPlantGenerator
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.crop.WorldGenArrowhead
 import teksturepako.greenery.common.world.crop.WorldGenCattail
@@ -39,21 +39,21 @@ import teksturepako.greenery.proxy.IProxy
 
 
 @Mod(
-    modid = Greenery.MODID,
-    name = Greenery.NAME,
-    version = Greenery.VERSION,
-    dependencies = Greenery.DEPENDENCIES,
-    acceptedMinecraftVersions = Greenery.ACCEPTED_MINECRAFT_VERSIONS,
-    modLanguageAdapter = Greenery.ADAPTER
+        modid = Greenery.MODID,
+        name = Greenery.NAME,
+        version = Greenery.VERSION,
+        dependencies = Greenery.DEPENDENCIES,
+        acceptedMinecraftVersions = Greenery.ACCEPTED_MINECRAFT_VERSIONS,
+        modLanguageAdapter = Greenery.ADAPTER
 )
 
 @Mod.EventBusSubscriber
-object Greenery {
+object Greenery
+{
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "2.2"
-    const val DEPENDENCIES =
-        "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
@@ -61,21 +61,23 @@ object Greenery {
     const val CLIENT_PROXY = "teksturepako.greenery.proxy.ClientProxy"
 
     val creativeTab = ModCreativeTab()
-    val generators: MutableList<IGreeneryWorldGenerator> = ArrayList()
+    val generators: MutableList<IPlantGenerator> = ArrayList()
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
     lateinit var logger: Logger
 
     @Mod.EventHandler
-    fun preInit(event: FMLPreInitializationEvent) {
+    fun preInit(event: FMLPreInitializationEvent)
+    {
         logger = event.modLog
         proxy.preInit(event)
     }
 
     @Suppress("DEPRECATION")
     @Mod.EventHandler
-    fun init(event: FMLInitializationEvent) {
+    fun init(event: FMLInitializationEvent)
+    {
         proxy.init(event)
         GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
         GameRegistry.registerFuelHandler(ModFuelHandler())
@@ -86,29 +88,34 @@ object Greenery {
     }
 
     @Mod.EventHandler
-    fun postInit(event: FMLPostInitializationEvent) {
+    fun postInit(event: FMLPostInitializationEvent)
+    {
         proxy.postInit(event)
         ModItems.initOreDictionary()
     }
 
     @Mod.EventHandler
-    fun serverLoad(event: FMLServerStartingEvent) {
+    fun serverLoad(event: FMLServerStartingEvent)
+    {
         event.registerServerCommand(GreeneryCommand())
     }
 
     @SubscribeEvent
     @JvmStatic
-    fun onRegisterBlocks(event: RegistryEvent.Register<Block>) {
+    fun onRegisterBlocks(event: RegistryEvent.Register<Block>)
+    {
         logger.info("Registering blocks")
         ModBlocks.register(event.registry)
-        if (Loader.isModLoaded("dynamictrees")) {
+        if (Loader.isModLoaded("dynamictrees"))
+        {
             DirtHelper.registerSoil(ModBlocks.blockGrass, DirtHelper.DIRTLIKE)
         }
     }
 
     @SubscribeEvent
     @JvmStatic
-    fun onRegisterItems(event: RegistryEvent.Register<Item>) {
+    fun onRegisterItems(event: RegistryEvent.Register<Item>)
+    {
         logger.info("Registering items")
         ModBlocks.registerItemBlocks(event.registry)
         ModItems.register(event.registry)
@@ -116,14 +123,16 @@ object Greenery {
 
     @SubscribeEvent
     @JvmStatic
-    fun onRegisterSoundEvents(event: RegistryEvent.Register<SoundEvent>) {
+    fun onRegisterSoundEvents(event: RegistryEvent.Register<SoundEvent>)
+    {
         logger.info("Registering sounds")
         ModSoundEvents.register(event.registry)
     }
 
-    fun loadGenerators(): MutableList<IGreeneryWorldGenerator> {
-        if (generators.isEmpty()) {
-
+    fun loadGenerators(): MutableList<IPlantGenerator>
+    {
+        if (generators.isEmpty())
+        {
             generators.add(WorldGenCattail())
             generators.add(WorldGenArrowhead())
             generators.add(WorldGenTallGrass())
@@ -136,7 +145,8 @@ object Greenery {
             generators.add(WorldGenSeagrass())
 
             logger.info("Loading world generators:")
-            for (generator in generators) {
+            for (generator in generators)
+            {
                 logger.info("> \"${generator.block.registryName?.path}\"")
                 parseValidBiomeTypes(generator.validBiomeTypes)
             }

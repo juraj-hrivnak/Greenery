@@ -5,12 +5,12 @@ import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
-import teksturepako.greenery.common.world.GreeneryWorldGenerator
+import teksturepako.greenery.common.world.AbstractPlantGenerator
 import java.util.*
 
 
-class WorldGenKelp : GreeneryWorldGenerator() {
-
+class WorldGenKelp : AbstractPlantGenerator()
+{
     override val block = ModBlocks.blockKelp
     private val config = Config.generation.kelp
 
@@ -20,33 +20,40 @@ class WorldGenKelp : GreeneryWorldGenerator() {
     override val validBiomeTypes = config.validBiomeTypes.toMutableList()
     override val inverted = config.inverted
 
-    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos) {
-        for (i in 0..plantAttempts) {
+    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
+    {
+        for (i in 0..plantAttempts)
+        {
             val pos = targetPos.add(
-                rand.nextInt(8) - rand.nextInt(8),
-                rand.nextInt(4) - rand.nextInt(4),
-                rand.nextInt(8) - rand.nextInt(8)
+                    rand.nextInt(8) - rand.nextInt(8),
+                    rand.nextInt(4) - rand.nextInt(4),
+                    rand.nextInt(8) - rand.nextInt(8)
             )
 
             if (!world.isBlockLoaded(pos)) continue
 
-            if (block.canGenerateBlockAt(world, pos)) {
+            if (block.canGenerateBlockAt(world, pos))
+            {
                 placePlant(world, pos, rand)
             }
         }
     }
 
-    override fun placePlant(world: World, pos: BlockPos, rand: Random) {
+    override fun placePlant(world: World, pos: BlockPos, rand: Random)
+    {
         val startingAge = rand.nextInt(block.getMaxAge() / 2)
         val height = block.getMaxAge() - startingAge
 
-        for (i in 0..height) {
+        for (i in 0..height)
+        {
             val kelpPos = pos.up(i)
             val state = block.defaultState.withProperty(block.getAgeProperty(), i + startingAge)
 
-            if (block.canGenerateBlockAt(world, kelpPos)) {
+            if (block.canGenerateBlockAt(world, kelpPos))
+            {
                 world.setBlockState(kelpPos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
-            } else break
+            }
+            else break
         }
     }
 }

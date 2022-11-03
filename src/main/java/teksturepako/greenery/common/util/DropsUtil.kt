@@ -13,51 +13,62 @@ import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 
 @Suppress("DEPRECATION")
-object DropsUtil {
+object DropsUtil
+{
 
-    fun getDrops(
-        dropsList: MutableList<String>,
-        drops: NonNullList<ItemStack>,
-        world: IBlockAccess,
-        pos: BlockPos,
-        state: IBlockState,
-        defaultItem: Item,
-        fortune: Int
-    ) {
+    fun getDrops(dropsList: MutableList<String>, drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int)
+    {
         val actualState = state.getActualState(world, pos)
         val random = (world as World).rand
 
-        for (stringInput in dropsList) {
+        for (stringInput in dropsList)
+        {
             val filteredInput = stringInput.filter { !it.isWhitespace() }.trim()
 
             var raw: List<String> = emptyList()
-            if (filteredInput.contains("|")) {
+            if (filteredInput.contains("|"))
+            {
                 raw = filteredInput.split("|")
             }
 
-            val blockStateIsValid: Boolean = if (raw.getOrNull(2) != null) {
+            val blockStateIsValid: Boolean = if (raw.getOrNull(2) != null)
+            {
                 val blockState = CommandBase.convertArgToBlockState(state.block, raw[2])
                 actualState == blockState
-            } else true
+            }
+            else true
 
             var itemStackRaw: List<String> = emptyList()
-            if (raw.getOrNull(0) != null) {
+            if (raw.getOrNull(0) != null)
+            {
                 itemStackRaw = raw[0].split(":")
             }
 
-            val itemStack: ItemStack = if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) != null) {
+            val itemStack: ItemStack = if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) != null)
+            {
                 ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation("${itemStackRaw[0]}:${itemStackRaw[1]}"))!!)
-            } else {
-                if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) == null) {
-                    if (itemStackRaw[0].contains("\$defaultSeeds")) {
+            }
+            else
+            {
+                if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) == null)
+                {
+                    if (itemStackRaw[0].contains("\$defaultSeeds"))
+                    {
                         val seed = ForgeHooks.getGrassSeed(random, fortune)
-                        if (!seed.isEmpty) {
+                        if (!seed.isEmpty)
+                        {
                             seed
-                        } else ItemStack.EMPTY
-                    } else if (filteredInput.contains("\$defaultItem")) {
+                        }
+                        else ItemStack.EMPTY
+                    }
+                    else if (filteredInput.contains("\$defaultItem"))
+                    {
                         ItemStack(defaultItem)
-                    } else ItemStack.EMPTY
-                } else {
+                    }
+                    else ItemStack.EMPTY
+                }
+                else
+                {
                     ItemStack.EMPTY
                 }
             }
@@ -67,7 +78,8 @@ object DropsUtil {
             val chance: Double = if (raw.getOrNull(1) != null) raw[1].toDouble() else 0.0
 
             // Adding parsed loot to the list
-            if (random.nextDouble() < chance && blockStateIsValid) {
+            if (random.nextDouble() < chance && blockStateIsValid)
+            {
                 repeat(count + fortune) {
                     drops.add(itemStack)
                 }

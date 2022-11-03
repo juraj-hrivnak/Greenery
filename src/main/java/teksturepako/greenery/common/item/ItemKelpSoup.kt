@@ -9,24 +9,29 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-class ItemKelpSoup : ItemFood(6, 0.6f, false) {
-    companion object {
+class ItemKelpSoup : ItemFood(6, 0.6f, false)
+{
+    companion object
+    {
         const val NAME = "kelp_soup"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
     }
 
-    init {
+    init
+    {
         setRegistryName(NAME)
         translationKey = NAME
         creativeTab = Greenery.creativeTab
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
+    fun registerItemModel()
+    {
         Greenery.proxy.registerItemRenderer(this, 0, registryName.toString())
     }
 
-    override fun onItemUseFinish(stack: ItemStack, worldIn: World, entityLiving: EntityLivingBase): ItemStack {
+    override fun onItemUseFinish(stack: ItemStack, worldIn: World, entityLiving: EntityLivingBase): ItemStack
+    {
         super.onItemUseFinish(stack, worldIn, entityLiving)
         return ItemStack(Items.BOWL)
     }

@@ -8,27 +8,23 @@ import teksturepako.greenery.common.block.plant.upland.tall.AbstractTallPlant
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
-import teksturepako.greenery.common.world.GreeneryWorldGenerator
+import teksturepako.greenery.common.world.AbstractPlantGenerator
 import java.util.*
 
-abstract class GrassGenerator : GreeneryWorldGenerator() {
-
+abstract class GrassGenerator : AbstractPlantGenerator()
+{
     abstract override val block: AbstractTallPlant
 
-    override fun generate(
-        rand: Random,
-        chunkX: Int,
-        chunkZ: Int,
-        world: World,
-        chunkGenerator: IChunkGenerator,
-        chunkProvider: IChunkProvider
-    ) {
+    override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkGenerator, chunkProvider: IChunkProvider)
+    {
         val random = world.rand
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
-        if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted)) {
-            for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
+        if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted))
+        {
+            for (i in 0..patchAttempts * Config.generation.generationMultiplier)
+            {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
 
@@ -41,18 +37,22 @@ abstract class GrassGenerator : GreeneryWorldGenerator() {
         }
     }
 
-    override fun placePlant(world: World, pos: BlockPos, rand: Random) {
+    override fun placePlant(world: World, pos: BlockPos, rand: Random)
+    {
         val startingAge = rand.nextInt(block.maxAge)
         val state = block.defaultState.withProperty(block.ageProperty, startingAge)
         val maxState = block.defaultState.withProperty(block.ageProperty, block.maxAge)
 
-        if (block.canBlockStay(world, pos, state)) {
+        if (block.canBlockStay(world, pos, state))
+        {
             world.setBlockState(pos, state, 2)
 
-            if (rand.nextDouble() < 0.2) {
+            if (rand.nextDouble() < 0.2)
+            {
                 world.setBlockState(pos, maxState, 2)
 
-                if (world.isAirBlock(pos.up()) && block.canBlockStay(world, pos.up(), state)) {
+                if (world.isAirBlock(pos.up()) && block.canBlockStay(world, pos.up(), state))
+                {
                     world.setBlockState(pos.up(), state, 2)
                 }
             }

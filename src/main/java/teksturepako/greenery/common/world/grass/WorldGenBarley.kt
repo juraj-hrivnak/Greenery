@@ -11,8 +11,8 @@ import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
 import java.util.*
 
-class WorldGenBarley : GrassGenerator() {
-
+class WorldGenBarley : GrassGenerator()
+{
     override val block = ModBlocks.blockBarley
     private val config = Config.generation.barley
 
@@ -22,22 +22,18 @@ class WorldGenBarley : GrassGenerator() {
     override val validBiomeTypes = config.validBiomeTypes.toMutableList()
     override val inverted = config.inverted
 
-    override fun generate(
-        rand: Random,
-        chunkX: Int,
-        chunkZ: Int,
-        world: World,
-        chunkGenerator: IChunkGenerator,
-        chunkProvider: IChunkProvider
-    ) {
+    override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkGenerator, chunkProvider: IChunkProvider)
+    {
         val random = world.rand
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
-        if ((rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted))
-            && biome != REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture"))
-        ) {
-            for (i in 0..patchAttempts * Config.generation.generationMultiplier) {
+        if ((rand.nextDouble() < generationChance && areBiomeTypesValid(
+                    biome, validBiomeTypes, inverted
+            )) && biome != REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture")))
+        {
+            for (i in 0..patchAttempts * Config.generation.generationMultiplier)
+            {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
 
@@ -47,8 +43,11 @@ class WorldGenBarley : GrassGenerator() {
                 val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
                 generatePlants(world, random, pos)
             }
-        } else if (biome == REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture"))) {
-            for (i in 0..64 * 20) {
+        }
+        else if (biome == REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture")))
+        {
+            for (i in 0..64 * 20)
+            {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
 

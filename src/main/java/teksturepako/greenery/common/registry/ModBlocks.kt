@@ -15,7 +15,8 @@ import teksturepako.greenery.common.block.plant.submerged.BlockSeagrass
 import teksturepako.greenery.common.block.plant.submerged.BlockWatermilfoil
 import teksturepako.greenery.common.block.plant.upland.tall.*
 
-object ModBlocks {
+object ModBlocks
+{
 
     val blockSeagrass = BlockSeagrass()
     val blockWatermilfoil = BlockWatermilfoil()
@@ -30,7 +31,8 @@ object ModBlocks {
     val blockNettle = BlockNettle()
     val blockBarley = BlockBarley()
 
-    fun register(registry: IForgeRegistry<Block>) {
+    fun register(registry: IForgeRegistry<Block>)
+    {
         registry.register(blockSeagrass)
         registry.register(blockWatermilfoil)
         registry.register(blockCattail)
@@ -45,7 +47,8 @@ object ModBlocks {
         registry.register(blockDriedKelp)
     }
 
-    fun registerItemBlocks(registry: IForgeRegistry<Item>) {
+    fun registerItemBlocks(registry: IForgeRegistry<Item>)
+    {
         registry.register(blockSeagrass.createItemBlock())
         registry.register(blockWatermilfoil.createItemBlock())
         registry.register(blockGrass.createItemBlock())
@@ -59,7 +62,8 @@ object ModBlocks {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerModels() {
+    fun registerModels()
+    {
         blockSeagrass.registerItemModel()
         blockWatermilfoil.registerItemModel()
         blockGrass.registerItemModel()
@@ -73,7 +77,8 @@ object ModBlocks {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerBlockColorHandlers(event: ColorHandlerEvent.Block) {
+    fun registerBlockColorHandlers(event: ColorHandlerEvent.Block)
+    {
         blockArrowhead.registerBlockColorHandler(event)
         blockFoxtail.registerBlockColorHandler(event)
         blockEagleFern.registerBlockColorHandler(event)

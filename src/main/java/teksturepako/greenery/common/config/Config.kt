@@ -3,12 +3,14 @@ package teksturepako.greenery.common.config
 import net.minecraftforge.common.config.Config
 import net.minecraftforge.common.config.Config.*
 
-object Config {
+object Config
+{
 
     val generation: Generation
         get() = _Internal.generation
 
-    class Generation {
+    class Generation
+    {
 
         @Name("Arrowhead")
         @Comment("Options for Arrowhead")
@@ -72,7 +74,8 @@ object Config {
         @JvmField
         var removeGrass = true
 
-        class Arrowhead {
+        class Arrowhead
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -96,8 +99,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("RIVER", "WET", "SWAMP", "LUSH")
@@ -108,7 +111,8 @@ object Config {
             var inverted = false
         }
 
-        class Cattail {
+        class Cattail
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -132,8 +136,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("RIVER", "WET", "SWAMP", "LUSH")
@@ -144,7 +148,8 @@ object Config {
             var inverted = false
         }
 
-        class Grass {
+        class Grass
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -168,8 +173,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("SAVANNA", "PLAINS", "BEACH", "DRY")
@@ -181,14 +186,15 @@ object Config {
 
             @Name("Drops")
             @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+                    "A list of items to drop when broken. Format:",
+                    "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
             var drops = arrayOf("\$defaultSeeds | 0.2")
         }
 
-        class Ryegrass {
+        class Ryegrass
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -212,8 +218,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("SAVANNA", "PLAINS", "BEACH", "DRY")
@@ -225,14 +231,15 @@ object Config {
 
             @Name("Drops")
             @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+                    "A list of items to drop when broken. Format:",
+                    "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
             var drops = arrayOf("\$defaultSeeds | 0.2")
         }
 
-        class Nettle {
+        class Nettle
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -256,8 +263,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = emptyArray<String>()
@@ -269,14 +276,15 @@ object Config {
 
             @Name("Drops")
             @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+                    "A list of items to drop when broken. Format:",
+                    "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
             var drops = emptyArray<String>()
         }
 
-        class Barley {
+        class Barley
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -300,8 +308,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("DRY", "SPARSE")
@@ -313,14 +321,15 @@ object Config {
 
             @Name("Drops")
             @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+                    "A list of items to drop when broken. Format:",
+                    "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
             var drops = emptyArray<String>()
         }
 
-        class Fern {
+        class Fern
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -344,8 +353,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = emptyArray<String>()
@@ -357,14 +366,15 @@ object Config {
 
             @Name("Drops")
             @Comment(
-                "A list of items to drop when broken. Format:",
-                "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+                    "A list of items to drop when broken. Format:",
+                    "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
             )
             @JvmField
             var drops = arrayOf("\$defaultSeeds | 0.2")
         }
 
-        class Kelp {
+        class Kelp
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -388,8 +398,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("OCEAN", "BEACH")
@@ -405,7 +415,8 @@ object Config {
             var compatibleFluids = arrayOf("water")
         }
 
-        class Rivergrass {
+        class Rivergrass
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -429,8 +440,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("RIVER")
@@ -446,7 +457,8 @@ object Config {
             var compatibleFluids = arrayOf("water")
         }
 
-        class Seagrass {
+        class Seagrass
+        {
             @Name("Generation Chance")
             @Comment("The chance to attempt generating in a given chunk.")
             @Config.RangeDouble(min = 0.0, max = 1.0)
@@ -470,8 +482,8 @@ object Config {
 
             @Name("Valid Biome Dictionary Types")
             @Comment(
-                "A list of biome dictionary types in which a plant can generate.",
-                "Leave empty to disable checking for biome dictionary types."
+                    "A list of biome dictionary types in which a plant can generate.",
+                    "Leave empty to disable checking for biome dictionary types."
             )
             @JvmField
             var validBiomeTypes = arrayOf("OCEAN", "BEACH")

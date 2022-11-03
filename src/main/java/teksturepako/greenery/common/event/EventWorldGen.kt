@@ -7,11 +7,14 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.common.config.Config
 
-object EventWorldGen {
+object EventWorldGen
+{
     @SubscribeEvent(priority = EventPriority.HIGH)
     @JvmStatic
-    fun removeGrass(event: Decorate) {
-        if (event.type == EventType.GRASS && Config.generation.removeGrass) {
+    fun removeGrass(event: Decorate)
+    {
+        if (event.type == EventType.GRASS && Config.generation.removeGrass)
+        {
             event.result = Event.Result.DENY
         }
     }

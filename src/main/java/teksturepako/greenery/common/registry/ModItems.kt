@@ -10,19 +10,21 @@ import teksturepako.greenery.common.block.plant.emergent.ItemBlockArrowhead
 import teksturepako.greenery.common.block.plant.emergent.ItemBlockCattail
 import teksturepako.greenery.common.item.ItemDriedKelp
 import teksturepako.greenery.common.item.ItemKelpSoup
-import teksturepako.greenery.common.registry.ModBlocks.blockGrass
-import teksturepako.greenery.common.registry.ModBlocks.blockRyegrass
 import teksturepako.greenery.common.registry.ModBlocks.blockEagleFern
 import teksturepako.greenery.common.registry.ModBlocks.blockFoxtail
+import teksturepako.greenery.common.registry.ModBlocks.blockGrass
+import teksturepako.greenery.common.registry.ModBlocks.blockRyegrass
 
-object ModItems {
+object ModItems
+{
 
     val itemKelpSoup = ItemKelpSoup()
     val itemDriedKelp = ItemDriedKelp()
     val itemBlockCattail = ItemBlockCattail()
     val itemBlockArrowhead = ItemBlockArrowhead()
 
-    fun register(registry: IForgeRegistry<Item>) {
+    fun register(registry: IForgeRegistry<Item>)
+    {
         registry.register(itemKelpSoup)
         registry.register(itemDriedKelp)
         registry.register(itemBlockCattail)
@@ -30,7 +32,8 @@ object ModItems {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerModels() {
+    fun registerModels()
+    {
         itemKelpSoup.registerItemModel()
         itemDriedKelp.registerItemModel()
         itemBlockCattail.registerItemModel()
@@ -38,7 +41,8 @@ object ModItems {
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemColorHandlers(event: ColorHandlerEvent.Item) {
+    fun registerItemColorHandlers(event: ColorHandlerEvent.Item)
+    {
         itemBlockArrowhead.registerItemColorHandler(event)
         blockFoxtail.registerItemColorHandler(event)
         blockEagleFern.registerItemColorHandler(event)
@@ -46,7 +50,8 @@ object ModItems {
         blockGrass.registerItemColorHandler(event)
     }
 
-    fun initOreDictionary() {
+    fun initOreDictionary()
+    {
         OreDictionary.registerOre("cropSeaweed", ModBlocks.blockKelp)
     }
 }

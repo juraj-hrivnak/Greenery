@@ -10,11 +10,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.common.registry.ModBlocks
 
 @Mod.EventBusSubscriber
-object EventUseHoe {
+object EventUseHoe
+{
     @SubscribeEvent
     @JvmStatic
-    fun onHoeUsedOnGrass(event: UseHoeEvent) {
-        if (event.world.getBlockState(event.pos).block == ModBlocks.blockGrass && event.world.isAirBlock(event.pos.up())) {
+    fun onHoeUsedOnGrass(event: UseHoeEvent)
+    {
+        if (event.world.getBlockState(event.pos).block == ModBlocks.blockGrass && event.world.isAirBlock(event.pos.up()))
+        {
             event.world.setBlockState(event.pos, Blocks.FARMLAND.defaultState)
             event.entityPlayer.swingArm(EnumHand.MAIN_HAND)
             event.entityPlayer.playSound(SoundEvents.ITEM_HOE_TILL, 1.0f, 1.0f)

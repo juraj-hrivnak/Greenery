@@ -7,37 +7,44 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 
-class BlockCattail : AbstractEmergentPlant(NAME) {
+class BlockCattail : AbstractEmergentPlant(NAME)
+{
 
-    companion object {
+    companion object
+    {
         const val NAME = "cattail"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
     }
 
-    init {
-        defaultState = blockState.baseState
-            .withProperty(AGE, 0)
+    init
+    {
+        defaultState = blockState.baseState.withProperty(AGE, 0)
     }
 
-    override fun getAgeProperty(): PropertyInteger {
+    override fun getAgeProperty(): PropertyInteger
+    {
         return AGE
     }
 
-    override fun getMaxAge(): Int {
+    override fun getMaxAge(): Int
+    {
         return 3
     }
 
-    override fun getSeed(): Item {
+    override fun getSeed(): Item
+    {
         return ModItems.itemBlockCattail
     }
 
-    override fun getCrop(): Item {
+    override fun getCrop(): Item
+    {
         return ModItems.itemBlockCattail
     }
 
-    override fun createBlockState(): BlockStateContainer {
+    override fun createBlockState(): BlockStateContainer
+    {
         return BlockStateContainer(this, AGE)
     }
 

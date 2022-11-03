@@ -14,15 +14,18 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-class BlockDriedKelp : Block(Material.GRASS, MapColor.GRAY) {
-    companion object {
+class BlockDriedKelp : Block(Material.GRASS, MapColor.GRAY)
+{
+    companion object
+    {
         const val NAME = "dried_kelp_block"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
     }
 
     lateinit var itemBlock: Item
 
-    init {
+    init
+    {
         setRegistryName(NAME)
         translationKey = NAME
         soundType = SoundType.PLANT
@@ -31,25 +34,30 @@ class BlockDriedKelp : Block(Material.GRASS, MapColor.GRAY) {
         blockHardness = 0.5f
     }
 
-    override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean {
+    override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean
+    {
         return true
     }
 
-    override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int {
+    override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int
+    {
         return 30
     }
 
-    override fun getHarvestTool(state: IBlockState): String {
+    override fun getHarvestTool(state: IBlockState): String
+    {
         return "hoe"
     }
 
-    fun createItemBlock(): Item {
+    fun createItemBlock(): Item
+    {
         itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
         return itemBlock
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
+    fun registerItemModel()
+    {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 }

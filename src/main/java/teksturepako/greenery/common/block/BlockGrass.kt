@@ -31,18 +31,20 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.registry.ModBlocks
 import java.util.*
 
-class BlockGrass : Block(Material.GRASS), IGrowable {
-
+class BlockGrass : Block(Material.GRASS), IGrowable
+{
     lateinit var itemBlock: Item
 
-    companion object {
+    companion object
+    {
         const val NAME = "grass"
         const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val SNOWY: PropertyBool = PropertyBool.create("snowy")
     }
 
-    init {
+    init
+    {
         setRegistryName(NAME)
 
         translationKey = NAME
@@ -52,55 +54,67 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
         this.setResistance(2.0F)
         this.tickRandomly = true
 
-        defaultState = blockState.baseState
-            .withProperty(SNOWY, false)
+        defaultState = blockState.baseState.withProperty(SNOWY, false)
     }
 
-    fun createItemBlock(): Item {
+    fun createItemBlock(): Item
+    {
         itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
         return itemBlock
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
+    fun registerItemModel()
+    {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerBlockColorHandler(event: ColorHandlerEvent.Block) {
+    fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
+    {
         Greenery.proxy.registerGrassColourHandler(this, event)
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemColorHandler(event: ColorHandlerEvent.Item) {
+    fun registerItemColorHandler(event: ColorHandlerEvent.Item)
+    {
         Greenery.proxy.registerItemColourHandler(itemBlock, event)
     }
 
     @SideOnly(Side.CLIENT)
-    override fun getRenderLayer(): BlockRenderLayer {
+    override fun getRenderLayer(): BlockRenderLayer
+    {
         return BlockRenderLayer.CUTOUT_MIPPED
     }
 
-    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
-        if (!worldIn.isRemote) {
+    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
+    {
+        if (!worldIn.isRemote)
+        {
             if (!worldIn.isAreaLoaded(pos, 3)) return
-            if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up())
-                    .getLightOpacity(worldIn, pos.up()) > 2
-            ) {
+            if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getLightOpacity(
+                        worldIn, pos.up()
+                ) > 2)
+            {
                 worldIn.setBlockState(pos, Blocks.DIRT.defaultState)
-            } else {
-                if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
-                    for (i in 0..3) {
+            }
+            else
+            {
+                if (worldIn.getLightFromNeighbors(pos.up()) >= 9)
+                {
+                    for (i in 0..3)
+                    {
                         val blockpos = pos.add(rand.nextInt(3) - 1, rand.nextInt(5) - 3, rand.nextInt(3) - 1)
-                        if (blockpos.y in 0..255 && !worldIn.isBlockLoaded(blockpos)) {
+                        if (blockpos.y in 0..255 && !worldIn.isBlockLoaded(blockpos))
+                        {
                             return
                         }
                         val iblockstate = worldIn.getBlockState(blockpos.up())
                         val iblockstate1 = worldIn.getBlockState(blockpos)
                         if (iblockstate1.block === Blocks.DIRT && iblockstate1.getValue(BlockDirt.VARIANT) == DirtType.DIRT && worldIn.getLightFromNeighbors(
-                                blockpos.up()
-                            ) >= 4 && iblockstate.getLightOpacity(worldIn, pos.up()) <= 2
-                        ) {
+                                    blockpos.up()
+                            ) >= 4 && iblockstate.getLightOpacity(worldIn, pos.up()) <= 2)
+                        {
                             worldIn.setBlockState(blockpos, this.defaultState)
                         }
                     }
@@ -109,106 +123,100 @@ class BlockGrass : Block(Material.GRASS), IGrowable {
         }
     }
 
-    override fun onBlockActivated(
-        worldIn: World,
-        pos: BlockPos,
-        state: IBlockState,
-        playerIn: EntityPlayer,
-        hand: EnumHand,
-        facing: EnumFacing,
-        hitX: Float,
-        hitY: Float,
-        hitZ: Float
-    ): Boolean {
+    override fun onBlockActivated(worldIn: World, pos: BlockPos, state: IBlockState, playerIn: EntityPlayer, hand: EnumHand, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float): Boolean
+    {
         val itemStack: ItemStack = playerIn.getHeldItem(hand)
-        return if ("shovel" in itemStack.item.translationKey) {
+        return if ("shovel" in itemStack.item.translationKey)
+        {
             val path = Blocks.GRASS_PATH.defaultState
             worldIn.playSound(playerIn, pos, SoundEvents.ITEM_SHOVEL_FLATTEN, SoundCategory.BLOCKS, 1.0f, 1.0f)
 
-            if (!worldIn.isRemote) {
+            if (!worldIn.isRemote)
+            {
                 worldIn.setBlockState(pos, path, 11)
                 itemStack.damageItem(1, playerIn)
             }
             true
-        } else {
-            false
         }
+        else false
     }
 
-    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState {
+    @Deprecated("Deprecated in Java")
+    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
+    {
         val block = worldIn.getBlockState(pos.up()).block
         return state.withProperty(SNOWY, (block == Blocks.SNOW || block == Blocks.SNOW_LAYER))
     }
 
-    override fun getStateFromMeta(meta: Int): IBlockState {
+    @Deprecated("Deprecated in Java")
+    override fun getStateFromMeta(meta: Int): IBlockState
+    {
         return defaultState
     }
 
-    override fun getMetaFromState(state: IBlockState): Int {
+    override fun getMetaFromState(state: IBlockState): Int
+    {
         return 0
     }
 
-    override fun createBlockState(): BlockStateContainer {
+    override fun createBlockState(): BlockStateContainer
+    {
         return BlockStateContainer(this, SNOWY)
     }
 
-    override fun getHarvestTool(state: IBlockState): String {
+    override fun getHarvestTool(state: IBlockState): String
+    {
         return "shovel"
     }
 
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item {
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
+    {
         return Blocks.DIRT.getItemDropped(
-            Blocks.DIRT.defaultState.withProperty(BlockDirt.VARIANT, DirtType.DIRT),
-            rand,
-            fortune
+                Blocks.DIRT.defaultState.withProperty(BlockDirt.VARIANT, DirtType.DIRT), rand, fortune
         )
     }
 
-    override fun canSustainPlant(
-        state: IBlockState,
-        world: IBlockAccess,
-        pos: BlockPos,
-        direction: EnumFacing,
-        plantable: IPlantable
-    ): Boolean {
+    override fun canSustainPlant(state: IBlockState, world: IBlockAccess, pos: BlockPos, direction: EnumFacing, plantable: IPlantable): Boolean
+    {
         val plantType: EnumPlantType = plantable.getPlantType(world, pos.offset(direction))
-        return ((plantable == Blocks.MELON_STEM)
-                || (plantable == Blocks.PUMPKIN_STEM)
-                || (plantable == Blocks.REEDS)
-                || (plantType == EnumPlantType.Desert)
-                || (plantType == EnumPlantType.Plains)
-                || (plantType == EnumPlantType.Cave))
+        return ((plantable == Blocks.MELON_STEM) || (plantable == Blocks.PUMPKIN_STEM) || (plantable == Blocks.REEDS) || (plantType == EnumPlantType.Desert) || (plantType == EnumPlantType.Plains) || (plantType == EnumPlantType.Cave))
     }
 
     // IGrowable implementation
-    override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean {
+    override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean
+    {
         return canGrow(worldIn, pos, state, false)
     }
 
-    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean {
+    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
+    {
         return true
     }
 
-    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState) {
+    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
+    {
         val defaultPos = pos.up()
-        for (i in 0..127) {
+        for (i in 0..127)
+        {
             var blockPos = defaultPos
-            for (j in 0 until i / 16) {
+            for (j in 0 until i / 16)
+            {
                 blockPos = blockPos.add(
-                    rand.nextInt(3) - 1,
-                    (rand.nextInt(3) - 1) * rand.nextInt(3) / 2,
-                    rand.nextInt(3) - 1
+                        rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1
                 )
-                if (worldIn.getBlockState(blockPos.down()).block !== this ||
-                    worldIn.getBlockState(blockPos).isNormalCube
-                ) continue
+                if (worldIn.getBlockState(blockPos.down()).block !== this || worldIn.getBlockState(blockPos).isNormalCube) continue
             }
-            if (worldIn.isAirBlock(blockPos)) {
-                if (rand.nextInt(8) == 0) {
+            if (worldIn.isAirBlock(blockPos))
+            {
+                if (rand.nextInt(8) == 0)
+                {
                     worldIn.getBiome(blockPos).plantFlower(worldIn, rand, blockPos)
-                } else {
+                }
+                else
+                {
                     val tallGrass = ModBlocks.blockFoxtail.defaultState
-                    if (ModBlocks.blockFoxtail.canBlockStay(worldIn, blockPos, tallGrass)) {
+                    if (ModBlocks.blockFoxtail.canBlockStay(worldIn, blockPos, tallGrass))
+                    {
                         worldIn.setBlockState(blockPos, tallGrass, 3)
                     }
                 }

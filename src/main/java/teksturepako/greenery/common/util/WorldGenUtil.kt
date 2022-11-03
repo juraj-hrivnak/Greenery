@@ -10,12 +10,15 @@ import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.Loader
 
-object WorldGenUtil {
+object WorldGenUtil
+{
 
-    fun removeBOPGenerators(world: World) {
+    fun removeBOPGenerators(world: World)
+    {
         if (!Loader.isModLoaded("biomesoplenty") || world.isRemote) return
 
-        for (biome in BOPBiomes.REG_INSTANCE.presentBiomes) {
+        for (biome in BOPBiomes.REG_INSTANCE.presentBiomes)
+        {
             getExtendedBiome(biome).generationManager.removeGenerator("grass")
             getExtendedBiome(biome).generationManager.removeGenerator("ferns")
             getExtendedBiome(biome).generationManager.removeGenerator("double_fern")
@@ -24,35 +27,46 @@ object WorldGenUtil {
         }
     }
 
-    private fun getExtendedBiome(biome: Biome): IExtendedBiome {
+    private fun getExtendedBiome(biome: Biome): IExtendedBiome
+    {
         var extendedBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome)
-        if (extendedBiome == null) {
+        if (extendedBiome == null)
+        {
             extendedBiome = ExtendedBiomeWrapper(biome)
             BOPBiomes.REG_INSTANCE.registerBiome(extendedBiome, extendedBiome.getBaseBiome().biomeName.toLowerCase())
         }
         return extendedBiome
     }
 
-    fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome {
+    fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome
+    {
         return world.getBiomeForCoordsBody(BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8))
     }
 
-    fun canSeeSky(world: World, pos: BlockPos): Boolean {
+    fun canSeeSky(world: World, pos: BlockPos): Boolean
+    {
         var topPos = pos
-        while (world.getBlockState(topPos).material == Material.WATER) {
+        while (world.getBlockState(topPos).material == Material.WATER)
+        {
             topPos = topPos.up()
         }
-        if (world.isAirBlock(topPos) || world.getBlockState(topPos).material == Material.PLANTS) {
+        if (world.isAirBlock(topPos) || world.getBlockState(topPos).material == Material.PLANTS)
+        {
             return world.canSeeSky(topPos)
         }
         return false
     }
 
-    fun areBiomeTypesValid(biome: Biome, types: MutableList<String>, inverted: Boolean): Boolean {
-        for (type in types) {
-            if (!inverted) {
+    fun areBiomeTypesValid(biome: Biome, types: MutableList<String>, inverted: Boolean): Boolean
+    {
+        for (type in types)
+        {
+            if (!inverted)
+            {
                 while (BiomeDictionary.hasType(biome, BiomeDictionary.Type.getType(type))) return true
-            } else {
+            }
+            else
+            {
                 while (BiomeDictionary.hasType(biome, BiomeDictionary.Type.getType(type))) return false
             }
         }

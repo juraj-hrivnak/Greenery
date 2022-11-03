@@ -6,8 +6,8 @@ import net.minecraft.world.World
 import net.minecraftforge.fml.common.IWorldGenerator
 import java.util.*
 
-interface IGreeneryWorldGenerator : IWorldGenerator {
-
+interface IPlantGenerator : IWorldGenerator
+{
     /** The block to be generated. */
     val block: Block
 
@@ -28,5 +28,4 @@ interface IGreeneryWorldGenerator : IWorldGenerator {
 
     /** Plant generator */
     fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
-
 }

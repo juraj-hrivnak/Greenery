@@ -17,14 +17,15 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import java.util.*
 
-abstract class GreeneryPlantBase : BlockCrops() {
-
+abstract class GreeneryPlantBase : BlockCrops()
+{
     lateinit var itemBlock: Item
 
     /**
      * Creates an Item Block
      */
-    fun createItemBlock(): Item {
+    fun createItemBlock(): Item
+    {
         itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
         return itemBlock
     }
@@ -33,7 +34,8 @@ abstract class GreeneryPlantBase : BlockCrops() {
      * Registers a Item model for a given Item
      */
     @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
+    fun registerItemModel()
+    {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 
@@ -41,7 +43,8 @@ abstract class GreeneryPlantBase : BlockCrops() {
      * Registers a color handler for a given Item
      */
     @SideOnly(Side.CLIENT)
-    fun registerItemColorHandler(event: ColorHandlerEvent.Item) {
+    fun registerItemColorHandler(event: ColorHandlerEvent.Item)
+    {
         Greenery.proxy.registerItemColourHandler(itemBlock, event)
     }
 
@@ -49,7 +52,8 @@ abstract class GreeneryPlantBase : BlockCrops() {
      * Registers a color handler for a given Block
      */
     @SideOnly(Side.CLIENT)
-    fun registerBlockColorHandler(event: ColorHandlerEvent.Block) {
+    fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
+    {
         Greenery.proxy.registerGrassColourHandler(this, event)
     }
 
@@ -60,25 +64,32 @@ abstract class GreeneryPlantBase : BlockCrops() {
      */
     abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
-    override fun getSeed(): Item {
+    override fun getSeed(): Item
+    {
         return itemBlock
     }
 
-    override fun getCrop(): Item {
+    override fun getCrop(): Item
+    {
         return itemBlock
     }
 
-    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
+    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
+    {
         entityIn.motionX = entityIn.motionX / 1.1
         entityIn.motionZ = entityIn.motionZ / 1.1
     }
 
-    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random) {
+    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
+    {
         if (worldIn.isRemote || !worldIn.isAreaLoaded(pos, 1) || !canBlockStay(worldIn, pos, state)) return
-        if (worldIn.getLightFromNeighbors(pos.up()) >= 9) {
+        if (worldIn.getLightFromNeighbors(pos.up()) >= 9)
+        {
             val age = getAge(state)
-            if (age <= this.maxAge) {
-                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0)) {
+            if (age <= this.maxAge)
+            {
+                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0))
+                {
                     grow(worldIn, pos, state)
                     ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
                 }
@@ -87,31 +98,38 @@ abstract class GreeneryPlantBase : BlockCrops() {
     }
 
     @SideOnly(Side.CLIENT)
-    override fun getOffsetType(): EnumOffsetType {
+    override fun getOffsetType(): EnumOffsetType
+    {
         return EnumOffsetType.XZ
     }
 
-    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean {
+    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean
+    {
         return true
     }
 
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean {
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
+    {
         return true
     }
 
-    override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean {
+    override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean
+    {
         return canBlockStay(worldIn, pos, defaultState)
     }
 
-    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
+    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
+    {
         return canBlockStay(worldIn, pos, defaultState)
     }
 
-    override fun getBonemealAgeIncrease(worldIn: World): Int {
+    override fun getBonemealAgeIncrease(worldIn: World): Int
+    {
         return super.getBonemealAgeIncrease(worldIn) / this.maxAge
     }
 
-    override fun canSustainBush(state: IBlockState): Boolean {
+    override fun canSustainBush(state: IBlockState): Boolean
+    {
         return false
     }
 

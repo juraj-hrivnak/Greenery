@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.block.plant.emergent
+package teksturepako.greenery.common.block.plant.floating
 
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
@@ -11,7 +11,7 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
-abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
+abstract class AbstractFloatingPlant(name: String) : GreeneryPlantBase()
 {
 
     companion object
@@ -29,7 +29,7 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
 
     init
     {
-        setRegistryName("plant/emergent/$name")
+        setRegistryName("plant/floating/$name")
         translationKey = name
         soundType = ModSoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab

@@ -28,23 +28,24 @@ import teksturepako.greenery.common.block.ModMaterials
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
-abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable {
+abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable
+{
 
-    companion object {
+    companion object
+    {
         val ALLOWED_SOILS = setOf<Material>(
-            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
+                Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
         )
-        val TOP_AABB =
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
-        val BOTTOM_AABB =
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
+        val TOP_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
+        val BOTTOM_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
     }
 
     abstract val compatibleFluids: MutableList<String>
 
     lateinit var itemBlock: Item
 
-    init {
+    init
+    {
         setRegistryName("plant/submerged/$name")
         translationKey = name
         soundType = ModSoundTypes.SEAWEED
@@ -52,54 +53,58 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
         lightOpacity = 2
     }
 
-    fun createItemBlock(): Item {
+    fun createItemBlock(): Item
+    {
         itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
         return itemBlock
     }
 
     @SideOnly(Side.CLIENT)
-    fun registerItemModel() {
+    fun registerItemModel()
+    {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 
     @Deprecated("", ReplaceWith("NULL_AABB", "net.minecraft.block.Block.NULL_AABB"))
-    override fun getCollisionBoundingBox(state: IBlockState, world: IBlockAccess, pos: BlockPos): AxisAlignedBB? {
+    override fun getCollisionBoundingBox(state: IBlockState, world: IBlockAccess, pos: BlockPos): AxisAlignedBB?
+    {
         return NULL_AABB
     }
 
     //Rendering
     @SideOnly(Side.CLIENT)
-    override fun getRenderLayer(): BlockRenderLayer {
+    override fun getRenderLayer(): BlockRenderLayer
+    {
         return BlockRenderLayer.CUTOUT
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
-    override fun isFullCube(state: IBlockState): Boolean {
+    override fun isFullCube(state: IBlockState): Boolean
+    {
         return false
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
-    override fun isOpaqueCube(state: IBlockState): Boolean {
+    override fun isOpaqueCube(state: IBlockState): Boolean
+    {
         return false
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
-    override fun getBlockFaceShape(
-        worldIn: IBlockAccess,
-        state: IBlockState,
-        pos: BlockPos,
-        face: EnumFacing
-    ): BlockFaceShape {
+    override fun getBlockFaceShape(worldIn: IBlockAccess, state: IBlockState, pos: BlockPos, face: EnumFacing): BlockFaceShape
+    {
         return BlockFaceShape.UNDEFINED
     }
 
-    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity) {
+    override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
+    {
         entityIn.motionX = entityIn.motionX / 1.1
         entityIn.motionY = entityIn.motionY / 1.1
         entityIn.motionZ = entityIn.motionZ / 1.1
     }
 
-    override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean {
+    override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean
+    {
         return false
     }
 
@@ -111,7 +116,8 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
     /**
      * Determines whether the block can be generated on the position, based on [canBlockStay] and [FluidUtil.canGenerateInFluids].
      */
-    fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean {
+    fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean
+    {
         return FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(worldIn, pos)
     }
 
@@ -119,45 +125,57 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
      * Checks if there is a compatible fluid block on the placing position.
      * Warning: This should not be used in world generation because of performance reasons!
      */
-    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean {
+    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
+    {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        return (!fluidState.isEmpty
-                && isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
-                && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
-                && canBlockStay(worldIn, pos))
+        return (!fluidState.isEmpty && isFluidValid(
+                defaultState, worldIn, pos, fluidState.fluid
+        ) && FluidloggedUtils.isFluidloggableFluid(
+                fluidState.state, worldIn, pos
+        ) && canBlockStay(worldIn, pos))
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))
-    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos) {
+    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos)
+    {
         checkAndDropBlock(worldIn, pos, state)
     }
 
-    private fun checkAndDropBlock(worldIn: World, pos: BlockPos, state: IBlockState) {
-        if (!canBlockStay(worldIn, pos)) {
+    private fun checkAndDropBlock(worldIn: World, pos: BlockPos, state: IBlockState)
+    {
+        if (!canBlockStay(worldIn, pos))
+        {
             val fluidState = FluidloggedUtils.getFluidState(worldIn, pos, state)
-            if (!fluidState.isEmpty) {
+            if (!fluidState.isEmpty)
+            {
                 dropBlockAsItem(worldIn, pos, state, 0)
                 worldIn.setBlockState(pos, fluidState.state, Constants.BlockFlags.DEFAULT)
-            } else {
+            }
+            else
+            {
                 worldIn.setBlockState(pos, Blocks.AIR.defaultState, Constants.BlockFlags.NO_RERENDER)
             }
         }
     }
 
     // IGrowable implementation
-    override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean {
+    override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean
+    {
         return canGrow(worldIn, pos, state, false)
     }
 
-    override fun canFluidFlow(world: IBlockAccess, pos: BlockPos, here: IBlockState, side: EnumFacing): Boolean {
+    override fun canFluidFlow(world: IBlockAccess, pos: BlockPos, here: IBlockState, side: EnumFacing): Boolean
+    {
         return true
     }
 
-    override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean {
+    override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean
+    {
         return FluidUtil.areFluidsValid(compatibleFluids, fluid)
     }
 
-    override fun onFluidDrain(world: World, pos: BlockPos, here: IBlockState, blockFlags: Int): EnumActionResult {
+    override fun onFluidDrain(world: World, pos: BlockPos, here: IBlockState, blockFlags: Int): EnumActionResult
+    {
         world.playEvent(Constants.WorldEvents.BREAK_BLOCK_EFFECTS, pos, getStateId(here))
         dropBlockAsItem(world, pos, here, 0)
         world.setBlockState(pos, Blocks.AIR.defaultState, blockFlags)
