@@ -35,7 +35,7 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
     }
 
     override val compatibleFluids: MutableList<String>
-        get() = Config.generation.kelp.compatibleFluids.toMutableList()
+        get() = Config.plant.submerged.kelp.compatibleFluids.toMutableList()
 
     fun getMaxAge(): Int
     {

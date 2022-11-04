@@ -34,7 +34,7 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(
-                Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
+            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
         )
         val TOP_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
         val BOTTOM_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
@@ -129,10 +129,8 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
     {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
         return (!fluidState.isEmpty && isFluidValid(
-                defaultState, worldIn, pos, fluidState.fluid
-        ) && FluidloggedUtils.isFluidloggableFluid(
-                fluidState.state, worldIn, pos
-        ) && canBlockStay(worldIn, pos))
+            defaultState, worldIn, pos, fluidState.fluid
+        ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos) && canBlockStay(worldIn, pos))
     }
 
     @Deprecated("Deprecated in Java", ReplaceWith("false"))

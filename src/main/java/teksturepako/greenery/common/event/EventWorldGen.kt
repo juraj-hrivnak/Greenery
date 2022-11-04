@@ -13,7 +13,7 @@ object EventWorldGen
     @JvmStatic
     fun removeGrass(event: Decorate)
     {
-        if (event.type == EventType.GRASS && Config.generation.removeGrass)
+        if (event.type == EventType.GRASS && Config.global.removeGrass)
         {
             event.result = Event.Result.DENY
         }

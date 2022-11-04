@@ -7,15 +7,16 @@ import net.minecraftforge.fml.common.IWorldGenerator
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.WorldGenUtil.removeBOPGenerators
+import teksturepako.greenery.common.world.gen.IPlantGenerator
 import java.util.*
 
-class WorldGenHook : IWorldGenerator
+internal class WorldGenHook : IWorldGenerator
 {
     override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGen: IChunkGenerator, chunkProv: IChunkProvider)
     {
         val generators: MutableList<IPlantGenerator> = Greenery.loadGenerators()
         for (generator in generators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
-        if (Config.generation.removeGrass) removeBOPGenerators(world)
+        if (Config.global.removeGrass) removeBOPGenerators(world)
     }
 }

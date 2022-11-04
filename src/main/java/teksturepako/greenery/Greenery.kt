@@ -27,24 +27,24 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
-import teksturepako.greenery.common.world.IPlantGenerator
 import teksturepako.greenery.common.world.WorldGenHook
-import teksturepako.greenery.common.world.crop.WorldGenArrowhead
-import teksturepako.greenery.common.world.crop.WorldGenCattail
-import teksturepako.greenery.common.world.grass.*
-import teksturepako.greenery.common.world.plant.WorldGenKelp
-import teksturepako.greenery.common.world.plant.WorldGenRivergrass
-import teksturepako.greenery.common.world.plant.WorldGenSeagrass
+import teksturepako.greenery.common.world.gen.IPlantGenerator
+import teksturepako.greenery.common.world.gen.plant.emergent.WorldGenArrowhead
+import teksturepako.greenery.common.world.gen.plant.emergent.WorldGenCattail
+import teksturepako.greenery.common.world.gen.plant.submerged.WorldGenKelp
+import teksturepako.greenery.common.world.gen.plant.submerged.WorldGenRivergrass
+import teksturepako.greenery.common.world.gen.plant.submerged.WorldGenSeagrass
+import teksturepako.greenery.common.world.gen.plant.upland.tall.*
 import teksturepako.greenery.proxy.IProxy
 
 
 @Mod(
-        modid = Greenery.MODID,
-        name = Greenery.NAME,
-        version = Greenery.VERSION,
-        dependencies = Greenery.DEPENDENCIES,
-        acceptedMinecraftVersions = Greenery.ACCEPTED_MINECRAFT_VERSIONS,
-        modLanguageAdapter = Greenery.ADAPTER
+    modid = Greenery.MODID,
+    name = Greenery.NAME,
+    version = Greenery.VERSION,
+    dependencies = Greenery.DEPENDENCIES,
+    acceptedMinecraftVersions = Greenery.ACCEPTED_MINECRAFT_VERSIONS,
+    modLanguageAdapter = Greenery.ADAPTER
 )
 
 @Mod.EventBusSubscriber

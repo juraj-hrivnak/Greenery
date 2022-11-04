@@ -25,7 +25,7 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(
-                Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
+            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
         )
     }
 
@@ -74,9 +74,9 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
             {
                 val blockpos = raytraceresult.blockPos
                 if (!worldIn.isBlockModifiable(playerIn, blockpos) || !playerIn.canPlayerEdit(
-                            blockpos.offset(
-                                    raytraceresult.sideHit
-                            ), raytraceresult.sideHit, itemstack
+                        blockpos.offset(
+                            raytraceresult.sideHit
+                        ), raytraceresult.sideHit, itemstack
                     ))
                 {
                     return ActionResult(EnumActionResult.FAIL, itemstack)
@@ -89,7 +89,7 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
                     val blocksnapshot = BlockSnapshot.getBlockSnapshot(worldIn, blockpos1)
 
                     if (ForgeEventFactory.onPlayerBlockPlace(
-                                playerIn, blocksnapshot, EnumFacing.UP, handIn
+                            playerIn, blocksnapshot, EnumFacing.UP, handIn
                         ).isCanceled)
                     {
                         blocksnapshot.restore(true, false)
@@ -110,7 +110,7 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
 
                     playerIn.addStat(StatList.getObjectUseStats(this))
                     worldIn.playSound(
-                            playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f
+                        playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f
                     )
                     return ActionResult(EnumActionResult.SUCCESS, itemstack)
                 }

@@ -17,13 +17,13 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(
-                Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
+            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
         )
         val WATER_CROP_AABB = arrayOf(
-                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
-                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
-                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
-                AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
         )
     }
 

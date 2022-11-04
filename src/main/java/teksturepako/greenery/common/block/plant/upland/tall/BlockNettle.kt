@@ -34,7 +34,7 @@ class BlockNettle : AbstractTallPlant(NAME)
     }
 
     override val drops: MutableList<String>
-        get() = Config.generation.nettle.drops.toMutableList()
+        get() = Config.plant.upland.tall.nettle.drops.toMutableList()
 
     override fun getAgeProperty(): PropertyInteger
     {
@@ -72,19 +72,19 @@ class BlockNettle : AbstractTallPlant(NAME)
         return when (val actualState = getActualState(state, source, pos))
         {
             actualState.withProperty(
-                    TOP, true
+                TOP, true
             )    -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                    state.getOffset(
-                            source, pos
-                    )
+                state.getOffset(
+                    source, pos
+                )
             )
             actualState.withProperty(
-                    TOP, false
+                TOP, false
             )    -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                    state.getOffset(source, pos)
+                state.getOffset(source, pos)
             )
             else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                    state.getOffset(source, pos)
+                state.getOffset(source, pos)
             )
         }
     }

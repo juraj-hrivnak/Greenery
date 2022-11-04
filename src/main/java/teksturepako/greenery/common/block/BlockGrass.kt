@@ -93,7 +93,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
         {
             if (!worldIn.isAreaLoaded(pos, 3)) return
             if (worldIn.getLightFromNeighbors(pos.up()) < 4 && worldIn.getBlockState(pos.up()).getLightOpacity(
-                        worldIn, pos.up()
+                    worldIn, pos.up()
                 ) > 2)
             {
                 worldIn.setBlockState(pos, Blocks.DIRT.defaultState)
@@ -112,7 +112,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
                         val iblockstate = worldIn.getBlockState(blockpos.up())
                         val iblockstate1 = worldIn.getBlockState(blockpos)
                         if (iblockstate1.block === Blocks.DIRT && iblockstate1.getValue(BlockDirt.VARIANT) == DirtType.DIRT && worldIn.getLightFromNeighbors(
-                                    blockpos.up()
+                                blockpos.up()
                             ) >= 4 && iblockstate.getLightOpacity(worldIn, pos.up()) <= 2)
                         {
                             worldIn.setBlockState(blockpos, this.defaultState)
@@ -172,7 +172,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
     override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
     {
         return Blocks.DIRT.getItemDropped(
-                Blocks.DIRT.defaultState.withProperty(BlockDirt.VARIANT, DirtType.DIRT), rand, fortune
+            Blocks.DIRT.defaultState.withProperty(BlockDirt.VARIANT, DirtType.DIRT), rand, fortune
         )
     }
 
@@ -202,7 +202,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
             for (j in 0 until i / 16)
             {
                 blockPos = blockPos.add(
-                        rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1
+                    rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1
                 )
                 if (worldIn.getBlockState(blockPos.down()).block !== this || worldIn.getBlockState(blockPos).isNormalCube) continue
             }

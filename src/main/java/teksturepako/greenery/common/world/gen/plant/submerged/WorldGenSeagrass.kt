@@ -1,17 +1,17 @@
-package teksturepako.greenery.common.world.plant
+package teksturepako.greenery.common.world.gen.plant.submerged
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
-import teksturepako.greenery.common.world.AbstractPlantGenerator
+import teksturepako.greenery.common.world.gen.AbstractPlantGenerator
 import java.util.*
 
 class WorldGenSeagrass : AbstractPlantGenerator()
 {
     override val block = ModBlocks.blockSeagrass
-    private val config = Config.generation.seagrass
+    private val config = Config.plant.submerged.seagrass
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
@@ -24,9 +24,7 @@ class WorldGenSeagrass : AbstractPlantGenerator()
         for (i in 0..plantAttempts)
         {
             val pos = targetPos.add(
-                    rand.nextInt(8) - rand.nextInt(8),
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(8) - rand.nextInt(8)
+                rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8)
             )
 
             if (!world.isBlockLoaded(pos)) continue

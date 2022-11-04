@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.world
+package teksturepako.greenery.common.world.gen
 
 import net.minecraft.block.Block
 import net.minecraft.util.math.BlockPos

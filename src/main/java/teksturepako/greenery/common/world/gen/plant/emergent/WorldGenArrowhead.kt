@@ -1,16 +1,16 @@
-package teksturepako.greenery.common.world.crop
+package teksturepako.greenery.common.world.gen.plant.emergent
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
-import teksturepako.greenery.common.world.AbstractPlantGenerator
+import teksturepako.greenery.common.world.gen.AbstractPlantGenerator
 import java.util.*
 
-class WorldGenCattail : AbstractPlantGenerator()
+class WorldGenArrowhead : AbstractPlantGenerator()
 {
-    override val block = ModBlocks.blockCattail
-    private val config = Config.generation.cattail
+    override val block = ModBlocks.blockArrowhead
+    private val config = Config.plant.emergent.arrowhead
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts

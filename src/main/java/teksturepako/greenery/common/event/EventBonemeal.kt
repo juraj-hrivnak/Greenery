@@ -28,9 +28,7 @@ object EventBonemeal
         for (i in 0 until GENERATION_ATTEMPTS)
         {
             val blockPos = pos.add(
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(2) - rand.nextInt(2),
-                    rand.nextInt(4) - rand.nextInt(4)
+                rand.nextInt(4) - rand.nextInt(4), rand.nextInt(2) - rand.nextInt(2), rand.nextInt(4) - rand.nextInt(4)
             )
 
             var d1 = (blockPos.x.toFloat() + rand.nextFloat()).toDouble()
@@ -131,15 +129,13 @@ object EventBonemeal
         for (i in 0 until GENERATION_ATTEMPTS)
         {
             val blockPos = pos.add(
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(2) - rand.nextInt(2),
-                    rand.nextInt(4) - rand.nextInt(4)
+                rand.nextInt(4) - rand.nextInt(4), rand.nextInt(2) - rand.nextInt(2), rand.nextInt(4) - rand.nextInt(4)
             )
 
             if (Loader.isModLoaded("simpledifficulty"))
             {
                 if (world.getBlockState(blockPos).block == blockSaltWater && ModBlocks.blockSeagrass.canGenerateBlockAt(
-                            world, blockPos
+                        world, blockPos
                     ))
                 {
                     world.setBlockState(blockPos, ModBlocks.blockSeagrass.defaultState)
@@ -148,7 +144,7 @@ object EventBonemeal
             else
             {
                 if (world.getBlockState(blockPos).block == Blocks.WATER && ModBlocks.blockSeagrass.canGenerateBlockAt(
-                            world, blockPos
+                        world, blockPos
                     ))
                 {
                     world.setBlockState(blockPos, ModBlocks.blockSeagrass.defaultState)
@@ -162,16 +158,14 @@ object EventBonemeal
         for (i in 0 until GENERATION_ATTEMPTS)
         {
             val blockPos = pos.add(
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(2) - rand.nextInt(2),
-                    rand.nextInt(4) - rand.nextInt(4)
+                rand.nextInt(4) - rand.nextInt(4), rand.nextInt(2) - rand.nextInt(2), rand.nextInt(4) - rand.nextInt(4)
             )
             val block = world.getBlockState(blockPos).block
 
             if (Loader.isModLoaded("simpledifficulty"))
             {
                 if ((block == blockPurifiedWater || block == Blocks.WATER) && ModBlocks.blockWatermilfoil.canGenerateBlockAt(
-                            world, blockPos
+                        world, blockPos
                     ))
                 {
                     world.setBlockState(blockPos, ModBlocks.blockWatermilfoil.defaultState)
@@ -192,18 +186,16 @@ object EventBonemeal
         for (i in 0 until GENERATION_ATTEMPTS)
         {
             val blockPos = pos.add(
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(2) - rand.nextInt(2),
-                    rand.nextInt(4) - rand.nextInt(4)
+                rand.nextInt(4) - rand.nextInt(4), rand.nextInt(2) - rand.nextInt(2), rand.nextInt(4) - rand.nextInt(4)
             )
 
             if (ModBlocks.blockFoxtail.canPlaceBlockAt(world, blockPos))
             {
                 world.notifyBlockUpdate(
-                        blockPos,
-                        world.getBlockState(blockPos),
-                        ModBlocks.blockFoxtail.defaultState,
-                        Constants.BlockFlags.DEFAULT_AND_RERENDER
+                    blockPos,
+                    world.getBlockState(blockPos),
+                    ModBlocks.blockFoxtail.defaultState,
+                    Constants.BlockFlags.DEFAULT_AND_RERENDER
                 )
                 world.setBlockState(blockPos, ModBlocks.blockFoxtail.defaultState)
             }

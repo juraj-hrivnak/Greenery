@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.world.grass
+package teksturepako.greenery.common.world.gen.plant.upland.tall
 
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.World
@@ -9,12 +9,13 @@ import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
+import teksturepako.greenery.common.world.gen.plant.upland.AbstractTallPlantGenerator
 import java.util.*
 
-class WorldGenBarley : GrassGenerator()
+class WorldGenBarley : AbstractTallPlantGenerator()
 {
     override val block = ModBlocks.blockBarley
-    private val config = Config.generation.barley
+    private val config = Config.plant.upland.tall.barley
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
@@ -29,10 +30,10 @@ class WorldGenBarley : GrassGenerator()
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
 
         if ((rand.nextDouble() < generationChance && areBiomeTypesValid(
-                    biome, validBiomeTypes, inverted
+                biome, validBiomeTypes, inverted
             )) && biome != REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture")))
         {
-            for (i in 0..patchAttempts * Config.generation.generationMultiplier)
+            for (i in 0..patchAttempts * Config.global.generationMultiplier)
             {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8

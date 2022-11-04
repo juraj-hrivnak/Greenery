@@ -45,7 +45,7 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
     }
 
     override val compatibleFluids: MutableList<String>
-        get() = Config.generation.rivergrass.compatibleFluids.toMutableList()
+        get() = Config.plant.submerged.watermilfoil.compatibleFluids.toMutableList()
 
     @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
     override fun getStateFromMeta(meta: Int): IBlockState
@@ -70,12 +70,12 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
         val hasRivergrassAbove = worldIn.getBlockState(pos.up()).block == this
 
         return state.withProperty(
-                VARIANT, when
-        {
-            hasRivergrassBelow -> WatermilfoilVariant.TOP
-            hasRivergrassAbove -> WatermilfoilVariant.BOTTOM
-            else               -> WatermilfoilVariant.SINGLE
-        }
+            VARIANT, when
+            {
+                hasRivergrassBelow -> WatermilfoilVariant.TOP
+                hasRivergrassAbove -> WatermilfoilVariant.BOTTOM
+                else               -> WatermilfoilVariant.SINGLE
+            }
         )
     }
 
@@ -116,24 +116,24 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
         return when (val actualState = getActualState(state, source, pos))
         {
             actualState.withProperty(VARIANT, WatermilfoilVariant.TOP)    -> TOP_AABB.offset(
-                    state.getOffset(
-                            source, pos
-                    )
+                state.getOffset(
+                    source, pos
+                )
             )
             actualState.withProperty(VARIANT, WatermilfoilVariant.SINGLE) -> TOP_AABB.offset(
-                    state.getOffset(
-                            source, pos
-                    )
+                state.getOffset(
+                    source, pos
+                )
             )
             actualState.withProperty(VARIANT, WatermilfoilVariant.BOTTOM) -> BOTTOM_AABB.offset(
-                    state.getOffset(
-                            source, pos
-                    )
+                state.getOffset(
+                    source, pos
+                )
             )
             else                                                          -> TOP_AABB.offset(
-                    state.getOffset(
-                            source, pos
-                    )
+                state.getOffset(
+                    source, pos
+                )
             )
         }
     }

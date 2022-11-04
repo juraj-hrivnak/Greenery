@@ -1,17 +1,20 @@
-package teksturepako.greenery.common.world
+package teksturepako.greenery.common.world.gen.plant.upland
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
+import teksturepako.greenery.common.block.plant.upland.tall.AbstractTallPlant
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.util.WorldGenUtil.areBiomeTypesValid
+import teksturepako.greenery.common.world.gen.AbstractPlantGenerator
 import java.util.*
 
-abstract class AbstractPlantGenerator : IPlantGenerator
+abstract class AbstractTallPlantGenerator : AbstractPlantGenerator()
 {
+    abstract override val block: AbstractTallPlant
+
     override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkGenerator, chunkProvider: IChunkProvider)
     {
         val random = world.rand
@@ -20,7 +23,7 @@ abstract class AbstractPlantGenerator : IPlantGenerator
 
         if (rand.nextDouble() < generationChance && areBiomeTypesValid(biome, validBiomeTypes, inverted))
         {
-            for (i in 0..patchAttempts)
+            for (i in 0..patchAttempts * Config.global.generationMultiplier)
             {
                 val x = random.nextInt(16) + 8
                 val z = random.nextInt(16) + 8
@@ -34,24 +37,26 @@ abstract class AbstractPlantGenerator : IPlantGenerator
         }
     }
 
-    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
+    override fun placePlant(world: World, pos: BlockPos, rand: Random)
     {
-        for (i in 0..plantAttempts)
+        val startingAge = rand.nextInt(block.maxAge)
+        val state = block.defaultState.withProperty(block.ageProperty, startingAge)
+        val maxState = block.defaultState.withProperty(block.ageProperty, block.maxAge)
+
+        if (block.canBlockStay(world, pos, state))
         {
-            val pos = targetPos.add(
-                    rand.nextInt(8) - rand.nextInt(8),
-                    rand.nextInt(4) - rand.nextInt(4),
-                    rand.nextInt(8) - rand.nextInt(8)
-            )
+            world.setBlockState(pos, state, 2)
 
-            if (!world.isBlockLoaded(pos)) continue
-
-            if (world.isAirBlock(pos))
+            if (rand.nextDouble() < 0.2)
             {
-                placePlant(world, pos, rand)
+                world.setBlockState(pos, maxState, 2)
+
+                if (world.isAirBlock(pos.up()) && block.canBlockStay(world, pos.up(), state))
+                {
+                    world.setBlockState(pos.up(), state, 2)
+                }
             }
         }
     }
-
-    abstract fun placePlant(world: World, pos: BlockPos, rand: Random)
 }
+

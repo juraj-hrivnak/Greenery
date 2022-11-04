@@ -2,7 +2,8 @@ package teksturepako.greenery.common.config;
 
 import net.minecraftforge.common.config.Config;
 import teksturepako.greenery.Greenery;
-import teksturepako.greenery.common.config.Config.Generation;
+import teksturepako.greenery.common.config.Config.GlobalSettings;
+import teksturepako.greenery.common.config.Config.PlantSettings;
 
 import static net.minecraftforge.common.config.Config.Comment;
 import static net.minecraftforge.common.config.Config.Name;
@@ -12,10 +13,13 @@ import static net.minecraftforge.common.config.Config.Name;
  * Required because the config manager also picks up the INSTANCE field
  * that Kotlin object classes generate.
  */
-@Config(modid = Greenery.MODID, name = Greenery.MODID + "/worldGen")
+@Config(modid = Greenery.MODID, name = Greenery.MODID + "/config")
 public final class _Internal {
+    @Name("Global settings")
+    @Comment("Global settings")
+    public static final GlobalSettings GLOBAL_SETTINGS = new GlobalSettings();
 
-    @Name("Generation")
-    @Comment("The generation chances of all the plants.")
-    public static final Generation generation = new Generation();
+    @Name("Plant settings")
+    @Comment("Plant settings")
+    public static final PlantSettings PLANT_SETTINGS = new PlantSettings();
 }

@@ -46,7 +46,7 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
     }
 
     override val compatibleFluids: MutableList<String>
-        get() = Config.generation.seagrass.compatibleFluids.toMutableList()
+        get() = Config.plant.submerged.seagrass.compatibleFluids.toMutableList()
 
     @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
     override fun getStateFromMeta(meta: Int): IBlockState
@@ -71,12 +71,12 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
         val hasSeagrassAbove = worldIn.getBlockState(pos.up()).block == this
 
         return state.withProperty(
-                VARIANT, when
-        {
-            hasSeagrassBelow -> SeagrassVariant.TOP
-            hasSeagrassAbove -> SeagrassVariant.BOTTOM
-            else             -> SeagrassVariant.SINGLE
-        }
+            VARIANT, when
+            {
+                hasSeagrassBelow -> SeagrassVariant.TOP
+                hasSeagrassAbove -> SeagrassVariant.BOTTOM
+                else             -> SeagrassVariant.SINGLE
+            }
         )
     }
 
@@ -119,9 +119,9 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
             actualState.withProperty(VARIANT, SeagrassVariant.TOP)    -> TOP_AABB.offset(state.getOffset(source, pos))
             actualState.withProperty(VARIANT, SeagrassVariant.SINGLE) -> TOP_AABB.offset(state.getOffset(source, pos))
             actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) -> BOTTOM_AABB.offset(
-                    state.getOffset(
-                            source, pos
-                    )
+                state.getOffset(
+                    source, pos
+                )
             )
             else                                                      -> TOP_AABB.offset(state.getOffset(source, pos))
         }

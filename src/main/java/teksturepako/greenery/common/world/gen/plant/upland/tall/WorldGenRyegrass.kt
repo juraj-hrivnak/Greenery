@@ -1,12 +1,13 @@
-package teksturepako.greenery.common.world.grass
+package teksturepako.greenery.common.world.gen.plant.upland.tall
 
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
+import teksturepako.greenery.common.world.gen.plant.upland.AbstractTallPlantGenerator
 
-class WorldGenNettle : GrassGenerator()
+class WorldGenRyegrass : AbstractTallPlantGenerator()
 {
-    override val block = ModBlocks.blockNettle
-    private val config = Config.generation.nettle
+    override val block = ModBlocks.blockRyegrass
+    private val config = Config.plant.upland.tall.ryegrass
 
     override val generationChance = config.generationChance
     override val patchAttempts = config.patchAttempts
