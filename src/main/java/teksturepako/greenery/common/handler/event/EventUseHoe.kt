@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.event
+package teksturepako.greenery.common.handler.event
 
 import net.minecraft.init.Blocks
 import net.minecraft.init.SoundEvents

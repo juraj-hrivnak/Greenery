@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.event
+package teksturepako.greenery.common.handler.event
 
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate
 import net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType
