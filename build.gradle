@@ -22,7 +22,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "kotlin"
 
 group = 'teksturepako'
-version = '1.12.2-2.2'
+version = '1.12.2-2.3'
 archivesBaseName = 'Greenery'
 
 minecraft {

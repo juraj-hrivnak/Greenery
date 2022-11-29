@@ -30,7 +30,7 @@ class GreeneryCommand : CommandBase()
         else if (args[0] == "reloadGenerators")
         {
             Greenery.generators.clear()
-            Greenery.loadGenerators()
+            Greenery.loadGenerators(true)
         }
     }
 

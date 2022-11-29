@@ -19,14 +19,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.ModCreativeTab
-import teksturepako.greenery.common.event.EventOldContentLoad
-import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.handler.ModFuelHandler
+import teksturepako.greenery.common.handler.event.EventOldContentLoad
+import teksturepako.greenery.common.handler.event.EventWorldGen
 import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
-import teksturepako.greenery.common.util.ConfigUtil.parseValidBiomeTypes
+import teksturepako.greenery.common.util.ConfigUtil
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.gen.IPlantGenerator
 import teksturepako.greenery.common.world.gen.plant.emergent.WorldGenArrowhead
@@ -52,7 +52,7 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "2.2"
+    const val VERSION = "2.3"
     const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
@@ -97,6 +97,7 @@ object Greenery
     @Mod.EventHandler
     fun serverLoad(event: FMLServerStartingEvent)
     {
+        loadGenerators(true)
         event.registerServerCommand(GreeneryCommand())
     }
 
@@ -129,7 +130,7 @@ object Greenery
         ModSoundEvents.register(event.registry)
     }
 
-    fun loadGenerators(): MutableList<IPlantGenerator>
+    fun loadGenerators(printParsing: Boolean): MutableList<IPlantGenerator>
     {
         if (generators.isEmpty())
         {
@@ -144,12 +145,7 @@ object Greenery
             generators.add(WorldGenRivergrass())
             generators.add(WorldGenSeagrass())
 
-            logger.info("Loading world generators:")
-            for (generator in generators)
-            {
-                logger.info("> \"${generator.block.registryName?.path}\"")
-                parseValidBiomeTypes(generator.validBiomeTypes)
-            }
+            ConfigUtil.parseGenerators(generators, printParsing)
         }
         return generators
     }

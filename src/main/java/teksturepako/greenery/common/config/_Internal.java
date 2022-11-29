@@ -15,11 +15,11 @@ import static net.minecraftforge.common.config.Config.Name;
  */
 @Config(modid = Greenery.MODID, name = Greenery.MODID + "/config")
 public final class _Internal {
-    @Name("Global settings")
-    @Comment("Global settings")
-    public static final GlobalSettings GLOBAL_SETTINGS = new GlobalSettings();
-
     @Name("Plant settings")
     @Comment("Plant settings")
     public static final PlantSettings PLANT_SETTINGS = new PlantSettings();
+
+    @Name("Global settings")
+    @Comment("Global settings")
+    public static final GlobalSettings GLOBAL_SETTINGS = new GlobalSettings();
 }
