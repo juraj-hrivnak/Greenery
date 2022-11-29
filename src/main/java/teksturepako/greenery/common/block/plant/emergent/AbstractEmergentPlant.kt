@@ -27,6 +27,8 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
         )
     }
 
+    abstract val compatibleFluids: MutableList<String>
+
     init
     {
         setRegistryName("plant/emergent/$name")

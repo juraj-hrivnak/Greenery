@@ -60,6 +60,7 @@ abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: B
         Greenery.proxy.registerItemColourHandler(this, event)
     }
 
+    // TODO: Rewrite this
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack>
     {
         val itemstack = playerIn.getHeldItem(handIn)

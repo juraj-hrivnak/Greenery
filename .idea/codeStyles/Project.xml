@@ -8,6 +8,7 @@
       <option name="CONTINUATION_INDENT_IN_IF_CONDITIONS" value="false" />
     </JetCodeStyleSettings>
     <codeStyleSettings language="kotlin">
+      <option name="RIGHT_MARGIN" value="130" />
       <option name="KEEP_LINE_BREAKS" value="false" />
       <option name="ELSE_ON_NEW_LINE" value="true" />
       <option name="WHILE_ON_NEW_LINE" value="true" />

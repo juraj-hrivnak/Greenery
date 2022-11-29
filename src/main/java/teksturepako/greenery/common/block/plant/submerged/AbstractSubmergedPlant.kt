@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
+import net.minecraftforge.common.util.Constants.BlockFlags.NO_RERENDER
 import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
@@ -151,7 +152,7 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
             }
             else
             {
-                worldIn.setBlockState(pos, Blocks.AIR.defaultState, Constants.BlockFlags.NO_RERENDER)
+                worldIn.setBlockState(pos, Blocks.AIR.defaultState, NO_RERENDER)
             }
         }
     }

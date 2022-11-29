@@ -14,7 +14,7 @@ internal class WorldGenHook : IWorldGenerator
 {
     override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGen: IChunkGenerator, chunkProv: IChunkProvider)
     {
-        val generators: MutableList<IPlantGenerator> = Greenery.loadGenerators()
+        val generators: MutableList<IPlantGenerator> = Greenery.loadGenerators(true)
         for (generator in generators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
         if (Config.global.removeGrass) removeBOPGenerators(world)

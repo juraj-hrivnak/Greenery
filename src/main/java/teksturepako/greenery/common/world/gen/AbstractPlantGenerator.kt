@@ -37,9 +37,7 @@ abstract class AbstractPlantGenerator : IPlantGenerator
         for (i in 0..plantAttempts)
         {
             val pos = targetPos.add(
-                rand.nextInt(8) - rand.nextInt(8),
-                rand.nextInt(4) - rand.nextInt(4),
-                rand.nextInt(8) - rand.nextInt(8)
+                rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8)
             )
 
             if (!world.isBlockLoaded(pos)) continue
