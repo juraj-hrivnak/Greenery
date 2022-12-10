@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.submerged
 
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
@@ -66,7 +68,6 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
 
-    @Deprecated("", ReplaceWith("NULL_AABB", "net.minecraft.block.Block.NULL_AABB"))
     override fun getCollisionBoundingBox(state: IBlockState, world: IBlockAccess, pos: BlockPos): AxisAlignedBB?
     {
         return NULL_AABB
@@ -79,19 +80,16 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
         return BlockRenderLayer.CUTOUT
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun isFullCube(state: IBlockState): Boolean
     {
         return false
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun isOpaqueCube(state: IBlockState): Boolean
     {
         return false
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun getBlockFaceShape(worldIn: IBlockAccess, state: IBlockState, pos: BlockPos, face: EnumFacing): BlockFaceShape
     {
         return BlockFaceShape.UNDEFINED
@@ -134,7 +132,6 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
         ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos) && canBlockStay(worldIn, pos))
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos)
     {
         checkAndDropBlock(worldIn, pos, state)
@@ -148,7 +145,7 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
             if (!fluidState.isEmpty)
             {
                 dropBlockAsItem(worldIn, pos, state, 0)
-                worldIn.setBlockState(pos, fluidState.state, Constants.BlockFlags.DEFAULT)
+                worldIn.setBlockToAir(pos)
             }
             else
             {

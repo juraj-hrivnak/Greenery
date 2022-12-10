@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.submerged
 
 import net.minecraft.block.IGrowable
@@ -48,7 +50,6 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
     override val compatibleFluids: MutableList<String>
         get() = Config.plant.submerged.seagrass.compatibleFluids.toMutableList()
 
-    @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
     override fun getStateFromMeta(meta: Int): IBlockState
     {
         return defaultState
@@ -64,7 +65,6 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
         return BlockStateContainer(this, VARIANT)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         val hasSeagrassBelow = worldIn.getBlockState(pos.down()).block == this
@@ -110,8 +110,6 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
         worldIn.setBlockState(pos.up(), state)
     }
 
-    @Deprecated("")
-    @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return when (val actualState = getActualState(state, source, pos))

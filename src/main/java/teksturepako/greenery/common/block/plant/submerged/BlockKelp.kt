@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.submerged
 
 import net.minecraft.block.properties.PropertyBool
@@ -47,7 +49,6 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         return AGE
     }
 
-    @Deprecated("", ReplaceWith("false"))
     override fun getStateFromMeta(meta: Int): IBlockState
     {
         return defaultState.withProperty(AGE, meta)
@@ -63,7 +64,6 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         return BlockStateContainer(this, IS_TOP_BLOCK, AGE)
     }
 
-    @Deprecated("")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         val hasKelpAbove = worldIn.getBlockState(pos.up()).block == this
@@ -141,8 +141,6 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         worldIn.setBlockState(topPos.up(), newBlockState)
     }
 
-    @Deprecated("")
-    @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return when (val actualState = getActualState(state, source, pos))

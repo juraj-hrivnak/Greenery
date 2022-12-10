@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.submerged
 
 import net.minecraft.block.properties.PropertyEnum
@@ -47,7 +49,6 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
     override val compatibleFluids: MutableList<String>
         get() = Config.plant.submerged.watermilfoil.compatibleFluids.toMutableList()
 
-    @Deprecated("Deprecated in Java", ReplaceWith("defaultState"))
     override fun getStateFromMeta(meta: Int): IBlockState
     {
         return defaultState
@@ -63,7 +64,6 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
         return BlockStateContainer(this, VARIANT)
     }
 
-    @Deprecated("Deprecated in Java")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         val hasRivergrassBelow = worldIn.getBlockState(pos.down()).block == this
@@ -109,8 +109,6 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
         worldIn.setBlockState(pos.up(), state)
     }
 
-    @Deprecated("")
-    @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return when (val actualState = getActualState(state, source, pos))
