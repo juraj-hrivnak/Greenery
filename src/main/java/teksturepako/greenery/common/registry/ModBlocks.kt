@@ -8,28 +8,30 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
 import teksturepako.greenery.common.block.BlockDriedKelp
 import teksturepako.greenery.common.block.BlockGrass
-import teksturepako.greenery.common.block.plant.emergent.BlockArrowhead
-import teksturepako.greenery.common.block.plant.emergent.BlockCattail
+import teksturepako.greenery.common.block.plant.emergent.EmergentPlantBase
 import teksturepako.greenery.common.block.plant.submerged.BlockKelp
 import teksturepako.greenery.common.block.plant.submerged.BlockSeagrass
 import teksturepako.greenery.common.block.plant.submerged.BlockWatermilfoil
 import teksturepako.greenery.common.block.plant.upland.tall.*
+import teksturepako.greenery.common.config.Config
 
 object ModBlocks
 {
-
     val blockSeagrass = BlockSeagrass()
     val blockWatermilfoil = BlockWatermilfoil()
     val blockKelp = BlockKelp()
     val blockDriedKelp = BlockDriedKelp()
-    val blockCattail = BlockCattail()
-    val blockArrowhead = BlockArrowhead()
+
+    val blockCattail = EmergentPlantBase("cattail")
+    val blockArrowhead = EmergentPlantBase("arrowhead")
+
     val blockGrass = BlockGrass()
-    val blockFoxtail = BlockFoxtail()
-    val blockEagleFern = BlockEagleFern()
-    val blockRyegrass = BlockRyegrass()
-    val blockNettle = BlockNettle()
-    val blockBarley = BlockBarley()
+
+    val blockFoxtail = TallPlantBase("foxtail", Config.plant.upland.tall.foxtail.drops.toMutableList())
+    val blockEagleFern = TallPlantBase("eagle_fern", Config.plant.upland.tall.eagleFern.drops.toMutableList())
+    val blockRyegrass = TallPlantBase("ryegrass", Config.plant.upland.tall.ryegrass.drops.toMutableList())
+    val blockNettle = TallPlantBase("nettle", Config.plant.upland.tall.nettle.drops.toMutableList())
+    val blockBarley = TallPlantBase("barley", Config.plant.upland.tall.barley.drops.toMutableList())
 
     fun register(registry: IForgeRegistry<Block>)
     {
@@ -51,6 +53,8 @@ object ModBlocks
     {
         registry.register(blockSeagrass.createItemBlock())
         registry.register(blockWatermilfoil.createItemBlock())
+        registry.register(blockCattail.createItemBlock())
+        registry.register(blockArrowhead.createItemBlock())
         registry.register(blockGrass.createItemBlock())
         registry.register(blockFoxtail.createItemBlock())
         registry.register(blockEagleFern.createItemBlock())
@@ -66,6 +70,8 @@ object ModBlocks
     {
         blockSeagrass.registerItemModel()
         blockWatermilfoil.registerItemModel()
+        blockCattail.registerItemModel()
+        blockArrowhead.registerItemModel()
         blockGrass.registerItemModel()
         blockFoxtail.registerItemModel()
         blockEagleFern.registerItemModel()

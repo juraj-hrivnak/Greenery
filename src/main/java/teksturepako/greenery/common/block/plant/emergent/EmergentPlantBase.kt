@@ -3,18 +3,11 @@ package teksturepako.greenery.common.block.plant.emergent
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.item.Item
-import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.registry.ModBlocks
-import teksturepako.greenery.common.registry.ModItems
 
-class BlockArrowhead : AbstractEmergentPlant(NAME)
+open class EmergentPlantBase(name: String) : AbstractEmergentPlant(name)
 {
-
     companion object
     {
-        const val NAME = "arrowhead"
-        const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
-
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
     }
 
@@ -22,6 +15,9 @@ class BlockArrowhead : AbstractEmergentPlant(NAME)
     {
         defaultState = blockState.baseState.withProperty(AGE, 0)
     }
+
+    override val compatibleFluids: MutableList<String>
+        get() = TODO("Not yet implemented")
 
     override fun getAgeProperty(): PropertyInteger
     {
@@ -35,19 +31,16 @@ class BlockArrowhead : AbstractEmergentPlant(NAME)
 
     override fun getSeed(): Item
     {
-        return ModItems.itemBlockArrowhead
+        return itemBlock
     }
 
     override fun getCrop(): Item
     {
-        return ModItems.itemBlockArrowhead
+        return itemBlock
     }
 
     override fun createBlockState(): BlockStateContainer
     {
         return BlockStateContainer(this, AGE)
     }
-
 }
-
-class ItemBlockArrowhead : AbstractEmergentItemBlock(BlockArrowhead.NAME, ModBlocks.blockArrowhead)

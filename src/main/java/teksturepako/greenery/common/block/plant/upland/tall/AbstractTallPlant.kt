@@ -60,7 +60,6 @@ abstract class AbstractTallPlant(name: String) : GreeneryPlantBase()
         else false
     }
 
-    // Growing
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
     {
         return when
@@ -86,7 +85,6 @@ abstract class AbstractTallPlant(name: String) : GreeneryPlantBase()
         worldIn.setBlockState(pos, withAge(newAge), 2)
     }
 
-    // Drops
     override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
     {
         DropsUtil.getDrops(this.drops, drops, world, pos, state, this.seed, fortune)

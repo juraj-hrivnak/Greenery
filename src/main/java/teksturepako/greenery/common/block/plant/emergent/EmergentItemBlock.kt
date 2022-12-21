@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-abstract class AbstractEmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
+class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
 {
     companion object
     {

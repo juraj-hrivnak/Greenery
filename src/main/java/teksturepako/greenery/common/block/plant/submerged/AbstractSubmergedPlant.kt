@@ -141,16 +141,8 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
     {
         if (!canBlockStay(worldIn, pos))
         {
-            val fluidState = FluidloggedUtils.getFluidState(worldIn, pos, state)
-            if (!fluidState.isEmpty)
-            {
-                dropBlockAsItem(worldIn, pos, state, 0)
-                worldIn.setBlockToAir(pos)
-            }
-            else
-            {
-                worldIn.setBlockState(pos, Blocks.AIR.defaultState, NO_RERENDER)
-            }
+            dropBlockAsItem(worldIn, pos, state, 0)
+            worldIn.setBlockToAir(pos)
         }
     }
 

@@ -15,6 +15,7 @@ import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.block.plant.emergent.EmergentItemBlock
 import java.util.*
 
 abstract class GreeneryPlantBase : BlockCrops()
@@ -24,7 +25,7 @@ abstract class GreeneryPlantBase : BlockCrops()
     /**
      * Creates an Item Block
      */
-    fun createItemBlock(): Item
+    open fun createItemBlock(): Item
     {
         itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
         return itemBlock
@@ -131,6 +132,16 @@ abstract class GreeneryPlantBase : BlockCrops()
     override fun canSustainBush(state: IBlockState): Boolean
     {
         return false
+    }
+
+    override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean
+    {
+        return true
+    }
+
+    override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int
+    {
+        return 300
     }
 
 }

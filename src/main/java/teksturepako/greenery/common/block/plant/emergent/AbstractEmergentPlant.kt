@@ -3,6 +3,7 @@ package teksturepako.greenery.common.block.plant.emergent
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
@@ -11,9 +12,8 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.ModSoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
-abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
+abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBase()
 {
-
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(
@@ -35,6 +35,15 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
         translationKey = name
         soundType = ModSoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
+    }
+
+    /**
+     * Creates an Item Block
+     */
+    override fun createItemBlock(): Item
+    {
+        itemBlock = EmergentItemBlock(name, this)
+        return itemBlock
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
@@ -61,5 +70,4 @@ abstract class AbstractEmergentPlant(name: String) : GreeneryPlantBase()
     {
         return WATER_CROP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
     }
-
 }

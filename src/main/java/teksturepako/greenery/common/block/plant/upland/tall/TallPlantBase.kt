@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.upland.tall
 
 import net.minecraft.block.properties.PropertyBool
@@ -7,17 +9,12 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
-import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 
-class BlockRyegrass : AbstractTallPlant(NAME)
+open class TallPlantBase(name: String, config: MutableList<String>) : AbstractTallPlant(name)
 {
-
     companion object
     {
-        const val NAME = "ryegrass"
-        const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
-
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
         val TOP: PropertyBool = PropertyBool.create("top")
         val SINGLE: PropertyBool = PropertyBool.create("single")
@@ -28,8 +25,7 @@ class BlockRyegrass : AbstractTallPlant(NAME)
         defaultState = blockState.baseState.withProperty(AGE, 0).withProperty(TOP, true).withProperty(SINGLE, false)
     }
 
-    override val drops: MutableList<String>
-        get() = Config.plant.upland.tall.ryegrass.drops.toMutableList()
+    override val drops: MutableList<String> = config
 
     override fun getAgeProperty(): PropertyInteger
     {
@@ -46,7 +42,6 @@ class BlockRyegrass : AbstractTallPlant(NAME)
         return BlockStateContainer(this, AGE, TOP, SINGLE)
     }
 
-    @Deprecated("")
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         val hasTheSameBlockBelow = worldIn.getBlockState(pos.down()).block == this
@@ -60,8 +55,6 @@ class BlockRyegrass : AbstractTallPlant(NAME)
         }
     }
 
-    @Deprecated("")
-    @Suppress("DEPRECATION")
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return when (val actualState = getActualState(state, source, pos))
@@ -83,5 +76,4 @@ class BlockRyegrass : AbstractTallPlant(NAME)
             )
         }
     }
-
 }
