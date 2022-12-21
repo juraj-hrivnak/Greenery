@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.emergent
 
 import net.minecraft.block.material.Material
@@ -65,7 +67,6 @@ abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBa
         else false
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return WATER_CROP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))

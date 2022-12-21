@@ -1,3 +1,5 @@
+@file:Suppress("OVERRIDE_DEPRECATION")
+
 package teksturepako.greenery.common.block.plant.upland.single
 
 import net.minecraft.block.SoundType
@@ -48,7 +50,6 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlantBase()
         return down.material in ALLOWED_SOILS
     }
 
-    @Deprecated("Deprecated in Java", ReplaceWith("false"))
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
