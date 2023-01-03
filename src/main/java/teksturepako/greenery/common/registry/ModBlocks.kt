@@ -12,7 +12,7 @@ import teksturepako.greenery.common.block.plant.emergent.EmergentPlantBase
 import teksturepako.greenery.common.block.plant.submerged.BlockKelp
 import teksturepako.greenery.common.block.plant.submerged.BlockSeagrass
 import teksturepako.greenery.common.block.plant.submerged.BlockWatermilfoil
-import teksturepako.greenery.common.block.plant.upland.tall.*
+import teksturepako.greenery.common.block.plant.upland.tall.TallPlantBase
 import teksturepako.greenery.common.config.Config
 
 object ModBlocks

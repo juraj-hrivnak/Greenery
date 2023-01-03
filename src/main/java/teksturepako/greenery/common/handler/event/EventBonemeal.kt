@@ -14,6 +14,7 @@ import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.WorldGenUtil
 import java.util.*
 
@@ -53,6 +54,8 @@ object EventBonemeal
     @JvmStatic
     fun onBonemealUsed(event: BonemealEvent)
     {
+        if (!Config.global.genPlantsFromBonemeal) return
+
         val world = event.world
         val block = event.block
         val up = event.pos.up()
@@ -60,7 +63,11 @@ object EventBonemeal
 
         if (block.material == Material.GRASS || block.block.registryName == ForgeRegistries.BLOCKS.getValue(
                 ResourceLocation("biomesoplenty:grass")
-            )?.registryName && block.isFullBlock) event.isCanceled = true
+            )?.registryName && block.isFullBlock)
+        {
+            event.stack.count -= 1
+            event.isCanceled = true
+        }
 
         if (Greenery.generators.isNotEmpty())
         {
@@ -73,7 +80,6 @@ object EventBonemeal
                     if (!world.isRemote)
                     {
                         event.result = Event.Result.ALLOW
-                        event.stack.count -= 1
                         grow(generator.block, up, world, rand)
                     }
                     else if (event.entityPlayer == Minecraft.getMinecraft().player)

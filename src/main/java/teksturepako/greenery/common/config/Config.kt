@@ -9,8 +9,28 @@ import teksturepako.greenery.common.config.plant.Upland
 
 object Config
 {
-    val plant: PlantSettings = _Internal.PLANT_SETTINGS
     val global: GlobalSettings = _Internal.GLOBAL_SETTINGS
+    val plant: PlantSettings = _Internal.PLANT_SETTINGS
+
+    class GlobalSettings
+    {
+        @Name("Global Grass Generation Multiplier")
+        @Comment("Multiplies the patch attempts of grass by given number.")
+        @Config.RangeInt(min = 1, max = 4)
+        @SlidingOption
+        @JvmField
+        var generationMultiplier = 1
+
+        @Name("Remove Grass")
+        @Comment("Removes the vanilla and Biomes O' Plenty grass.")
+        @JvmField
+        var removeGrass = true
+
+        @Name("Generate plants from bonemeal")
+        @Comment("Whether to grow new plants when using bonemeal or not.")
+        @JvmField
+        var genPlantsFromBonemeal = true
+    }
 
     class PlantSettings
     {
@@ -33,20 +53,5 @@ object Config
         @Comment("Options for Upland plants")
         @JvmField
         val upland = Upland()
-    }
-
-    class GlobalSettings
-    {
-        @Name("Global Grass Generation Multiplier")
-        @Comment("Multiplies the patch attempts of grass by given number.")
-        @Config.RangeInt(min = 1, max = 4)
-        @SlidingOption
-        @JvmField
-        var generationMultiplier = 1
-
-        @Name("Remove Grass")
-        @Comment("Removes the vanilla and Biomes O' Plenty grass.")
-        @JvmField
-        var removeGrass = true
     }
 }

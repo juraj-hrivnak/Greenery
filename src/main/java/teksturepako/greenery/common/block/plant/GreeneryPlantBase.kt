@@ -15,7 +15,6 @@ import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.block.plant.emergent.EmergentItemBlock
 import java.util.*
 
 abstract class GreeneryPlantBase : BlockCrops()
