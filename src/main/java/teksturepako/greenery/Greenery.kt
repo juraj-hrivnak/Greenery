@@ -18,7 +18,8 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
-import teksturepako.greenery.client.ModCreativeTab
+import teksturepako.greenery.client.GreeneryCreativeTab
+import teksturepako.greenery.common.command.CommandGreenery
 import teksturepako.greenery.common.handler.ModFuelHandler
 import teksturepako.greenery.common.handler.event.EventOldContentLoad
 import teksturepako.greenery.common.handler.event.EventWorldGen
@@ -53,14 +54,14 @@ object Greenery
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "2.4"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);before:simpledifficulty;after:dynamictrees;after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.8.1,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
     const val SERVER_PROXY = "teksturepako.greenery.proxy.ServerProxy"
     const val CLIENT_PROXY = "teksturepako.greenery.proxy.ClientProxy"
 
-    val creativeTab = ModCreativeTab()
+    val creativeTab = GreeneryCreativeTab()
     val generators: MutableList<IPlantGenerator> = ArrayList()
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
@@ -98,7 +99,7 @@ object Greenery
     fun serverLoad(event: FMLServerStartingEvent)
     {
         loadGenerators(true)
-        event.registerServerCommand(GreeneryCommand())
+        event.registerServerCommand(CommandGreenery())
     }
 
     @SubscribeEvent

@@ -10,7 +10,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.client.ModSoundTypes
+import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
 abstract class AbstractFloatingPlant(name: String) : GreeneryPlantBase()
@@ -33,7 +33,7 @@ abstract class AbstractFloatingPlant(name: String) : GreeneryPlantBase()
     {
         setRegistryName("plant/floating/$name")
         translationKey = name
-        soundType = ModSoundTypes.SEAWEED
+        soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
     }
 

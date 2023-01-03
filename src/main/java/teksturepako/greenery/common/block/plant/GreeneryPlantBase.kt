@@ -45,7 +45,7 @@ abstract class GreeneryPlantBase : BlockCrops()
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandler(event: ColorHandlerEvent.Item)
     {
-        Greenery.proxy.registerItemColourHandler(itemBlock, event)
+        Greenery.proxy.registerItemColorHandler(itemBlock, event)
     }
 
     /**
@@ -54,7 +54,7 @@ abstract class GreeneryPlantBase : BlockCrops()
     @SideOnly(Side.CLIENT)
     fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
     {
-        Greenery.proxy.registerGrassColourHandler(this, event)
+        Greenery.proxy.registerGrassColorHandler(this, event)
     }
 
     public abstract override fun getAgeProperty(): PropertyInteger
@@ -142,5 +142,4 @@ abstract class GreeneryPlantBase : BlockCrops()
     {
         return 300
     }
-
 }

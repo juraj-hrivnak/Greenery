@@ -58,7 +58,7 @@ abstract class AbstractFloatingItemBlock(name: String, private val blockToUse: B
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandler(event: ColorHandlerEvent.Item)
     {
-        Greenery.proxy.registerItemColourHandler(this, event)
+        Greenery.proxy.registerItemColorHandler(this, event)
     }
 
     override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack>

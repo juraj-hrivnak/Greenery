@@ -57,7 +57,7 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandler(event: ColorHandlerEvent.Item)
     {
-        Greenery.proxy.registerItemColourHandler(this, event)
+        Greenery.proxy.registerItemColorHandler(this, event)
     }
 
     // TODO: Rewrite this

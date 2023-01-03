@@ -80,7 +80,7 @@ class ClientProxy : IProxy
         ModelLoader.setCustomModelResourceLocation(itemBlock, meta, ModelResourceLocation(id, "inventory"))
     }
 
-    override fun registerGrassColourHandler(block: Block, event: ColorHandlerEvent.Block)
+    override fun registerGrassColorHandler(block: Block, event: ColorHandlerEvent.Block)
     {
         val blockColors: BlockColors = event.blockColors
         val grassColourHandler = IBlockColor(fun(_: IBlockState?, blockAccess: IBlockAccess?, pos: BlockPos?, _: Int): Int
@@ -94,7 +94,7 @@ class ClientProxy : IProxy
         blockColors.registerBlockColorHandler(grassColourHandler, block)
     }
 
-    override fun registerItemColourHandler(item: Item, event: ColorHandlerEvent.Item)
+    override fun registerItemColorHandler(item: Item, event: ColorHandlerEvent.Item)
     {
         val blockColors = event.blockColors
         val itemColors = event.itemColors
@@ -105,5 +105,4 @@ class ClientProxy : IProxy
         }
         itemColors.registerItemColorHandler(itemBlockColourHandler, item)
     }
-
 }

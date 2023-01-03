@@ -37,14 +37,13 @@ class ServerProxy : IProxy
         throw IProxy.WrongSideException("Tried to call ${::registerItemBlockRenderer.name} on server")
     }
 
-    override fun registerGrassColourHandler(block: Block, event: ColorHandlerEvent.Block)
+    override fun registerGrassColorHandler(block: Block, event: ColorHandlerEvent.Block)
     {
-        throw IProxy.WrongSideException("Tried to call ${::registerGrassColourHandler.name} on server")
+        throw IProxy.WrongSideException("Tried to call ${::registerGrassColorHandler.name} on server")
     }
 
-    override fun registerItemColourHandler(item: Item, event: ColorHandlerEvent.Item)
+    override fun registerItemColorHandler(item: Item, event: ColorHandlerEvent.Item)
     {
-        throw IProxy.WrongSideException("Tried to call ${::registerItemColourHandler.name} on server")
+        throw IProxy.WrongSideException("Tried to call ${::registerItemColorHandler.name} on server")
     }
-
 }

@@ -25,7 +25,7 @@ import net.minecraftforge.fluids.Fluid
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.client.ModSoundTypes
+import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.ModMaterials
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
@@ -50,7 +50,7 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
     {
         setRegistryName("plant/submerged/$name")
         translationKey = name
-        soundType = ModSoundTypes.SEAWEED
+        soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
         lightOpacity = 2
     }

@@ -3,7 +3,7 @@ package teksturepako.greenery.client
 import net.minecraft.block.SoundType
 import teksturepako.greenery.common.registry.ModSoundEvents
 
-object ModSoundTypes
+object GreenerySoundTypes
 {
     val SEAWEED = SoundType(
         1f,

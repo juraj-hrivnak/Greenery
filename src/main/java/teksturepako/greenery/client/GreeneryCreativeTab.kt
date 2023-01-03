@@ -5,7 +5,7 @@ import net.minecraft.item.ItemStack
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.registry.ModBlocks
 
-class ModCreativeTab : CreativeTabs(Greenery.MODID)
+class GreeneryCreativeTab : CreativeTabs(Greenery.MODID)
 {
     override fun createIcon(): ItemStack
     {
