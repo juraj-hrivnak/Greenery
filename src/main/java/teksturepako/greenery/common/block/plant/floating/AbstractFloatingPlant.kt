@@ -13,7 +13,7 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
-abstract class AbstractFloatingPlant(name: String) : GreeneryPlantBase()
+abstract class AbstractFloatingPlant(name: String) : GreeneryPlantBase(false, false)
 {
 
     companion object

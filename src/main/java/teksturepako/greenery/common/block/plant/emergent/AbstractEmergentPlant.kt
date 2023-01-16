@@ -14,7 +14,7 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
-abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBase()
+abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBase(false, false)
 {
     companion object
     {

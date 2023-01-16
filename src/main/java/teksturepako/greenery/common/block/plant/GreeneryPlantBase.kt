@@ -1,23 +1,30 @@
+@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+
 package teksturepako.greenery.common.block.plant
 
 import net.minecraft.block.BlockCrops
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
+import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.ForgeHooks
+import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.util.ModDamageSource
 import java.util.*
 
-abstract class GreeneryPlantBase : BlockCrops()
+abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHarm: Boolean) : BlockCrops()
 {
     lateinit var itemBlock: Item
 
@@ -78,6 +85,23 @@ abstract class GreeneryPlantBase : BlockCrops()
     {
         entityIn.motionX = entityIn.motionX / 1.1
         entityIn.motionZ = entityIn.motionZ / 1.1
+
+        if (doHarm && entityIn is EntityPlayer)
+        {
+            if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY)
+            {
+                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+            }
+            if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY)
+            {
+                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+            }
+        }
+    }
+
+    override fun getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB?
+    {
+        return if (isSolid) this.getBoundingBox(blockState, worldIn, pos) else NULL_AABB
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
@@ -100,17 +124,17 @@ abstract class GreeneryPlantBase : BlockCrops()
     @SideOnly(Side.CLIENT)
     override fun getOffsetType(): EnumOffsetType
     {
-        return EnumOffsetType.XZ
+        return if (Loader.isModLoaded("optifine")) EnumOffsetType.NONE else EnumOffsetType.XZ
     }
 
     override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean
     {
-        return true
+        return isSolid
     }
 
     override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
     {
-        return true
+        return isSolid
     }
 
     override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean

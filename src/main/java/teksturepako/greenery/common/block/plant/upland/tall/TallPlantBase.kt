@@ -10,7 +10,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-open class TallPlantBase(name: String, config: MutableList<String>) : AbstractTallPlant(name)
+open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Boolean) : AbstractTallPlant(name, doHarm)
 {
     companion object
     {

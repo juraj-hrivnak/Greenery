@@ -27,11 +27,11 @@ object ModBlocks
 
     val blockGrass = BlockGrass()
 
-    val blockFoxtail = TallPlantBase("foxtail", Config.plant.upland.tall.foxtail.drops.toMutableList())
-    val blockEagleFern = TallPlantBase("eagle_fern", Config.plant.upland.tall.eagleFern.drops.toMutableList())
-    val blockRyegrass = TallPlantBase("ryegrass", Config.plant.upland.tall.ryegrass.drops.toMutableList())
-    val blockNettle = TallPlantBase("nettle", Config.plant.upland.tall.nettle.drops.toMutableList())
-    val blockBarley = TallPlantBase("barley", Config.plant.upland.tall.barley.drops.toMutableList())
+    val blockFoxtail = TallPlantBase("foxtail", Config.plant.upland.tall.foxtail.drops.toMutableList(), false)
+    val blockEagleFern = TallPlantBase("eagle_fern", Config.plant.upland.tall.eagleFern.drops.toMutableList(), false)
+    val blockRyegrass = TallPlantBase("ryegrass", Config.plant.upland.tall.ryegrass.drops.toMutableList(), false)
+    val blockNettle = TallPlantBase("nettle", Config.plant.upland.tall.nettle.drops.toMutableList(), true)
+    val blockBarley = TallPlantBase("barley", Config.plant.upland.tall.barley.drops.toMutableList(), false)
 
     fun register(registry: IForgeRegistry<Block>)
     {
