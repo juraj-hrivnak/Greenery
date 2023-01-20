@@ -20,9 +20,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCreativeTab
 import teksturepako.greenery.common.command.CommandGreenery
-import teksturepako.greenery.common.handler.ModFuelHandler
-import teksturepako.greenery.common.handler.event.EventOldContentLoad
-import teksturepako.greenery.common.handler.event.EventWorldGen
+import teksturepako.greenery.common.event.EventOldContentLoad
+import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
@@ -81,7 +80,6 @@ object Greenery
     {
         proxy.init(event)
         GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
-        GameRegistry.registerFuelHandler(ModFuelHandler())
         ModRecipes.register()
 
         MinecraftForge.EVENT_BUS.register(EventOldContentLoad::class.java)

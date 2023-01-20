@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.handler.event
+package teksturepako.greenery.common.event
 
 import net.minecraft.block.Block
 import net.minecraft.item.Item

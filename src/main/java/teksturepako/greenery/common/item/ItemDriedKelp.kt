@@ -27,6 +27,11 @@ class ItemDriedKelp : ItemFood(1, 0.6f, false)
         Greenery.proxy.registerItemRenderer(this, 0, registryName.toString())
     }
 
+    override fun getItemBurnTime(itemStack: ItemStack): Int
+    {
+        return 4000
+    }
+
     override fun getMaxItemUseDuration(stack: ItemStack): Int
     {
         return 16
