@@ -2,7 +2,6 @@ package teksturepako.greenery.common.event
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.material.Material
-import net.minecraft.block.state.IBlockState
 import net.minecraft.client.Minecraft
 import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.ResourceLocation
@@ -33,39 +32,22 @@ object EventBonemeal
         val up = event.pos.up()
         val rand = world.rand
 
-        when
+        if (blockState.material == Material.GRASS || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block))
         {
-            blockState.block.registryName == ForgeRegistries.BLOCKS.getValue(
-                ResourceLocation("biomesoplenty:grass")
-            )?.registryName && blockState.isFullBlock                                       ->
-            {
-                event.stack.count -= 1
-                event.isCanceled = true
-
-                useBonemeal(event, blockState, up, world, rand)
-            }
-            blockState.material == Material.GRASS                                           ->
-            {
-                useBonemeal(event, blockState, up, world, rand)
-            }
-            FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block)            ->
-            {
-                useBonemeal(event, blockState, up, world, rand)
-            }
+            useBonemeal(event, up, world, rand)
         }
     }
 
-    private fun useBonemeal(event: BonemealEvent, block: IBlockState, pos: BlockPos, world: World, rand: Random)
+    private fun useBonemeal(event: BonemealEvent, pos: BlockPos, world: World, rand: Random)
     {
         if (Greenery.generators.isNotEmpty())
         {
             for (generator in Greenery.generators)
             {
-                if (WorldGenUtil.areBiomeTypesValid(
+                if (rand.nextDouble() < generator.generationChance && WorldGenUtil.areBiomeTypesValid(
                         world.getBiome(pos), generator.validBiomeTypes, generator.inverted
-                    ) && generator.block.canPlaceBlockAt(world, pos) && block != generator.block)
+                    ))
                 {
-                    val generationAttempts = (generator.patchAttempts / generator.generationChance).toInt()
                     if (!world.isRemote)
                     {
                         event.result = Event.Result.ALLOW
@@ -74,7 +56,7 @@ object EventBonemeal
                     else if (event.entityPlayer == Minecraft.getMinecraft().player)
                     {
                         Minecraft.getMinecraft().player.swingArm(event.hand!!)
-                        spawnParticles(generationAttempts, world, pos, rand)
+                        spawnParticles(generator.patchAttempts, world, pos, rand)
                     }
                 }
             }
