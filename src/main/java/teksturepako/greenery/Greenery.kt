@@ -52,8 +52,9 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "2.6"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.9.0.6,);after:dynamictrees;after:biomesoplenty"
+    const val VERSION = "2.7"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.9.0.5,);after:dynamictrees;" +
+                             "after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
