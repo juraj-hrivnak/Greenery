@@ -8,6 +8,7 @@ import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
+import net.minecraftforge.common.util.Constants
 import net.minecraftforge.event.entity.player.BonemealEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.Event
@@ -68,7 +69,7 @@ object EventBonemeal
                     if (!world.isRemote)
                     {
                         event.result = Event.Result.ALLOW
-                        generator.generatePlants(world, rand, pos)
+                        generator.generatePlants(world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER)
                     }
                     else if (event.entityPlayer == Minecraft.getMinecraft().player)
                     {

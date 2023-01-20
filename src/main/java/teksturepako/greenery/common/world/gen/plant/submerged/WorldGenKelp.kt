@@ -20,7 +20,7 @@ class WorldGenKelp : AbstractPlantGenerator()
     override val validBiomeTypes = config.validBiomeTypes.toMutableList()
     override val inverted = config.inverted
 
-    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
+    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos, flags: Int)
     {
         for (i in 0..plantAttempts)
         {
@@ -32,12 +32,12 @@ class WorldGenKelp : AbstractPlantGenerator()
 
             if (block.canGenerateBlockAt(world, pos))
             {
-                placePlant(world, pos, rand)
+                placePlant(world, pos, rand, flags)
             }
         }
     }
 
-    override fun placePlant(world: World, pos: BlockPos, rand: Random)
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
     {
         val startingAge = rand.nextInt(block.getMaxAge() / 2)
         val height = block.getMaxAge() - startingAge
@@ -49,7 +49,7 @@ class WorldGenKelp : AbstractPlantGenerator()
 
             if (block.canGenerateBlockAt(world, kelpPos))
             {
-                world.setBlockState(kelpPos, state, Constants.BlockFlags.SEND_TO_CLIENTS)
+                world.setBlockState(kelpPos, state, flags)
             }
             else break
         }

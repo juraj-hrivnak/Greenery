@@ -18,14 +18,14 @@ class WorldGenArrowhead : AbstractPlantGenerator()
     override val validBiomeTypes = config.validBiomeTypes.toMutableList()
     override val inverted = config.inverted
 
-    override fun placePlant(world: World, pos: BlockPos, rand: Random)
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
     {
         val startingAge = rand.nextInt(block.maxAge)
         val state = block.defaultState.withProperty(block.ageProperty, startingAge)
 
         if (block.canBlockStay(world, pos, state))
         {
-            world.setBlockState(pos, state, 2)
+            world.setBlockState(pos, state, flags)
         }
     }
 

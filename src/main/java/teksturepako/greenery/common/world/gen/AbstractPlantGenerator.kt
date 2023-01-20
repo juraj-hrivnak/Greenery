@@ -27,12 +27,12 @@ abstract class AbstractPlantGenerator : IPlantGenerator
                 val y = random.nextInt(yRange)
 
                 val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
-                generatePlants(world, random, pos)
+                generatePlants(world, random, pos, 2)
             }
         }
     }
 
-    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
+    override fun generatePlants(world: World, rand: Random, targetPos: BlockPos, flags: Int)
     {
         for (i in 0..plantAttempts)
         {
@@ -44,10 +44,10 @@ abstract class AbstractPlantGenerator : IPlantGenerator
 
             if (world.isAirBlock(pos))
             {
-                placePlant(world, pos, rand)
+                placePlant(world, pos, rand, flags)
             }
         }
     }
 
-    abstract fun placePlant(world: World, pos: BlockPos, rand: Random)
+    abstract fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
 }

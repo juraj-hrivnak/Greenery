@@ -27,5 +27,5 @@ interface IPlantGenerator : IWorldGenerator
     val inverted: Boolean
 
     /** Plant generator */
-    fun generatePlants(world: World, rand: Random, targetPos: BlockPos)
+    fun generatePlants(world: World, rand: Random, targetPos: BlockPos, flags: Int)
 }

@@ -32,12 +32,12 @@ abstract class AbstractTallPlantGenerator : AbstractPlantGenerator()
                 val y = random.nextInt(yRange)
 
                 val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
-                generatePlants(world, random, pos)
+                generatePlants(world, random, pos, 2)
             }
         }
     }
 
-    override fun placePlant(world: World, pos: BlockPos, rand: Random)
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
     {
         val startingAge = rand.nextInt(block.maxAge)
         val state = block.defaultState.withProperty(block.ageProperty, startingAge)
@@ -45,15 +45,15 @@ abstract class AbstractTallPlantGenerator : AbstractPlantGenerator()
 
         if (block.canBlockStay(world, pos, state))
         {
-            world.setBlockState(pos, state, 2)
+            world.setBlockState(pos, state, flags)
 
             if (rand.nextDouble() < 0.2)
             {
-                world.setBlockState(pos, maxState, 2)
+                world.setBlockState(pos, maxState, flags)
 
                 if (world.isAirBlock(pos.up()) && block.canBlockStay(world, pos.up(), state))
                 {
-                    world.setBlockState(pos.up(), state, 2)
+                    world.setBlockState(pos.up(), state, flags)
                 }
             }
         }

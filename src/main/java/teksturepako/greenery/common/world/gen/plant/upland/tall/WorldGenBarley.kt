@@ -42,7 +42,7 @@ class WorldGenBarley : AbstractTallPlantGenerator()
                 val y = random.nextInt(yRange)
 
                 val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
-                generatePlants(world, random, pos)
+                generatePlants(world, random, pos, 2)
             }
         }
         else if (biome == REGISTRY.getObject(ResourceLocation("biomesoplenty", "pasture")))
@@ -56,7 +56,7 @@ class WorldGenBarley : AbstractTallPlantGenerator()
                 val y = random.nextInt(yRange)
 
                 val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
-                generatePlants(world, random, pos)
+                generatePlants(world, random, pos, 2)
             }
         }
     }
