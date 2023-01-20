@@ -2,7 +2,6 @@ package teksturepako.greenery.common.world.gen.plant.submerged
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraftforge.common.util.Constants
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.world.gen.AbstractPlantGenerator

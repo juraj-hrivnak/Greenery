@@ -27,6 +27,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.ModMaterials
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
@@ -96,9 +97,9 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / 1.1
-        entityIn.motionY = entityIn.motionY / 1.1
-        entityIn.motionZ = entityIn.motionZ / 1.1
+        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
+        entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier + 1)
+        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
     }
 
     override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean

@@ -13,6 +13,7 @@ import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
+import teksturepako.greenery.common.config.Config
 
 abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBase(false, false)
 {
@@ -50,9 +51,9 @@ abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBa
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / 1.1
-        entityIn.motionY = entityIn.motionY / 1.1
-        entityIn.motionZ = entityIn.motionZ / 1.1
+        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
+        entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier + 1)
+        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
     }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean

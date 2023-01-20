@@ -30,6 +30,13 @@ object Config
         @Comment("Whether to grow new plants when using bonemeal or not.")
         @JvmField
         var genPlantsFromBonemeal = true
+
+        @Name("Slowdown Modifier")
+        @Comment("Slows entity movement through plants. Higher = slower.")
+        @Config.RangeDouble(min = 0.0, max = 1.0)
+        @SlidingOption
+        @JvmField
+        var slowdownModifier = 0.1
     }
 
     class PlantSettings

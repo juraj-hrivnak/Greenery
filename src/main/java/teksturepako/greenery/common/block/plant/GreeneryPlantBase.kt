@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.ModDamageSource
 import java.util.*
 
@@ -83,8 +84,8 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / 1.1
-        entityIn.motionZ = entityIn.motionZ / 1.1
+        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
+        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
 
         if (doHarm && entityIn is EntityPlayer)
         {
