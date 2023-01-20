@@ -129,12 +129,12 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
 
     override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean
     {
-        return isSolid
+        return !isSolid
     }
 
     override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
     {
-        return isSolid
+        return !isSolid
     }
 
     override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean
