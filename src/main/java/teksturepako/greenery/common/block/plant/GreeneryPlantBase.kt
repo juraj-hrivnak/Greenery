@@ -30,7 +30,7 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
     lateinit var itemBlock: Item
 
     /**
-     * Creates an Item Block
+     * Creates an item block
      */
     open fun createItemBlock(): Item
     {
@@ -39,7 +39,7 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
     }
 
     /**
-     * Registers a Item model for a given Item
+     * Registers a model for the item block
      */
     @SideOnly(Side.CLIENT)
     fun registerItemModel()
@@ -48,7 +48,7 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
     }
 
     /**
-     * Registers a color handler for a given Item
+     * Registers a color handler for the item block
      */
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandler(event: ColorHandlerEvent.Item)
@@ -57,7 +57,7 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
     }
 
     /**
-     * Registers a color handler for a given Block
+     * Registers a color handler for this block
      */
     @SideOnly(Side.CLIENT)
     fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
@@ -107,17 +107,12 @@ abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHar
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
     {
-        if (worldIn.isRemote || !worldIn.isAreaLoaded(pos, 1) || !canBlockStay(worldIn, pos, state)) return
-        if (worldIn.getLightFromNeighbors(pos.up()) >= 9)
+        if (getAge(state) <= this.maxAge && canBlockStay(worldIn, pos, state))
         {
-            val age = getAge(state)
-            if (age <= this.maxAge)
+            if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0))
             {
-                if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0))
-                {
-                    grow(worldIn, pos, state)
-                    ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
-                }
+                grow(worldIn, pos, state)
+                ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
             }
         }
     }
