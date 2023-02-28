@@ -5,7 +5,7 @@ buildscript {
         mavenCentral()
         maven {
             name = "forge"
-            url = "https://files.minecraftforge.net/maven"
+            url = "https://maven.minecraftforge.net"
         }
         maven {
             name = "kotlin"
@@ -13,7 +13,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT"
+        classpath "com.anatawa12.forge:ForgeGradle:2.3-1.0.7"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50"
     }
 }
@@ -22,7 +22,7 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "kotlin"
 
 group = 'teksturepako'
-version = '1.12.2-2.8'
+version = '1.12.2-3.0'
 archivesBaseName = 'Greenery'
 
 minecraft {
