@@ -10,7 +10,9 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Boolean) : AbstractTallPlant(name, doHarm)
+open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Boolean, override val worldGenConfig: MutableList<String>) : AbstractTallPlant(
+    name, doHarm, worldGenConfig
+)
 {
     companion object
     {
@@ -60,14 +62,14 @@ open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Bool
         {
             actualState.withProperty(
                 TOP, true
-            )    -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+            ) -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
                 state.getOffset(
                     source, pos
                 )
             )
             actualState.withProperty(
                 TOP, false
-            )    -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+            ) -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
                 state.getOffset(source, pos)
             )
             else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(

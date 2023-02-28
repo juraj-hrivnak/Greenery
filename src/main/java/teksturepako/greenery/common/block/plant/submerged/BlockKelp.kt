@@ -36,6 +36,9 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         defaultState = blockState.baseState.withProperty(IS_TOP_BLOCK, false).withProperty(AGE, 0)
     }
 
+    override val worldGenConfig: MutableList<String>
+        get() = Config.plant.submerged.kelp.worldGen.toMutableList()
+
     override val compatibleFluids: MutableList<String>
         get() = Config.plant.submerged.kelp.compatibleFluids.toMutableList()
 
@@ -91,6 +94,27 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         //Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
         return if (down.block == this) true else down.material in ALLOWED_SOILS
+    }
+
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
+    {
+        if (this.canGenerateBlockAt(world, pos))
+        {
+            val startingAge = rand.nextInt(this.getMaxAge() / 2)
+            val height = this.getMaxAge() - startingAge
+
+            for (i in 0..height)
+            {
+                val kelpPos = pos.up(i)
+                val state = this.defaultState.withProperty(this.getAgeProperty(), i + startingAge)
+
+                if (this.canGenerateBlockAt(world, kelpPos))
+                {
+                    world.setBlockState(kelpPos, state, flags)
+                }
+                else break
+            }
+        }
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)

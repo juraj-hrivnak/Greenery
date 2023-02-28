@@ -27,13 +27,13 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.ModMaterials
+import teksturepako.greenery.common.block.plant.IGreeneryPlant
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
-abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable
+abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable, IGreeneryPlant
 {
-
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(

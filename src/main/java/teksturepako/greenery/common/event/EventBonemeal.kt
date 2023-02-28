@@ -42,19 +42,22 @@ object EventBonemeal
         {
             for (generator in Greenery.generators)
             {
-                if (rand.nextDouble() < generator.generationChance && WorldGenUtil.areBiomeTypesValid(
-                        world.getBiome(pos), generator.validBiomeTypes, generator.inverted
-                    ))
+                for (input in generator.block.worldGenConfig)
                 {
-                    if (!world.isRemote)
+                    val config = WorldGenUtil.Parser(input, generator.block.worldGenConfig)
+
+                    if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(world.getBiome(pos), event.world.provider.dimension))
                     {
-                        event.result = Event.Result.ALLOW
-                        generator.generatePlants(world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER)
-                    }
-                    else if (event.entityPlayer == Minecraft.getMinecraft().player)
-                    {
-                        Minecraft.getMinecraft().player.swingArm(event.hand!!)
-                        spawnParticles(generator.patchAttempts, world, pos, rand)
+                        if (!world.isRemote)
+                        {
+                            event.result = Event.Result.ALLOW
+                            generator.generatePlants(config.getPlantAttempts() / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER)
+                        }
+                        else if (event.entityPlayer == Minecraft.getMinecraft().player)
+                        {
+                            Minecraft.getMinecraft().player.swingArm(event.hand!!)
+                            spawnParticles(config.getPatchAttempts() / 4, world, pos, rand)
+                        }
                     }
                 }
             }

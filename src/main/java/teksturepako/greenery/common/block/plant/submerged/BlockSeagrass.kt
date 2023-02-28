@@ -47,6 +47,9 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
         defaultState = blockState.baseState.withProperty(VARIANT, SeagrassVariant.SINGLE)
     }
 
+    override val worldGenConfig: MutableList<String>
+        get() = Config.plant.submerged.seagrass.worldGen.toMutableList()
+
     override val compatibleFluids: MutableList<String>
         get() = Config.plant.submerged.seagrass.compatibleFluids.toMutableList()
 
@@ -96,6 +99,21 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
             down2.block != this                  // if 2 block down is weed return false
         }
         else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
+    }
+
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
+    {
+        if (this.canGenerateBlockAt(world, pos))
+        {
+            val state = this.defaultState
+
+            world.setBlockState(pos, state, flags)
+
+            if (rand.nextDouble() < 0.05 && this.canGenerateBlockAt(world, pos.up()))
+            {
+                world.setBlockState(pos.up(), state, flags)
+            }
+        }
     }
 
     // IGrowable implementation

@@ -20,7 +20,9 @@ import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractSinglePlant(name: String) : GreeneryPlantBase(false, false)
+abstract class AbstractSinglePlant(name: String, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
+    worldGenConfig, false, false
+)
 {
 
     companion object

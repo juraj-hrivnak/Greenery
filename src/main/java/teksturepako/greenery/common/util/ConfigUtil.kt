@@ -10,7 +10,7 @@ object ConfigUtil
 
     /**
      * IPlantGenerator Parser
-     * @return Boolean (true when errored)
+     * @return true when errored
      */
     fun parseGenerators(generators: MutableList<IPlantGenerator>, print: Boolean): Boolean
     {
@@ -31,23 +31,21 @@ object ConfigUtil
         }
 
         var printBiomeTypes = false
-        var errored = false
+        val errored = false
 
         for (generator in generators)
         {
-            errored = parseBiomeDictionaries(generator.validBiomeTypes, false)
-
             if (print)
             {
                 if (errored)
                 {
-                    Greenery.logger.warn("    ! \"${generator.block.registryName?.path}\"")
+                    Greenery.logger.warn("    ! \"${generator.block.javaClass.name.replace("teksturepako.greenery.common.block.", "")}\"")
                 }
                 else
                 {
-                    Greenery.logger.info("  > \"${generator.block.registryName?.path}\"")
+                    Greenery.logger.info("  > \"${generator.block.javaClass.name.replace("teksturepako.greenery.common.block.", "")}\"")
                 }
-                parseBiomeDictionaries(generator.validBiomeTypes, true)
+                Greenery.logger.info("     > ${generator.block.worldGenConfig}")
             }
 
             if (!printBiomeTypes)

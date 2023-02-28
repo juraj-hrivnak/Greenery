@@ -29,12 +29,7 @@ import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.gen.IPlantGenerator
-import teksturepako.greenery.common.world.gen.plant.emergent.WorldGenArrowhead
-import teksturepako.greenery.common.world.gen.plant.emergent.WorldGenCattail
-import teksturepako.greenery.common.world.gen.plant.submerged.WorldGenKelp
-import teksturepako.greenery.common.world.gen.plant.submerged.WorldGenRivergrass
-import teksturepako.greenery.common.world.gen.plant.submerged.WorldGenSeagrass
-import teksturepako.greenery.common.world.gen.plant.upland.tall.*
+import teksturepako.greenery.common.world.gen.PlantGenerator
 import teksturepako.greenery.proxy.IProxy
 
 
@@ -52,9 +47,8 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "2.8"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.9.0.5,);after:dynamictrees;" +
-                             "after:biomesoplenty"
+    const val VERSION = "3.0"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.9.0.5,);after:dynamictrees;" + "after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
@@ -134,20 +128,19 @@ object Greenery
     {
         if (generators.isEmpty())
         {
-            generators.add(WorldGenCattail())
-            generators.add(WorldGenArrowhead())
-            generators.add(WorldGenTallGrass())
-            generators.add(WorldGenRyegrass())
-            generators.add(WorldGenNettle())
-            generators.add(WorldGenBarley())
-            generators.add(WorldGenFerns())
-            generators.add(WorldGenKelp())
-            generators.add(WorldGenRivergrass())
-            generators.add(WorldGenSeagrass())
+            generators.add(PlantGenerator(ModBlocks.blockCattail))
+            generators.add(PlantGenerator(ModBlocks.blockArrowhead))
+            generators.add(PlantGenerator(ModBlocks.blockFoxtail))
+            generators.add(PlantGenerator(ModBlocks.blockEagleFern))
+            generators.add(PlantGenerator(ModBlocks.blockRyegrass))
+            generators.add(PlantGenerator(ModBlocks.blockNettle))
+            generators.add(PlantGenerator(ModBlocks.blockBarley))
+            generators.add(PlantGenerator(ModBlocks.blockKelp))
+            generators.add(PlantGenerator(ModBlocks.blockWatermilfoil))
+            generators.add(PlantGenerator(ModBlocks.blockSeagrass))
 
             ConfigUtil.parseGenerators(generators, printParsing)
         }
         return generators
     }
-
 }

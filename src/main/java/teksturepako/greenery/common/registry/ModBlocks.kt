@@ -22,16 +22,29 @@ object ModBlocks
     val blockKelp = BlockKelp()
     val blockDriedKelp = BlockDriedKelp()
 
-    val blockCattail = EmergentPlantBase("cattail")
-    val blockArrowhead = EmergentPlantBase("arrowhead")
-
+    val blockCattail = EmergentPlantBase(
+        "cattail", Config.plant.emergent.cattail.worldGen.toMutableList()
+    )
+    val blockArrowhead = EmergentPlantBase(
+        "arrowhead", Config.plant.emergent.arrowhead.worldGen.toMutableList()
+    )
     val blockGrass = BlockGrass()
 
-    val blockFoxtail = TallPlantBase("foxtail", Config.plant.upland.tall.foxtail.drops.toMutableList(), false)
-    val blockEagleFern = TallPlantBase("eagle_fern", Config.plant.upland.tall.eagleFern.drops.toMutableList(), false)
-    val blockRyegrass = TallPlantBase("ryegrass", Config.plant.upland.tall.ryegrass.drops.toMutableList(), false)
-    val blockNettle = TallPlantBase("nettle", Config.plant.upland.tall.nettle.drops.toMutableList(), true)
-    val blockBarley = TallPlantBase("barley", Config.plant.upland.tall.barley.drops.toMutableList(), false)
+    val blockFoxtail = TallPlantBase(
+        "foxtail", Config.plant.upland.tall.foxtail.drops.toMutableList(), false, Config.plant.upland.tall.foxtail.worldGen.toMutableList()
+    )
+    val blockEagleFern = TallPlantBase(
+        "eagle_fern", Config.plant.upland.tall.eagleFern.drops.toMutableList(), false, Config.plant.upland.tall.eagleFern.worldGen.toMutableList()
+    )
+    val blockRyegrass = TallPlantBase(
+        "ryegrass", Config.plant.upland.tall.ryegrass.drops.toMutableList(), false, Config.plant.upland.tall.ryegrass.worldGen.toMutableList()
+    )
+    val blockNettle = TallPlantBase(
+        "nettle", Config.plant.upland.tall.nettle.drops.toMutableList(), true, Config.plant.upland.tall.nettle.worldGen.toMutableList()
+    )
+    val blockBarley = TallPlantBase(
+        "barley", Config.plant.upland.tall.barley.drops.toMutableList(), false, Config.plant.upland.tall.barley.worldGen.toMutableList()
+    )
 
     fun register(registry: IForgeRegistry<Block>)
     {

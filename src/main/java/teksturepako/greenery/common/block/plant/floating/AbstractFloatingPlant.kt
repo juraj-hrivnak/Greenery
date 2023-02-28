@@ -13,7 +13,9 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 
-abstract class AbstractFloatingPlant(name: String) : GreeneryPlantBase(false, false)
+abstract class AbstractFloatingPlant(name: String, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
+    worldGenConfig, false, false
+)
 {
 
     companion object

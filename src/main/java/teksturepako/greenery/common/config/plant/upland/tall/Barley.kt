@@ -4,44 +4,21 @@ import net.minecraftforge.common.config.Config
 
 class Barley
 {
-    @Config.Name("Generation Chance")
-    @Config.Comment("The chance to attempt generating in a given chunk.")
-    @Config.RangeDouble(min = 0.0, max = 1.0)
-    @Config.SlidingOption
-    @JvmField
-    var generationChance = 0.5
-
-    @Config.Name("Patch Generation Attempts")
-    @Config.Comment("Attempts to generate a patch in a given chunk.")
-    @Config.RangeInt(min = 0, max = 32)
-    @Config.SlidingOption
-    @JvmField
-    var patchAttempts = 1
-
-    @Config.Name("Plant Generation Attempts")
-    @Config.Comment("Attempts to generate a plant in every patch.")
-    @Config.RangeInt(min = 0, max = 64)
-    @Config.SlidingOption
-    @JvmField
-    var plantAttempts = 8
-
-    @Config.Name("Valid Biome Dictionary Types")
+    @Config.Name("[1] World Gen")
     @Config.Comment(
-        "A list of biome dictionary types in which a plant can generate.",
-        "Leave empty to disable checking for biome dictionary types."
+        "Format:",
+        "dimension (Int) | biome:modid:name (ResourceLocation) or type:name (BiomeDictionary.Type) or anywhere | generationChance (Double) | patchAttempts (Int) | plantAttempts (Int)"
     )
     @JvmField
-    var validBiomeTypes = arrayOf("DRY", "SPARSE")
+    var worldGen = arrayOf(
+        "0 | type:dry | 0.5 | 1 | 8",
+        "0 | type:sparse | 0.5 | 1 | 8",
+        "0 | biome:biomesoplenty:pasture | 1.0 | 128 | 64"
+    )
 
-    @Config.Name("Valid Biome Dictionary Types Inverted")
-    @Config.Comment("Whether Valid Biome Dictionary Types are inverted.")
-    @JvmField
-    var inverted = false
-
-    @Config.Name("Drops")
+    @Config.Name("[2] Drops")
     @Config.Comment(
-        "A list of items to drop when broken. Format:",
-        "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+        "A list of items to drop when broken. Format:", "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
     )
     @JvmField
     var drops = emptyArray<String>()

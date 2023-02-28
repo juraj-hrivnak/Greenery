@@ -14,8 +14,11 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 import teksturepako.greenery.common.config.Config
+import java.util.*
 
-abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBase(false, false)
+abstract class AbstractEmergentPlant(private val name: String, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
+    worldGenConfig, false, false
+)
 {
     companion object
     {
@@ -66,6 +69,20 @@ abstract class AbstractEmergentPlant(private val name: String) : GreeneryPlantBa
             down2.material in ALLOWED_SOILS
         }
         else false
+    }
+
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
+    {
+        if (world.isAirBlock(pos))
+        {
+            val startingAge = rand.nextInt(this.maxAge)
+            val state = this.defaultState.withProperty(this.ageProperty, startingAge)
+
+            if (this.canBlockStay(world, pos, state))
+            {
+                world.setBlockState(pos, state, flags)
+            }
+        }
     }
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB

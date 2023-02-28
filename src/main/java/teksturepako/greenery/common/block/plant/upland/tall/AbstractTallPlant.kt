@@ -19,7 +19,9 @@ import teksturepako.greenery.common.block.plant.GreeneryPlantBase
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractTallPlant(name: String, doHarm: Boolean) : GreeneryPlantBase(false, doHarm)
+abstract class AbstractTallPlant(name: String, doHarm: Boolean, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
+    worldGenConfig, false, doHarm
+)
 {
     companion object
     {
@@ -53,17 +55,41 @@ abstract class AbstractTallPlant(name: String, doHarm: Boolean) : GreeneryPlantB
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        return ((down.material in ALLOWED_SOILS || down.block == Blocks.DIRT) ||
-                (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS))
+        return ((down.material in ALLOWED_SOILS || down.block == Blocks.DIRT) || (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS))
     }
 
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
     {
         return when
         {
-            worldIn.getBlockState(pos.up()).block == this   -> false
+            worldIn.getBlockState(pos.up()).block == this -> false
             worldIn.getBlockState(pos.down()).block == this -> (getAge(state) < this.maxAge)
-            else                                            -> true
+            else -> true
+        }
+    }
+
+    override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
+    {
+        if (world.isAirBlock(pos))
+        {
+            val startingAge = rand.nextInt(this.maxAge)
+            val state = this.defaultState.withProperty(this.ageProperty, startingAge)
+            val maxState = this.defaultState.withProperty(this.ageProperty, this.maxAge)
+
+            if (this.canBlockStay(world, pos, state))
+            {
+                world.setBlockState(pos, state, flags)
+
+                if (rand.nextDouble() < 0.2)
+                {
+                    world.setBlockState(pos, maxState, flags)
+
+                    if (world.isAirBlock(pos.up()) && this.canBlockStay(world, pos.up(), state))
+                    {
+                        world.setBlockState(pos.up(), state, flags)
+                    }
+                }
+            }
         }
     }
 

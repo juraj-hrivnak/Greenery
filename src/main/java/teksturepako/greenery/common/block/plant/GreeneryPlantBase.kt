@@ -25,7 +25,8 @@ import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.ModDamageSource
 import java.util.*
 
-abstract class GreeneryPlantBase(private val isSolid: Boolean, private val doHarm: Boolean) : BlockCrops()
+abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String>, private val isSolid: Boolean, private val doHarm: Boolean) :
+        BlockCrops(), IGreeneryPlant
 {
     lateinit var itemBlock: Item
 
