@@ -22,11 +22,11 @@ apply plugin: "net.minecraftforge.gradle.forge"
 apply plugin: "kotlin"
 
 group = 'teksturepako'
-version = '1.12.2-3.0'
+version = '1.12.2-3.1'
 archivesBaseName = 'Greenery'
 
 minecraft {
-    version = project.forgeVersion
+    version = project.forgeVersion as Object
     runDir = "run"
 
     // the mappings can be changed at any time, and must be in the following format.
@@ -54,10 +54,10 @@ repositories {
     maven { url "http://maven.shadowfacts.net/" }
 
     //  CurseForge
-    maven{ url "https://www.cursemaven.com" }
+    maven { url "https://www.cursemaven.com" }
 
     //  Fluidlogged API
-    maven{ url "https://jitpack.io" }
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -65,7 +65,7 @@ dependencies {
     compile "net.shadowfacts:Forgelin:1.8.4"
 
     // Fluidlogged API
-    deobfCompile "com.github.jbredwards:fluidlogged-api:a955c010b8"
+    deobfCompile "com.github.jbredwards:fluidlogged-api:2573e41f3e"
 
     // Others
     deobfCompile "curse.maven:bop-220318:2842510"

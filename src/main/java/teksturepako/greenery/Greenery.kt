@@ -47,8 +47,9 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "3.0"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[1.9.0.5,);after:dynamictrees;" + "after:biomesoplenty"
+    const val VERSION = "3.1"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;" +
+                             "after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
@@ -130,6 +131,7 @@ object Greenery
         {
             generators.add(PlantGenerator(ModBlocks.blockCattail))
             generators.add(PlantGenerator(ModBlocks.blockArrowhead))
+            generators.add(PlantGenerator(ModBlocks.blockPickerelweed))
             generators.add(PlantGenerator(ModBlocks.blockFoxtail))
             generators.add(PlantGenerator(ModBlocks.blockEagleFern))
             generators.add(PlantGenerator(ModBlocks.blockRyegrass))
