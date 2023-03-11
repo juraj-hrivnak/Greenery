@@ -8,6 +8,7 @@ import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
 import teksturepako.greenery.common.item.ItemDriedKelp
 import teksturepako.greenery.common.item.ItemKelpSoup
+import teksturepako.greenery.common.registry.ModBlocks.blockArrowhead
 import teksturepako.greenery.common.registry.ModBlocks.blockEagleFern
 import teksturepako.greenery.common.registry.ModBlocks.blockFoxtail
 import teksturepako.greenery.common.registry.ModBlocks.blockGrass
@@ -35,7 +36,7 @@ object ModItems
     @SideOnly(Side.CLIENT)
     fun registerItemColorHandlers(event: ColorHandlerEvent.Item)
     {
-        ModBlocks.blockArrowhead.registerItemColorHandler(event)
+        blockArrowhead.registerItemColorHandler(event)
         blockFoxtail.registerItemColorHandler(event)
         blockEagleFern.registerItemColorHandler(event)
         blockRyegrass.registerItemColorHandler(event)

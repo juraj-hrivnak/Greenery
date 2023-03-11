@@ -28,6 +28,9 @@ object ModBlocks
     val blockArrowhead = EmergentPlantBase(
         "arrowhead", Config.plant.emergent.arrowhead.worldGen.toMutableList()
     )
+    val blockPickerelweed = EmergentPlantBase(
+        "pickerelweed", Config.plant.emergent.pickerelweed.worldGen.toMutableList()
+    )
     val blockGrass = BlockGrass()
 
     val blockFoxtail = TallPlantBase(
@@ -52,6 +55,7 @@ object ModBlocks
         registry.register(blockWatermilfoil)
         registry.register(blockCattail)
         registry.register(blockArrowhead)
+        registry.register(blockPickerelweed)
         registry.register(blockGrass)
         registry.register(blockFoxtail)
         registry.register(blockEagleFern)
@@ -68,6 +72,7 @@ object ModBlocks
         registry.register(blockWatermilfoil.createItemBlock())
         registry.register(blockCattail.createItemBlock())
         registry.register(blockArrowhead.createItemBlock())
+        registry.register(blockPickerelweed.createItemBlock())
         registry.register(blockGrass.createItemBlock())
         registry.register(blockFoxtail.createItemBlock())
         registry.register(blockEagleFern.createItemBlock())
@@ -85,6 +90,7 @@ object ModBlocks
         blockWatermilfoil.registerItemModel()
         blockCattail.registerItemModel()
         blockArrowhead.registerItemModel()
+        blockPickerelweed.registerItemModel()
         blockGrass.registerItemModel()
         blockFoxtail.registerItemModel()
         blockEagleFern.registerItemModel()

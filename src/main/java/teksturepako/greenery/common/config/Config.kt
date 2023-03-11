@@ -1,6 +1,5 @@
 package teksturepako.greenery.common.config
 
-import net.minecraftforge.common.config.Config
 import net.minecraftforge.common.config.Config.*
 import teksturepako.greenery.common.config.plant.Emergent
 import teksturepako.greenery.common.config.plant.Floating
