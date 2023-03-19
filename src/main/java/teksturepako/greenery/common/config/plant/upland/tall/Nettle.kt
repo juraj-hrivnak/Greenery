@@ -10,13 +10,12 @@ class Nettle
         "dimension (Int) | biome:modid:name (ResourceLocation) or type:name (BiomeDictionary.Type) or anywhere | generationChance (Double) | patchAttempts (Int) | plantAttempts (Int)"
     )
     @JvmField
-    var worldGen = arrayOf(
-        "0 | anywhere | 0.5 | 8 | 32"
-    )
+    var worldGen = arrayOf("0 | anywhere | 0.5 | 8 | 32")
 
     @Config.Name("[2] Drops")
     @Config.Comment(
-        "A list of items to drop when broken. Format:", "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+        "A list of items to drop when broken. Format:",
+        "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
     )
     @JvmField
     var drops = emptyArray<String>()

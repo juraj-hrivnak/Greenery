@@ -10,10 +10,7 @@ class Kelp
         "dimension (Int) | biome:modid:name (ResourceLocation) or type:name (BiomeDictionary.Type) or anywhere | generationChance (Double) | patchAttempts (Int) | plantAttempts (Int)"
     )
     @JvmField
-    var worldGen = arrayOf(
-        "0 | type:ocean | 0.5 | 14 | 64",
-        "0 | type:beach | 0.5 | 14 | 64"
-    )
+    var worldGen = arrayOf("0 | type:ocean | 0.5 | 14 | 64", "0 | type:beach | 0.5 | 14 | 64")
 
     @Config.Name("[2] Compatible Fluids")
     @Config.Comment("A list of compatible fluids.")

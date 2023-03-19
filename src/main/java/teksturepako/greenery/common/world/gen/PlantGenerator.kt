@@ -4,12 +4,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
-import teksturepako.greenery.common.block.plant.IGreeneryPlant
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plant.upland.tall.TallPlantBase
 import teksturepako.greenery.common.util.WorldGenUtil
 import java.util.*
 
-class PlantGenerator(override val block: IGreeneryPlant) : IPlantGenerator
+class PlantGenerator(override val block: GreeneryPlant) : IPlantGenerator
 {
     override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGenerator: IChunkGenerator, chunkProvider: IChunkProvider)
     {

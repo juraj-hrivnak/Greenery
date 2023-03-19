@@ -16,15 +16,12 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.block.plant.GreeneryPlantBase
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractSinglePlant(name: String, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
-    worldGenConfig, false, false
-)
+abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
 {
-
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(Material.GRASS)

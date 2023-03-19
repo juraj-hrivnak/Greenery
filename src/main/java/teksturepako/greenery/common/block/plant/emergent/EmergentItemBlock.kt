@@ -24,9 +24,7 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
 {
     companion object
     {
-        val ALLOWED_SOILS = setOf<Material>(
-            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
-        )
+        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
     }
 
     init
@@ -74,10 +72,10 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
             if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK)
             {
                 val blockpos = raytraceresult.blockPos
-                if (!worldIn.isBlockModifiable(playerIn, blockpos) || !playerIn.canPlayerEdit(
-                        blockpos.offset(
-                            raytraceresult.sideHit
-                        ), raytraceresult.sideHit, itemstack
+                if (!worldIn.isBlockModifiable(
+                        playerIn, blockpos
+                    ) || !playerIn.canPlayerEdit(
+                        blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack
                     ))
                 {
                     return ActionResult(EnumActionResult.FAIL, itemstack)
@@ -89,9 +87,7 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
                     // special case for handling block placement with water lilies
                     val blocksnapshot = BlockSnapshot.getBlockSnapshot(worldIn, blockpos1)
 
-                    if (ForgeEventFactory.onPlayerBlockPlace(
-                            playerIn, blocksnapshot, EnumFacing.UP, handIn
-                        ).isCanceled)
+                    if (ForgeEventFactory.onPlayerBlockPlace(playerIn, blocksnapshot, EnumFacing.UP, handIn).isCanceled)
                     {
                         blocksnapshot.restore(true, false)
                         return ActionResult(EnumActionResult.FAIL, itemstack)
@@ -110,9 +106,7 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
                     }
 
                     playerIn.addStat(StatList.getObjectUseStats(this))
-                    worldIn.playSound(
-                        playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f
-                    )
+                    worldIn.playSound(playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f)
                     return ActionResult(EnumActionResult.SUCCESS, itemstack)
                 }
             }

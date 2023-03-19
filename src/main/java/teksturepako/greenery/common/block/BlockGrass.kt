@@ -171,9 +171,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
 
     override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
     {
-        return Blocks.DIRT.getItemDropped(
-            Blocks.DIRT.defaultState.withProperty(BlockDirt.VARIANT, DirtType.DIRT), rand, fortune
-        )
+        return Blocks.DIRT.getItemDropped(Blocks.DIRT.defaultState.withProperty(BlockDirt.VARIANT, DirtType.DIRT), rand, fortune)
     }
 
     override fun canSustainPlant(state: IBlockState, world: IBlockAccess, pos: BlockPos, direction: EnumFacing, plantable: IPlantable): Boolean
@@ -201,9 +199,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
             var blockPos = defaultPos
             for (j in 0 until i / 16)
             {
-                blockPos = blockPos.add(
-                    rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1
-                )
+                blockPos = blockPos.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1)
                 if (worldIn.getBlockState(blockPos.down()).block !== this || worldIn.getBlockState(blockPos).isNormalCube) continue
             }
             if (worldIn.isAirBlock(blockPos))

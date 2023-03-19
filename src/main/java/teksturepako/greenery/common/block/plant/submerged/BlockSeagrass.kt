@@ -2,8 +2,8 @@
 
 package teksturepako.greenery.common.block.plant.submerged
 
-import net.minecraft.block.IGrowable
 import net.minecraft.block.properties.PropertyEnum
+import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.IStringSerializable
@@ -13,12 +13,16 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 import java.util.*
 
-class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
+class BlockSeagrass : AbstractSubmergedPlant(NAME)
 {
+    override val worldGenConfig get() = Config.plant.submerged.seagrass.worldGen.toMutableList()
+    override val compatibleFluids get() = Config.plant.submerged.seagrass.compatibleFluids.toMutableList()
+    override val isSolid get() = false
+    override val isHarmful get() = false
+
     enum class SeagrassVariant : IStringSerializable
     {
         SINGLE, BOTTOM, TOP;
@@ -37,21 +41,20 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
     companion object
     {
         const val NAME = "seagrass"
-        const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         val VARIANT: PropertyEnum<SeagrassVariant> = PropertyEnum.create("variant", SeagrassVariant::class.java)
+        val AGE: PropertyInteger = PropertyInteger.create("age", 0, 1)
     }
 
     init
     {
-        defaultState = blockState.baseState.withProperty(VARIANT, SeagrassVariant.SINGLE)
+        defaultState = blockState.baseState.withProperty(VARIANT, SeagrassVariant.SINGLE).withProperty(AGE, 1)
     }
 
-    override val worldGenConfig: MutableList<String>
-        get() = Config.plant.submerged.seagrass.worldGen.toMutableList()
-
-    override val compatibleFluids: MutableList<String>
-        get() = Config.plant.submerged.seagrass.compatibleFluids.toMutableList()
+    override fun getAgeProperty(): PropertyInteger
+    {
+        return AGE
+    }
 
     override fun getStateFromMeta(meta: Int): IBlockState
     {
@@ -65,7 +68,7 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
 
     override fun createBlockState(): BlockStateContainer
     {
-        return BlockStateContainer(this, VARIANT)
+        return BlockStateContainer(this, VARIANT, AGE)
     }
 
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
@@ -78,7 +81,7 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
             {
                 hasSeagrassBelow -> SeagrassVariant.TOP
                 hasSeagrassAbove -> SeagrassVariant.BOTTOM
-                else             -> SeagrassVariant.SINGLE
+                else -> SeagrassVariant.SINGLE
             }
         )
     }
@@ -89,16 +92,16 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
         return EnumOffsetType.XZ
     }
 
-    override fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
+    override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
         //Must have a SINGLE weed or valid soil below
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
-        return if (down.block == this)
-        {         // if block down is weed
-            down2.block != this                  // if 2 block down is weed return false
+        return if (down.block == this)      // if block down is weed
+        {
+            down2.block != this             // if 2 block down is weed return false
         }
-        else down.material in ALLOWED_SOILS    // if block down is not weed return if down is in ALLOWED_SOILS
+        else down.material in ALLOWED_SOILS // if block down is not weed return if down is in ALLOWED_SOILS
     }
 
     override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
@@ -132,14 +135,10 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME), IGrowable
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(VARIANT, SeagrassVariant.TOP)    -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, SeagrassVariant.TOP) -> TOP_AABB.offset(state.getOffset(source, pos))
             actualState.withProperty(VARIANT, SeagrassVariant.SINGLE) -> TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) -> BOTTOM_AABB.offset(
-                state.getOffset(
-                    source, pos
-                )
-            )
-            else                                                      -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, SeagrassVariant.BOTTOM) -> BOTTOM_AABB.offset(state.getOffset(source, pos))
+            else -> TOP_AABB.offset(state.getOffset(source, pos))
         }
     }
 }

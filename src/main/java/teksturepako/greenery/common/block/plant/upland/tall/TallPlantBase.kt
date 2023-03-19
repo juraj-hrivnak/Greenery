@@ -10,9 +10,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 
-open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Boolean, override val worldGenConfig: MutableList<String>) : AbstractTallPlant(
-    name, doHarm, worldGenConfig
-)
+abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
 {
     companion object
     {
@@ -25,8 +23,6 @@ open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Bool
     {
         defaultState = blockState.baseState.withProperty(AGE, 0).withProperty(TOP, true).withProperty(SINGLE, false)
     }
-
-    override val drops: MutableList<String> = config
 
     override fun getAgeProperty(): PropertyInteger
     {
@@ -52,7 +48,7 @@ open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Bool
         {
             hasTheSameBlockBelow -> state.withProperty(TOP, true).withProperty(SINGLE, false)
             hasTheSameBlockAbove -> state.withProperty(TOP, false).withProperty(SINGLE, false)
-            else                 -> state.withProperty(TOP, true).withProperty(SINGLE, true)
+            else -> state.withProperty(TOP, true).withProperty(SINGLE, true)
         }
     }
 
@@ -62,19 +58,11 @@ open class TallPlantBase(name: String, config: MutableList<String>, doHarm: Bool
         {
             actualState.withProperty(
                 TOP, true
-            ) -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                state.getOffset(
-                    source, pos
-                )
-            )
-            actualState.withProperty(
-                TOP, false
-            ) -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+            ) -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, false) -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
                 state.getOffset(source, pos)
             )
-            else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                state.getOffset(source, pos)
-            )
+            else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
         }
     }
 }

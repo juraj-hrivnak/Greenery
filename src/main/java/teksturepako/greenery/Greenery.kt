@@ -19,6 +19,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.registry.GameRegistry
 import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCreativeTab
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.command.CommandGreenery
 import teksturepako.greenery.common.event.EventOldContentLoad
 import teksturepako.greenery.common.event.EventWorldGen
@@ -48,8 +49,7 @@ object Greenery
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "3.1"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;" +
-                             "after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
@@ -58,6 +58,7 @@ object Greenery
 
     val creativeTab = GreeneryCreativeTab()
     val generators: MutableList<IPlantGenerator> = ArrayList()
+    val plants: MutableList<GreeneryPlant> = ArrayList()
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
@@ -70,7 +71,6 @@ object Greenery
         proxy.preInit(event)
     }
 
-    @Suppress("DEPRECATION")
     @Mod.EventHandler
     fun init(event: FMLInitializationEvent)
     {
@@ -129,20 +129,28 @@ object Greenery
     {
         if (generators.isEmpty())
         {
-            generators.add(PlantGenerator(ModBlocks.blockCattail))
-            generators.add(PlantGenerator(ModBlocks.blockArrowhead))
-            generators.add(PlantGenerator(ModBlocks.blockPickerelweed))
-            generators.add(PlantGenerator(ModBlocks.blockFoxtail))
-            generators.add(PlantGenerator(ModBlocks.blockEagleFern))
-            generators.add(PlantGenerator(ModBlocks.blockRyegrass))
-            generators.add(PlantGenerator(ModBlocks.blockNettle))
-            generators.add(PlantGenerator(ModBlocks.blockBarley))
-            generators.add(PlantGenerator(ModBlocks.blockKelp))
-            generators.add(PlantGenerator(ModBlocks.blockWatermilfoil))
-            generators.add(PlantGenerator(ModBlocks.blockSeagrass))
-
+            for (plant in plants) generators.add(PlantGenerator(plant))
             ConfigUtil.parseGenerators(generators, printParsing)
         }
         return generators
+    }
+
+    fun loadPlants(): MutableList<GreeneryPlant>
+    {
+        if (plants.isEmpty())
+        {
+            plants.add(ModBlocks.blockCattail)
+            plants.add(ModBlocks.blockArrowhead)
+            plants.add(ModBlocks.blockPickerelweed)
+            plants.add(ModBlocks.blockFoxtail)
+            plants.add(ModBlocks.blockEagleFern)
+            plants.add(ModBlocks.blockRyegrass)
+            plants.add(ModBlocks.blockNettle)
+            plants.add(ModBlocks.blockBarley)
+            plants.add(ModBlocks.blockKelp)
+            plants.add(ModBlocks.blockWatermilfoil)
+            plants.add(ModBlocks.blockSeagrass)
+        }
+        return plants
     }
 }

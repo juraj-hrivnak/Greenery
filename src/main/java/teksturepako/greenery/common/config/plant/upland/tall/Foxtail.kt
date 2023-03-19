@@ -20,7 +20,8 @@ class Foxtail
 
     @Config.Name("[2] Drops")
     @Config.Comment(
-        "A list of items to drop when broken. Format:", "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+        "A list of items to drop when broken. Format:",
+        "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
     )
     @JvmField
     var drops = arrayOf("\$defaultSeeds | 0.2")

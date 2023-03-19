@@ -4,9 +4,7 @@ import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.item.Item
 
-open class EmergentPlantBase(name: String, override val worldGenConfig: MutableList<String>) : AbstractEmergentPlant(
-    name, worldGenConfig
-)
+abstract class EmergentPlantBase(name: String) : AbstractEmergentPlant(name)
 {
     companion object
     {

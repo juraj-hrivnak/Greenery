@@ -4,16 +4,12 @@ package teksturepako.greenery.common.block.plant.submerged
 
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import net.minecraft.block.Block
-import net.minecraft.block.IGrowable
 import net.minecraft.block.material.Material
-import net.minecraft.block.state.BlockFaceShape
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
+import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Blocks
-import net.minecraft.item.Item
-import net.minecraft.item.ItemBlock
-import net.minecraft.util.BlockRenderLayer
+import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.math.AxisAlignedBB
@@ -22,30 +18,24 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fluids.Fluid
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
-import teksturepako.greenery.common.block.ModMaterials
-import teksturepako.greenery.common.block.plant.IGreeneryPlant
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
+import teksturepako.greenery.common.util.ModDamageSource
 import java.util.*
 
-abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC_PLANT), IGrowable, IFluidloggable, IGreeneryPlant
+abstract class AbstractSubmergedPlant(name: String) : GreeneryPlant(), IFluidloggable
 {
+    abstract val compatibleFluids: MutableList<String>
+
     companion object
     {
-        val ALLOWED_SOILS = setOf<Material>(
-            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
-        )
+        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
         val TOP_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
         val BOTTOM_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
     }
-
-    abstract val compatibleFluids: MutableList<String>
-
-    lateinit var itemBlock: Item
 
     init
     {
@@ -56,68 +46,31 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
         lightOpacity = 2
     }
 
-    fun createItemBlock(): Item
-    {
-        itemBlock = ItemBlock(this).setRegistryName(registryName).setTranslationKey(translationKey)
-        return itemBlock
-    }
-
-    @SideOnly(Side.CLIENT)
-    fun registerItemModel()
-    {
-        Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
-    }
-
-    override fun getCollisionBoundingBox(state: IBlockState, world: IBlockAccess, pos: BlockPos): AxisAlignedBB?
-    {
-        return NULL_AABB
-    }
-
-    //Rendering
-    @SideOnly(Side.CLIENT)
-    override fun getRenderLayer(): BlockRenderLayer
-    {
-        return BlockRenderLayer.CUTOUT
-    }
-
-    override fun isFullCube(state: IBlockState): Boolean
-    {
-        return false
-    }
-
-    override fun isOpaqueCube(state: IBlockState): Boolean
-    {
-        return false
-    }
-
-    override fun getBlockFaceShape(worldIn: IBlockAccess, state: IBlockState, pos: BlockPos, face: EnumFacing): BlockFaceShape
-    {
-        return BlockFaceShape.UNDEFINED
-    }
-
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
         entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
         entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier + 1)
         entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
-    }
 
-    override fun isReplaceable(world: IBlockAccess, pos: BlockPos): Boolean
-    {
-        return false
+        if (isHarmful && entityIn is EntityPlayer)
+        {
+            if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY)
+            {
+                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+            }
+            if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY)
+            {
+                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+            }
+        }
     }
-
-    /**
-     * Determines whether the block can stay on the position, based on its surroundings.
-     */
-    abstract fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
 
     /**
      * Determines whether the block can be generated on the position, based on [canBlockStay] and [FluidUtil.canGenerateInFluids].
      */
     fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
-        return FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(worldIn, pos)
+        return FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(worldIn, pos, defaultState)
     }
 
     /**
@@ -129,21 +82,9 @@ abstract class AbstractSubmergedPlant(name: String) : Block(ModMaterials.AQUATIC
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
         return (!fluidState.isEmpty && isFluidValid(
             defaultState, worldIn, pos, fluidState.fluid
-        ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos) && canBlockStay(worldIn, pos))
-    }
-
-    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos)
-    {
-        checkAndDropBlock(worldIn, pos, state)
-    }
-
-    private fun checkAndDropBlock(worldIn: World, pos: BlockPos, state: IBlockState)
-    {
-        if (!canBlockStay(worldIn, pos))
-        {
-            dropBlockAsItem(worldIn, pos, state, 0)
-            worldIn.setBlockToAir(pos)
-        }
+        ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos) && canBlockStay(
+            worldIn, pos, defaultState
+        ))
     }
 
     // IGrowable implementation

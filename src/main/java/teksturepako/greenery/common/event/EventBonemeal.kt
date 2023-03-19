@@ -46,12 +46,16 @@ object EventBonemeal
                 {
                     val config = WorldGenUtil.Parser(input, generator.block.worldGenConfig)
 
-                    if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(world.getBiome(pos), event.world.provider.dimension))
+                    if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(
+                            world.getBiome(pos), event.world.provider.dimension
+                        ))
                     {
                         if (!world.isRemote)
                         {
                             event.result = Event.Result.ALLOW
-                            generator.generatePlants(config.getPlantAttempts() / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER)
+                            generator.generatePlants(
+                                config.getPlantAttempts() / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
+                            )
                         }
                         else if (event.entityPlayer == Minecraft.getMinecraft().player)
                         {
@@ -77,12 +81,12 @@ object EventBonemeal
             var d3 = (blockPos.z.toFloat() + rand.nextFloat()).toDouble()
             when
             {
-                i == 0 && !worldIn.getBlockState(blockPos.up()).isOpaqueCube    -> d2 = blockPos.y.toDouble() + 0.0625 + 1.0
-                i == 1 && !worldIn.getBlockState(blockPos.down()).isOpaqueCube  -> d2 = blockPos.y.toDouble() - 0.0625
+                i == 0 && !worldIn.getBlockState(blockPos.up()).isOpaqueCube -> d2 = blockPos.y.toDouble() + 0.0625 + 1.0
+                i == 1 && !worldIn.getBlockState(blockPos.down()).isOpaqueCube -> d2 = blockPos.y.toDouble() - 0.0625
                 i == 2 && !worldIn.getBlockState(blockPos.south()).isOpaqueCube -> d3 = blockPos.z.toDouble() + 0.0625 + 1.0
                 i == 3 && !worldIn.getBlockState(blockPos.north()).isOpaqueCube -> d3 = blockPos.z.toDouble() - 0.0625
-                i == 4 && !worldIn.getBlockState(blockPos.east()).isOpaqueCube  -> d1 = blockPos.x.toDouble() + 0.0625 + 1.0
-                i == 5 && !worldIn.getBlockState(blockPos.west()).isOpaqueCube  -> d1 = blockPos.x.toDouble() - 0.0625
+                i == 4 && !worldIn.getBlockState(blockPos.east()).isOpaqueCube -> d1 = blockPos.x.toDouble() + 0.0625 + 1.0
+                i == 5 && !worldIn.getBlockState(blockPos.west()).isOpaqueCube -> d1 = blockPos.x.toDouble() - 0.0625
             }
             if (d1 < blockPos.x.toDouble() || d1 > (blockPos.x + 1).toDouble() || d2 < 0.0 || d2 > (blockPos.y + 1).toDouble() || d3 < blockPos.z.toDouble() || d3 > (blockPos.z + 1).toDouble())
             {

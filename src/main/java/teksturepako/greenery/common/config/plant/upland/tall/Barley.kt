@@ -11,14 +11,13 @@ class Barley
     )
     @JvmField
     var worldGen = arrayOf(
-        "0 | type:dry | 0.5 | 1 | 8",
-        "0 | type:sparse | 0.5 | 1 | 8",
-        "0 | biome:biomesoplenty:pasture | 1.0 | 128 | 64"
+        "0 | type:dry | 0.5 | 1 | 8", "0 | type:sparse | 0.5 | 1 | 8", "0 | biome:biomesoplenty:pasture | 1.0 | 128 | 64"
     )
 
     @Config.Name("[2] Drops")
     @Config.Comment(
-        "A list of items to drop when broken. Format:", "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
+        "A list of items to drop when broken. Format:",
+        "(itemStack) mod_name:item_name:count | (chance) 0.0 - 1.0 | (blockState) key=value,key=value"
     )
     @JvmField
     var drops = emptyArray<String>()

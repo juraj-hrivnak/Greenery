@@ -15,14 +15,14 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.block.plant.GreeneryPlantBase
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractTallPlant(name: String, doHarm: Boolean, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
-    worldGenConfig, false, doHarm
-)
+abstract class AbstractTallPlant(name: String) : GreeneryPlant()
 {
+    abstract val drops: MutableList<String>
+
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
@@ -39,8 +39,6 @@ abstract class AbstractTallPlant(name: String, doHarm: Boolean, override val wor
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
         )
     }
-
-    abstract val drops: MutableList<String>
 
     init
     {

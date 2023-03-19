@@ -61,37 +61,46 @@ object WorldGenUtil
             return if (splitInput.isNotNull(1)) splitInput[1].split(":") else emptyList()
         }
 
-        private fun getBiomes(): List<Biome>
+        fun getBiomesResLoc(): List<ResourceLocation>
+        {
+            val result: MutableList<ResourceLocation> = emptyList<ResourceLocation>().toMutableList()
+
+            for (input in worldGenConfig)
+            {
+                val configInput = getConfigInput(getSplitInput(input))
+                if (configInput.isNotNull(0) && "biome" in configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
+                {
+                    result.add(ResourceLocation(configInput[1], configInput[2]))
+                }
+            }
+            return result
+        }
+
+        fun getBiomes(): List<Biome>
         {
             val result: MutableList<Biome> = emptyList<Biome>().toMutableList()
 
             for (input in worldGenConfig)
             {
                 val configInput = getConfigInput(getSplitInput(input))
-                if (configInput.isNotNull(0))
+                if (configInput.isNotNull(0) && "biome" in configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
                 {
-                    if ("biome" in configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
-                    {
-                        result.add(ForgeRegistries.BIOMES.getValue(ResourceLocation(configInput[1], configInput[2]))!!)
-                    }
+                    ForgeRegistries.BIOMES.getValue(ResourceLocation(configInput[1], configInput[2]))?.let { result.add(it) }
                 }
             }
             return result
         }
 
-        private fun getTypes(): List<BiomeDictionary.Type>
+        fun getTypes(): List<BiomeDictionary.Type>
         {
             val result: MutableList<BiomeDictionary.Type> = emptyList<BiomeDictionary.Type>().toMutableList()
 
             for (input in worldGenConfig)
             {
                 val configInput = getConfigInput(getSplitInput(input))
-                if (configInput.isNotNull(0))
+                if (configInput.isNotNull(0) && "type" in configInput[0] && configInput.isNotNull(1))
                 {
-                    if ("type" in configInput[0] && configInput.isNotNull(1))
-                    {
-                        result.add(BiomeDictionary.Type.getType(configInput[1]))
-                    }
+                    result.add(BiomeDictionary.Type.getType(configInput[1]))
                 }
             }
             return result
@@ -109,44 +118,19 @@ object WorldGenUtil
             val configInput = getConfigInput(getSplitInput(indexedInput))
             if (configInput.isNotNull(0))
             {
-                if ("!" in configInput[0])
+                when
                 {
-                    if ("type" in configInput[0])
+                    "!" in configInput[0] -> if ("type" in configInput[0])
                     {
-                        for (type in getTypes())
-                        {
-                            if (BiomeDictionary.hasType(biomeInput, type)) return false
-                        }
-                        return true
+                        return getTypes().none { BiomeDictionary.hasType(biomeInput, it) }
                     }
                     else if ("biome" in configInput[0])
                     {
-                        for (biome in getBiomes())
-                        {
-                            if (biomeInput.registryName == biome.registryName) return false
-                        }
-                        return true
+                        return getBiomes().none { biomeInput.registryName == it.registryName }
                     }
-                }
-                else if ("type" in configInput[0])
-                {
-                    for (type in getTypes())
-                    {
-                        if (BiomeDictionary.hasType(biomeInput, type)) return true
-                    }
-                    return false
-                }
-                else if ("biome" in configInput[0])
-                {
-                    for (biome in getBiomes())
-                    {
-                        if (biomeInput.registryName == biome.registryName) return true
-                    }
-                    return false
-                }
-                else if ("anywhere" in configInput[0])
-                {
-                    return true
+                    "type" in configInput[0] -> return getTypes().any { BiomeDictionary.hasType(biomeInput, it) }
+                    "biome" in configInput[0] -> return getBiomes().any { biomeInput.registryName == it.registryName }
+                    "anywhere" in configInput[0] -> return true
                 }
             }
             return false

@@ -13,20 +13,22 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 import java.util.*
 import kotlin.math.min
 
 class BlockKelp : AbstractSubmergedPlant(NAME)
 {
+    override val worldGenConfig get() = Config.plant.submerged.kelp.worldGen.toMutableList()
+    override val compatibleFluids get() = Config.plant.submerged.kelp.compatibleFluids.toMutableList()
+    override val isSolid get() = false
+    override val isHarmful get() = false
+
     companion object
     {
         const val NAME = "kelp"
-        const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
 
         const val MAX_AGE = 15
-
         val IS_TOP_BLOCK: PropertyBool = PropertyBool.create("top")
         val AGE: PropertyInteger = PropertyInteger.create("remaining_height", 0, MAX_AGE)
     }
@@ -36,18 +38,12 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         defaultState = blockState.baseState.withProperty(IS_TOP_BLOCK, false).withProperty(AGE, 0)
     }
 
-    override val worldGenConfig: MutableList<String>
-        get() = Config.plant.submerged.kelp.worldGen.toMutableList()
-
-    override val compatibleFluids: MutableList<String>
-        get() = Config.plant.submerged.kelp.compatibleFluids.toMutableList()
-
-    fun getMaxAge(): Int
+    override fun getMaxAge(): Int
     {
         return MAX_AGE
     }
 
-    fun getAgeProperty(): PropertyInteger
+    override fun getAgeProperty(): PropertyInteger
     {
         return AGE
     }
@@ -89,7 +85,7 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
         return defaultState.withProperty(AGE, age)
     }
 
-    override fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
+    override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
         //Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
@@ -100,13 +96,13 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
     {
         if (this.canGenerateBlockAt(world, pos))
         {
-            val startingAge = rand.nextInt(this.getMaxAge() / 2)
-            val height = this.getMaxAge() - startingAge
+            val startingAge = rand.nextInt(this.maxAge / 2)
+            val height = this.maxAge - startingAge
 
             for (i in 0..height)
             {
                 val kelpPos = pos.up(i)
-                val state = this.defaultState.withProperty(this.getAgeProperty(), i + startingAge)
+                val state = this.defaultState.withProperty(this.ageProperty, i + startingAge)
 
                 if (this.canGenerateBlockAt(world, kelpPos))
                 {
@@ -127,7 +123,7 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
             if (canGenerateBlockAt(worldIn, pos.up()))
             {
                 val newBlockState = defaultState.withProperty(AGE, age + 1)
-                if (canBlockStay(worldIn, pos.up()))
+                if (canBlockStay(worldIn, pos.up(), state))
                 {
                     worldIn.setBlockState(pos.up(), newBlockState)
                 }
@@ -169,9 +165,9 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(IS_TOP_BLOCK, true)  -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(IS_TOP_BLOCK, true) -> TOP_AABB.offset(state.getOffset(source, pos))
             actualState.withProperty(IS_TOP_BLOCK, false) -> BOTTOM_AABB.offset(state.getOffset(source, pos))
-            else                                          -> TOP_AABB.offset(state.getOffset(source, pos))
+            else -> TOP_AABB.offset(state.getOffset(source, pos))
         }
     }
 }

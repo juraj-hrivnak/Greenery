@@ -17,7 +17,6 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.ForgeHooks
-import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
@@ -25,9 +24,32 @@ import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.ModDamageSource
 import java.util.*
 
-abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String>, private val isSolid: Boolean, private val doHarm: Boolean) :
-        BlockCrops(), IGreeneryPlant
+
+abstract class GreeneryPlant : BlockCrops()
 {
+    /**
+     * World Generation config
+     */
+    abstract val worldGenConfig: MutableList<String>
+
+    /**
+     * Is Solid?
+     */
+    abstract val isSolid: Boolean
+
+    /**
+     * Is Harmful?
+     */
+    abstract val isHarmful: Boolean
+
+    /**
+     * Function for world generator
+     */
+    abstract fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
+
+    /**
+     * Item Block
+     */
     lateinit var itemBlock: Item
 
     /**
@@ -43,7 +65,7 @@ abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String
      * Registers a model for the item block
      */
     @SideOnly(Side.CLIENT)
-    fun registerItemModel()
+    open fun registerItemModel()
     {
         Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
     }
@@ -52,7 +74,7 @@ abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String
      * Registers a color handler for the item block
      */
     @SideOnly(Side.CLIENT)
-    fun registerItemColorHandler(event: ColorHandlerEvent.Item)
+    open fun registerItemColorHandler(event: ColorHandlerEvent.Item)
     {
         Greenery.proxy.registerItemColorHandler(itemBlock, event)
     }
@@ -61,7 +83,7 @@ abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String
      * Registers a color handler for this block
      */
     @SideOnly(Side.CLIENT)
-    fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
+    open fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
     {
         Greenery.proxy.registerGrassColorHandler(this, event)
     }
@@ -88,7 +110,7 @@ abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String
         entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
         entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
 
-        if (doHarm && entityIn is EntityPlayer)
+        if (isHarmful && entityIn is EntityPlayer)
         {
             if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY)
             {
@@ -121,7 +143,7 @@ abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String
     @SideOnly(Side.CLIENT)
     override fun getOffsetType(): EnumOffsetType
     {
-        return if (Loader.isModLoaded("optifine")) EnumOffsetType.NONE else EnumOffsetType.XZ
+        return EnumOffsetType.XZ
     }
 
     override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean
@@ -132,11 +154,6 @@ abstract class GreeneryPlantBase(override val worldGenConfig: MutableList<String
     override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
     {
         return !isSolid
-    }
-
-    override fun canPlaceBlockOnSide(worldIn: World, pos: BlockPos, side: EnumFacing): Boolean
-    {
-        return canBlockStay(worldIn, pos, defaultState)
     }
 
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean

@@ -11,18 +11,13 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
-import teksturepako.greenery.common.block.plant.GreeneryPlantBase
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 
-abstract class AbstractFloatingPlant(name: String, override val worldGenConfig: MutableList<String>) : GreeneryPlantBase(
-    worldGenConfig, false, false
-)
+abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
 {
-
     companion object
     {
-        val ALLOWED_SOILS = setOf<Material>(
-            Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK
-        )
+        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
         val WATER_CROP_AABB = arrayOf(
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),

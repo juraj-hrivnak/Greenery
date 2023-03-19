@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package teksturepako.greenery.common.registry
 
 import net.minecraft.item.Item
@@ -16,7 +18,6 @@ import teksturepako.greenery.common.registry.ModBlocks.blockRyegrass
 
 object ModItems
 {
-
     val itemKelpSoup = ItemKelpSoup()
     val itemDriedKelp = ItemDriedKelp()
 

@@ -1,6 +1,8 @@
 package teksturepako.greenery.common.util
 
+import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.BiomeDictionary
+import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.world.gen.IPlantGenerator
 
@@ -12,9 +14,9 @@ object ConfigUtil
      * IPlantGenerator Parser
      * @return true when errored
      */
-    fun parseGenerators(generators: MutableList<IPlantGenerator>, print: Boolean): Boolean
+    fun parseGenerators(generators: MutableList<IPlantGenerator>, printParsing: Boolean): Boolean
     {
-        if (print)
+        if (printParsing)
         {
             Greenery.logger.info("------------------------------------------------------     ")
             Greenery.logger.info("Loading world generators:")
@@ -22,64 +24,67 @@ object ConfigUtil
 
         if (generators.isEmpty())
         {
-            if (print)
+            if (printParsing)
             {
-                Greenery.logger.info("No generators found!")
-                Greenery.logger.error("------------------------------------------------------     ")
+                Greenery.logger.error("No generators found!")
+                Greenery.logger.info("------------------------------------------------------     ")
             }
             return true
         }
 
-        var printBiomeTypes = false
-        val errored = false
+        var errored = false
 
         for (generator in generators)
         {
-            if (print)
+            var types: List<BiomeDictionary.Type> = emptyList()
+            var biomes: List<ResourceLocation> = emptyList()
+
+            for (input in generator.block.worldGenConfig)
+            {
+                val config = WorldGenUtil.Parser(input, generator.block.worldGenConfig)
+                types = config.getTypes()
+                biomes = config.getBiomesResLoc()
+
+                errored = parseBiomeDictionaries(types, false) || parseBiomes(biomes, false)
+            }
+
+            if (printParsing)
             {
                 if (errored)
                 {
-                    Greenery.logger.warn("    ! \"${generator.block.javaClass.name.replace("teksturepako.greenery.common.block.", "")}\"")
+                    Greenery.logger.warn("  ! ${generator.block.localizedName}")
+                    Greenery.logger.error("    > ${generator.block.worldGenConfig}")
+                    parseBiomeDictionaries(types, true)
+                    parseBiomes(biomes, true)
                 }
                 else
                 {
-                    Greenery.logger.info("  > \"${generator.block.javaClass.name.replace("teksturepako.greenery.common.block.", "")}\"")
+                    Greenery.logger.info("  > ${generator.block.localizedName}")
+                    Greenery.logger.info("     > ${generator.block.worldGenConfig}")
                 }
-                Greenery.logger.info("     > ${generator.block.worldGenConfig}")
-            }
-
-            if (!printBiomeTypes)
-            {
-                printBiomeTypes = errored
             }
         }
 
-        if (printBiomeTypes && print)
-        {
-            printValidBiomeDictionaries()
-        }
-
-        if (print) Greenery.logger.info("------------------------------------------------------     ")
+        if (printParsing && errored) printValidBiomeDictionaries()
+        if (printParsing) Greenery.logger.info("------------------------------------------------------     ")
 
         return errored
     }
 
     /**
      * Biome Dictionary Config Parser
-     * @return Boolean (true when errored)
+     * @return true when errored
      */
-    private fun parseBiomeDictionaries(types: MutableList<String>, printErrors: Boolean): Boolean
+    private fun parseBiomeDictionaries(types: List<BiomeDictionary.Type>, printErrors: Boolean): Boolean
     {
-        for (input in types)
+        for (type in types)
         {
-            val type = BiomeDictionary.Type.getType(input)
             if (type !in getValidBiomeDictionaryTypes())
             {
                 if (printErrors)
                 {
-                    Greenery.logger.error("     > Typo in \"valid biome dictionary types\" config:   ")
-                    Greenery.logger.error("     > \"$type\"                                          ")
-                    Greenery.logger.error("     ------------------------------------------------     ")
+                    Greenery.logger.error("    > Invalid biome dictionary type: \"${type.name.toLowerCase()}\"  ")
+                    Greenery.logger.error("    ------------------------------------------------                 ")
                 }
                 return true
             }
@@ -107,5 +112,26 @@ object ConfigUtil
             validTypes.addAll(allTypes)
         }
         return validTypes
+    }
+
+    /**
+     * Biome Config Parser
+     * @return true when errored
+     */
+    private fun parseBiomes(biomes: List<ResourceLocation>, printErrors: Boolean): Boolean
+    {
+        for (biome in biomes)
+        {
+            if (!ForgeRegistries.BIOMES.containsKey(biome))
+            {
+                if (printErrors)
+                {
+                    Greenery.logger.error("    > Invalid biome: \"${biome}\"                    ")
+                    Greenery.logger.error("    ------------------------------------------------ ")
+                }
+                return true
+            }
+        }
+        return false
     }
 }
