@@ -1,13 +1,27 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "greenery:plant/submerged/kelp" },
-    { "item": "greenery:plant/submerged/kelp" },
-    { "item": "greenery:plant/submerged/kelp" },
-    { "item": "greenery:plant/submerged/kelp" },
-    { "item": "greenery:plant/submerged/kelp" },
-    { "item": "greenery:plant/submerged/kelp" },
-    { "item": "minecraft:bowl" }
+    {
+      "item": "greenery:plant/submerged/kelp"
+    },
+    {
+      "item": "greenery:plant/submerged/kelp"
+    },
+    {
+      "item": "greenery:plant/submerged/kelp"
+    },
+    {
+      "item": "greenery:plant/submerged/kelp"
+    },
+    {
+      "item": "greenery:plant/submerged/kelp"
+    },
+    {
+      "item": "greenery:plant/submerged/kelp"
+    },
+    {
+      "item": "minecraft:bowl"
+    }
   ],
   "result": {
     "item": "greenery:kelp_soup"

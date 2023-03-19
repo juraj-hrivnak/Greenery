@@ -1,7 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "greenery:dried_kelp_block" }
+    {
+      "item": "greenery:dried_kelp_block"
+    }
   ],
   "result": {
     "item": "greenery:dried_kelp",

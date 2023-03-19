@@ -1,6 +1,6 @@
 {
-    "parent": "greenery:block/cross",
-    "textures": {
-        "cross": "greenery:blocks/plant/upland/tall/ryegrass/single/age_3"
-    }
+  "parent": "greenery:block/cross",
+  "textures": {
+    "cross": "greenery:blocks/plant/upland/tall/ryegrass/single/age_3"
+  }
 }

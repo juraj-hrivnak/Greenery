@@ -4,6 +4,10 @@
     "model": "crop"
   },
   "variants": {
+    "age": {
+      "0": {},
+      "1": {}
+    },
     "variant": {
       "single": {
         "textures": {

@@ -1,7 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "greenery:cornflower" }
+    {
+      "item": "greenery:cornflower"
+    }
   ],
   "result": {
     "item": "quark:root_dye",

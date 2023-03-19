@@ -8,7 +8,6 @@
       "greenery:wet_grass_break4"
     ]
   },
-
   "block.seaweed.footsteps": {
     "subtitle": "subtitles.block.generic.footsteps",
     "sounds": [
@@ -20,7 +19,6 @@
       "greenery:wet_grass_hit6"
     ]
   },
-
   "block.seaweed.place": {
     "subtitle": "subtitles.block.generic.place",
     "sounds": [
@@ -30,7 +28,6 @@
       "greenery:wet_grass_break4"
     ]
   },
-
   "block.seaweed.hit": {
     "subtitle": "subtitles.block.generic.hit",
     "sounds": [
@@ -42,7 +39,6 @@
       "greenery:wet_grass_hit6"
     ]
   },
-
   "block.seaweed.fall": {
     "subtitle": "subtitles.block.generic.fall",
     "sounds": [

@@ -1,7 +1,9 @@
 {
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
-    { "item": "greenery:wither_rose" }
+    {
+      "item": "greenery:wither_rose"
+    }
   ],
   "result": {
     "item": "quark:root_dye",
