@@ -5,6 +5,7 @@ import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.world.gen.IPlantGenerator
+import java.util.*
 
 object ConfigUtil
 {
@@ -83,8 +84,8 @@ object ConfigUtil
             {
                 if (printErrors)
                 {
-                    Greenery.logger.error("    > Invalid biome dictionary type: \"${type.name.toLowerCase()}\"  ")
-                    Greenery.logger.error("    ------------------------------------------------                 ")
+                    Greenery.logger.error("    > Invalid biome dictionary type: \"${type.name.lowercase(Locale.getDefault())}\"")
+                    Greenery.logger.error("    ------------------------------------------------                                ")
                 }
                 return true
             }

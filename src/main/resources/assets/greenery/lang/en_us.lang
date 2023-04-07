@@ -1,0 +1,30 @@
+itemGroup.greenery=Greenery
+
+# Items
+item.greenery.kelp_soup.name=Kelp Soup
+item.greenery.dried_kelp.name=Dried Kelp
+
+# Plants
+tile.greenery.seagrass.name=Seagrass
+tile.greenery.watermilfoil.name=Watermilfoil
+tile.greenery.pickerelweed.name=Pickerelweed
+tile.greenery.kelp.name=Kelp
+tile.greenery.lily_of_the_valley.name=Lily of the Valley
+tile.greenery.cornflower.name=Cornflower
+tile.greenery.wither_rose.name=Wither Rose
+tile.greenery.cattail.name=Cattail
+tile.greenery.arrowhead.name=Arrowhead
+tile.greenery.foxtail.name=Foxtail
+tile.greenery.eagle_fern.name=Eagle Fern
+tile.greenery.ryegrass.name=Ryegrass
+tile.greenery.nettle.name=Nettle
+tile.greenery.barley.name=Barley
+
+# Blocks
+tile.greenery.dried_kelp_block.name=Dried Kelp Block
+
+# Damage Sources
+death.attack.nettle=%1$s pricked to death by a plant
+
+# Commands
+command.greenery.usage=greenery reload

@@ -20,7 +20,7 @@ class ItemKelpSoup : ItemFood(6, 0.6f, false)
     init
     {
         setRegistryName(NAME)
-        translationKey = NAME
+        translationKey = "${Greenery.MODID}.$NAME"
         creativeTab = Greenery.creativeTab
     }
 

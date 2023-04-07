@@ -47,7 +47,7 @@ class BlockGrass : Block(Material.GRASS), IGrowable
     {
         setRegistryName(NAME)
 
-        translationKey = NAME
+        translationKey = "${Greenery.MODID}.$NAME"
         soundType = SoundType.GROUND
 
         this.setHardness(1.5F)

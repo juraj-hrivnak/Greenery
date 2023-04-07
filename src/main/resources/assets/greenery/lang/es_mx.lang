@@ -1,0 +1,30 @@
+itemGroup.greenery=Greenery
+
+# Items
+item.greenery.kelp_soup.name=Sopa de Alga
+item.greenery.dried_kelp.name=Alga Seca
+
+# Plants
+tile.greenery.seagrass.name=Hierba Marina
+tile.greenery.watermilfoil.name=Filigrana mayor
+tile.greenery.pickerelweed.name=Pickerelweed
+tile.greenery.kelp.name=Alga
+tile.greenery.lily_of_the_valley.name=Lirio de los valles
+tile.greenery.cornflower.name=Aciano
+tile.greenery.wither_rose.name=Rosa del Wither
+tile.greenery.cattail.name=Tule
+tile.greenery.arrowhead.name=Chapiso
+tile.greenery.foxtail.name=Cebadilla ratonera
+tile.greenery.eagle_fern.name=Helecho águila
+tile.greenery.ryegrass.name=Ballica
+tile.greenery.nettle.name=Ortiga
+tile.greenery.barley.name=Cebada
+
+# Blocks
+tile.greenery.dried_kelp_block.name=Bloque de algas secas
+
+# Damage Sources
+death.attack.nettle=%1$s se pinchó hasta morir.
+
+# Commands
+command.greenery.usage=greenery recargar

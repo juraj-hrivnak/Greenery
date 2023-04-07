@@ -1,0 +1,30 @@
+itemGroup.greenery=绿色植物
+
+# Items
+item.greenery.kelp_soup.name=海带汤
+item.greenery.dried_kelp.name=干海带
+
+# Plants
+tile.greenery.seagrass.name=海草
+tile.greenery.watermilfoil.name=狐尾藻
+tile.greenery.pickerelweed.name=Pickerelweed
+tile.greenery.kelp.name=海带
+tile.greenery.lily_of_the_valley.name=铃兰
+tile.greenery.cornflower.name=矢车菊
+tile.greenery.wither_rose.name=凋零玫瑰
+tile.greenery.cattail.name=香蒲
+tile.greenery.arrowhead.name=慈姑
+tile.greenery.foxtail.name=狐尾草
+tile.greenery.eagle_fern.name=鹰蕨
+tile.greenery.ryegrass.name=黑麦草
+tile.greenery.nettle.name=荨麻
+tile.greenery.barley.name=大麦
+
+# Blocks
+tile.greenery.dried_kelp_block.name=干海带块
+
+# Damage Sources
+death.attack.nettle=%1$s被荨麻刺死了
+
+# Commands
+command.greenery.usage=greenery reload

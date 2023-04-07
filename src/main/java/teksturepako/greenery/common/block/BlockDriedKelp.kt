@@ -27,7 +27,7 @@ class BlockDriedKelp : Block(Material.GRASS, MapColor.GRAY)
     init
     {
         setRegistryName(NAME)
-        translationKey = NAME
+        translationKey = "${Greenery.MODID}.$NAME"
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab
 
