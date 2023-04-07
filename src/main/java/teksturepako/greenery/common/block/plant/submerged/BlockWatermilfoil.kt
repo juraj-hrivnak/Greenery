@@ -18,10 +18,10 @@ import java.util.*
 
 class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
 {
-    override val worldGenConfig get() = Config.plant.submerged.watermilfoil.worldGen.toMutableList()
-    override val compatibleFluids get() = Config.plant.submerged.watermilfoil.compatibleFluids.toMutableList()
-    override val isSolid get() = false
-    override val isHarmful get() = false
+    override var worldGenConfig = Config.plant.submerged.watermilfoil.worldGen.toMutableList()
+    override var compatibleFluids = Config.plant.submerged.watermilfoil.compatibleFluids.toMutableList()
+    override var isSolid = false
+    override var isHarmful = false
 
     enum class WatermilfoilVariant : IStringSerializable
     {
@@ -29,7 +29,7 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
 
         override fun getName(): String
         {
-            return name.toLowerCase()
+            return name.lowercase(Locale.getDefault())
         }
 
         override fun toString(): String

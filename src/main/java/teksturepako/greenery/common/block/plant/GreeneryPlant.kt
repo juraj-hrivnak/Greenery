@@ -30,17 +30,17 @@ abstract class GreeneryPlant : BlockCrops()
     /**
      * World Generation config
      */
-    abstract val worldGenConfig: MutableList<String>
+    abstract var worldGenConfig: MutableList<String>
 
     /**
      * Is Solid?
      */
-    abstract val isSolid: Boolean
+    abstract var isSolid: Boolean
 
     /**
      * Is Harmful?
      */
-    abstract val isHarmful: Boolean
+    abstract var isHarmful: Boolean
 
     /**
      * Function for world generator

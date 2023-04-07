@@ -29,7 +29,7 @@ abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
     init
     {
         setRegistryName("plant/floating/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
     }

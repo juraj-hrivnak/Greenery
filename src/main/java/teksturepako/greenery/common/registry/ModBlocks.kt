@@ -32,64 +32,64 @@ object ModBlocks
     // Emergent
     val blockCattail = object : EmergentPlantBase("cattail")
     {
-        override val worldGenConfig get() = Config.plant.emergent.cattail.worldGen.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.emergent.cattail.worldGen.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     val blockArrowhead = object : EmergentPlantBase("arrowhead")
     {
-        override val worldGenConfig get() = Config.plant.emergent.arrowhead.worldGen.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.emergent.arrowhead.worldGen.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     val blockPickerelweed = object : EmergentPlantBase("pickerelweed")
     {
-        override val worldGenConfig get() = Config.plant.emergent.pickerelweed.worldGen.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.emergent.pickerelweed.worldGen.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     // Upland Tall
     val blockFoxtail = object : TallPlantBase("foxtail")
     {
-        override val worldGenConfig get() = Config.plant.upland.tall.foxtail.worldGen.toMutableList()
-        override val drops get() = Config.plant.upland.tall.foxtail.drops.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.upland.tall.foxtail.worldGen.toMutableList()
+        override var drops = Config.plant.upland.tall.foxtail.drops.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     val blockEagleFern = object : TallPlantBase("eagle_fern")
     {
-        override val worldGenConfig get() = Config.plant.upland.tall.eagleFern.worldGen.toMutableList()
-        override val drops get() = Config.plant.upland.tall.eagleFern.drops.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.upland.tall.eagleFern.worldGen.toMutableList()
+        override var drops = Config.plant.upland.tall.eagleFern.drops.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     val blockRyegrass = object : TallPlantBase("ryegrass")
     {
-        override val worldGenConfig get() = Config.plant.upland.tall.ryegrass.worldGen.toMutableList()
-        override val drops get() = Config.plant.upland.tall.ryegrass.drops.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.upland.tall.ryegrass.worldGen.toMutableList()
+        override var drops = Config.plant.upland.tall.ryegrass.drops.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     val blockNettle = object : TallPlantBase("nettle")
     {
-        override val worldGenConfig get() = Config.plant.upland.tall.nettle.worldGen.toMutableList()
-        override val drops get() = Config.plant.upland.tall.nettle.drops.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = true
+        override var worldGenConfig = Config.plant.upland.tall.nettle.worldGen.toMutableList()
+        override var drops = Config.plant.upland.tall.nettle.drops.toMutableList()
+        override var isSolid = false
+        override var isHarmful = true
     }
 
     val blockBarley = object : TallPlantBase("barley")
     {
-        override val worldGenConfig get() = Config.plant.upland.tall.barley.worldGen.toMutableList()
-        override val drops get() = Config.plant.upland.tall.barley.drops.toMutableList()
-        override val isSolid get() = false
-        override val isHarmful get() = false
+        override var worldGenConfig = Config.plant.upland.tall.barley.worldGen.toMutableList()
+        override var drops = Config.plant.upland.tall.barley.drops.toMutableList()
+        override var isSolid = false
+        override var isHarmful = false
     }
 
     private val plants: MutableList<GreeneryPlant> = Greenery.loadPlants()

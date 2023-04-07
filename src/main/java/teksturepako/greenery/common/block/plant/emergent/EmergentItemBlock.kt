@@ -30,7 +30,7 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
     init
     {
         setRegistryName("plant/emergent/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         creativeTab = Greenery.creativeTab
     }
 

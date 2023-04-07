@@ -28,7 +28,7 @@ import java.util.*
 
 abstract class AbstractSubmergedPlant(name: String) : GreeneryPlant(), IFluidloggable
 {
-    abstract val compatibleFluids: MutableList<String>
+    abstract var compatibleFluids: MutableList<String>
 
     companion object
     {
@@ -40,7 +40,7 @@ abstract class AbstractSubmergedPlant(name: String) : GreeneryPlant(), IFluidlog
     init
     {
         setRegistryName("plant/submerged/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
         lightOpacity = 2

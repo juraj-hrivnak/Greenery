@@ -21,6 +21,8 @@ import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCreativeTab
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.command.CommandGreenery
+import teksturepako.greenery.common.config.json.Deserializer.getOrCreateSubfolder
+import teksturepako.greenery.common.config.json.Parser.initPlantData
 import teksturepako.greenery.common.event.EventOldContentLoad
 import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.recipe.ModRecipes
@@ -32,6 +34,7 @@ import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.gen.IPlantGenerator
 import teksturepako.greenery.common.world.gen.PlantGenerator
 import teksturepako.greenery.proxy.IProxy
+import java.io.File
 
 
 @Mod(
@@ -48,7 +51,7 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "3.1"
+    const val VERSION = "4.0"
     const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
@@ -63,12 +66,16 @@ object Greenery
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
     lateinit var logger: Logger
+    lateinit var configFolder: File
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent)
     {
         logger = event.modLog
         proxy.preInit(event)
+
+        configFolder = event.modConfigurationDirectory.getOrCreateSubfolder("greenery")
+        initPlantData()
     }
 
     @Mod.EventHandler

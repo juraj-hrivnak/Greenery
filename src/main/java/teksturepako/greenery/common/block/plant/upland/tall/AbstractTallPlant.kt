@@ -19,9 +19,9 @@ import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-abstract class AbstractTallPlant(name: String) : GreeneryPlant()
+abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
 {
-    abstract val drops: MutableList<String>
+    abstract var drops: MutableList<String>
 
     companion object
     {
@@ -43,7 +43,7 @@ abstract class AbstractTallPlant(name: String) : GreeneryPlant()
     init
     {
         setRegistryName("plant/upland/tall/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab
     }

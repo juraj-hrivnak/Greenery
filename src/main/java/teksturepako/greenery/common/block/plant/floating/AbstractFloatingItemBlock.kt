@@ -31,7 +31,7 @@ abstract class AbstractFloatingItemBlock(name: String, private val blockToUse: B
     init
     {
         setRegistryName("plant/floating/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         creativeTab = Greenery.creativeTab
     }
 

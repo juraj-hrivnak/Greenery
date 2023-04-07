@@ -34,7 +34,7 @@ abstract class AbstractEmergentPlant(val name: String) : GreeneryPlant()
     init
     {
         setRegistryName("plant/emergent/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
     }

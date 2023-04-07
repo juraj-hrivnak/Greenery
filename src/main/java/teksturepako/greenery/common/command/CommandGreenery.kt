@@ -6,7 +6,11 @@ import net.minecraft.command.ICommandSender
 import net.minecraft.command.WrongUsageException
 import net.minecraft.server.MinecraftServer
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.text.Style
+import net.minecraft.util.text.TextComponentString
+import net.minecraft.util.text.TextFormatting
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.json.Parser
 
 
 class CommandGreenery : CommandBase()
@@ -18,7 +22,7 @@ class CommandGreenery : CommandBase()
 
     override fun getUsage(sender: ICommandSender): String
     {
-        return "commands.greenery.usage"
+        return "command.greenery.usage"
     }
 
     @Throws(CommandException::class)
@@ -26,12 +30,16 @@ class CommandGreenery : CommandBase()
     {
         if (args.isEmpty())
         {
-            throw WrongUsageException("commands.greenery.usage", *arrayOfNulls(0))
+            throw WrongUsageException("command.greenery.usage", *arrayOfNulls(0))
         }
-        else if (args[0] == "reloadGenerators")
+        else if (args[0] == "reload")
         {
+            Parser.reloadPlantData()
+
             Greenery.generators.clear()
             Greenery.loadGenerators(true)
+
+            sender.sendMessage(TextComponentString("Plant configuration reloaded!").setStyle(Style().setColor(TextFormatting.GREEN)))
         }
     }
 
@@ -44,7 +52,7 @@ class CommandGreenery : CommandBase()
     {
         return if (args.size == 1)
         {
-            getListOfStringsMatchingLastWord(args, "reloadGenerators")
+            getListOfStringsMatchingLastWord(args, "reload")
         }
         else super.getTabCompletions(server, sender, args, targetPos)
     }

@@ -22,6 +22,8 @@ import java.util.*
 
 abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
 {
+    abstract var drops: MutableList<String>
+
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
@@ -33,12 +35,10 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
         )
     }
 
-    abstract val drops: MutableList<String>
-
     init
     {
         setRegistryName("plant/upland/single/$name")
-        translationKey = name
+        translationKey = "${Greenery.MODID}.$name"
         soundType = SoundType.PLANT
         creativeTab = Greenery.creativeTab
     }
@@ -54,7 +54,6 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
         return AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
     }
 
-    // Drops
     override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
     {
         DropsUtil.getDrops(this.drops, drops, world, pos, state, this.seed, fortune)
