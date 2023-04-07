@@ -61,5 +61,20 @@
       <option name="name" value="deobfDeps" />
       <option name="url" value="file:/$USER_HOME$/.gradle/caches/minecraft/deobfedDeps" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://maven.cleanroommc.com" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://repo.spongepowered.org/maven" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Su5ed LegacyDev Fork" />
+      <option name="name" value="Su5ed LegacyDev Fork" />
+      <option name="url" value="https://su5ed.jfrog.io/artifactory/maven/" />
+    </remote-repository>
   </component>
 </project>
