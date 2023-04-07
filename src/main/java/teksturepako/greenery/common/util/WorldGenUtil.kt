@@ -10,6 +10,7 @@ import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.Loader
 import net.minecraftforge.fml.common.registry.ForgeRegistries
+import java.util.*
 
 object WorldGenUtil
 {
@@ -33,7 +34,10 @@ object WorldGenUtil
         if (extendedBiome == null)
         {
             extendedBiome = ExtendedBiomeWrapper(biome)
-            BOPBiomes.REG_INSTANCE.registerBiome(extendedBiome, extendedBiome.getBaseBiome().biomeName.toLowerCase())
+            BOPBiomes.REG_INSTANCE.registerBiome(
+                extendedBiome,
+                extendedBiome.getBaseBiome().biomeName.lowercase(Locale.getDefault())
+            )
         }
         return extendedBiome
     }
@@ -130,7 +134,7 @@ object WorldGenUtil
                     }
                     "type" in configInput[0] -> return getTypes().any { BiomeDictionary.hasType(biomeInput, it) }
                     "biome" in configInput[0] -> return getBiomes().any { biomeInput.registryName == it.registryName }
-                    "anywhere" in configInput[0] -> return true
+                    "anywhere" in configInput[0] || "everywhere" in configInput[0] -> return true
                 }
             }
             return false
