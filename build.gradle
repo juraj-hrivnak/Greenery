@@ -1,94 +1,271 @@
-//file:noinspection DifferentKotlinGradleVersion
+//file:noinspection GroovyAssignabilityCheck
 //file:noinspection GradlePackageUpdate
+
 buildscript {
     repositories {
-        mavenCentral()
         maven {
-            name = "forge"
-            url = "https://maven.minecraftforge.net"
-        }
-        maven {
-            name = "kotlin"
-            url = "https://oss.sonatype.org/content/repositories/snapshots"
+            name 'MixinGradle'
+            url 'https://repo.spongepowered.org/repository/maven-public'
         }
     }
     dependencies {
-        classpath "com.anatawa12.forge:ForgeGradle:2.3-1.0.7"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.50"
+        if (project.use_mixins.toBoolean()) {
+            classpath 'org.spongepowered:mixingradle:0.7-SNAPSHOT'
+        }
     }
 }
 
-apply plugin: "net.minecraftforge.gradle.forge"
-apply plugin: "kotlin"
+plugins {
+    id 'net.minecraftforge.gradle' version '5.1.+'
+    id 'wtf.gofancy.fancygradle' version '1.1.+'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.10'
+}
 
-group = 'teksturepako'
-version = '1.12.2-3.1'
-archivesBaseName = 'Greenery'
+if (project.use_mixins.toBoolean()) {
+    apply plugin: 'org.spongepowered.mixin'
+}
+
+version = project.mod_version
+group = project.maven_group
+archivesBaseName = project.archives_base_name
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(8)
+
+if (project.use_intellij_idea.toBoolean()) {
+    apply {
+        plugin 'java'
+        plugin 'idea'
+    }
+
+    idea {
+        module {
+            downloadJavadoc = true
+            downloadSources = true
+        }
+    }
+}
+
+if (project.use_eclipse.toBoolean()) {
+    apply {
+        plugin 'java'
+        plugin 'eclipse'
+    }
+
+    eclipse {
+        module {
+            downloadJavadoc = true
+            downloadSources = true
+        }
+    }
+}
+
 
 minecraft {
-    version = project.forgeVersion as Object
-    runDir = "run"
+    mappings channel: 'stable', version: '39-1.12'
 
-    // the mappings can be changed at any time, and must be in the following format.
-    // snapshot_YYYYMMDD   snapshot are built nightly.
-    // stable_#            stables are built at the discretion of the MCP team.
-    // Use non-default mappings at your own risk. they may not always work.
-    // simply re-run your setup task after changing the mappings to update your workspace.
-    mappings = project.mcpVersion
-    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
+    if (project.has_access_transformer.toBoolean()) {
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    }
 
-    def args = [
-            "-Dmixin.debug.export=true",
-            '-Dmixin.hotSwap=true',
-            '-Dmixin.checks.interfaces=true'
-    ]
+    runs {
+        client {
+            workingDirectory project.file('run')
+            if (project.use_coremod.toBoolean()) {
+                jvmArg '-Dfml.coreMods.load=' + coremod_plugin_class_name
+            }
+            if (project.use_mixins.toBoolean()) {
+                jvmArg '-Dmixin.hotSwap=true'
+                jvmArg '-Dmixin.checks.interfaces=true'
+                jvmArg '-Dmixin.debug=true'
+            }
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            environment 'MC_VERSION', '1.12.2'
+        }
 
-    clientJvmArgs.addAll(args)
-    serverJvmArgs.addAll(args)
+        server {
+            workingDirectory project.file('run')
+            if (project.use_coremod.toBoolean()) {
+                jvmArg '-Dfml.coreMods.load=' + coremod_plugin_class_name
+            }
+            if (project.use_mixins.toBoolean()) {
+                jvmArg '-Dmixin.hotSwap=true'
+                jvmArg '-Dmixin.checks.interfaces=true'
+            }
+            property 'forge.logging.markers', 'REGISTRIES'
+            property 'forge.logging.console.level', 'debug'
+            environment 'MC_VERSION', '1.12.2'
+        }
+    }
 }
 
 repositories {
     mavenCentral()
-
-    //  Forgelin
-    maven { url "http://maven.shadowfacts.net/" }
-
-    //  CurseForge
-    maven { url "https://www.cursemaven.com" }
-
-    //  Fluidlogged API
-    maven { url "https://jitpack.io" }
+    maven {
+        url = 'https://maven.cleanroommc.com'
+    }
+    maven {
+        url = 'https://repo.spongepowered.org/maven'
+    }
+    maven {
+        url = "https://www.cursemaven.com"
+    }
+    maven {
+        url = 'https://jitpack.io'
+    }
 }
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.3.50"
-    compile "net.shadowfacts:Forgelin:1.8.4"
+    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+
+    implementation files('Forgelin-1.10.0.jar')
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10"
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 
     // Fluidlogged API
-    deobfCompile "com.github.jbredwards:fluidlogged-api:2573e41f3e"
+    implementation fg.deobf('com.github.jbredwards:fluidlogged-api:2573e41f3e')
 
     // Others
-    deobfCompile "curse.maven:bop-220318:2842510"
-    deobfCompile "curse.maven:simpledifficulty-574162:3645250"
-    compileOnly "curse.maven:dynamictrees-252818:3613721"
+    implementation fg.deobf('curse.maven:bop-220318:2842510')
+    implementation fg.deobf('curse.maven:simpledifficulty-574162:3645250')
+    compileOnly 'curse.maven:dynamictrees-252818:3613721'
 //    compile("curse.maven:sereneseasons-291874:2799213")
+
+    if (project.use_mixins.toBoolean()) {
+        compileOnly 'zone.rong:mixinbooter:7.0'
+        runtimeOnly 'zone.rong:mixinbooter:7.0'
+
+        annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    }
 }
 
+fancyGradle {
+    patches {
+        resources
+        coremods
+        asm
+    }
+}
+
+if (project.build_deobfJar.toBoolean()) {
+    // Create deobf dev jars
+    task deobfJar(type: Jar) {
+        archiveClassifier.set("deobf")
+        from sourceSets.main.output
+    }
+    processJarTask deobfJar
+}
+
+if (project.build_apiJar.toBoolean()) {
+    // Create API library jar
+    task apiZip(type: Jar) {
+        archiveClassifier.set("api")
+        from(sourceSets.main.java) {
+            include "name/api/**"
+        }
+        from(sourceSets.main.output) {
+            include "name/api/**"
+        }
+    }
+}
+
+if (project.build_sourceJar.toBoolean()) {
+    // Create source jar
+    task sourcesJar(type: Jar) {
+        archiveClassifier.set("sources")
+        from sourceSets.main.allJava
+    }
+}
+
+// Loading resources, works even on IDE client runs
+sourceSets {
+    main {
+        if (project.use_mixins.toBoolean()) {
+            ext.refMap = 'mixins.' + archives_base_name + '.refmap.json'
+        }
+
+        java {
+            srcDirs = ["src/main/java"]
+        }
+
+        resources {
+            srcDirs = ["src/main/resources"]
+        }
+    }
+
+    test {
+        java {
+            srcDirs = ["src/test/java"]
+        }
+        resources {
+            srcDirs = ["src/test/resources"]
+        }
+    }
+
+    // at compile time, put resources in same directories as classes
+    main.output.setResourcesDir(main.java.classesDirectory)
+}
+
+artifacts {
+    if (project.build_deobfJar.toBoolean()) {
+        archives deobfJar
+    }
+    if (project.build_apiJar.toBoolean()) {
+        archives apiZip
+    }
+    if (project.build_sourceJar.toBoolean()) {
+        archives sourcesJar
+    }
+}
+
+jar.finalizedBy('reobfJar')
+
 processResources {
+    // required to allow file expansion later
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+
     // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
+    inputs.property 'version', version
 
     // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
-        include "mcmod.info"
+        include 'mcmod.info'
 
         // replace version and mcversion
-        expand "version": project.version, "mcversion": project.minecraft.version
+        expand 'version': version
     }
 
-    // copy everything else, thats not the mcmod.info
+    // copy everything else except the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
-        exclude "mcmod.info"
+        exclude 'mcmod.info'
+    }
+}
+
+/**
+ * Applies required processing to jar tasks
+ * @param task the task to process
+ */
+private void processJarTask(task) {
+    task.configure {
+        manifest {
+            // noinspection GroovyAssignabilityCheck
+            def attribute_map = [:]
+            if (project.use_coremod.toBoolean()) {
+                attribute_map['FMLCorePlugin'] = project.coremod_plugin_class_name
+                if (project.include_mod.toBoolean()) {
+                    attribute_map['FMLCorePluginContainsFMLMod'] = true
+                    attribute_map['ForceLoadAsMod'] = project.gradle.startParameter.taskNames[0] == 'build'
+                }
+            }
+            if (project.use_mixins.toBoolean()) {
+                attribute_map['TweakClass'] = 'org.spongepowered.asm.launch.MixinTweaker'
+            }
+            if (project.has_access_transformer.toBoolean()) {
+                attribute_map['FMLAT'] = project.archives_base_name + '_at.cfg'
+            }
+            attributes(attribute_map)
+        }
     }
 }
