@@ -31,6 +31,7 @@ object Parser
             Greenery.plants.add(object : EmergentPlantBase(data.name)
             {
                 override var worldGenConfig = data.worldGen
+                override var hasTintIndex = data.hasTintIndex
                 override var isSolid = data.isSolid
                 override var isHarmful = data.isHarmful
             })
@@ -42,6 +43,7 @@ object Parser
             {
                 override var worldGenConfig = data.worldGen
                 override var drops = data.drops
+                override var hasTintIndex = data.hasTintIndex
                 override var isSolid = data.isSolid
                 override var isHarmful = data.isHarmful
             })

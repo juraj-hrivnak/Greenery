@@ -21,6 +21,7 @@ class BlockKelp : AbstractSubmergedPlant(NAME)
 {
     override var worldGenConfig = Config.plant.submerged.kelp.worldGen.toMutableList()
     override var compatibleFluids = Config.plant.submerged.kelp.compatibleFluids.toMutableList()
+    override var hasTintIndex = false
     override var isSolid = false
     override var isHarmful = false
 

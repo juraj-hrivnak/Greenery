@@ -23,9 +23,9 @@ import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.command.CommandGreenery
 import teksturepako.greenery.common.config.json.Deserializer.getOrCreateSubfolder
 import teksturepako.greenery.common.config.json.Parser.initPlantData
+import teksturepako.greenery.common.config.json.Serializer.initDefaults
 import teksturepako.greenery.common.event.EventOldContentLoad
 import teksturepako.greenery.common.event.EventWorldGen
-import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
@@ -52,9 +52,9 @@ object Greenery
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "4.0"
-    const val DEPENDENCIES = "required-after:forgelin@[1.8.4,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.5.30.0,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
-    const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
+    const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
 
     const val SERVER_PROXY = "teksturepako.greenery.proxy.ServerProxy"
     const val CLIENT_PROXY = "teksturepako.greenery.proxy.ClientProxy"
@@ -74,7 +74,8 @@ object Greenery
         logger = event.modLog
         proxy.preInit(event)
 
-        configFolder = event.modConfigurationDirectory.getOrCreateSubfolder("greenery")
+        configFolder = event.modConfigurationDirectory.getOrCreateSubfolder(MODID)
+        initDefaults()
         initPlantData()
     }
 
@@ -83,7 +84,7 @@ object Greenery
     {
         proxy.init(event)
         GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
-        ModRecipes.register()
+//        ModRecipes.register()
 
         MinecraftForge.EVENT_BUS.register(EventOldContentLoad::class.java)
         MinecraftForge.TERRAIN_GEN_BUS.register(EventWorldGen::class.java)
@@ -146,14 +147,6 @@ object Greenery
     {
         if (plants.isEmpty())
         {
-            plants.add(ModBlocks.blockCattail)
-            plants.add(ModBlocks.blockArrowhead)
-            plants.add(ModBlocks.blockPickerelweed)
-            plants.add(ModBlocks.blockFoxtail)
-            plants.add(ModBlocks.blockEagleFern)
-            plants.add(ModBlocks.blockRyegrass)
-            plants.add(ModBlocks.blockNettle)
-            plants.add(ModBlocks.blockBarley)
             plants.add(ModBlocks.blockKelp)
             plants.add(ModBlocks.blockWatermilfoil)
             plants.add(ModBlocks.blockSeagrass)

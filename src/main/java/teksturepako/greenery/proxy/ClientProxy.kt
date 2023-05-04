@@ -51,7 +51,7 @@ class ClientProxy : IProxy
         @JvmStatic
         fun registerItemColorHandlers(event: ColorHandlerEvent.Item)
         {
-            ModItems.registerItemColorHandlers(event)
+            ModBlocks.registerItemBlockColorHandlers(event)
         }
     }
 

@@ -28,7 +28,6 @@ import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.registry.ModBlocks
 import java.util.*
 
 class BlockGrass : Block(Material.GRASS), IGrowable
@@ -186,37 +185,13 @@ class BlockGrass : Block(Material.GRASS), IGrowable
         return canGrow(worldIn, pos, state, false)
     }
 
+    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
+    {
+
+    }
+
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
     {
         return true
-    }
-
-    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
-    {
-        val defaultPos = pos.up()
-        for (i in 0..127)
-        {
-            var blockPos = defaultPos
-            for (j in 0 until i / 16)
-            {
-                blockPos = blockPos.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1)
-                if (worldIn.getBlockState(blockPos.down()).block !== this || worldIn.getBlockState(blockPos).isNormalCube) continue
-            }
-            if (worldIn.isAirBlock(blockPos))
-            {
-                if (rand.nextInt(8) == 0)
-                {
-                    worldIn.getBiome(blockPos).plantFlower(worldIn, rand, blockPos)
-                }
-                else
-                {
-                    val tallGrass = ModBlocks.blockFoxtail.defaultState
-                    if (ModBlocks.blockFoxtail.canBlockStay(worldIn, blockPos, tallGrass))
-                    {
-                        worldIn.setBlockState(blockPos, tallGrass, 3)
-                    }
-                }
-            }
-        }
     }
 }

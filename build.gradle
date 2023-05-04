@@ -18,8 +18,8 @@ buildscript {
 plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'wtf.gofancy.fancygradle' version '1.1.+'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.10'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.10'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.20'
 }
 
 if (project.use_mixins.toBoolean()) {
@@ -119,9 +119,9 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation files('Forgelin-1.10.0.jar')
+    implementation "curse.maven:forgelin-continuous-456403:4492591"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.10"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
 
     // Fluidlogged API
@@ -151,7 +151,7 @@ fancyGradle {
 
 if (project.build_deobfJar.toBoolean()) {
     // Create deobf dev jars
-    task deobfJar(type: Jar) {
+    tasks.register('deobfJar', Jar) {
         archiveClassifier.set("deobf")
         from sourceSets.main.output
     }
@@ -160,7 +160,7 @@ if (project.build_deobfJar.toBoolean()) {
 
 if (project.build_apiJar.toBoolean()) {
     // Create API library jar
-    task apiZip(type: Jar) {
+    tasks.register('apiZip', Jar) {
         archiveClassifier.set("api")
         from(sourceSets.main.java) {
             include "name/api/**"
@@ -173,7 +173,7 @@ if (project.build_apiJar.toBoolean()) {
 
 if (project.build_sourceJar.toBoolean()) {
     // Create source jar
-    task sourcesJar(type: Jar) {
+    tasks.register('sourcesJar', Jar) {
         archiveClassifier.set("sources")
         from sourceSets.main.allJava
     }

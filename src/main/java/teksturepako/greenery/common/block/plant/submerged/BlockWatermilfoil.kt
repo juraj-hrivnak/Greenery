@@ -20,6 +20,7 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
 {
     override var worldGenConfig = Config.plant.submerged.watermilfoil.worldGen.toMutableList()
     override var compatibleFluids = Config.plant.submerged.watermilfoil.compatibleFluids.toMutableList()
+    override var hasTintIndex = false
     override var isSolid = false
     override var isHarmful = false
 

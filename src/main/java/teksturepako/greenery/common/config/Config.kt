@@ -1,10 +1,7 @@
 package teksturepako.greenery.common.config
 
 import net.minecraftforge.common.config.Config.*
-import teksturepako.greenery.common.config.plant.Emergent
-import teksturepako.greenery.common.config.plant.Floating
 import teksturepako.greenery.common.config.plant.Submerged
-import teksturepako.greenery.common.config.plant.Upland
 
 object Config
 {
@@ -32,24 +29,9 @@ object Config
 
     class PlantSettings
     {
-        @Name("Emergent")
-        @Comment("Options for Emergent plants.")
-        @JvmField
-        val emergent = Emergent()
-
-        @Name("Floating")
-        @Comment("Options for Floating plants.")
-        @JvmField
-        val floating = Floating()
-
         @Name("Submerged")
         @Comment("Options for Submerged plants.")
         @JvmField
         val submerged = Submerged()
-
-        @Name("Upland")
-        @Comment("Options for Upland plants.")
-        @JvmField
-        val upland = Upland()
     }
 }

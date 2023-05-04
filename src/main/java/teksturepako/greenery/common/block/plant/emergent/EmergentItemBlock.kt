@@ -63,6 +63,8 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
     {
         val itemstack = playerIn.getHeldItem(handIn)
         val raytraceresult = rayTrace(worldIn, playerIn, true)
+
+        @Suppress("SENSELESS_COMPARISON")
         return if (raytraceresult == null)
         {
             ActionResult(EnumActionResult.PASS, itemstack)
@@ -105,7 +107,7 @@ class EmergentItemBlock(name: String, private val blockToUse: Block) : ItemBlock
                         itemstack.shrink(1)
                     }
 
-                    playerIn.addStat(StatList.getObjectUseStats(this))
+                    playerIn.addStat(StatList.getObjectUseStats(this)!!)
                     worldIn.playSound(playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f)
                     return ActionResult(EnumActionResult.SUCCESS, itemstack)
                 }

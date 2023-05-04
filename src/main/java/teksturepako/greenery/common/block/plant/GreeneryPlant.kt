@@ -33,6 +33,11 @@ abstract class GreeneryPlant : BlockCrops()
     abstract var worldGenConfig: MutableList<String>
 
     /**
+     * Has TintIndex?
+     */
+    abstract var hasTintIndex: Boolean
+
+    /**
      * Is Solid?
      */
     abstract var isSolid: Boolean

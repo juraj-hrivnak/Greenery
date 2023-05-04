@@ -20,6 +20,7 @@ class BlockSeagrass : AbstractSubmergedPlant(NAME)
 {
     override var worldGenConfig = Config.plant.submerged.seagrass.worldGen.toMutableList()
     override var compatibleFluids = Config.plant.submerged.seagrass.compatibleFluids.toMutableList()
+    override var hasTintIndex = false
     override var isSolid = false
     override var isHarmful = false
 
