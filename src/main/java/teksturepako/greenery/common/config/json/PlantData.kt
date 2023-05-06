@@ -9,6 +9,7 @@ data class PlantData(
         var name: String = "",
         var worldGen: MutableList<String> = ArrayList(),
         var drops: MutableList<String> = ArrayList(),
+        var compatibleFluids: MutableList<String> = ArrayList(),
         var hasTintIndex: Boolean = false,
         var isSolid: Boolean = false,
         var isHarmful: Boolean = false

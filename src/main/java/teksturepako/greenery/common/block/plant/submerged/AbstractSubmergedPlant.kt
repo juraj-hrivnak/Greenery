@@ -26,7 +26,7 @@ import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.util.ModDamageSource
 import java.util.*
 
-abstract class AbstractSubmergedPlant(name: String) : GreeneryPlant(), IFluidloggable
+abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFluidloggable
 {
     abstract var compatibleFluids: MutableList<String>
 
@@ -48,9 +48,9 @@ abstract class AbstractSubmergedPlant(name: String) : GreeneryPlant(), IFluidlog
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
-        entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier + 1)
-        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
+        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier * 0.1 + 1)
 
         if (isHarmful && entityIn is EntityPlayer)
         {

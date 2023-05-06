@@ -22,7 +22,6 @@ import teksturepako.greenery.Greenery
 
 abstract class AbstractFloatingItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
 {
-
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)

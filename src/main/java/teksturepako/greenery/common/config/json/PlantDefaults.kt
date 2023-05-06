@@ -1,6 +1,17 @@
 package teksturepako.greenery.common.config.json
 
+import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.json.Deserializer.getOrCreateSubfolder
+
 object PlantDefaults {
+
+    val plantDir = Greenery.configFolder.getOrCreateSubfolder("plants")
+    val emergentDir = plantDir.getOrCreateSubfolder("emergent")
+    val submergedDir = plantDir.getOrCreateSubfolder("submerged")
+    val submergedKelpLikeDir = submergedDir.getOrCreateSubfolder("kelp_like")
+    val submergedTallDir = submergedDir.getOrCreateSubfolder("tall")
+    val uplandDir = plantDir.getOrCreateSubfolder("upland")
+    val uplandTallDir = uplandDir.getOrCreateSubfolder("tall")
 
     val emergentPlants = listOf(
         PlantData(
@@ -11,6 +22,7 @@ object PlantDefaults {
                 "0 | type:swamp | 0.5 | 16 | 64",
                 "0 | type:lush | 0.5 | 16 | 64"
             ),
+            compatibleFluids = mutableListOf("water"),
             isSolid = false,
             isHarmful = false
         ),
@@ -21,7 +33,8 @@ object PlantDefaults {
                 "0 | type:wet | 0.5 | 16 | 64",
                 "0 | type:swamp | 0.5 | 16 | 64",
                 "0 | type:lush | 0.5 | 16 | 64"
-            ).toMutableList(),
+            ),
+            compatibleFluids = mutableListOf("water"),
             hasTintIndex = true,
             isSolid = false,
             isHarmful = false
@@ -33,7 +46,43 @@ object PlantDefaults {
                 "0 | type:wet | 0.5 | 16 | 64",
                 "0 | type:swamp | 0.5 | 16 | 64",
                 "0 | type:lush | 0.5 | 16 | 64"
-            ).toMutableList(),
+            ),
+            compatibleFluids = mutableListOf("water"),
+            isSolid = false,
+            isHarmful = false
+        )
+    )
+
+    val submergedKelpLikePlants = listOf(
+        PlantData(
+            name = "kelp",
+            worldGen = mutableListOf(
+                "0 | type:ocean | 0.5 | 14 | 64",
+                "0 | type:beach | 0.5 | 14 | 64"
+            ),
+            compatibleFluids = mutableListOf("water"),
+            isSolid = false,
+            isHarmful = false
+        )
+    )
+
+    val submergedTallPlants = listOf(
+        PlantData(
+            name = "seagrass",
+            worldGen = mutableListOf(
+                "0 | type:ocean | 1.0 | 24 | 64",
+                "0 | type:beach | 1.0 | 24 | 64"
+            ),
+            compatibleFluids = mutableListOf("water"),
+            isSolid = false,
+            isHarmful = false
+        ),
+        PlantData(
+            name = "watermilfoil",
+            worldGen = mutableListOf(
+                "0 | type:river | 1.0 | 32 | 64"
+            ),
+            compatibleFluids = mutableListOf("water"),
             isSolid = false,
             isHarmful = false
         )

@@ -19,7 +19,6 @@ object ConfigUtil
     {
         if (printParsing)
         {
-            Greenery.logger.info("------------------------------------------------------     ")
             Greenery.logger.info("Loading world generators:")
         }
 
@@ -28,7 +27,6 @@ object ConfigUtil
             if (printParsing)
             {
                 Greenery.logger.error("No generators found!")
-                Greenery.logger.info("------------------------------------------------------     ")
             }
             return true
         }
@@ -67,7 +65,6 @@ object ConfigUtil
         }
 
         if (printParsing && errored) printValidBiomeDictionaries()
-        if (printParsing) Greenery.logger.info("------------------------------------------------------     ")
 
         return errored
     }
@@ -85,7 +82,6 @@ object ConfigUtil
                 if (printErrors)
                 {
                     Greenery.logger.error("    > Invalid biome dictionary type: \"${type.name.lowercase(Locale.getDefault())}\"")
-                    Greenery.logger.error("    ------------------------------------------------                                ")
                 }
                 return true
             }
@@ -128,7 +124,6 @@ object ConfigUtil
                 if (printErrors)
                 {
                     Greenery.logger.error("    > Invalid biome: \"${biome}\"                    ")
-                    Greenery.logger.error("    ------------------------------------------------ ")
                 }
                 return true
             }

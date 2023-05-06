@@ -119,7 +119,7 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation "curse.maven:forgelin-continuous-456403:4492591"
+    implementation files('Forgelin-Continuous-1.8.20.1.jar')
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
@@ -220,7 +220,7 @@ artifacts {
     }
 }
 
-jar.finalizedBy('reobfJar')
+//jar.finalizedBy('reobfJar')
 
 processResources {
     // required to allow file expansion later

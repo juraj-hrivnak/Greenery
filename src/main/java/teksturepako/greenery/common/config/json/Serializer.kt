@@ -3,8 +3,15 @@ package teksturepako.greenery.common.config.json
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.encodeToStream
-import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.config.json.Deserializer.getOrCreateSubfolder
+import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.config.json.PlantDefaults.emergentDir
+import teksturepako.greenery.common.config.json.PlantDefaults.emergentPlants
+import teksturepako.greenery.common.config.json.PlantDefaults.submergedKelpLikeDir
+import teksturepako.greenery.common.config.json.PlantDefaults.submergedKelpLikePlants
+import teksturepako.greenery.common.config.json.PlantDefaults.submergedTallDir
+import teksturepako.greenery.common.config.json.PlantDefaults.submergedTallPlants
+import teksturepako.greenery.common.config.json.PlantDefaults.uplandTallDir
+import teksturepako.greenery.common.config.json.PlantDefaults.uplandTallPlants
 import java.io.File
 import java.io.FileOutputStream
 
@@ -14,27 +21,23 @@ object Serializer
         prettyPrint = true
     }
 
-    private val plantDir = Greenery.configFolder.getOrCreateSubfolder("plants")
-    private val emergentDir = plantDir.getOrCreateSubfolder("emergent")
-    private val uplandDir = plantDir.getOrCreateSubfolder("upland")
-    private val uplandTallDir = uplandDir.getOrCreateSubfolder("tall")
-
     @OptIn(ExperimentalSerializationApi::class)
     fun initDefaults()
     {
-        PlantDefaults.emergentPlants.forEach { data ->
-            if (!File(emergentDir, "${data.name}.json").exists())
-            {
-                FileOutputStream(File(emergentDir, "${data.name}.json")).use {
-                    json.encodeToStream<PlantData>(data, it)
-                }
-            }
-        }
-        PlantDefaults.uplandTallPlants.forEach { data ->
-            if (!File(uplandTallDir, "${data.name}.json").exists())
-            {
-                FileOutputStream(File(uplandTallDir, "${data.name}.json")).use {
-                    json.encodeToStream<PlantData>(data, it)
+        if (!Config.global.genDefaults) return
+
+        mapOf(
+            emergentPlants to emergentDir,
+            submergedKelpLikePlants to submergedKelpLikeDir,
+            submergedTallPlants to submergedTallDir,
+            uplandTallPlants to uplandTallDir
+        ).forEach { (plants, file) ->
+            plants.forEach { data ->
+                if (!File(file, "${data.name}.json").exists())
+                {
+                    FileOutputStream(File(file, "${data.name}.json")).use {
+                        json.encodeToStream(data, it)
+                    }
                 }
             }
         }

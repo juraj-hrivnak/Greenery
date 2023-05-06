@@ -51,8 +51,8 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "4.0"
-    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.5.30.0,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
+    const val VERSION = "4.1"
+    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.20.1,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
 
@@ -94,7 +94,7 @@ object Greenery
     fun postInit(event: FMLPostInitializationEvent)
     {
         proxy.postInit(event)
-        ModItems.initOreDictionary()
+//        ModItems.initOreDictionary()
     }
 
     @Mod.EventHandler
@@ -141,16 +141,5 @@ object Greenery
             ConfigUtil.parseGenerators(generators, printParsing)
         }
         return generators
-    }
-
-    fun loadPlants(): MutableList<GreeneryPlant>
-    {
-        if (plants.isEmpty())
-        {
-            plants.add(ModBlocks.blockKelp)
-            plants.add(ModBlocks.blockWatermilfoil)
-            plants.add(ModBlocks.blockSeagrass)
-        }
-        return plants
     }
 }

@@ -1,6 +1,6 @@
 @file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 
-package teksturepako.greenery.common.block.plant.submerged
+package teksturepako.greenery.common.block.plant.submerged.tall
 
 import net.minecraft.block.properties.PropertyEnum
 import net.minecraft.block.properties.PropertyInteger
@@ -13,18 +13,12 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
 import java.util.*
 
-class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
+abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(name)
 {
-    override var worldGenConfig = Config.plant.submerged.watermilfoil.worldGen.toMutableList()
-    override var compatibleFluids = Config.plant.submerged.watermilfoil.compatibleFluids.toMutableList()
-    override var hasTintIndex = false
-    override var isSolid = false
-    override var isHarmful = false
-
-    enum class WatermilfoilVariant : IStringSerializable
+    enum class Variant : IStringSerializable
     {
         SINGLE, BOTTOM, TOP;
 
@@ -41,15 +35,13 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
 
     companion object
     {
-        const val NAME = "watermilfoil"
-
-        val VARIANT: PropertyEnum<WatermilfoilVariant> = PropertyEnum.create("variant", WatermilfoilVariant::class.java)
+        val VARIANT: PropertyEnum<Variant> = PropertyEnum.create("variant", Variant::class.java)
         val AGE: PropertyInteger = PropertyInteger.create("age", 0, 1)
     }
 
     init
     {
-        defaultState = blockState.baseState.withProperty(VARIANT, WatermilfoilVariant.SINGLE).withProperty(BlockSeagrass.AGE, 1)
+        defaultState = blockState.baseState.withProperty(VARIANT, Variant.SINGLE).withProperty(AGE, 1)
     }
 
     override fun getAgeProperty(): PropertyInteger
@@ -74,15 +66,12 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
 
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
-        val hasRivergrassBelow = worldIn.getBlockState(pos.down()).block == this
-        val hasRivergrassAbove = worldIn.getBlockState(pos.up()).block == this
-
         return state.withProperty(
             VARIANT, when
             {
-                hasRivergrassBelow -> WatermilfoilVariant.TOP
-                hasRivergrassAbove -> WatermilfoilVariant.BOTTOM
-                else -> WatermilfoilVariant.SINGLE
+                worldIn.getBlockState(pos.down()).block == this -> Variant.TOP
+                worldIn.getBlockState(pos.up()).block == this -> Variant.BOTTOM
+                else -> Variant.SINGLE
             }
         )
     }
@@ -124,7 +113,7 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
     {
         val actualState = state.getActualState(worldIn, pos)
-        return actualState.getValue(VARIANT) == WatermilfoilVariant.SINGLE && canGenerateBlockAt(worldIn, pos.up())
+        return actualState.getValue(VARIANT) == Variant.SINGLE && canGenerateBlockAt(worldIn, pos.up())
     }
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
@@ -136,9 +125,9 @@ class BlockWatermilfoil : AbstractSubmergedPlant(NAME)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(VARIANT, WatermilfoilVariant.TOP) -> TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, WatermilfoilVariant.SINGLE) -> TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, WatermilfoilVariant.BOTTOM) -> BOTTOM_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, Variant.TOP) -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, Variant.SINGLE) -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, Variant.BOTTOM) -> BOTTOM_AABB.offset(state.getOffset(source, pos))
             else -> TOP_AABB.offset(state.getOffset(source, pos))
         }
     }

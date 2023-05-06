@@ -8,25 +8,14 @@ import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import net.minecraftforge.registries.IForgeRegistry
-import teksturepako.greenery.Greenery
+import teksturepako.greenery.Greenery.plants
 import teksturepako.greenery.common.block.BlockDriedKelp
 import teksturepako.greenery.common.block.BlockGrass
-import teksturepako.greenery.common.block.plant.GreeneryPlant
-import teksturepako.greenery.common.block.plant.submerged.BlockKelp
-import teksturepako.greenery.common.block.plant.submerged.BlockSeagrass
-import teksturepako.greenery.common.block.plant.submerged.BlockWatermilfoil
 
 object ModBlocks
 {
     val blockGrass = BlockGrass()
     val blockDriedKelp = BlockDriedKelp()
-
-    // Submerged
-    val blockSeagrass = BlockSeagrass()
-    val blockWatermilfoil = BlockWatermilfoil()
-    val blockKelp = BlockKelp()
-
-    private val plants: MutableList<GreeneryPlant> = Greenery.loadPlants()
 
     fun register(registry: IForgeRegistry<Block>)
     {

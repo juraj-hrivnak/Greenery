@@ -5,7 +5,6 @@ package teksturepako.greenery.common.registry
 import net.minecraft.item.Item
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
-import net.minecraftforge.oredict.OreDictionary
 import net.minecraftforge.registries.IForgeRegistry
 import teksturepako.greenery.common.item.ItemDriedKelp
 import teksturepako.greenery.common.item.ItemKelpSoup
@@ -28,8 +27,8 @@ object ModItems
         itemDriedKelp.registerItemModel()
     }
 
-    fun initOreDictionary()
-    {
-        OreDictionary.registerOre("cropSeaweed", ModBlocks.blockKelp)
-    }
+//    fun initOreDictionary()
+//    {
+//        OreDictionary.registerOre("cropSeaweed", ModBlocks.blockKelp)
+//    }
 }

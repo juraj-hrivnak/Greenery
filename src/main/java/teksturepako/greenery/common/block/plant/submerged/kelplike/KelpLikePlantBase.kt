@@ -1,6 +1,6 @@
 @file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
 
-package teksturepako.greenery.common.block.plant.submerged
+package teksturepako.greenery.common.block.plant.submerged.kelplike
 
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.properties.PropertyInteger
@@ -13,22 +13,14 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import teksturepako.greenery.common.config.Config
+import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
 import java.util.*
 import kotlin.math.min
 
-class BlockKelp : AbstractSubmergedPlant(NAME)
+abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
 {
-    override var worldGenConfig = Config.plant.submerged.kelp.worldGen.toMutableList()
-    override var compatibleFluids = Config.plant.submerged.kelp.compatibleFluids.toMutableList()
-    override var hasTintIndex = false
-    override var isSolid = false
-    override var isHarmful = false
-
     companion object
     {
-        const val NAME = "kelp"
-
         const val MAX_AGE = 15
         val IS_TOP_BLOCK: PropertyBool = PropertyBool.create("top")
         val AGE: PropertyInteger = PropertyInteger.create("remaining_height", 0, MAX_AGE)

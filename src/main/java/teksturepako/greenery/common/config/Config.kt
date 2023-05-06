@@ -1,12 +1,10 @@
 package teksturepako.greenery.common.config
 
 import net.minecraftforge.common.config.Config.*
-import teksturepako.greenery.common.config.plant.Submerged
 
 object Config
 {
     val global: GlobalSettings = _Internal.GLOBAL_SETTINGS
-    val plant: PlantSettings = _Internal.PLANT_SETTINGS
 
     class GlobalSettings
     {
@@ -22,16 +20,13 @@ object Config
 
         @Name("[3] Slowdown Modifier")
         @Comment("Slows down the movement through plants. Higher = slower.")
-        @SlidingOption
+        @RangeInt(min = -100, max = 100)
         @JvmField
-        var slowdownModifier = 0.1F
-    }
+        var slowdownModifier = 0.1
 
-    class PlantSettings
-    {
-        @Name("Submerged")
-        @Comment("Options for Submerged plants.")
+        @Name("[4] Generate Default Configs")
+        @Comment("Whether to generate default plant configs or not.")
         @JvmField
-        val submerged = Submerged()
+        var genDefaults = true
     }
 }

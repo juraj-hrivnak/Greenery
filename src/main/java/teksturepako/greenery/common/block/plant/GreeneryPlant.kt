@@ -112,8 +112,8 @@ abstract class GreeneryPlant : BlockCrops()
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier + 1)
-        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier + 1)
+        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier * 0.1 + 1)
 
         if (isHarmful && entityIn is EntityPlayer)
         {
