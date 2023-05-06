@@ -16,9 +16,6 @@ abstract class EmergentPlantBase(name: String) : AbstractEmergentPlant(name)
         defaultState = blockState.baseState.withProperty(AGE, 0)
     }
 
-    override val compatibleFluids: MutableList<String>
-        get() = TODO("Not yet implemented")
-
     override fun getAgeProperty(): PropertyInteger
     {
         return AGE
