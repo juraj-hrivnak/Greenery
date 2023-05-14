@@ -56,12 +56,10 @@ abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(
-                TOP, true
-            ) -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
-            actualState.withProperty(TOP, false) -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                state.getOffset(source, pos)
-            )
+            actualState.withProperty(TOP, true) -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()]
+                    .offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, false) -> GRASS_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()]
+                    .offset(state.getOffset(source, pos))
             else -> GRASS_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
         }
     }

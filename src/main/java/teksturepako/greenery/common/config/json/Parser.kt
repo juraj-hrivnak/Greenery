@@ -117,7 +117,6 @@ object Parser
                         plant.isHarmful = data.isHarmful
                     }
                 }
-
                 is TallPlantBase -> uplandTallDir.forPlantFiles {
                     val data = Deserializer.getData(it)
 

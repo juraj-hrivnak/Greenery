@@ -87,6 +87,11 @@ abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFlui
         ))
     }
 
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
+    {
+        return false
+    }
+
     // IGrowable implementation
     override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean
     {

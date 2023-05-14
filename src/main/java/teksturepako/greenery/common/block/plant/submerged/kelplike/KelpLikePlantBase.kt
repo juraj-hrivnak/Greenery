@@ -43,7 +43,7 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
 
     override fun getStateFromMeta(meta: Int): IBlockState
     {
-        return defaultState.withProperty(AGE, meta)
+        return this.defaultState.withProperty(AGE, meta)
     }
 
     override fun getMetaFromState(state: IBlockState): Int
