@@ -1,34 +1,28 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "greenery:plant/emergent/pickerelweed/pickerelweed",
-    "textures": {
-      "0": "greenery:blocks/plant/emergent/pickerelweed/age_3",
-      "particle": "greenery:blocks/plant/emergent/pickerelweed/age_3"
-    }
-  },
   "variants": {
-    "age": {
-      "0": {
-        "textures": {
-          "0": "greenery:blocks/plant/emergent/pickerelweed/age_0"
-        }
-      },
-      "1": {
-        "textures": {
-          "0": "greenery:blocks/plant/emergent/pickerelweed/age_1"
-        }
-      },
-      "2": {
-        "textures": {
-          "0": "greenery:blocks/plant/emergent/pickerelweed/age_2"
-        }
-      },
-      "3": {
-        "textures": {
-          "0": "greenery:blocks/plant/emergent/pickerelweed/age_3"
-        }
-      }
+    "age=0,top=false": {
+      "model": "greenery:plant/emergent/pickerelweed/bottom"
+    },
+    "age=1,top=false": {
+      "model": "greenery:plant/emergent/pickerelweed/bottom"
+    },
+    "age=2,top=false": {
+      "model": "greenery:plant/emergent/pickerelweed/bottom"
+    },
+    "age=3,top=false": {
+      "model": "greenery:plant/emergent/pickerelweed/bottom"
+    },
+    "age=0,top=true": {
+      "model": "greenery:plant/emergent/pickerelweed/age_0"
+    },
+    "age=1,top=true": {
+      "model": "greenery:plant/emergent/pickerelweed/age_1"
+    },
+    "age=2,top=true": {
+      "model": "greenery:plant/emergent/pickerelweed/age_2"
+    },
+    "age=3,top=true": {
+      "model": "greenery:plant/emergent/pickerelweed/age_3"
     }
   }
 }

@@ -1,34 +1,28 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model": "greenery:plant/emergent/arrowhead/arrowhead",
-    "textures": {
-      "bottom": "greenery:blocks/plant/emergent/arrowhead/bottom",
-      "particle": "greenery:blocks/plant/emergent/arrowhead/age_3"
-    }
-  },
   "variants": {
-    "age": {
-      "0": {
-        "textures": {
-          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_0"
-        }
-      },
-      "1": {
-        "textures": {
-          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_1"
-        }
-      },
-      "2": {
-        "textures": {
-          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_2"
-        }
-      },
-      "3": {
-        "textures": {
-          "leaf": "greenery:blocks/plant/emergent/arrowhead/age_3"
-        }
-      }
+    "age=0,top=false": {
+      "model": "greenery:plant/emergent/arrowhead/bottom"
+    },
+    "age=1,top=false": {
+      "model": "greenery:plant/emergent/arrowhead/bottom"
+    },
+    "age=2,top=false": {
+      "model": "greenery:plant/emergent/arrowhead/bottom"
+    },
+    "age=3,top=false": {
+      "model": "greenery:plant/emergent/arrowhead/bottom"
+    },
+    "age=0,top=true": {
+      "model": "greenery:plant/emergent/arrowhead/age_0"
+    },
+    "age=1,top=true": {
+      "model": "greenery:plant/emergent/arrowhead/age_1"
+    },
+    "age=2,top=true": {
+      "model": "greenery:plant/emergent/arrowhead/age_2"
+    },
+    "age=3,top=true": {
+      "model": "greenery:plant/emergent/arrowhead/age_3"
     }
   }
 }

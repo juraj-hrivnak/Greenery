@@ -1,5 +1,9 @@
 {
   "credit": "Made with Blockbench",
+  "textures": {
+    "bottom": "greenery:blocks/plant/emergent/arrowhead/bottom",
+    "particle": "greenery:blocks/plant/emergent/arrowhead/age_3"
+  },
   "elements": [
     {
       "from": [

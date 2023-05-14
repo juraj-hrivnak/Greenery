@@ -1,0 +1,6 @@
+{
+  "parent": "greenery:block/plant/emergent/arrowhead/_arrowhead",
+  "textures": {
+    "leaf": "greenery:blocks/plant/emergent/arrowhead/age_1"
+  }
+}

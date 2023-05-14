@@ -1,5 +1,9 @@
 {
   "credit": "Made with Blockbench",
+  "textures": {
+    "0": "greenery:blocks/plant/emergent/pickerelweed/age_3",
+    "particle": "greenery:blocks/plant/emergent/pickerelweed/age_3"
+  },
   "texture_size": [
     32,
     32

@@ -1,0 +1,6 @@
+{
+  "parent": "greenery:block/cross",
+  "textures": {
+    "cross": "greenery:blocks/plant/emergent/pickerelweed/bottom"
+  }
+}
