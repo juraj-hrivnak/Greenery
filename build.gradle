@@ -18,8 +18,8 @@ buildscript {
 plugins {
     id 'net.minecraftforge.gradle' version '5.1.+'
     id 'wtf.gofancy.fancygradle' version '1.1.+'
-    id 'org.jetbrains.kotlin.jvm' version '1.8.20'
-    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.20'
+    id 'org.jetbrains.kotlin.jvm' version '1.8.21'
+    id 'org.jetbrains.kotlin.plugin.serialization' version '1.8.21'
 }
 
 if (project.use_mixins.toBoolean()) {
@@ -119,10 +119,10 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation files('Forgelin-Continuous-1.8.20.1.jar')
+    implementation "curse.maven:forgelin-continuous-456403:4528552"
 
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.20"
-    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
 
     // Fluidlogged API
     implementation fg.deobf('com.github.jbredwards:fluidlogged-api:2573e41f3e')

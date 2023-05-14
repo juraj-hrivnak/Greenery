@@ -3,6 +3,7 @@ package teksturepako.greenery.common.config.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.Transient
 
+@Suppress("PROVIDED_RUNTIME_TOO_LOW")
 @Serializable
 data class PlantData(
         @Transient

@@ -26,6 +26,7 @@ import teksturepako.greenery.common.config.json.Parser.initPlantData
 import teksturepako.greenery.common.config.json.Serializer.initDefaults
 import teksturepako.greenery.common.event.EventOldContentLoad
 import teksturepako.greenery.common.event.EventWorldGen
+import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
@@ -52,7 +53,8 @@ object Greenery
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "4.1"
-    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.20.1,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.21.0,);required-after:fluidlogged_api@[2.0.0,);" +
+                             "after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
 
@@ -84,7 +86,7 @@ object Greenery
     {
         proxy.init(event)
         GameRegistry.registerWorldGenerator(WorldGenHook(), 0)
-//        ModRecipes.register()
+        ModRecipes.register()
 
         MinecraftForge.EVENT_BUS.register(EventOldContentLoad::class.java)
         MinecraftForge.TERRAIN_GEN_BUS.register(EventWorldGen::class.java)
@@ -94,7 +96,7 @@ object Greenery
     fun postInit(event: FMLPostInitializationEvent)
     {
         proxy.postInit(event)
-//        ModItems.initOreDictionary()
+        ModItems.initOreDictionary()
     }
 
     @Mod.EventHandler
