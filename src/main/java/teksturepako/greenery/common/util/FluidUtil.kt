@@ -15,6 +15,10 @@ object FluidUtil
     fun canGenerateInFluids(fluids: MutableList<String>, world: World, pos: BlockPos): Boolean
     {
         val block = world.getBlockState(pos).block
-        return block is IFluidloggableFluid && block.fluid.name in fluids
+        return if (block is IFluidloggableFluid && (block as IFluidloggableFluid).isFluidloggableFluid)
+        {
+            block.fluid.name in fluids
+        }
+        else false
     }
 }

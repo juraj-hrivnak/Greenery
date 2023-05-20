@@ -119,25 +119,37 @@ repositories {
 dependencies {
     minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
 
-    implementation "curse.maven:forgelin-continuous-456403:4528552"
+    // Forgelin
+    implementation 'curse.maven:forgelin-continuous-456403:4528552'
 
+    // Kotlin
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.8.21'
     implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0'
 
     // Fluidlogged API
-    implementation fg.deobf('com.github.jbredwards:fluidlogged-api:2573e41f3e')
+    implementation fg.deobf('com.github.jbredwards:fluidlogged-api:cecb9f6c34')
 
-    // Others
+    // Biomes O' Plenty
     implementation fg.deobf('curse.maven:bop-220318:2842510')
-    implementation fg.deobf('curse.maven:simpledifficulty-574162:3645250')
-    compileOnly 'curse.maven:dynamictrees-252818:3613721'
-//    compile("curse.maven:sereneseasons-291874:2799213")
+
+    // Serene Seasons
+    // implementation fg.deobf('curse.maven:sereneseasons-291874:2799213')
+
+    // Dynamic Trees
+    compileOnly fg.deobf('curse.maven:dynamictrees-252818:3613721')
+
+    // Streams
+    runtimeOnly fg.deobf('curse.maven:streams-229769:3109315')
+    runtimeOnly fg.deobf('curse.maven:farseek-229708:3093852')
+
+    // Simple Difficulty
+    runtimeOnly 'curse.maven:simpledifficulty-for-underdog-574162:4434298'
 
     if (project.use_mixins.toBoolean()) {
         compileOnly 'zone.rong:mixinbooter:7.0'
         runtimeOnly 'zone.rong:mixinbooter:7.0'
 
-        annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+        annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     }
 }
 
