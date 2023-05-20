@@ -30,7 +30,8 @@ object EventBonemeal
         val up = event.pos.up()
         val rand = world.rand
 
-        if (blockState.material == Material.GRASS || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block))
+        if (blockState.material == Material.GRASS || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block)
+            && blockState.block !in Greenery.plants)
         {
             useBonemeal(event, up, world, rand)
         }
