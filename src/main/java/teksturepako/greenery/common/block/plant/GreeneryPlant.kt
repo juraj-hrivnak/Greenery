@@ -21,7 +21,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.ModDamageSource
+import teksturepako.greenery.common.registry.ModDamageSource
 import java.util.*
 
 

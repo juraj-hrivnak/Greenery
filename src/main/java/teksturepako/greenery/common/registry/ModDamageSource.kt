@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.util
+package teksturepako.greenery.common.registry
 
 import net.minecraft.util.DamageSource
 

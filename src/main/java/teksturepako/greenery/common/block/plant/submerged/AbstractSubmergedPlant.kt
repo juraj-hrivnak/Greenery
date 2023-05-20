@@ -23,7 +23,7 @@ import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
-import teksturepako.greenery.common.util.ModDamageSource
+import teksturepako.greenery.common.registry.ModDamageSource
 import java.util.*
 
 abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFluidloggable
