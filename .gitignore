@@ -11,9 +11,11 @@ run/
 .idea/**/gradle.xml
 .idea/**/tasks.xml
 .idea/**/workspace.xml
+.idea/discord.xml
 out/
 *.iml
 
 # Visual Studio Code
 .history/
 src/main/resources/assets/divergentunderground/
+
