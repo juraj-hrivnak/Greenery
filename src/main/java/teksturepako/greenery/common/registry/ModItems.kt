@@ -33,10 +33,13 @@ object ModItems
 
     fun initOreDictionary()
     {
-        "plant/submerged/kelp".maybeRegisterOreDict("cropSeaweed")
+        "plant/submerged/kelp".registerOreDict("cropSeaweed")
     }
 
-    private fun String.maybeRegisterOreDict(ore: String)
+    /**
+     * Registers an OreDict for an item if it's not null.
+     */
+    private fun String.registerOreDict(ore: String)
     {
         ForgeRegistries.ITEMS.getValue(ResourceLocation("${Greenery.MODID}:$this"))?.let {
             OreDictionary.registerOre(ore, it)

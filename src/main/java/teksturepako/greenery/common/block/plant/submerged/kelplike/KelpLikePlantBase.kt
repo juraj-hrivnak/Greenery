@@ -62,7 +62,7 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
         return state.withProperty(IS_TOP_BLOCK, !hasKelpAbove)
     }
 
-    //Block behavior
+    // Block behavior
     override fun getStateForPlacement(world: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase, hand: EnumHand): IBlockState
     {
         val down = world.getBlockState(pos.down())
@@ -80,7 +80,7 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
-        //Must have kelp or valid soil below
+        // Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
         return if (down.block == this) true else down.material in ALLOWED_SOILS
     }

@@ -43,9 +43,9 @@ object EventBonemeal
         {
             for (generator in Greenery.generators)
             {
-                for (input in generator.block.worldGenConfig)
+                for (input in generator.block.worldGen)
                 {
-                    val config = WorldGenUtil.Parser(input, generator.block.worldGenConfig)
+                    val config = WorldGenUtil.Parser(input, generator.block.worldGen)
 
                     if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(
                             world.getBiome(pos), event.world.provider.dimension

@@ -17,17 +17,16 @@ object ModRecipes
 
     private fun registerSmelting()
     {
-        "plant/submerged/kelp".maybeSmeltTo(ModItems.itemDriedKelp)
+        "plant/submerged/kelp".smeltTo(ModItems.itemDriedKelp)
     }
 
-    private fun String.maybeSmeltTo(itemStack: Item)
+    /**
+     * Registers a smelting recipe for an item if it's not null.
+     */
+    private fun String.smeltTo(itemStack: Item)
     {
-        if (ForgeRegistries.ITEMS.getValue(ResourceLocation("$MODID:$this")) != null)
-        {
-            GameRegistry.addSmelting(
-                ForgeRegistries.ITEMS.getValue(ResourceLocation("$MODID:$this")),
-                ItemStack(itemStack), 0.1f
-            )
+        ForgeRegistries.ITEMS.getValue(ResourceLocation("$MODID:$this"))?.let {
+            GameRegistry.addSmelting(it, ItemStack(itemStack), 0.1f)
         }
     }
 }

@@ -19,13 +19,22 @@ class PlantGenerator(override val block: GreeneryPlant) : IPlantGenerator
         val dimension = world.provider.dimension
         val generationModifier = if (block is TallPlantBase) 4 else 1
 
-        for (input in block.worldGenConfig)
+        /*
+         * Gets worldGen configuration from the block.
+         */
+        for (input in block.worldGen)
         {
-            val config = WorldGenUtil.Parser(input, block.worldGenConfig)
+            /*
+             * New instance of the worldGen parser class.
+             */
+            val config = WorldGenUtil.Parser(input, block.worldGen)
 
-            if (random.nextDouble() < config.getGenerationChance() && config.canGenerate(biome, dimension))
+            /*
+             * Check if plant can generate.
+             */
+            if (config.canGenerate(biome, dimension) && random.nextDouble() < config.getGenerationChance())
             {
-                for (i in 0..config.getPatchAttempts() * generationModifier / (block.worldGenConfig.size - 1).coerceAtLeast(1))
+                for (i in 0..config.getPatchAttempts() * generationModifier / (block.worldGen.size - 1).coerceAtLeast(1))
                 {
                     val x = random.nextInt(16) + 8
                     val z = random.nextInt(16) + 8
@@ -45,7 +54,9 @@ class PlantGenerator(override val block: GreeneryPlant) : IPlantGenerator
         for (i in 0..plantAttempts)
         {
             val pos = targetPos.add(
-                rand.nextInt(8) - rand.nextInt(8), rand.nextInt(4) - rand.nextInt(4), rand.nextInt(8) - rand.nextInt(8)
+                rand.nextInt(8) - rand.nextInt(8),
+                rand.nextInt(4) - rand.nextInt(4),
+                rand.nextInt(8) - rand.nextInt(8)
             )
 
             if (!world.isBlockLoaded(pos)) continue

@@ -36,7 +36,7 @@ object Deserializer
         return File(this, subFileName).takeIf { file -> file.exists() }
     }
 
-    fun File.getOrCreateSubfolder(subFileName: String): File {
+    infix fun File.subfolder(subFileName: String): File {
         this.mkdirs()
         val file = File(this, subFileName)
         file.mkdirs()

@@ -12,7 +12,6 @@ import net.minecraft.world.World
 import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 
-@Suppress("DEPRECATION")
 object DropsUtil
 {
     fun getDrops(dropsList: MutableList<String>, drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int)

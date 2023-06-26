@@ -30,7 +30,7 @@ abstract class GreeneryPlant : BlockCrops()
     /**
      * World Generation config
      */
-    abstract var worldGenConfig: MutableList<String>
+    abstract var worldGen: MutableList<String>
 
     /**
      * Has TintIndex?

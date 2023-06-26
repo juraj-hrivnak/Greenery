@@ -14,9 +14,12 @@ import java.io.File
 
 object Parser
 {
-    private inline fun File.forPlantFiles(action: (File) -> Unit)
+    private inline fun File.getPlantDataFromFiles(action: (PlantData) -> Unit)
     {
-        for (file in this.walk()) if (file.canDoWork()) action(file)
+        for (file in this.walk()) if (file.canDoWork())
+        {
+            action(Deserializer.getData(file))
+        }
     }
 
     /**
@@ -25,52 +28,44 @@ object Parser
      */
     fun initPlantData()
     {
-        emergentDir.forPlantFiles {
-            val data = Deserializer.getData(it)
-
-            Greenery.plants.add(object : EmergentPlantBase(data.name)
+        emergentDir.getPlantDataFromFiles {
+            Greenery.plants.add(object : EmergentPlantBase(it.name)
             {
-                override var worldGenConfig = data.worldGen
-                override var compatibleFluids = data.compatibleFluids
-                override var hasTintIndex = data.hasTintIndex
-                override var isSolid = data.isSolid
-                override var isHarmful = data.isHarmful
+                override var worldGen = it.worldGen
+                override var compatibleFluids = it.compatibleFluids
+                override var hasTintIndex = it.hasTintIndex
+                override var isSolid = it.isSolid
+                override var isHarmful = it.isHarmful
             })
         }
-        submergedKelpLikeDir.forPlantFiles {
-            val data = Deserializer.getData(it)
-
-            Greenery.plants.add(object : KelpLikePlantBase(data.name)
+        submergedKelpLikeDir.getPlantDataFromFiles {
+            Greenery.plants.add(object : KelpLikePlantBase(it.name)
             {
-                override var worldGenConfig = data.worldGen
-                override var compatibleFluids = data.compatibleFluids
-                override var hasTintIndex = data.hasTintIndex
-                override var isSolid = data.isSolid
-                override var isHarmful = data.isHarmful
+                override var worldGen = it.worldGen
+                override var compatibleFluids = it.compatibleFluids
+                override var hasTintIndex = it.hasTintIndex
+                override var isSolid = it.isSolid
+                override var isHarmful = it.isHarmful
             })
         }
-        submergedTallDir.forPlantFiles {
-            val data = Deserializer.getData(it)
-
-            Greenery.plants.add(object : TallSubmergedPlantBase(data.name)
+        submergedTallDir.getPlantDataFromFiles {
+            Greenery.plants.add(object : TallSubmergedPlantBase(it.name)
             {
-                override var worldGenConfig = data.worldGen
-                override var compatibleFluids = data.compatibleFluids
-                override var hasTintIndex = data.hasTintIndex
-                override var isSolid = data.isSolid
-                override var isHarmful = data.isHarmful
+                override var worldGen = it.worldGen
+                override var compatibleFluids = it.compatibleFluids
+                override var hasTintIndex = it.hasTintIndex
+                override var isSolid = it.isSolid
+                override var isHarmful = it.isHarmful
             })
         }
-        uplandTallDir.forPlantFiles {
-            val data = Deserializer.getData(it)
-
-            Greenery.plants.add(object : TallPlantBase(data.name)
+        uplandTallDir.getPlantDataFromFiles {
+            Greenery.plants.add(object : TallPlantBase(it.name)
             {
-                override var worldGenConfig = data.worldGen
-                override var drops = data.drops
-                override var hasTintIndex = data.hasTintIndex
-                override var isSolid = data.isSolid
-                override var isHarmful = data.isHarmful
+                override var worldGen = it.worldGen
+                override var drops = it.drops
+                override var hasTintIndex = it.hasTintIndex
+                override var isSolid = it.isSolid
+                override var isHarmful = it.isHarmful
             })
         }
     }
@@ -84,48 +79,40 @@ object Parser
         Greenery.plants.forEach { plant ->
             when (plant)
             {
-                is EmergentPlantBase -> emergentDir.forPlantFiles {
-                    val data = Deserializer.getData(it)
-
-                    if (data.name == plant.name)
+                is EmergentPlantBase -> emergentDir.getPlantDataFromFiles {
+                    if (it.name == plant.name)
                     {
-                        plant.worldGenConfig = data.worldGen
-                        plant.compatibleFluids = data.compatibleFluids
-                        plant.isSolid = data.isSolid
-                        plant.isHarmful = data.isHarmful
+                        plant.worldGen = it.worldGen
+                        plant.compatibleFluids = it.compatibleFluids
+                        plant.isSolid = it.isSolid
+                        plant.isHarmful = it.isHarmful
                     }
                 }
-                is KelpLikePlantBase -> submergedKelpLikeDir.forPlantFiles {
-                    val data = Deserializer.getData(it)
-
-                    if (data.name == plant.name)
+                is KelpLikePlantBase -> submergedKelpLikeDir.getPlantDataFromFiles {
+                    if (it.name == plant.name)
                     {
-                        plant.worldGenConfig = data.worldGen
-                        plant.compatibleFluids = data.compatibleFluids
-                        plant.isSolid = data.isSolid
-                        plant.isHarmful = data.isHarmful
+                        plant.worldGen = it.worldGen
+                        plant.compatibleFluids = it.compatibleFluids
+                        plant.isSolid = it.isSolid
+                        plant.isHarmful = it.isHarmful
                     }
                 }
-                is TallSubmergedPlantBase -> submergedTallDir.forPlantFiles {
-                    val data = Deserializer.getData(it)
-
-                    if (data.name == plant.name)
+                is TallSubmergedPlantBase -> submergedTallDir.getPlantDataFromFiles {
+                    if (it.name == plant.name)
                     {
-                        plant.worldGenConfig = data.worldGen
-                        plant.compatibleFluids = data.compatibleFluids
-                        plant.isSolid = data.isSolid
-                        plant.isHarmful = data.isHarmful
+                        plant.worldGen = it.worldGen
+                        plant.compatibleFluids = it.compatibleFluids
+                        plant.isSolid = it.isSolid
+                        plant.isHarmful = it.isHarmful
                     }
                 }
-                is TallPlantBase -> uplandTallDir.forPlantFiles {
-                    val data = Deserializer.getData(it)
-
-                    if (data.name == plant.name)
+                is TallPlantBase -> uplandTallDir.getPlantDataFromFiles {
+                    if (it.name == plant.name)
                     {
-                        plant.worldGenConfig = data.worldGen
-                        plant.drops = data.drops
-                        plant.isSolid = data.isSolid
-                        plant.isHarmful = data.isHarmful
+                        plant.worldGen = it.worldGen
+                        plant.drops = it.drops
+                        plant.isSolid = it.isSolid
+                        plant.isHarmful = it.isHarmful
                     }
                 }
             }

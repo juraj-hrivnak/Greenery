@@ -38,9 +38,9 @@ object ConfigUtil
             var types: List<BiomeDictionary.Type> = emptyList()
             var biomes: List<ResourceLocation> = emptyList()
 
-            for (input in generator.block.worldGenConfig)
+            for (input in generator.block.worldGen)
             {
-                val config = WorldGenUtil.Parser(input, generator.block.worldGenConfig)
+                val config = WorldGenUtil.Parser(input, generator.block.worldGen)
                 types = config.getTypes()
                 biomes = config.getBiomesResLoc()
 
@@ -52,14 +52,14 @@ object ConfigUtil
                 if (errored)
                 {
                     Greenery.logger.warn("  ! ${generator.block.localizedName}")
-                    Greenery.logger.error("    > ${generator.block.worldGenConfig}")
+                    Greenery.logger.error("    > ${generator.block.worldGen}")
                     parseBiomeDictionaries(types, true)
                     parseBiomes(biomes, true)
                 }
                 else
                 {
                     Greenery.logger.info("  > ${generator.block.localizedName}")
-                    Greenery.logger.info("     > ${generator.block.worldGenConfig}")
+                    Greenery.logger.info("     > ${generator.block.worldGen}")
                 }
             }
         }
@@ -94,8 +94,8 @@ object ConfigUtil
      */
     private fun printValidBiomeDictionaries()
     {
-        Greenery.logger.warn("Valid biome dictionary types are:   ")
-        Greenery.logger.warn("${getValidBiomeDictionaryTypes()}   ")
+        Greenery.logger.warn("Valid biome dictionary types are:")
+        Greenery.logger.warn("${getValidBiomeDictionaryTypes()}")
     }
 
     /**
@@ -123,7 +123,7 @@ object ConfigUtil
             {
                 if (printErrors)
                 {
-                    Greenery.logger.error("    > Invalid biome: \"${biome}\"                    ")
+                    Greenery.logger.error("    > Invalid biome: \"${biome}\"")
                 }
                 return true
             }

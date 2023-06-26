@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package teksturepako.greenery.common.util
 
 import biomesoplenty.api.biome.BOPBiomes
@@ -30,16 +32,13 @@ object WorldGenUtil
 
     private fun getExtendedBiome(biome: Biome): IExtendedBiome
     {
-        var extendedBiome = BOPBiomes.REG_INSTANCE.getExtendedBiome(biome)
-        if (extendedBiome == null)
-        {
-            extendedBiome = ExtendedBiomeWrapper(biome)
+        return BOPBiomes.REG_INSTANCE.getExtendedBiome(biome) ?: let {
+            val extendedBiome = ExtendedBiomeWrapper(biome)
             BOPBiomes.REG_INSTANCE.registerBiome(
                 extendedBiome,
-                extendedBiome.getBaseBiome().biomeName.lowercase(Locale.getDefault())
+                extendedBiome.baseBiome.biomeName.lowercase(Locale.getDefault())
             )
         }
-        return extendedBiome
     }
 
     fun getBiomeInChunk(world: World, chunkX: Int, chunkZ: Int): Biome
@@ -47,10 +46,14 @@ object WorldGenUtil
         return world.getBiomeForCoordsBody(BlockPos(chunkX * 16 + 8, 0, chunkZ * 16 + 8))
     }
 
-    data class Parser(private val indexedInput: String, private val worldGenConfig: MutableList<String>)
+    /**
+     * World generation configuration parser
+     */
+    class Parser(private val indexedInput: String, private val worldGenConfig: MutableList<String>)
     {
         /**
-         * Filter & split input when "|"
+         * Filters & splits input string on "|".
+         * @return List of split strings.
          */
         private fun getSplitInput(string: String): List<String>
         {
@@ -58,21 +61,24 @@ object WorldGenUtil
         }
 
         /**
-         * Split input when ":"
+         * Splits input string on ":".
          */
         private fun getConfigInput(splitInput: List<String>): List<String>
         {
             return if (splitInput.isNotNull(1)) splitInput[1].split(":") else emptyList()
         }
 
+        /**
+         * Returns a list of biome resource locations.
+         */
         fun getBiomesResLoc(): List<ResourceLocation>
         {
-            val result: MutableList<ResourceLocation> = emptyList<ResourceLocation>().toMutableList()
+            val result: MutableList<ResourceLocation> = mutableListOf()
 
             for (input in worldGenConfig)
             {
                 val configInput = getConfigInput(getSplitInput(input))
-                if (configInput.isNotNull(0) && "biome" in configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
+                if ("biome" inNotNull configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
                 {
                     result.add(ResourceLocation(configInput[1], configInput[2]))
                 }
@@ -80,14 +86,17 @@ object WorldGenUtil
             return result
         }
 
+        /**
+         * Returns a list of biomes.
+         */
         fun getBiomes(): List<Biome>
         {
-            val result: MutableList<Biome> = emptyList<Biome>().toMutableList()
+            val result: MutableList<Biome> = mutableListOf()
 
             for (input in worldGenConfig)
             {
                 val configInput = getConfigInput(getSplitInput(input))
-                if (configInput.isNotNull(0) && "biome" in configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
+                if ("biome" inNotNull configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
                 {
                     ForgeRegistries.BIOMES.getValue(ResourceLocation(configInput[1], configInput[2]))?.let { result.add(it) }
                 }
@@ -95,14 +104,17 @@ object WorldGenUtil
             return result
         }
 
+        /**
+         * Returns a list of BiomeDictionary Types.
+         */
         fun getTypes(): List<BiomeDictionary.Type>
         {
-            val result: MutableList<BiomeDictionary.Type> = emptyList<BiomeDictionary.Type>().toMutableList()
+            val result: MutableList<BiomeDictionary.Type> = mutableListOf()
 
             for (input in worldGenConfig)
             {
                 val configInput = getConfigInput(getSplitInput(input))
-                if (configInput.isNotNull(0) && "type" in configInput[0] && configInput.isNotNull(1))
+                if ("type" inNotNull configInput[0] && configInput.isNotNull(1))
                 {
                     result.add(BiomeDictionary.Type.getType(configInput[1]))
                 }
@@ -110,34 +122,51 @@ object WorldGenUtil
             return result
         }
 
+        /**
+         * Returns the valid dimension ID for this configuration.
+         */
         fun getDimension(): Int
         {
             return if (getSplitInput(indexedInput).isNotNull(0)) getSplitInput(indexedInput)[0].toInt() else 0
         }
 
-        fun canGenerate(biomeInput: Biome, dimensionInput: Int): Boolean
+        /**
+         * 1. Checks if the dimension is valid.
+         * 2. Checks if the condition is not null.
+         * 3. Gets all BiomeDictionary Types and biomes for this configuration.
+         */
+        fun canGenerate(biome: Biome, dimension: Int): Boolean
         {
-            if (dimensionInput != getDimension()) return false
+            if (dimension != getDimension()) return false
 
             val configInput = getConfigInput(getSplitInput(indexedInput))
             if (configInput.isNotNull(0))
             {
+                val types = getTypes()
+                val biomes = getBiomes()
+
                 when
                 {
-                    "!" in configInput[0] -> if ("type" in configInput[0])
+                    // Inverted
+                    "!" in configInput[0] ->
                     {
-                        return getTypes().none { BiomeDictionary.hasType(biomeInput, it) }
+                        if ("type" in configInput[0])
+                        {
+                            return types.none { BiomeDictionary.hasType(biome, it) }
+                        }
+                        else if ("biome" in configInput[0])
+                        {
+                            return biomes.none { biome.registryName == it.registryName }
+                        }
                     }
-                    else if ("biome" in configInput[0])
-                    {
-                        return getBiomes().none { biomeInput.registryName == it.registryName }
-                    }
-                    "type" in configInput[0] -> return getTypes().any { BiomeDictionary.hasType(biomeInput, it) }
-                    "biome" in configInput[0] -> return getBiomes().any { biomeInput.registryName == it.registryName }
+                    // Not inverted
+                    "type" in configInput[0] -> return types.any { BiomeDictionary.hasType(biome, it) }
+                    "biome" in configInput[0] -> return biomes.any { biome.registryName == it.registryName }
+                    // Keywords
                     "anywhere" in configInput[0] || "everywhere" in configInput[0] -> return true
                 }
             }
-            return false
+            return false // Fallback to false
         }
 
         fun getGenerationChance(): Double
@@ -159,5 +188,10 @@ object WorldGenUtil
     private fun <T> List<T>.isNotNull(index: Int): Boolean
     {
         return if (index in 0..lastIndex) get(index) != null else false
+    }
+
+    infix fun CharSequence.inNotNull(charSequence: CharSequence?): Boolean
+    {
+        return charSequence?.let { this in it } ?: false
     }
 }
