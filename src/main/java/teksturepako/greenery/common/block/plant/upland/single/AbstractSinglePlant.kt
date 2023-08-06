@@ -10,20 +10,16 @@ import net.minecraft.init.Items
 import net.minecraft.item.ItemStack
 import net.minecraft.stats.StatList
 import net.minecraft.tileentity.TileEntity
-import net.minecraft.util.NonNullList
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
-import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
 abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
 {
-    abstract var drops: MutableList<String>
-
     companion object
     {
         val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
@@ -52,11 +48,6 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
-    }
-
-    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
-    {
-        DropsUtil.getDrops(this.drops, drops, world, pos, state, this.seed, fortune)
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int

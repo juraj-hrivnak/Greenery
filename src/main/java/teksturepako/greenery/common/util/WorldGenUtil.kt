@@ -35,8 +35,7 @@ object WorldGenUtil
         return BOPBiomes.REG_INSTANCE.getExtendedBiome(biome) ?: let {
             val extendedBiome = ExtendedBiomeWrapper(biome)
             BOPBiomes.REG_INSTANCE.registerBiome(
-                extendedBiome,
-                extendedBiome.baseBiome.biomeName.lowercase(Locale.getDefault())
+                extendedBiome, extendedBiome.baseBiome.biomeName.lowercase(Locale.getDefault())
             )
         }
     }
@@ -183,15 +182,5 @@ object WorldGenUtil
         {
             return if (getSplitInput(indexedInput).isNotNull(4)) getSplitInput(indexedInput)[4].toInt() else 0
         }
-    }
-
-    private fun <T> List<T>.isNotNull(index: Int): Boolean
-    {
-        return if (index in 0..lastIndex) get(index) != null else false
-    }
-
-    infix fun CharSequence.inNotNull(charSequence: CharSequence?): Boolean
-    {
-        return charSequence?.let { this in it } ?: false
     }
 }

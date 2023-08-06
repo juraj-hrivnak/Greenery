@@ -32,6 +32,7 @@ object Parser
             Greenery.plants.add(object : EmergentPlantBase(it.name)
             {
                 override var worldGen = it.worldGen
+                override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
                 override var hasTintIndex = it.hasTintIndex
                 override var isSolid = it.isSolid
@@ -42,6 +43,7 @@ object Parser
             Greenery.plants.add(object : KelpLikePlantBase(it.name)
             {
                 override var worldGen = it.worldGen
+                override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
                 override var hasTintIndex = it.hasTintIndex
                 override var isSolid = it.isSolid
@@ -52,6 +54,7 @@ object Parser
             Greenery.plants.add(object : TallSubmergedPlantBase(it.name)
             {
                 override var worldGen = it.worldGen
+                override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
                 override var hasTintIndex = it.hasTintIndex
                 override var isSolid = it.isSolid
@@ -76,36 +79,43 @@ object Parser
      */
     fun reloadPlantData()
     {
-        Greenery.plants.forEach { plant ->
+        for (plant in Greenery.plants)
+        {
             when (plant)
             {
                 is EmergentPlantBase -> emergentDir.getPlantDataFromFiles {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
+                        plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }
                 }
+
                 is KelpLikePlantBase -> submergedKelpLikeDir.getPlantDataFromFiles {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
+                        plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }
                 }
+
                 is TallSubmergedPlantBase -> submergedTallDir.getPlantDataFromFiles {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
+                        plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }
                 }
+
                 is TallPlantBase -> uplandTallDir.getPlantDataFromFiles {
                     if (it.name == plant.name)
                     {

@@ -1,4 +1,4 @@
-@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+@file:Suppress("OVERRIDE_DEPRECATION")
 
 package teksturepako.greenery.common.block.plant.emergent
 
@@ -16,7 +16,6 @@ import net.minecraft.init.Blocks
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumActionResult
 import net.minecraft.util.EnumFacing
-import net.minecraft.util.NonNullList
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
@@ -94,10 +93,15 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()]
-                    .offset(state.getOffset(source, pos))
-            actualState.withProperty(TOP, false) -> WATER_CROP_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()]
-                    .offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
+                        state.getOffset(source, pos)
+                    )
+
+            actualState.withProperty(
+                TOP,
+                false
+            ) -> WATER_CROP_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
+
             else -> WATER_CROP_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
         }
     }
@@ -126,8 +130,11 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
      */
     private fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
-        return (FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(worldIn, pos, defaultState))
-               && worldIn.isAirBlock(pos.up())
+        return (FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(
+            worldIn,
+            pos,
+            defaultState
+        )) && worldIn.isAirBlock(pos.up())
     }
 
     /**
@@ -137,8 +144,12 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        return if (!fluidState.isEmpty && isFluidValid(defaultState, worldIn, pos, fluidState.fluid) &&
-                   FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos))
+        return if (!fluidState.isEmpty && isFluidValid(
+                defaultState,
+                worldIn,
+                pos,
+                fluidState.fluid
+            ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos))
         {
             canBlockStay(worldIn, pos, defaultState) && worldIn.isAirBlock(pos.up())
         }
@@ -158,7 +169,6 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         }
     }
 
-// Todo: Rewrite block harvesting logic: https://github.com/juraj-hrivnak/Greenery/issues/12
     override fun onBlockHarvested(worldIn: World, pos: BlockPos, state: IBlockState, player: EntityPlayer)
     {
         if (worldIn.getBlockState(pos.down()).block == this)
@@ -186,7 +196,6 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
                 else spawnAsEntity(worldIn, pos, ItemStack(this.seed))
             }
         }
-        super.onBlockHarvested(worldIn, pos, state, player)
     }
 
     override fun checkAndDropBlock(worldIn: World, pos: BlockPos, state: IBlockState)
@@ -198,18 +207,6 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
             worldIn.setBlockState(pos, Blocks.AIR.defaultState, 3)
         }
     }
-
-// Todo: Should be removed globally in the future.
-    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
-    {
-        return
-    }
-
-// Todo: Reimplement this:
-//    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-//    {
-//        return Items.AIR
-//    }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {

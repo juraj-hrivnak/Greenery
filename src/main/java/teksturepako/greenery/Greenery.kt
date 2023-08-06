@@ -18,7 +18,6 @@ import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCreativeTab
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.command.CommandGreenery
-import teksturepako.greenery.common.config.json.Deserializer.subfolder
 import teksturepako.greenery.common.config.json.Parser.initPlantData
 import teksturepako.greenery.common.config.json.Serializer.initDefaults
 import teksturepako.greenery.common.event.EventOldContentLoad
@@ -28,6 +27,7 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil
+import teksturepako.greenery.common.util.FileUtils.subfolder
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.gen.IPlantGenerator
 import teksturepako.greenery.common.world.gen.PlantGenerator
@@ -50,8 +50,7 @@ object Greenery
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "4.4"
-    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.21.0,);required-after:fluidlogged_api@[2.0.0,);" +
-                             "after:dynamictrees;after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.21.0,);required-after:fluidlogged_api@[2.0.0,);" + "after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
 

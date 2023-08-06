@@ -1,20 +1,21 @@
 package teksturepako.greenery.common.config.json
 
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.config.json.Deserializer.subfolder
+import teksturepako.greenery.common.util.FileUtils.subfolder
 
-object PlantDefaults {
+object PlantDefaults
+{
 
     val plantDir = Greenery.configFolder subfolder "plants"
 
     val emergentDir = plantDir subfolder "emergent"
 
     val submergedDir = plantDir subfolder "submerged"
-        val submergedKelpLikeDir = submergedDir subfolder "kelp_like"
-        val submergedTallDir = submergedDir subfolder "tall"
+    val submergedKelpLikeDir = submergedDir subfolder "kelp_like"
+    val submergedTallDir = submergedDir subfolder "tall"
 
     val uplandDir = plantDir subfolder "upland"
-        val uplandTallDir = uplandDir subfolder "tall"
+    val uplandTallDir = uplandDir subfolder "tall"
 
     val emergentPlants = listOf(
         PlantData(

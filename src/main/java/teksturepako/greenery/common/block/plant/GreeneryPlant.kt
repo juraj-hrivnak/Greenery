@@ -1,27 +1,35 @@
-@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+@file:Suppress("OVERRIDE_DEPRECATION")
 
 package teksturepako.greenery.common.block.plant
 
 import net.minecraft.block.BlockCrops
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.IBlockState
+import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
+import net.minecraft.init.Enchantments
+import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemStack
 import net.minecraft.util.EnumFacing
+import net.minecraft.util.NonNullList
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.ForgeHooks
+import net.minecraftforge.common.util.Constants
+import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.Greenery.logger
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModDamageSource
+import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
 
@@ -31,6 +39,11 @@ abstract class GreeneryPlant : BlockCrops()
      * World Generation config
      */
     abstract var worldGen: MutableList<String>
+
+    /**
+     * Drops config
+     */
+    abstract var drops: MutableList<String>
 
     /**
      * Has TintIndex?
@@ -48,7 +61,7 @@ abstract class GreeneryPlant : BlockCrops()
     abstract var isHarmful: Boolean
 
     /**
-     * Function for world generator
+     * Used to place the block on world generation.
      */
     abstract fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)
 
@@ -96,18 +109,48 @@ abstract class GreeneryPlant : BlockCrops()
     public abstract override fun getAgeProperty(): PropertyInteger
 
     /**
-     * Determines whether the block can stay on the position, based on its surroundings.
+     * Determines whether the block can stay on its position, based on its surroundings.
      */
     abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
+    /**
+     * The item to drop always.
+     */
     override fun getSeed(): Item
     {
         return itemBlock
     }
 
+    /**
+     * The item to drop when fully grown.
+     */
     override fun getCrop(): Item
     {
         return itemBlock
+    }
+
+    override fun onBlockHarvested(worldIn: World, pos: BlockPos, state: IBlockState, player: EntityPlayer)
+    {
+        super.onBlockHarvested(worldIn, pos, state, player)
+
+        // Drops
+        val fortune = EnchantmentHelper.getEnchantments(player.activeItemStack)[Enchantments.FORTUNE] ?: 0
+        val drops = DropsUtil.getDrops(this.drops, worldIn, pos, state, this.seed, fortune)
+        drops.forEach { item ->
+            spawnAsEntity(worldIn, pos, item)
+        }
+    }
+
+    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
+    {
+        // Remove drops
+        return
+    }
+
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
+    {
+        // Remove drops
+        return Items.AIR
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)

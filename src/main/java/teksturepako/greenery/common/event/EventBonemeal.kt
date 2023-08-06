@@ -30,8 +30,8 @@ object EventBonemeal
         val up = event.pos.up()
         val rand = world.rand
 
-        if (blockState.material == Material.GRASS || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block)
-            && blockState.block !in Greenery.plants)
+        event.isCanceled
+        if (blockState.material == Material.GRASS || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block) && blockState.block !in Greenery.plants)
         {
             useBonemeal(event, up, world, rand)
         }
@@ -39,30 +39,29 @@ object EventBonemeal
 
     private fun useBonemeal(event: BonemealEvent, pos: BlockPos, world: World, rand: Random)
     {
-        if (Greenery.generators.isNotEmpty())
-        {
-            for (generator in Greenery.generators)
-            {
-                for (input in generator.block.worldGen)
-                {
-                    val config = WorldGenUtil.Parser(input, generator.block.worldGen)
+        if (Greenery.generators.isEmpty()) return
 
-                    if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(
-                            world.getBiome(pos), event.world.provider.dimension
-                        ))
+        for (generator in Greenery.generators)
+        {
+            for (input in generator.block.worldGen)
+            {
+                val config = WorldGenUtil.Parser(input, generator.block.worldGen)
+
+                if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(
+                        world.getBiome(pos), event.world.provider.dimension
+                    ))
+                {
+                    if (!world.isRemote)
                     {
-                        if (!world.isRemote)
-                        {
-                            event.result = Event.Result.ALLOW
-                            generator.generatePlants(
-                                config.getPlantAttempts() / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
-                            )
-                        }
-                        else if (event.entityPlayer == Minecraft.getMinecraft().player)
-                        {
-                            Minecraft.getMinecraft().player.swingArm(event.hand!!)
-                            spawnParticles(config.getPatchAttempts() / 4, world, pos, rand)
-                        }
+                        event.result = Event.Result.ALLOW
+                        generator.generatePlants(
+                            config.getPlantAttempts() / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
+                        )
+                    }
+                    else if (event.entityPlayer == Minecraft.getMinecraft().player)
+                    {
+                        Minecraft.getMinecraft().player.swingArm(event.hand!!)
+                        spawnParticles(config.getPatchAttempts() / 4, world, pos, rand)
                     }
                 }
             }

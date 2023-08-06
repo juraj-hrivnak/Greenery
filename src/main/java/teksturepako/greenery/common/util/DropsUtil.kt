@@ -1,10 +1,8 @@
 package teksturepako.greenery.common.util
 
 import net.minecraft.block.state.IBlockState
-import net.minecraft.command.CommandBase
 import net.minecraft.item.Item
 import net.minecraft.item.ItemStack
-import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
@@ -12,11 +10,12 @@ import net.minecraft.world.World
 import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 
+
 object DropsUtil
 {
-    fun getDrops(dropsList: MutableList<String>, drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int)
+    fun getDrops(dropsList: MutableList<String>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int): List<ItemStack>
     {
-        val actualState = state.getActualState(world, pos)
+        val drops: MutableList<ItemStack> = ArrayList()
         val random = (world as World).rand
 
         for (stringInput in dropsList)
@@ -29,28 +28,27 @@ object DropsUtil
                 raw = filteredInput.split("|")
             }
 
-            val blockStateIsValid: Boolean = if (raw.getOrNull(2) != null)
+            var blockStateIsValid = true
+            if (raw.isNotNull(2))
             {
-                val blockState = CommandBase.convertArgToBlockState(state.block, raw[2])
-                actualState == blockState
+                blockStateIsValid = isBlockStateValid(state.getActualState(world, pos), raw[2])
             }
-            else true
 
             var itemStackRaw: List<String> = emptyList()
-            if (raw.getOrNull(0) != null)
+            if (raw.isNotNull(0))
             {
                 itemStackRaw = raw[0].split(":")
             }
 
-            val itemStack: ItemStack = if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) != null)
+            val itemStack: ItemStack = if (itemStackRaw.isNotNull(0) && itemStackRaw.isNotNull(1))
             {
                 ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation("${itemStackRaw[0]}:${itemStackRaw[1]}"))!!)
             }
-            else
+            else if (itemStackRaw.isNotNull(0) && itemStackRaw.isNotNull(1))
             {
-                if (itemStackRaw.getOrNull(0) != null && itemStackRaw.getOrNull(1) == null)
+                when
                 {
-                    if (itemStackRaw[0].contains("\$defaultSeeds"))
+                    itemStackRaw[0].contains("\$defaultSeeds") ->
                     {
                         val seed = ForgeHooks.getGrassSeed(random, fortune)
                         if (!seed.isEmpty)
@@ -59,29 +57,38 @@ object DropsUtil
                         }
                         else ItemStack.EMPTY
                     }
-                    else if (filteredInput.contains("\$defaultItem"))
+                    filteredInput.contains("\$defaultItem") ->
                     {
                         ItemStack(defaultItem)
                     }
-                    else ItemStack.EMPTY
-                }
-                else
-                {
-                    ItemStack.EMPTY
+                    else -> ItemStack.EMPTY
                 }
             }
+            else ItemStack.EMPTY
 
-            val count: Int = if (itemStackRaw.getOrNull(2) != null) itemStackRaw[2].toInt() else 1
+            if (itemStackRaw.isNotNull(2)) itemStack.count = itemStackRaw[2].toInt() + fortune
 
-            val chance: Double = if (raw.getOrNull(1) != null) raw[1].toDouble() else 0.0
+            val chance: Double = if (raw.isNotNull(1)) raw[1].toDouble() else 0.0
 
             // Adding parsed loot to the list
             if (random.nextDouble() < chance && blockStateIsValid)
             {
-                repeat(count + fortune) {
-                    drops.add(itemStack)
-                }
+                drops.add(itemStack)
             }
         }
+        return drops
+    }
+
+    fun isBlockStateValid(state: IBlockState, input: String): Boolean
+    {
+        val y = arrayListOf<Boolean>()
+        val input2 = input.split(",")
+        input2.asSequence().map { it.split("=") }.forEach {
+            for ((key, value) in state.properties)
+            {
+                y += key.name == it[0] && value.toString() == it[1]
+            }
+        }
+        return y.filter { it }.size == input2.size
     }
 }

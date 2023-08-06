@@ -1,6 +1,5 @@
 package teksturepako.greenery.common.config.json
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import org.apache.commons.io.FileUtils
 import java.io.File
@@ -31,21 +30,10 @@ object Deserializer
         return FileUtils.readFileToString(File(file), StandardCharsets.UTF_8)
     }
 
-    fun File.getSubfolder(subFileName: String): File?
-    {
-        return File(this, subFileName).takeIf { file -> file.exists() }
-    }
-
-    infix fun File.subfolder(subFileName: String): File {
-        this.mkdirs()
-        val file = File(this, subFileName)
-        file.mkdirs()
-        return file
-    }
-
     private val camelRegex = "(?<=[a-zA-Z])[A-Z]".toRegex()
 
-    private fun String.toSnakeCase(): String {
+    private fun String.toSnakeCase(): String
+    {
         return camelRegex.replace(this) { "_${it.value}" }.lowercase(Locale.getDefault())
     }
 }

@@ -1,4 +1,4 @@
-@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+@file:Suppress("OVERRIDE_DEPRECATION")
 
 package teksturepako.greenery.common.block.plant.submerged.kelplike
 
