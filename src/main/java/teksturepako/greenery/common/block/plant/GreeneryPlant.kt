@@ -1,4 +1,4 @@
-@file:Suppress("OVERRIDE_DEPRECATION")
+@file:Suppress("OVERRIDE_DEPRECATION", "MemberVisibilityCanBePrivate")
 
 package teksturepako.greenery.common.block.plant
 
@@ -21,12 +21,9 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
 import net.minecraftforge.common.ForgeHooks
-import net.minecraftforge.common.util.Constants
-import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.Greenery.logger
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.registry.ModDamageSource
 import teksturepako.greenery.common.util.DropsUtil
@@ -83,28 +80,19 @@ abstract class GreeneryPlant : BlockCrops()
      * Registers a model for the item block
      */
     @SideOnly(Side.CLIENT)
-    open fun registerItemModel()
-    {
-        Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
-    }
+    open fun registerItemModel() = Greenery.proxy.registerItemBlockRenderer(itemBlock, 0, registryName.toString())
 
     /**
      * Registers a color handler for the item block
      */
     @SideOnly(Side.CLIENT)
-    open fun registerItemColorHandler(event: ColorHandlerEvent.Item)
-    {
-        Greenery.proxy.registerItemColorHandler(itemBlock, event)
-    }
+    open fun registerItemColorHandler(event: ColorHandlerEvent.Item) = Greenery.proxy.registerItemColorHandler(itemBlock, event)
 
     /**
      * Registers a color handler for this block
      */
     @SideOnly(Side.CLIENT)
-    open fun registerBlockColorHandler(event: ColorHandlerEvent.Block)
-    {
-        Greenery.proxy.registerGrassColorHandler(this, event)
-    }
+    open fun registerBlockColorHandler(event: ColorHandlerEvent.Block) = Greenery.proxy.registerGrassColorHandler(this, event)
 
     public abstract override fun getAgeProperty(): PropertyInteger
 
@@ -116,24 +104,18 @@ abstract class GreeneryPlant : BlockCrops()
     /**
      * The item to drop always.
      */
-    override fun getSeed(): Item
-    {
-        return itemBlock
-    }
+    override fun getSeed(): Item = itemBlock
 
     /**
      * The item to drop when fully grown.
      */
-    override fun getCrop(): Item
-    {
-        return itemBlock
-    }
+    override fun getCrop(): Item = itemBlock
 
     override fun onBlockHarvested(worldIn: World, pos: BlockPos, state: IBlockState, player: EntityPlayer)
     {
         super.onBlockHarvested(worldIn, pos, state, player)
 
-        // Drops
+        // Add drops
         val fortune = EnchantmentHelper.getEnchantments(player.activeItemStack)[Enchantments.FORTUNE] ?: 0
         val drops = DropsUtil.getDrops(this.drops, worldIn, pos, state, this.seed, fortune)
         drops.forEach { item ->
@@ -141,17 +123,15 @@ abstract class GreeneryPlant : BlockCrops()
         }
     }
 
+    // Remove drops
     override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
     {
-        // Remove drops
+
         return
     }
 
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item
-    {
-        // Remove drops
-        return Items.AIR
-    }
+    // Remove drops
+    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item = Items.AIR
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
@@ -189,43 +169,19 @@ abstract class GreeneryPlant : BlockCrops()
     }
 
     @SideOnly(Side.CLIENT)
-    override fun getOffsetType(): EnumOffsetType
-    {
-        return EnumOffsetType.XZ
-    }
+    override fun getOffsetType(): EnumOffsetType = EnumOffsetType.XZ
 
-    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean
-    {
-        return !isSolid
-    }
+    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
 
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
-    {
-        return !isSolid
-    }
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
 
-    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
-    {
-        return canBlockStay(worldIn, pos, defaultState)
-    }
+    override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean = canBlockStay(worldIn, pos, defaultState)
 
-    override fun getBonemealAgeIncrease(worldIn: World): Int
-    {
-        return super.getBonemealAgeIncrease(worldIn) / this.maxAge
-    }
+    override fun getBonemealAgeIncrease(worldIn: World): Int = super.getBonemealAgeIncrease(worldIn) / this.maxAge
 
-    override fun canSustainBush(state: IBlockState): Boolean
-    {
-        return false
-    }
+    override fun canSustainBush(state: IBlockState): Boolean = false
 
-    override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean
-    {
-        return true
-    }
+    override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean = true
 
-    override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int
-    {
-        return 300
-    }
+    override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int = 300
 }

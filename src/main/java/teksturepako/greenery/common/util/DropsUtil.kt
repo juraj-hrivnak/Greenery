@@ -51,16 +51,11 @@ object DropsUtil
                     itemStackRaw[0].contains("\$defaultSeeds") ->
                     {
                         val seed = ForgeHooks.getGrassSeed(random, fortune)
-                        if (!seed.isEmpty)
-                        {
-                            seed
-                        }
-                        else ItemStack.EMPTY
+                        if (!seed.isEmpty) seed else ItemStack.EMPTY
                     }
-                    filteredInput.contains("\$defaultItem") ->
-                    {
-                        ItemStack(defaultItem)
-                    }
+
+                    filteredInput.contains("\$defaultItem") -> ItemStack(defaultItem)
+
                     else -> ItemStack.EMPTY
                 }
             }
@@ -79,16 +74,10 @@ object DropsUtil
         return drops
     }
 
-    fun isBlockStateValid(state: IBlockState, input: String): Boolean
+    private fun isBlockStateValid(state: IBlockState, input: String): Boolean
     {
-        val y = arrayListOf<Boolean>()
-        val input2 = input.split(",")
-        input2.asSequence().map { it.split("=") }.forEach {
-            for ((key, value) in state.properties)
-            {
-                y += key.name == it[0] && value.toString() == it[1]
-            }
+        return input.split(",").asSequence().map { it.split("=") }.all { (key, value) ->
+            state.properties.any { it.key.name == key && it.value.toString() == value }
         }
-        return y.filter { it }.size == input2.size
     }
 }

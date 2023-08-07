@@ -87,7 +87,7 @@ class ClientProxy : IProxy
             {
                 BiomeColorHelper.getGrassColorAtPos(blockAccess, pos)
             }
-            else return@IBlockColor ColorizerGrass.getGrassColor(0.5, 1.0)
+            else ColorizerGrass.getGrassColor(0.5, 1.0)
         }
         blockColors.registerBlockColorHandler(grassColourHandler, block)
     }

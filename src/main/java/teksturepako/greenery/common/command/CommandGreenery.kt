@@ -15,15 +15,9 @@ import teksturepako.greenery.common.config.json.Parser
 
 class CommandGreenery : CommandBase()
 {
-    override fun getName(): String
-    {
-        return "greenery"
-    }
+    override fun getName(): String = "greenery"
 
-    override fun getUsage(sender: ICommandSender): String
-    {
-        return "command.greenery.usage"
-    }
+    override fun getUsage(sender: ICommandSender): String = "command.greenery.usage"
 
     @Throws(CommandException::class)
     override fun execute(server: MinecraftServer, sender: ICommandSender, args: Array<out String>)
@@ -43,10 +37,7 @@ class CommandGreenery : CommandBase()
         }
     }
 
-    override fun getRequiredPermissionLevel(): Int
-    {
-        return 2
-    }
+    override fun getRequiredPermissionLevel(): Int = 2
 
     override fun getTabCompletions(server: MinecraftServer, sender: ICommandSender, args: Array<out String>, targetPos: BlockPos?): MutableList<String>
     {

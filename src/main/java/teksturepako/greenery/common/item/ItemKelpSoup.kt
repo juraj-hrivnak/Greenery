@@ -14,7 +14,6 @@ class ItemKelpSoup : ItemFood(6, 0.6f, false)
     companion object
     {
         const val NAME = "kelp_soup"
-        const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
     }
 
     init

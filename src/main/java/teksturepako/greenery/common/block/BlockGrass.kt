@@ -37,8 +37,6 @@ class BlockGrass : Block(Material.GRASS), IGrowable
     companion object
     {
         const val NAME = "grass"
-        const val REGISTRY_NAME = "${Greenery.MODID}:$NAME"
-
         val SNOWY: PropertyBool = PropertyBool.create("snowy")
     }
 
