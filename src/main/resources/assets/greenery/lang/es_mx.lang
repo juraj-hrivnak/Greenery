@@ -24,7 +24,7 @@ tile.greenery.barley.name=Cebada
 tile.greenery.dried_kelp_block.name=Bloque de algas secas
 
 # Damage Sources
-death.attack.nettle=%1$s se pinchó hasta morir.
+death.attack.greenery.pricked=%1$s se pinchó hasta morir
 
 # Commands
 command.greenery.usage=greenery recargar

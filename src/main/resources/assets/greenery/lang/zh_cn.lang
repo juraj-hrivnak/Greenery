@@ -24,7 +24,7 @@ tile.greenery.barley.name=大麦
 tile.greenery.dried_kelp_block.name=干海带块
 
 # Damage Sources
-death.attack.nettle=%1$s被荨麻刺死了
+death.attack.greenery.pricked=%1$s被%2$s刺死了
 
 # Commands
 command.greenery.usage=greenery reload
