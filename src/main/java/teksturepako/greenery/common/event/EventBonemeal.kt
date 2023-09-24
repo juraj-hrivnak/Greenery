@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.WorldGenUtil
+import teksturepako.greenery.common.world.WorldGenParser
 import java.util.*
 
 @Mod.EventBusSubscriber
@@ -45,7 +45,7 @@ object EventBonemeal
         {
             for (input in generator.block.worldGen)
             {
-                val config = WorldGenUtil.Parser(input, generator.block.worldGen)
+                val config = WorldGenParser(input, generator.block.worldGen)
 
                 if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(
                         world.getBiome(pos), event.world.provider.dimension

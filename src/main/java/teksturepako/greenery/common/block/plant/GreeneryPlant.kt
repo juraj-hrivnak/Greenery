@@ -1,22 +1,25 @@
-@file:Suppress("OVERRIDE_DEPRECATION", "MemberVisibilityCanBePrivate")
+@file:Suppress("OVERRIDE_DEPRECATION", "MemberVisibilityCanBePrivate", "DEPRECATION")
 
 package teksturepako.greenery.common.block.plant
 
-import net.minecraft.block.BlockCrops
+import net.minecraft.block.Block
+import net.minecraft.block.IGrowable
+import net.minecraft.block.SoundType
+import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyInteger
+import net.minecraft.block.state.BlockFaceShape
 import net.minecraft.block.state.IBlockState
-import net.minecraft.enchantment.EnchantmentHelper
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
-import net.minecraft.init.Enchantments
-import net.minecraft.init.Items
 import net.minecraft.item.Item
 import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemStack
+import net.minecraft.util.BlockRenderLayer
 import net.minecraft.util.EnumFacing
 import net.minecraft.util.NonNullList
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
+import net.minecraft.util.math.MathHelper
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
@@ -24,36 +27,58 @@ import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.registry.ModDamageSource
 import teksturepako.greenery.common.util.DropsUtil
 import java.util.*
 
-
-abstract class GreeneryPlant : BlockCrops()
+/**
+ * Base class for creating Greenery plants.
+ */
+abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
 {
+    companion object
+    {
+        const val MAX_AGE = 3
+        val AGE: PropertyInteger = PropertyInteger.create("age", 0, MAX_AGE)
+    }
+
+    init
+    {
+        this.setTickRandomly(true)
+        this.setHardness(0.0f)
+        this.setSoundType(SoundType.PLANT)
+        this.disableStats()
+        this.setLightOpacity(0)
+    }
+
     /**
-     * World Generation config
+     * Contains world gen configuration.
+     * Can be reassigned at runtime.
      */
     abstract var worldGen: MutableList<String>
 
     /**
-     * Drops config
+     * Contains drops configuration.
+     * Can be reassigned at runtime.
      */
     abstract var drops: MutableList<String>
 
     /**
-     * Has TintIndex?
+     * Determines whether this block and its itemBlock has tint index.
+     * Can ***not*** be reassigned at runtime.
      */
     abstract var hasTintIndex: Boolean
 
     /**
-     * Is Solid?
+     * Determines whether this block is solid and replaceable.
+     * Can be reassigned at runtime.
      */
     abstract var isSolid: Boolean
 
     /**
-     * Is Harmful?
+     * Determines whether this block is harmful (prickly).
+     * Can be reassigned at runtime.
      */
     abstract var isHarmful: Boolean
 
@@ -94,94 +119,117 @@ abstract class GreeneryPlant : BlockCrops()
     @SideOnly(Side.CLIENT)
     open fun registerBlockColorHandler(event: ColorHandlerEvent.Block) = Greenery.proxy.registerGrassColorHandler(this, event)
 
-    public abstract override fun getAgeProperty(): PropertyInteger
+    //--------------//
+    // Block states //
+    open var ageProperty: PropertyInteger = AGE
+    open fun getAge(state: IBlockState): Int = state.getValue(ageProperty) as Int
+    open fun withAge(age: Int): IBlockState = this.defaultState.withProperty(ageProperty, age)
+
+    open var maxAge: Int = MAX_AGE
+    open fun isMaxAge(state: IBlockState): Boolean = state.getValue(ageProperty) as Int >= maxAge
+
+    override fun getStateFromMeta(meta: Int): IBlockState = withAge(meta)
+    override fun getMetaFromState(state: IBlockState): Int = getAge(state)
+    //--------------//
 
     /**
      * Determines whether the block can stay on its position, based on its surroundings.
      */
-    abstract override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
+    abstract fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
 
-    /**
-     * The item to drop always.
-     */
-    override fun getSeed(): Item = itemBlock
-
-    /**
-     * The item to drop when fully grown.
-     */
-    override fun getCrop(): Item = itemBlock
-
-    override fun onBlockHarvested(worldIn: World, pos: BlockPos, state: IBlockState, player: EntityPlayer)
+    open fun checkAndDropBlock(worldIn: World, pos: BlockPos, state: IBlockState)
     {
-        super.onBlockHarvested(worldIn, pos, state, player)
-
-        // Add drops
-        val fortune = EnchantmentHelper.getEnchantments(player.activeItemStack)[Enchantments.FORTUNE] ?: 0
-        val drops = DropsUtil.getDrops(this.drops, worldIn, pos, state, this.seed, fortune)
-        drops.forEach { item ->
-            spawnAsEntity(worldIn, pos, item)
+        if (!canBlockStay(worldIn, pos, state))
+        {
+            dropBlockAsItem(worldIn, pos, state, 0)
+            worldIn.setBlockToAir(pos)
         }
     }
 
-    // Remove drops
-    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
+    override fun neighborChanged(state: IBlockState, worldIn: World, pos: BlockPos, blockIn: Block, fromPos: BlockPos)
     {
-
-        return
+        super.neighborChanged(state, worldIn, pos, blockIn, fromPos)
+        checkAndDropBlock(worldIn, pos, state)
     }
 
-    // Remove drops
-    override fun getItemDropped(state: IBlockState, rand: Random, fortune: Int): Item = Items.AIR
+    /**
+     * Custom drops handling.
+     */
+    override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
+    {
+        drops.addAll(DropsUtil.getDrops(this.drops, world, pos, state, itemBlock, 0))
+    }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier * 0.1 + 1)
-        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionX /= (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionZ /= (Config.global.slowdownModifier * 0.1 + 1)
 
         if (isHarmful && entityIn is EntityPlayer)
         {
             if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY)
             {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+                entityIn.attackEntityFrom(Prickly(this.localizedName), 0.5f)
             }
             if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY)
             {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+                entityIn.attackEntityFrom(Prickly(this.localizedName), 0.5f)
             }
         }
     }
 
     override fun getCollisionBoundingBox(blockState: IBlockState, worldIn: IBlockAccess, pos: BlockPos): AxisAlignedBB?
     {
-        return if (isSolid) this.getBoundingBox(blockState, worldIn, pos) else NULL_AABB
+        return if (isSolid) getBoundingBox(blockState, worldIn, pos) else NULL_AABB
+    }
+
+    override fun isOpaqueCube(state: IBlockState): Boolean = false
+    override fun isFullCube(state: IBlockState): Boolean = false
+
+    @SideOnly(Side.CLIENT)
+    override fun getRenderLayer(): BlockRenderLayer = BlockRenderLayer.CUTOUT
+    override fun getBlockFaceShape(worldIn: IBlockAccess, state: IBlockState, pos: BlockPos, face: EnumFacing): BlockFaceShape
+    {
+        return BlockFaceShape.UNDEFINED
     }
 
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
     {
-        if (getAge(state) <= this.maxAge && canBlockStay(worldIn, pos, state))
+        if (getAge(state) <= maxAge && canBlockStay(worldIn, pos, state))
         {
             if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0))
             {
-                grow(worldIn, pos, state)
+                grow(worldIn, rand, pos, state)
                 ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
             }
         }
     }
 
+    fun getBonemealAgeIncrease(worldIn: World): Int = MathHelper.getInt(worldIn.rand, 2, 5) / maxAge
+
     @SideOnly(Side.CLIENT)
     override fun getOffsetType(): EnumOffsetType = EnumOffsetType.XZ
-
-    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
-
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
-
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean = canBlockStay(worldIn, pos, defaultState)
-
-    override fun getBonemealAgeIncrease(worldIn: World): Int = super.getBonemealAgeIncrease(worldIn) / this.maxAge
-
-    override fun canSustainBush(state: IBlockState): Boolean = false
-
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
+    override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
     override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean = true
-
     override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int = 300
+
+    //--------------------------//
+    // IGrowable implementation //
+    override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean = !isMaxAge(state)
+    override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean = true
+    override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
+    {
+        var newAge = getAge(state) + getBonemealAgeIncrease(worldIn)
+        if (newAge > maxAge)
+        {
+            newAge = maxAge
+            if (worldIn.isAirBlock(pos.up()) && canBlockStay(worldIn, pos.up(), state))
+            {
+                worldIn.setBlockState(pos.up(), withAge(0), 2)
+            }
+        }
+        worldIn.setBlockState(pos, withAge(newAge), 2)
+    }
 }

@@ -47,7 +47,7 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
-        return AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
+        return AABB[getAge(state)].offset(state.getOffset(source, pos))
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int

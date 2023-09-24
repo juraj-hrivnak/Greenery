@@ -10,7 +10,6 @@ import net.minecraft.world.World
 import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 
-
 object DropsUtil
 {
     fun getDrops(dropsList: MutableList<String>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int): List<ItemStack>
@@ -22,46 +21,52 @@ object DropsUtil
         {
             val filteredInput = stringInput.filter { !it.isWhitespace() }.trim()
 
-            var raw: List<String> = emptyList()
+            var raw: List<String>
+
             if (filteredInput.contains("|"))
             {
                 raw = filteredInput.split("|")
             }
+            else continue
 
+            // Block state check
             var blockStateIsValid = true
             if (raw.isNotNull(2))
             {
                 blockStateIsValid = isBlockStateValid(state.getActualState(world, pos), raw[2])
             }
 
+            // Item stack check
             var itemStackRaw: List<String> = emptyList()
+            var amount = 1
+
             if (raw.isNotNull(0))
             {
-                itemStackRaw = raw[0].split(":")
+                itemStackRaw = raw[0].substringBefore("*").split(":")
+                raw[0].split("*").run { if (this.isNotNull(1)) amount = this[1].toInt() }
             }
 
+            // Parsing itemStack
             val itemStack: ItemStack = if (itemStackRaw.isNotNull(0) && itemStackRaw.isNotNull(1))
             {
                 ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation("${itemStackRaw[0]}:${itemStackRaw[1]}"))!!)
             }
-            else if (itemStackRaw.isNotNull(0) && itemStackRaw.isNotNull(1))
+            else
             {
                 when
                 {
-                    itemStackRaw[0].contains("\$defaultSeeds") ->
+                    "seeds" in raw[0] ->
                     {
                         val seed = ForgeHooks.getGrassSeed(random, fortune)
                         if (!seed.isEmpty) seed else ItemStack.EMPTY
                     }
-
-                    filteredInput.contains("\$defaultItem") -> ItemStack(defaultItem)
-
+                    "this" in raw[0] -> ItemStack(defaultItem)
                     else -> ItemStack.EMPTY
                 }
             }
-            else ItemStack.EMPTY
 
-            if (itemStackRaw.isNotNull(2)) itemStack.count = itemStackRaw[2].toInt() + fortune
+            // Setting count
+            itemStack.count = amount + fortune
 
             val chance: Double = if (raw.isNotNull(1)) raw[1].toDouble() else 0.0
 

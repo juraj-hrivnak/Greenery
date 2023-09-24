@@ -1,9 +1,8 @@
-@file:Suppress("OVERRIDE_DEPRECATION", "DEPRECATION")
+@file:Suppress("OVERRIDE_DEPRECATION")
 
 package teksturepako.greenery.common.block.plant.submerged.tall
 
 import net.minecraft.block.properties.PropertyEnum
-import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.util.IStringSerializable
@@ -36,27 +35,13 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
     companion object
     {
         val VARIANT: PropertyEnum<Variant> = PropertyEnum.create("variant", Variant::class.java)
-        val AGE: PropertyInteger = PropertyInteger.create("age", 0, 1)
     }
 
     init
     {
-        defaultState = blockState.baseState.withProperty(VARIANT, Variant.SINGLE).withProperty(AGE, 1)
-    }
-
-    override fun getAgeProperty(): PropertyInteger
-    {
-        return AGE
-    }
-
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
-        return defaultState
-    }
-
-    override fun getMetaFromState(state: IBlockState): Int
-    {
-        return 0
+        defaultState = blockState.baseState
+                .withProperty(VARIANT, Variant.SINGLE)
+                .withProperty(AGE, 0)
     }
 
     override fun createBlockState(): BlockStateContainer
@@ -99,7 +84,6 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
         if (this.canGenerateBlockAt(world, pos))
         {
             val state = this.defaultState
-
             world.setBlockState(pos, state, flags)
 
             if (rand.nextDouble() < 0.05 && this.canGenerateBlockAt(world, pos.up()))
@@ -118,7 +102,10 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
     {
-        worldIn.setBlockState(pos.up(), state)
+        if (canGrow(worldIn, pos, state, false))
+        {
+            worldIn.setBlockState(pos.up(), state)
+        }
     }
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB

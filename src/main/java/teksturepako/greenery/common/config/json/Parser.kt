@@ -14,6 +14,8 @@ import java.io.File
 
 object Parser
 {
+    private var initialized = false
+
     private inline fun File.getPlantDataFromFiles(action: (PlantData) -> Unit)
     {
         for (file in this.walk()) if (file.canDoWork())
@@ -23,11 +25,12 @@ object Parser
     }
 
     /**
-     * Plant Data Initializer
-     * Should be called only once!
+     * Reads JSON configs and initializes plant data.
      */
     fun initPlantData()
     {
+        if (initialized) return else initialized = true
+
         emergentDir.getPlantDataFromFiles {
             Greenery.plants.add(object : EmergentPlantBase(it.name)
             {
@@ -74,8 +77,7 @@ object Parser
     }
 
     /**
-     * Plant Data Re-loader
-     * Can be called at any time.
+     * Reloads plant data.
      */
     fun reloadPlantData()
     {

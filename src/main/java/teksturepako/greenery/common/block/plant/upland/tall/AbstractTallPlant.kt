@@ -46,9 +46,7 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
         val down = worldIn.getBlockState(pos.down())
-        val down2 = worldIn.getBlockState(pos.down(2))
-
-        return ((down.material in ALLOWED_SOILS || down.block == Blocks.DIRT) || (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS))
+        return (down.material in ALLOWED_SOILS || down.block == Blocks.DIRT || (down.block == this && getAge(down) == maxAge))
     }
 
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
@@ -56,7 +54,7 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
         return when
         {
             worldIn.getBlockState(pos.up()).block == this -> false
-            worldIn.getBlockState(pos.down()).block == this -> (getAge(state) < this.maxAge)
+            worldIn.getBlockState(pos.down()).block == this -> (getAge(state) < maxAge)
             else -> true
         }
     }
@@ -65,9 +63,9 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
     {
         if (world.isAirBlock(pos))
         {
-            val startingAge = rand.nextInt(this.maxAge)
+            val startingAge = rand.nextInt(maxAge)
             val state = this.defaultState.withProperty(this.ageProperty, startingAge)
-            val maxState = this.defaultState.withProperty(this.ageProperty, this.maxAge)
+            val maxState = this.defaultState.withProperty(this.ageProperty, maxAge)
 
             if (this.canBlockStay(world, pos, state))
             {
@@ -84,21 +82,6 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
                 }
             }
         }
-    }
-
-    override fun grow(worldIn: World, pos: BlockPos, state: IBlockState)
-    {
-        var newAge = getAge(state) + getBonemealAgeIncrease(worldIn)
-        val maxAge = this.maxAge
-        if (newAge > maxAge)
-        {
-            newAge = maxAge
-            if (worldIn.isAirBlock(pos.up()) && canBlockStay(worldIn, pos.up(), state))
-            {
-                worldIn.setBlockState(pos.up(), withAge(0), 2)
-            }
-        }
-        worldIn.setBlockState(pos, withAge(newAge), 2)
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int

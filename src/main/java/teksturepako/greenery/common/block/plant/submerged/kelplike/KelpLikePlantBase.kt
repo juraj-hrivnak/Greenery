@@ -31,25 +31,8 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
         defaultState = blockState.baseState.withProperty(IS_TOP_BLOCK, false).withProperty(AGE, 0)
     }
 
-    override fun getMaxAge(): Int
-    {
-        return MAX_AGE
-    }
-
-    override fun getAgeProperty(): PropertyInteger
-    {
-        return AGE
-    }
-
-    override fun getStateFromMeta(meta: Int): IBlockState
-    {
-        return this.defaultState.withProperty(AGE, meta)
-    }
-
-    override fun getMetaFromState(state: IBlockState): Int
-    {
-        return state.getValue(AGE)
-    }
+    override var ageProperty: PropertyInteger = AGE
+    override var maxAge: Int = MAX_AGE
 
     override fun createBlockState(): BlockStateContainer
     {
@@ -89,8 +72,8 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
     {
         if (this.canGenerateBlockAt(world, pos))
         {
-            val startingAge = rand.nextInt(this.maxAge / 2)
-            val height = this.maxAge - startingAge
+            val startingAge = rand.nextInt(maxAge / 2)
+            val height = maxAge - startingAge
 
             for (i in 0..height)
             {

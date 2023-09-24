@@ -6,7 +6,6 @@ import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyBool
-import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
@@ -25,8 +24,8 @@ import net.minecraftforge.fluids.Fluid
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.registry.ModDamageSource
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
@@ -49,8 +48,6 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
         )
-
-        val AGE: PropertyInteger = PropertyInteger.create("age", 0, 3)
         val TOP: PropertyBool = PropertyBool.create("top")
     }
 
@@ -64,16 +61,6 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         defaultState = blockState.baseState.withProperty(AGE, 0).withProperty(TOP, true)
     }
 
-    override fun getMaxAge(): Int
-    {
-        return 3
-    }
-
-    override fun getAgeProperty(): PropertyInteger
-    {
-        return AGE
-    }
-
     override fun createBlockState(): BlockStateContainer
     {
         return BlockStateContainer(this, AGE, TOP)
@@ -85,7 +72,7 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         {
             worldIn.getBlockState(pos.down()).block == this -> state.withProperty(TOP, true)
             worldIn.getBlockState(pos.up()).block == this -> state.withProperty(TOP, false)
-            else -> state.withProperty(TOP, true)
+            else -> state // Keep the same state when breaking the block.
         }
     }
 
@@ -93,34 +80,27 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(
-                        state.getOffset(source, pos)
-                    )
-
-            actualState.withProperty(
-                TOP,
-                false
-            ) -> WATER_CROP_BOTTOM_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
-
-            else -> WATER_CROP_TOP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[getAge(state)].offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].offset(state.getOffset(source, pos))
+            else -> WATER_CROP_TOP_AABB[getAge(state)].offset(state.getOffset(source, pos))
         }
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier * 0.1 + 1)
-        entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier * 0.1 + 1)
-        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionX /= (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionY /= (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionZ /= (Config.global.slowdownModifier * 0.1 + 1)
 
         if (isHarmful && entityIn is EntityPlayer)
         {
             if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY)
             {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+                entityIn.attackEntityFrom(Prickly(this.localizedName), 0.5f)
             }
             if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY)
             {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+                entityIn.attackEntityFrom(Prickly(this.localizedName), 0.5f)
             }
         }
     }
@@ -130,11 +110,9 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
      */
     private fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
-        return (FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(
-            worldIn,
-            pos,
-            defaultState
-        )) && worldIn.isAirBlock(pos.up())
+        return (FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)
+                && canBlockStay(worldIn, pos, defaultState))
+               && worldIn.isAirBlock(pos.up())
     }
 
     /**
@@ -144,12 +122,8 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        return if (!fluidState.isEmpty && isFluidValid(
-                defaultState,
-                worldIn,
-                pos,
-                fluidState.fluid
-            ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos))
+        return if (!fluidState.isEmpty && isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
+                   && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos))
         {
             canBlockStay(worldIn, pos, defaultState) && worldIn.isAirBlock(pos.up())
         }
@@ -173,28 +147,8 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     {
         if (worldIn.getBlockState(pos.down()).block == this)
         {
-            if (player.capabilities.isCreativeMode)
-            {
-                worldIn.setBlockToAir(pos.down())
-            }
-            else
-            {
-                if (state.getValue(TOP) == true)
-                {
-                    if (isMaxAge(state)) spawnAsEntity(worldIn, pos.down(), ItemStack(this.crop))
-                    else spawnAsEntity(worldIn, pos.down(), ItemStack(this.seed))
-                }
-
-                worldIn.setBlockToAir(pos.down())
-            }
-        }
-        else if (worldIn.getBlockState(pos.up()).block == this)
-        {
-            if (!player.capabilities.isCreativeMode && state.getValue(TOP) == true)
-            {
-                if (isMaxAge(state)) spawnAsEntity(worldIn, pos, ItemStack(this.crop))
-                else spawnAsEntity(worldIn, pos, ItemStack(this.seed))
-            }
+            dropBlockAsItem(worldIn, pos.down(), state, 0)
+            worldIn.setBlockToAir(pos.down())
         }
     }
 
@@ -202,9 +156,7 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     {
         if (!canBlockStay(worldIn, pos, state))
         {
-// Todo: Reimplement this:
-//            dropBlockAsItem(worldIn, pos, state, 0)
-            worldIn.setBlockState(pos, Blocks.AIR.defaultState, 3)
+            worldIn.setBlockToAir(pos)
         }
     }
 
@@ -222,7 +174,7 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         {
             val state = this.defaultState
 
-            world.setBlockState(pos, state.withProperty(this.ageProperty, this.maxAge), flags)
+            world.setBlockState(pos, state.withProperty(this.ageProperty, maxAge), flags)
 
             if (this.canBlockStay(world, pos.up(), state))
             {
@@ -231,10 +183,7 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         }
     }
 
-    override fun canFluidFlow(world: IBlockAccess, pos: BlockPos, here: IBlockState, side: EnumFacing): Boolean
-    {
-        return true
-    }
+    override fun canFluidFlow(world: IBlockAccess, pos: BlockPos, here: IBlockState, side: EnumFacing): Boolean = true
 
     override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean
     {

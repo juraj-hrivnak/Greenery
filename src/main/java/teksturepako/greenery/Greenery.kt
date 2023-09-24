@@ -50,7 +50,7 @@ object Greenery
     const val MODID = "greenery"
     const val NAME = "Greenery"
     const val VERSION = "4.4"
-    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.21.0,);required-after:fluidlogged_api@[2.0.0,);" + "after:dynamictrees;after:biomesoplenty"
+    const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.21.0,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
 
@@ -135,7 +135,11 @@ object Greenery
     {
         if (generators.isEmpty())
         {
-            for (plant in plants) generators.add(PlantGenerator(plant))
+            for (plant in plants)
+            {
+                generators.add(PlantGenerator(plant))
+            }
+
             ConfigUtil.parseGenerators(generators, printParsing)
         }
         return generators

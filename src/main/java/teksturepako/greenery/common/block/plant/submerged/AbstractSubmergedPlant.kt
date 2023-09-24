@@ -1,5 +1,3 @@
-@file:Suppress("OVERRIDE_DEPRECATION")
-
 package teksturepako.greenery.common.block.plant.submerged
 
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
@@ -16,13 +14,14 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.common.util.Constants
 import net.minecraftforge.fluids.Fluid
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.registry.ModDamageSource
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
@@ -39,28 +38,28 @@ abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFlui
 
     init
     {
-        setRegistryName("plant/submerged/$name")
-        translationKey = "${Greenery.MODID}.$name"
-        soundType = GreenerySoundTypes.SEAWEED
-        creativeTab = Greenery.creativeTab
-        lightOpacity = 2
+        this.setRegistryName("plant/submerged/$name")
+        this.setTranslationKey("${Greenery.MODID}.$name")
+        this.setSoundType(GreenerySoundTypes.SEAWEED)
+        this.setCreativeTab(Greenery.creativeTab)
+        this.setLightOpacity(0)
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / (Config.global.slowdownModifier * 0.1 + 1)
-        entityIn.motionY = entityIn.motionY / (Config.global.slowdownModifier * 0.1 + 1)
-        entityIn.motionZ = entityIn.motionZ / (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionX /= (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionY /= (Config.global.slowdownModifier * 0.1 + 1)
+        entityIn.motionZ /= (Config.global.slowdownModifier * 0.1 + 1)
 
         if (isHarmful && entityIn is EntityPlayer)
         {
             if (entityIn.inventory.armorInventory[0] == ItemStack.EMPTY)
             {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+                entityIn.attackEntityFrom(Prickly(this.localizedName), 0.5f)
             }
             if (entityIn.inventory.armorInventory[1] == ItemStack.EMPTY)
             {
-                entityIn.attackEntityFrom(ModDamageSource.NETTLE, 0.5f)
+                entityIn.attackEntityFrom(Prickly(this.localizedName), 0.5f)
             }
         }
     }
@@ -73,6 +72,18 @@ abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFlui
         return FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos) && canBlockStay(worldIn, pos, defaultState)
     }
 
+    override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
+    {
+        if (getAge(state) <= maxAge && canGenerateBlockAt(worldIn, pos))
+        {
+            if (ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt((25.0f / 1.0f).toInt() + 1) == 0))
+            {
+                grow(worldIn, rand, pos, state)
+                ForgeHooks.onCropsGrowPost(worldIn, pos, state, worldIn.getBlockState(pos))
+            }
+        }
+    }
+
     /**
      * Checks if there is a compatible fluid block on the placing position.
      * Warning: This should not be used in world generation because of performance reasons!
@@ -80,17 +91,13 @@ abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFlui
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
-        return (!fluidState.isEmpty && isFluidValid(
-            defaultState, worldIn, pos, fluidState.fluid
-        ) && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos) && canBlockStay(
-            worldIn, pos, defaultState
-        ))
+        return (!fluidState.isEmpty && isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
+                && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos)
+                && canBlockStay(worldIn, pos, defaultState))
     }
 
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean
-    {
-        return false
-    }
+    // Submerged plants are not replaceable.
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = false
 
     // IGrowable implementation
     override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean
@@ -98,10 +105,7 @@ abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFlui
         return canGrow(worldIn, pos, state, false)
     }
 
-    override fun canFluidFlow(world: IBlockAccess, pos: BlockPos, here: IBlockState, side: EnumFacing): Boolean
-    {
-        return true
-    }
+    override fun canFluidFlow(world: IBlockAccess, pos: BlockPos, here: IBlockState, side: EnumFacing): Boolean = true
 
     override fun isFluidValid(state: IBlockState, world: World, pos: BlockPos, fluid: Fluid): Boolean
     {

@@ -7,6 +7,7 @@ import net.minecraft.world.gen.IChunkGenerator
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plant.upland.tall.TallPlantBase
 import teksturepako.greenery.common.util.WorldGenUtil
+import teksturepako.greenery.common.world.WorldGenParser
 import java.util.*
 
 class PlantGenerator(override val block: GreeneryPlant) : IPlantGenerator
@@ -19,22 +20,19 @@ class PlantGenerator(override val block: GreeneryPlant) : IPlantGenerator
         val dimension = world.provider.dimension
         val generationModifier = if (block is TallPlantBase) 4 else 1
 
-        /*
-         * Gets worldGen configuration from the block.
-         */
+        /* Gets worldGen configuration from the block. */
         for (input in block.worldGen)
-        {/*
-             * New instance of the worldGen parser class.
-             */
-            val config = WorldGenUtil.Parser(input, block.worldGen)
+        {
+            /* New instance of the worldGen parser class. */
+            val config = WorldGenParser(
+                indexedInput = input,
+                worldGenConfig = block.worldGen
+            )
 
-            /*
-             * Check if plant can generate.
-             */
+            /* Check if plant can generate. */
             if (config.canGenerate(biome, dimension) && random.nextDouble() < config.getGenerationChance())
-            {/*
-                 * Generate patches of the plant.
-                 */
+            {
+                /* Generate patches of the plant. */
                 for (i in 0..config.getPatchAttempts() * generationModifier / (block.worldGen.size - 1).coerceAtLeast(1))
                 {
                     val x = random.nextInt(16) + 8

@@ -4,6 +4,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.world.WorldGenParser
 import teksturepako.greenery.common.world.gen.IPlantGenerator
 import java.util.*
 
@@ -40,9 +41,9 @@ object ConfigUtil
 
             for (input in generator.block.worldGen)
             {
-                val config = WorldGenUtil.Parser(input, generator.block.worldGen)
+                val config = WorldGenParser(input, generator.block.worldGen)
                 types = config.getTypes()
-                biomes = config.getBiomesResLoc()
+                biomes = config.getBiomesResLocs()
 
                 errored = parseBiomeDictionaries(types, false) || parseBiomes(biomes, false)
             }

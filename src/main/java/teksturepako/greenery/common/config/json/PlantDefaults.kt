@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package teksturepako.greenery.common.config.json
 
 import teksturepako.greenery.Greenery
@@ -102,7 +104,7 @@ object PlantDefaults
                 "0 | !type:dry | 1.0 | 16 | 64",
                 "0 | !type:jungle | 1.0 | 16 | 64"
             ),
-            drops = mutableListOf("\$defaultSeeds | 0.2"),
+            drops = mutableListOf("seeds | 0.2"),
             hasTintIndex = true,
             isSolid = false,
             isHarmful = false
@@ -110,7 +112,7 @@ object PlantDefaults
         PlantData(
             name = "eagle_fern",
             worldGen = mutableListOf("0 | anywhere | 1.0 | 16 | 32"),
-            drops = mutableListOf("\$defaultSeeds | 0.2"),
+            drops = mutableListOf("seeds | 0.2"),
             hasTintIndex = true,
             isSolid = false,
             isHarmful = false
@@ -124,7 +126,7 @@ object PlantDefaults
                 "0 | type:dry | 1.0 | 32 | 64",
                 "0 | type:jungle | 1.0 | 32 | 64"
             ),
-            drops = mutableListOf("\$defaultSeeds | 0.2"),
+            drops = mutableListOf("seeds | 0.2"),
             hasTintIndex = true,
             isSolid = false,
             isHarmful = false

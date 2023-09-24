@@ -36,9 +36,9 @@ abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
-        entityIn.motionX = entityIn.motionX / 1.1
-        entityIn.motionY = entityIn.motionY / 1.1
-        entityIn.motionZ = entityIn.motionZ / 1.1
+        entityIn.motionX /= 1.1
+        entityIn.motionY /= 1.1
+        entityIn.motionZ /= 1.1
     }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
@@ -55,7 +55,7 @@ abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
-        return WATER_CROP_AABB[(state.getValue(this.ageProperty) as Int).toInt()].offset(state.getOffset(source, pos))
+        return WATER_CROP_AABB[getAge(state)].offset(state.getOffset(source, pos))
     }
 
 }
