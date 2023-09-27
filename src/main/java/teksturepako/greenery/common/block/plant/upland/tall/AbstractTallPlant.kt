@@ -46,7 +46,10 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
         val down = worldIn.getBlockState(pos.down())
-        return (down.material in ALLOWED_SOILS || down.block == Blocks.DIRT || (down.block == this && getAge(down) == maxAge))
+        val down2 = worldIn.getBlockState(pos.down(2))
+
+        return ((down.material in ALLOWED_SOILS || down.block == Blocks.DIRT)
+                || (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS))
     }
 
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
