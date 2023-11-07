@@ -8,6 +8,7 @@ import net.minecraft.block.state.IBlockState
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
+import teksturepako.greenery.common.util.Utils.applyOffset
 
 abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
 {
@@ -46,9 +47,9 @@ abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(TOP, true) -> GRASS_TOP_AABB[getAge(state)].offset(state.getOffset(source, pos))
-            actualState.withProperty(TOP, false) -> GRASS_BOTTOM_AABB[getAge(state)].offset(state.getOffset(source, pos))
-            else -> GRASS_TOP_AABB[getAge(state)].offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, true) -> GRASS_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(TOP, false) -> GRASS_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            else -> GRASS_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
         }
     }
 }

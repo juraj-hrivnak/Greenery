@@ -27,6 +27,7 @@ import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
+import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
 abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidloggable
@@ -80,9 +81,9 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[getAge(state)].offset(state.getOffset(source, pos))
-            actualState.withProperty(TOP, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].offset(state.getOffset(source, pos))
-            else -> WATER_CROP_TOP_AABB[getAge(state)].offset(state.getOffset(source, pos))
+            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(TOP, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            else -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
         }
     }
 

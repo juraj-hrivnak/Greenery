@@ -6,8 +6,8 @@ import net.minecraft.util.ResourceLocation
 import net.minecraft.world.biome.Biome
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.registry.ForgeRegistries
-import teksturepako.greenery.common.util.inNotNull
-import teksturepako.greenery.common.util.isNotNull
+import teksturepako.greenery.common.util.Utils.inNotNull
+import teksturepako.greenery.common.util.Utils.isNotNull
 
 /**
  * World generation configuration parser

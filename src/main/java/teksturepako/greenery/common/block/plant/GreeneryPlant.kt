@@ -71,6 +71,12 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
     abstract var hasTintIndex: Boolean
 
     /**
+     * Determines whether this block has slight random offset.
+     * Can be reassigned at runtime.
+     */
+    abstract var hasOffset: Boolean
+
+    /**
      * Determines whether this block is solid and replaceable.
      * Can be reassigned at runtime.
      */
@@ -208,7 +214,7 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
     fun getBonemealAgeIncrease(worldIn: World): Int = MathHelper.getInt(worldIn.rand, 2, 5) / maxAge
 
     @SideOnly(Side.CLIENT)
-    override fun getOffsetType(): EnumOffsetType = EnumOffsetType.XZ
+    override fun getOffsetType(): EnumOffsetType = if (hasOffset) EnumOffsetType.XZ else EnumOffsetType.NONE
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean = canBlockStay(worldIn, pos, defaultState)
     override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
     override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid

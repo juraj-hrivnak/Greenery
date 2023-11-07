@@ -11,6 +11,7 @@ data class PlantData(
         var drops: MutableList<String> = ArrayList(),
         var compatibleFluids: MutableList<String> = ArrayList(),
         var hasTintIndex: Boolean = false,
+        var hasOffset: Boolean = true,
         var isSolid: Boolean = false,
         var isHarmful: Boolean = false
 )

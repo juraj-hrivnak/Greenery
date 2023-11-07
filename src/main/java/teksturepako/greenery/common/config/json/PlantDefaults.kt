@@ -67,6 +67,7 @@ object PlantDefaults
                 "0 | type:beach | 0.5 | 14 | 64"
             ),
             compatibleFluids = mutableListOf("water"),
+            hasOffset = false,
             isSolid = false,
             isHarmful = false
         )

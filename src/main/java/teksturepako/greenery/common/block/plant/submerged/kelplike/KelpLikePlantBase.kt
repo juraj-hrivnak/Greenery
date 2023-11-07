@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
+import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 import kotlin.math.min
 
@@ -141,9 +142,9 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(IS_TOP_BLOCK, true) -> TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(IS_TOP_BLOCK, false) -> BOTTOM_AABB.offset(state.getOffset(source, pos))
-            else -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(IS_TOP_BLOCK, true) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(IS_TOP_BLOCK, false) -> BOTTOM_AABB.applyOffset(hasOffset, state, source, pos)
+            else -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
         }
     }
 }

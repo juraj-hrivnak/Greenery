@@ -38,6 +38,7 @@ object Parser
                 override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
                 override var hasTintIndex = it.hasTintIndex
+                override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
             })
@@ -49,6 +50,7 @@ object Parser
                 override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
                 override var hasTintIndex = it.hasTintIndex
+                override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
             })
@@ -60,6 +62,7 @@ object Parser
                 override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
                 override var hasTintIndex = it.hasTintIndex
+                override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
             })
@@ -70,6 +73,7 @@ object Parser
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var hasTintIndex = it.hasTintIndex
+                override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
             })
@@ -91,6 +95,7 @@ object Parser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
+                        plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }
@@ -102,6 +107,7 @@ object Parser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
+                        plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }
@@ -113,6 +119,7 @@ object Parser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
+                        plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }
@@ -123,6 +130,7 @@ object Parser
                     {
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
+                        plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
                     }

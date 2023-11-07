@@ -10,9 +10,8 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import net.minecraftforge.fml.relauncher.Side
-import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
+import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
 abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(name)
@@ -61,12 +60,6 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
         )
     }
 
-    @SideOnly(Side.CLIENT)
-    override fun getOffsetType(): EnumOffsetType
-    {
-        return EnumOffsetType.XZ
-    }
-
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
         //Must have a SINGLE weed or valid soil below
@@ -112,10 +105,10 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(VARIANT, Variant.TOP) -> TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, Variant.SINGLE) -> TOP_AABB.offset(state.getOffset(source, pos))
-            actualState.withProperty(VARIANT, Variant.BOTTOM) -> BOTTOM_AABB.offset(state.getOffset(source, pos))
-            else -> TOP_AABB.offset(state.getOffset(source, pos))
+            actualState.withProperty(VARIANT, Variant.TOP) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(VARIANT, Variant.SINGLE) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(VARIANT, Variant.BOTTOM) -> BOTTOM_AABB.applyOffset(hasOffset, state, source, pos)
+            else -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
         }
     }
 }

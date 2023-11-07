@@ -12,6 +12,7 @@ import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.util.Utils.applyOffset
 
 abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
 {
@@ -55,7 +56,7 @@ abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
-        return WATER_CROP_AABB[getAge(state)].offset(state.getOffset(source, pos))
+        return WATER_CROP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
     }
 
 }

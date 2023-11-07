@@ -16,6 +16,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
 abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
@@ -47,7 +48,7 @@ abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
-        return AABB[getAge(state)].offset(state.getOffset(source, pos))
+        return AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
     }
 
     override fun quantityDroppedWithBonus(fortune: Int, random: Random): Int
