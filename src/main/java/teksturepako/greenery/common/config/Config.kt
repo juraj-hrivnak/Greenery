@@ -28,5 +28,10 @@ object Config
         @Comment("Whether to generate default plant configs or not.")
         @JvmField
         var genDefaults = true
+
+        @Name("[5] Generate Plants In Superflat")
+        @Comment("Whether to generate plants in the superflat world type.")
+        @JvmField
+        var genInSuperflat = true
     }
 }
