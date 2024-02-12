@@ -7,6 +7,11 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.ideVirtualMain.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.ideVirtualMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.injectedTags.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.injectedTags.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.mcLauncher.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.mcLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.patchedMc.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.patchedMc.iml" />
     </modules>
   </component>
 </project>
