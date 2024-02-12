@@ -27,7 +27,7 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil
-import teksturepako.greenery.common.util.FileUtils.subfolder
+import teksturepako.greenery.common.util.FileUtils.div
 import teksturepako.greenery.common.world.WorldGenHook
 import teksturepako.greenery.common.world.gen.IPlantGenerator
 import teksturepako.greenery.common.world.gen.PlantGenerator
@@ -49,7 +49,7 @@ object Greenery
 {
     const val MODID = "greenery"
     const val NAME = "Greenery"
-    const val VERSION = "4.6"
+    const val VERSION = Tags.VERSION
     const val DEPENDENCIES = "required-after:forgelin_continuous@[1.8.21.0,);required-after:fluidlogged_api@[2.0.0,);after:dynamictrees;after:biomesoplenty"
     const val ACCEPTED_MINECRAFT_VERSIONS = "[1.12,1.12.2,)"
     const val ADAPTER = "io.github.chaosunity.forgelin.KotlinAdapter"
@@ -72,7 +72,7 @@ object Greenery
         logger = event.modLog
         proxy.preInit(event)
 
-        configFolder = event.modConfigurationDirectory subfolder MODID
+        configFolder = event.modConfigurationDirectory / MODID
         initDefaults()
         initPlantData()
     }

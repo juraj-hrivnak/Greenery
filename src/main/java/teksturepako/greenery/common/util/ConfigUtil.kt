@@ -42,8 +42,8 @@ object ConfigUtil
             for (input in generator.block.worldGen)
             {
                 val config = WorldGenParser(input, generator.block.worldGen)
-                types = config.getTypes()
-                biomes = config.getBiomesResLocs()
+                types = config.types
+                biomes = config.biomesResLocs
 
                 errored = parseBiomeDictionaries(types, false) || parseBiomes(biomes, false)
             }

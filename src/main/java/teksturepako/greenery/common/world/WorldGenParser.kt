@@ -39,67 +39,38 @@ class WorldGenParser(private val indexedInput: String, private val worldGenConfi
         else emptyList()
     }
 
-    /**
-     * Returns a list of biome resource locations.
-     */
-    fun getBiomesResLocs(): List<ResourceLocation>
-    {
-        val result: MutableList<ResourceLocation> = mutableListOf()
-
-        for (input in worldGenConfig)
+    /** A list of biome resource locations. */
+    val biomesResLocs: List<ResourceLocation> = worldGenConfig.mapNotNull { input ->
+        val configInput = getConditionInput(getSplitInput(input))
+        if ("biome" inNotNull configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
         {
-            val configInput = getConditionInput(getSplitInput(input))
-            if ("biome" inNotNull configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
-            {
-                result.add(ResourceLocation(configInput[1], configInput[2]))
-            }
+            ResourceLocation(configInput[1], configInput[2])
         }
-        return result
+        else null
     }
 
-    /**
-     * Returns a list of biomes.
-     */
-    fun getBiomes(): List<Biome>
-    {
-        val result: MutableList<Biome> = mutableListOf()
-
-        for (input in worldGenConfig)
+    /** A list of valid biomes. */
+    val biomes: List<Biome> = worldGenConfig.mapNotNull { input ->
+        val configInput = getConditionInput(getSplitInput(input))
+        if ("biome" inNotNull configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
         {
-            val configInput = getConditionInput(getSplitInput(input))
-            if ("biome" inNotNull configInput[0] && configInput.isNotNull(1) && configInput.isNotNull(2))
-            {
-                ForgeRegistries.BIOMES.getValue(ResourceLocation(configInput[1], configInput[2]))?.let { result.add(it) }
-            }
+            ForgeRegistries.BIOMES.getValue(ResourceLocation(configInput[1], configInput[2]))
         }
-        return result
+        else null
     }
 
-    /**
-     * Returns a list of BiomeDictionary Types.
-     */
-    fun getTypes(): List<BiomeDictionary.Type>
-    {
-        val result: MutableList<BiomeDictionary.Type> = mutableListOf()
-
-        for (input in worldGenConfig)
+    /** A list of valid BiomeDictionary Types. */
+    val types: List<BiomeDictionary.Type> = worldGenConfig.mapNotNull { input ->
+        val configInput = getConditionInput(getSplitInput(input))
+        if ("type" inNotNull configInput[0] && configInput.isNotNull(1))
         {
-            val configInput = getConditionInput(getSplitInput(input))
-            if ("type" inNotNull configInput[0] && configInput.isNotNull(1))
-            {
-                result.add(BiomeDictionary.Type.getType(configInput[1]))
-            }
+            BiomeDictionary.Type.getType(configInput[1])
         }
-        return result
+        else null
     }
 
-    /**
-     * Returns the valid dimension ID for this configuration.
-     */
-    fun getDimension(): Int
-    {
-        return if (getSplitInput(indexedInput).isNotNull(0)) getSplitInput(indexedInput)[0].toInt() else 0
-    }
+    /** The valid dimension ID for this configuration. */
+    val dimension: Int = if (getSplitInput(indexedInput).isNotNull(0)) getSplitInput(indexedInput)[0].toInt() else 0
 
     /**
      * 1. Checks if the dimension is valid.
@@ -108,14 +79,11 @@ class WorldGenParser(private val indexedInput: String, private val worldGenConfi
      */
     fun canGenerate(biome: Biome, dimension: Int): Boolean
     {
-        if (dimension != getDimension()) return false
+        if (dimension != this.dimension) return false
 
         val configInput = getConditionInput(getSplitInput(indexedInput))
         if (configInput.isNotNull(0))
         {
-            val types = getTypes()
-            val biomes = getBiomes()
-
             when
             {
                 // Inverted
@@ -140,18 +108,7 @@ class WorldGenParser(private val indexedInput: String, private val worldGenConfi
         return false // Fallback to false
     }
 
-    fun getGenerationChance(): Double
-    {
-        return if (getSplitInput(indexedInput).isNotNull(2)) getSplitInput(indexedInput)[2].toDouble() else 0.0
-    }
-
-    fun getPatchAttempts(): Int
-    {
-        return if (getSplitInput(indexedInput).isNotNull(3)) getSplitInput(indexedInput)[3].toInt() else 0
-    }
-
-    fun getPlantAttempts(): Int
-    {
-        return if (getSplitInput(indexedInput).isNotNull(4)) getSplitInput(indexedInput)[4].toInt() else 0
-    }
+    val generationChance: Double = if (getSplitInput(indexedInput).isNotNull(2)) getSplitInput(indexedInput)[2].toDouble() else 0.0
+    val patchAttempts: Int = if (getSplitInput(indexedInput).isNotNull(3)) getSplitInput(indexedInput)[3].toInt() else 0
+    val plantAttempts: Int = if (getSplitInput(indexedInput).isNotNull(4)) getSplitInput(indexedInput)[4].toInt() else 0
 }

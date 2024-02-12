@@ -47,7 +47,7 @@ object EventBonemeal
             {
                 val config = WorldGenParser(input, generator.block.worldGen)
 
-                if (rand.nextDouble() < config.getGenerationChance() && config.canGenerate(
+                if (rand.nextDouble() < config.generationChance && config.canGenerate(
                         world.getBiome(pos), event.world.provider.dimension
                     ))
                 {
@@ -55,13 +55,13 @@ object EventBonemeal
                     {
                         event.result = Event.Result.ALLOW
                         generator.generatePlants(
-                            config.getPlantAttempts() / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
+                            config.plantAttempts / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
                         )
                     }
                     else if (event.entityPlayer == Minecraft.getMinecraft().player)
                     {
                         Minecraft.getMinecraft().player.swingArm(event.hand!!)
-                        spawnParticles(config.getPatchAttempts() / 4, world, pos, rand)
+                        spawnParticles(config.patchAttempts / 4, world, pos, rand)
                     }
                 }
             }

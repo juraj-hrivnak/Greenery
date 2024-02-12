@@ -4,7 +4,7 @@ import java.io.File
 
 object FileUtils
 {
-    infix fun File.subfolder(subFileName: String): File
+    operator fun File.div(subFileName: String): File
     {
         this.mkdirs()
         val file = File(this, subFileName)
