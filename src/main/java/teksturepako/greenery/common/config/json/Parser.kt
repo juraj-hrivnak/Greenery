@@ -32,7 +32,7 @@ object Parser
         if (initialized) return else initialized = true
 
         emergentDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : EmergentPlantBase(it.name, it.maxAge)
+            Greenery.plants.add(object : EmergentPlantBase(it.name, it.maxAge ?: 3)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
@@ -45,7 +45,7 @@ object Parser
             })
         }
         submergedKelpLikeDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : KelpLikePlantBase(it.name, it.maxAge)
+            Greenery.plants.add(object : KelpLikePlantBase(it.name, it.maxAge ?: 15)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
@@ -58,7 +58,7 @@ object Parser
             })
         }
         submergedTallDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : TallSubmergedPlantBase(it.name, it.maxAge)
+            Greenery.plants.add(object : TallSubmergedPlantBase(it.name, it.maxAge ?: 1)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
@@ -71,7 +71,7 @@ object Parser
             })
         }
         uplandTallDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : TallPlantBase(it.name, it.maxAge)
+            Greenery.plants.add(object : TallPlantBase(it.name, it.maxAge ?: 3)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
