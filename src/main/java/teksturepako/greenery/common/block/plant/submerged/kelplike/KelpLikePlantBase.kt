@@ -3,7 +3,6 @@
 package teksturepako.greenery.common.block.plant.submerged.kelplike
 
 import net.minecraft.block.properties.PropertyBool
-import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.EntityLivingBase
@@ -18,48 +17,54 @@ import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 import kotlin.math.min
 
-abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
+abstract class KelpLikePlantBase(name: String, maxAge: Int) : AbstractSubmergedPlant(name, maxAge)
 {
-    companion object
-    {
-        const val MAX_AGE = 15
-        val IS_TOP_BLOCK: PropertyBool = PropertyBool.create("top")
-        val AGE: PropertyInteger = PropertyInteger.create("remaining_height", 0, MAX_AGE)
-    }
+    // -- BLOCK STATE --
+
+    private val topProperty: PropertyBool = PropertyBool.create("top")
+
+    override fun createPlantContainer(): BlockStateContainer =
+        BlockStateContainer(this, ageProperty, topProperty)
 
     init
     {
-        defaultState = blockState.baseState.withProperty(IS_TOP_BLOCK, false).withProperty(AGE, 0)
+        initBlockState()
+        defaultState = blockState.baseState
+            .withProperty(ageProperty, 0)
+            .withProperty(topProperty, false)
     }
 
-    override var ageProperty: PropertyInteger = AGE
-    override var maxAge: Int = MAX_AGE
-
-    override fun createBlockState(): BlockStateContainer
-    {
-        return BlockStateContainer(this, IS_TOP_BLOCK, AGE)
-    }
+    // -- BLOCK --
 
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         val hasKelpAbove = worldIn.getBlockState(pos.up()).block == this
-        return state.withProperty(IS_TOP_BLOCK, !hasKelpAbove)
+        return state.withProperty(topProperty, !hasKelpAbove)
     }
 
     // Block behavior
-    override fun getStateForPlacement(world: World, pos: BlockPos, facing: EnumFacing, hitX: Float, hitY: Float, hitZ: Float, meta: Int, placer: EntityLivingBase, hand: EnumHand): IBlockState
+    override fun getStateForPlacement(
+        world: World,
+        pos: BlockPos,
+        facing: EnumFacing,
+        hitX: Float,
+        hitY: Float,
+        hitZ: Float,
+        meta: Int,
+        placer: EntityLivingBase,
+        hand: EnumHand
+    ): IBlockState
     {
         val down = world.getBlockState(pos.down())
         val age = if (down.block == this)
         {
-            min(down.getValue(AGE) + 1, MAX_AGE)
-        }
-        else
+            min(down.getValue(ageProperty) + 1, maxAge)
+        } else
         {
-            Random().nextInt(MAX_AGE / 2)
+            Random().nextInt(maxAge / 2)
         }
 
-        return defaultState.withProperty(AGE, age)
+        return defaultState.withProperty(ageProperty, age)
     }
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
@@ -79,13 +84,12 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
             for (i in 0..height)
             {
                 val kelpPos = pos.up(i)
-                val state = this.defaultState.withProperty(this.ageProperty, i + startingAge)
+                val state = this.defaultState.withProperty(ageProperty, i + startingAge)
 
                 if (this.canGenerateBlockAt(world, kelpPos))
                 {
                     world.setBlockState(kelpPos, state, flags)
-                }
-                else break
+                } else break
             }
         }
     }
@@ -94,12 +98,12 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
     {
         if (worldIn.isRemote) return
         if (!worldIn.isBlockLoaded(pos.up())) return
-        val age = state.getValue(AGE)
-        if (age < MAX_AGE && rand.nextDouble() < 0.14)
+        val age = state.getValue(ageProperty)
+        if (age < maxAge && rand.nextDouble() < 0.14)
         {
             if (canGenerateBlockAt(worldIn, pos.up()))
             {
-                val newBlockState = defaultState.withProperty(AGE, age + 1)
+                val newBlockState = defaultState.withProperty(ageProperty, age + 1)
                 if (canBlockStay(worldIn, pos.up(), state))
                 {
                     worldIn.setBlockState(pos.up(), newBlockState)
@@ -124,17 +128,17 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
     {
         val topPos = getTopPosition(worldIn, pos)
-        val topAge = worldIn.getBlockState(topPos).getValue(AGE)
+        val topAge = worldIn.getBlockState(topPos).getValue(ageProperty)
 
-        return topAge < MAX_AGE && canGenerateBlockAt(worldIn, topPos.up())
+        return topAge < maxAge && canGenerateBlockAt(worldIn, topPos.up())
     }
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
     {
         val topPos = getTopPosition(worldIn, pos)
-        val topAge = worldIn.getBlockState(topPos).getValue(AGE)
+        val topAge = worldIn.getBlockState(topPos).getValue(ageProperty)
 
-        val newBlockState = defaultState.withProperty(AGE, topAge + 1)
+        val newBlockState = defaultState.withProperty(ageProperty, topAge + 1)
         worldIn.setBlockState(topPos.up(), newBlockState)
     }
 
@@ -142,9 +146,9 @@ abstract class KelpLikePlantBase(name: String) : AbstractSubmergedPlant(name)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(IS_TOP_BLOCK, true) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
-            actualState.withProperty(IS_TOP_BLOCK, false) -> BOTTOM_AABB.applyOffset(hasOffset, state, source, pos)
-            else -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(topProperty, true)  -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(topProperty, false) -> BOTTOM_AABB.applyOffset(hasOffset, state, source, pos)
+            else                                         -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
         }
     }
 }

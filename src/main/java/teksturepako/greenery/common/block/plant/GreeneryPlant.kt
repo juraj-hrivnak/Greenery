@@ -8,6 +8,7 @@ import net.minecraft.block.SoundType
 import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyInteger
 import net.minecraft.block.state.BlockFaceShape
+import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
@@ -23,7 +24,9 @@ import net.minecraft.util.math.MathHelper
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
+import net.minecraftforge.common.EnumPlantType
 import net.minecraftforge.common.ForgeHooks
+import net.minecraftforge.common.IPlantable
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
@@ -35,22 +38,9 @@ import java.util.*
 /**
  * Base class for creating Greenery plants.
  */
-abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
+abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowable, IPlantable
 {
-    companion object
-    {
-        const val MAX_AGE = 3
-        val AGE: PropertyInteger = PropertyInteger.create("age", 0, MAX_AGE)
-    }
-
-    init
-    {
-        this.setTickRandomly(true)
-        this.setHardness(0.0f)
-        this.setSoundType(SoundType.PLANT)
-        this.disableStats()
-        this.setLightOpacity(0)
-    }
+    // -- PLANT PROPERTIES --
 
     /**
      * Contains world gen configuration.
@@ -63,6 +53,12 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
      * Can be reassigned at runtime.
      */
     abstract var drops: MutableList<String>
+
+    /**
+     * Determines whether this block can grow.
+     * Can be reassigned at runtime.
+     */
+    abstract var canGrow: Boolean
 
     /**
      * Determines whether this block and its itemBlock has tint index.
@@ -87,6 +83,32 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
      * Can be reassigned at runtime.
      */
     abstract var isHarmful: Boolean
+
+    // -- BLOCK STATE --
+
+    /** Use [createPlantContainer] instead. */
+    override fun createBlockState(): BlockStateContainer = BlockStateContainer(this)
+
+    val ageProperty: PropertyInteger = PropertyInteger.create("age", 0, maxAge)
+
+    protected fun initBlockState()
+    {
+        val stateContainer: BlockStateContainer = createPlantContainer()
+        this.blockState = stateContainer
+        defaultState = stateContainer.baseState
+    }
+
+    abstract fun createPlantContainer(): BlockStateContainer
+
+    open fun isMaxAge(state: IBlockState): Boolean = state.getValue(ageProperty) as Int >= maxAge
+
+    open fun getAge(state: IBlockState): Int = state.getValue(ageProperty) as Int
+    open fun withAge(age: Int): IBlockState = this.defaultState.withProperty(ageProperty, age)
+
+    override fun getStateFromMeta(meta: Int): IBlockState = withAge(meta)
+    override fun getMetaFromState(state: IBlockState): Int = getAge(state)
+
+    // -- BLOCK --
 
     /**
      * Used to place the block on world generation.
@@ -124,19 +146,6 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
      */
     @SideOnly(Side.CLIENT)
     open fun registerBlockColorHandler(event: ColorHandlerEvent.Block) = Greenery.proxy.registerGrassColorHandler(this, event)
-
-    //--------------//
-    // Block states //
-    open var ageProperty: PropertyInteger = AGE
-    open fun getAge(state: IBlockState): Int = state.getValue(ageProperty) as Int
-    open fun withAge(age: Int): IBlockState = this.defaultState.withProperty(ageProperty, age)
-
-    open var maxAge: Int = MAX_AGE
-    open fun isMaxAge(state: IBlockState): Boolean = state.getValue(ageProperty) as Int >= maxAge
-
-    override fun getStateFromMeta(meta: Int): IBlockState = withAge(meta)
-    override fun getMetaFromState(state: IBlockState): Int = getAge(state)
-    //--------------//
 
     /**
      * Determines whether the block can stay on its position, based on its surroundings.
@@ -199,6 +208,11 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
         return BlockFaceShape.UNDEFINED
     }
 
+    override fun setTickRandomly(shouldTick: Boolean): Block
+    {
+        return if (this.canGrow) super.setTickRandomly(true) else super.setTickRandomly(shouldTick)
+    }
+
     override fun updateTick(worldIn: World, pos: BlockPos, state: IBlockState, rand: Random)
     {
         if (getAge(state) <= maxAge && canBlockStay(worldIn, pos, state))
@@ -221,8 +235,8 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
     override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean = true
     override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int = 300
 
-    //--------------------------//
-    // IGrowable implementation //
+    // -- IGrowable Implementation --
+
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean = !isMaxAge(state)
     override fun canUseBonemeal(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState): Boolean = true
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
@@ -238,4 +252,18 @@ abstract class GreeneryPlant : Block(Material.PLANTS), IGrowable
         }
         worldIn.setBlockState(pos, withAge(newAge), 2)
     }
+
+    // -- IPlantable Implementation --
+
+    override fun getPlantType(world: IBlockAccess, pos: BlockPos): EnumPlantType = EnumPlantType.Plains
+    override fun getPlant(world: IBlockAccess, pos: BlockPos): IBlockState = getBlockState().baseState
+
+    init
+    {
+        this.setHardness(0.0f)
+        this.setSoundType(SoundType.PLANT)
+        this.disableStats()
+        this.setLightOpacity(0)
+    }
+
 }

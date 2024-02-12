@@ -25,16 +25,13 @@ import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
 import java.util.*
 
-abstract class AbstractSubmergedPlant(val name: String) : GreeneryPlant(), IFluidloggable
+abstract class AbstractSubmergedPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable
 {
     abstract var compatibleFluids: MutableList<String>
 
-    companion object
-    {
-        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
-        val TOP_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
-        val BOTTOM_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
-    }
+    val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
+    val TOP_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9)
+    val BOTTOM_AABB = AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.00, 0.9)
 
     init
     {

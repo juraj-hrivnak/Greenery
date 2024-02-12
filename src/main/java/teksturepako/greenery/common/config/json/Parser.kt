@@ -32,11 +32,12 @@ object Parser
         if (initialized) return else initialized = true
 
         emergentDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : EmergentPlantBase(it.name)
+            Greenery.plants.add(object : EmergentPlantBase(it.name, it.maxAge)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
+                override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
@@ -44,11 +45,12 @@ object Parser
             })
         }
         submergedKelpLikeDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : KelpLikePlantBase(it.name)
+            Greenery.plants.add(object : KelpLikePlantBase(it.name, it.maxAge)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
+                override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
@@ -56,11 +58,12 @@ object Parser
             })
         }
         submergedTallDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : TallSubmergedPlantBase(it.name)
+            Greenery.plants.add(object : TallSubmergedPlantBase(it.name, it.maxAge)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var compatibleFluids = it.compatibleFluids
+                override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
@@ -68,10 +71,11 @@ object Parser
             })
         }
         uplandTallDir.getPlantDataFromFiles {
-            Greenery.plants.add(object : TallPlantBase(it.name)
+            Greenery.plants.add(object : TallPlantBase(it.name, it.maxAge)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
+                override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
@@ -95,6 +99,7 @@ object Parser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
+                        plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
@@ -107,6 +112,7 @@ object Parser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
+                        plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
@@ -119,6 +125,7 @@ object Parser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.compatibleFluids = it.compatibleFluids
+                        plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
@@ -130,6 +137,7 @@ object Parser
                     {
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
+                        plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful

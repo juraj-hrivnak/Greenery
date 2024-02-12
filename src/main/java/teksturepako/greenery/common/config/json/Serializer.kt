@@ -31,12 +31,13 @@ object Serializer
             submergedKelpLikePlants to submergedKelpLikeDir,
             submergedTallPlants to submergedTallDir,
             uplandTallPlants to uplandTallDir
-        ).forEach { (plants, file) ->
-            plants.forEach { data ->
-                if (!File(file, "${data.name}.json").exists())
+        ).forEach { (plants, dir) ->
+            plants.forEach { plantData ->
+                val file = File(dir, "${plantData.name}.json")
+                if (!file.exists())
                 {
-                    FileOutputStream(File(file, "${data.name}.json")).use {
-                        json.encodeToStream(data, it)
+                    FileOutputStream(file).use {
+                        json.encodeToStream(plantData, it)
                     }
                 }
             }

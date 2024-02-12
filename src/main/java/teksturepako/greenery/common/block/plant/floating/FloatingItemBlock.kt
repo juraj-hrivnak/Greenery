@@ -20,7 +20,7 @@ import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 
-abstract class AbstractFloatingItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
+class FloatingItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
 {
     companion object
     {
@@ -34,7 +34,7 @@ abstract class AbstractFloatingItemBlock(name: String, private val blockToUse: B
         creativeTab = Greenery.creativeTab
     }
 
-    fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
+    private fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
     {
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))

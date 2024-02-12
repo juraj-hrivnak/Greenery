@@ -10,23 +10,26 @@ import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import teksturepako.greenery.common.util.Utils.applyOffset
 
-abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
+abstract class TallPlantBase(name: String, maxAge: Int) : AbstractTallPlant(name, maxAge)
 {
-    companion object
-    {
-        val TOP: PropertyBool = PropertyBool.create("top")
-        val SINGLE: PropertyBool = PropertyBool.create("single")
-    }
+    // -- BLOCK STATES --
+
+    private val topProperty: PropertyBool = PropertyBool.create("top")
+    private val singleProperty: PropertyBool = PropertyBool.create("single")
+
+    override fun createPlantContainer(): BlockStateContainer =
+        BlockStateContainer(this, ageProperty, topProperty, singleProperty)
 
     init
     {
-        defaultState = blockState.baseState.withProperty(AGE, 0).withProperty(TOP, true).withProperty(SINGLE, false)
+        initBlockState()
+        defaultState = blockState.baseState
+            .withProperty(ageProperty, 0)
+            .withProperty(topProperty, true)
+            .withProperty(singleProperty, false)
     }
 
-    override fun createBlockState(): BlockStateContainer
-    {
-        return BlockStateContainer(this, AGE, TOP, SINGLE)
-    }
+    // -- BLOCK --
 
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
@@ -37,9 +40,9 @@ abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
 
         return when
         {
-            hasTheSameBlockBelow -> state.withProperty(TOP, true).withProperty(SINGLE, false)
-            hasTheSameBlockAbove -> state.withProperty(TOP, false).withProperty(SINGLE, false)
-            else -> state.withProperty(TOP, true).withProperty(SINGLE, true)
+            hasTheSameBlockBelow -> state.withProperty(topProperty, true).withProperty(singleProperty, false)
+            hasTheSameBlockAbove -> state.withProperty(topProperty, false).withProperty(singleProperty, false)
+            else -> state.withProperty(topProperty, true).withProperty(singleProperty, true)
         }
     }
 
@@ -47,9 +50,9 @@ abstract class TallPlantBase(name: String) : AbstractTallPlant(name)
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(TOP, true) -> GRASS_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
-            actualState.withProperty(TOP, false) -> GRASS_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
-            else -> GRASS_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(topProperty, true)  -> GRASS_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(topProperty, false) -> GRASS_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            else                                         -> GRASS_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
         }
     }
 }

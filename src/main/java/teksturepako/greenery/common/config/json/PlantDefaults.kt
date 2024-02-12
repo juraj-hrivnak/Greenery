@@ -3,25 +3,29 @@
 package teksturepako.greenery.common.config.json
 
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.util.FileUtils.subfolder
+import teksturepako.greenery.common.util.FileUtils.div
 
 object PlantDefaults
 {
 
-    val plantDir = Greenery.configFolder subfolder "plants"
+    val plantDir = Greenery.configFolder / "plants"
 
-    val emergentDir = plantDir subfolder "emergent"
+    val emergentDir = plantDir / "emergent"
 
-    val submergedDir = plantDir subfolder "submerged"
-    val submergedKelpLikeDir = submergedDir subfolder "kelp_like"
-    val submergedTallDir = submergedDir subfolder "tall"
+    val floatingDir = plantDir / "floating"
 
-    val uplandDir = plantDir subfolder "upland"
-    val uplandTallDir = uplandDir subfolder "tall"
+    val submergedDir = plantDir / "submerged"
+    val submergedKelpLikeDir = submergedDir / "kelp_like"
+    val submergedTallDir = submergedDir / "tall"
+
+    val uplandDir = plantDir / "upland"
+    val uplandSingleDir = uplandDir / "single"
+    val uplandTallDir = uplandDir / "tall"
 
     val emergentPlants = listOf(
         PlantData(
             name = "cattail",
+            maxAge = 3,
             worldGen = mutableListOf(
                 "0 | type:river | 0.5 | 16 | 64",
                 "0 | type:wet | 0.5 | 16 | 64",
@@ -34,6 +38,7 @@ object PlantDefaults
         ),
         PlantData(
             name = "arrowhead",
+            maxAge = 3,
             worldGen = mutableListOf(
                 "0 | type:river | 0.5 | 16 | 64",
                 "0 | type:wet | 0.5 | 16 | 64",
@@ -47,6 +52,7 @@ object PlantDefaults
         ),
         PlantData(
             name = "pickerelweed",
+            maxAge = 3,
             worldGen = mutableListOf(
                 "0 | type:river | 0.5 | 16 | 64",
                 "0 | type:wet | 0.5 | 16 | 64",
@@ -62,10 +68,12 @@ object PlantDefaults
     val submergedKelpLikePlants = listOf(
         PlantData(
             name = "kelp",
+            maxAge = 15,
             worldGen = mutableListOf(
                 "0 | type:ocean | 0.5 | 14 | 64",
                 "0 | type:beach | 0.5 | 14 | 64"
             ),
+            drops = mutableListOf("this | 1.0"),
             compatibleFluids = mutableListOf("water"),
             hasOffset = false,
             isSolid = false,
@@ -76,19 +84,23 @@ object PlantDefaults
     val submergedTallPlants = listOf(
         PlantData(
             name = "seagrass",
+            maxAge = 1,
             worldGen = mutableListOf(
                 "0 | type:ocean | 1.0 | 24 | 64",
                 "0 | type:beach | 1.0 | 24 | 64"
             ),
+            drops = mutableListOf("this | 1.0"),
             compatibleFluids = mutableListOf("water"),
             isSolid = false,
             isHarmful = false
         ),
         PlantData(
             name = "watermilfoil",
+            maxAge = 1,
             worldGen = mutableListOf(
                 "0 | type:river | 1.0 | 32 | 64"
             ),
+            drops = mutableListOf("this | 1.0"),
             compatibleFluids = mutableListOf("water"),
             isSolid = false,
             isHarmful = false
@@ -98,6 +110,7 @@ object PlantDefaults
     val uplandTallPlants = listOf(
         PlantData(
             name = "foxtail",
+            maxAge = 3,
             worldGen = mutableListOf(
                 "0 | !type:savanna | 1.0 | 16 | 64",
                 "0 | !type:plains | 1.0 | 16 | 64",
@@ -112,6 +125,7 @@ object PlantDefaults
         ),
         PlantData(
             name = "eagle_fern",
+            maxAge = 3,
             worldGen = mutableListOf("0 | anywhere | 1.0 | 16 | 32"),
             drops = mutableListOf("seeds | 0.2"),
             hasTintIndex = true,
@@ -120,6 +134,7 @@ object PlantDefaults
         ),
         PlantData(
             name = "ryegrass",
+            maxAge = 3,
             worldGen = mutableListOf(
                 "0 | type:savanna | 1.0 | 32 | 64",
                 "0 | type:plains | 1.0 | 32 | 64",
@@ -134,12 +149,14 @@ object PlantDefaults
         ),
         PlantData(
             name = "nettle",
+            maxAge = 3,
             worldGen = mutableListOf("0 | anywhere | 0.5 | 8 | 32"),
             isSolid = false,
             isHarmful = true
         ),
         PlantData(
             name = "barley",
+            maxAge = 3,
             worldGen = mutableListOf(
                 "0 | type:dry | 0.5 | 1 | 8",
                 "0 | type:sparse | 0.5 | 1 | 8",

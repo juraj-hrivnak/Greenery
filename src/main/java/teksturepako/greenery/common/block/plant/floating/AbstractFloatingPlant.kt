@@ -5,6 +5,7 @@ package teksturepako.greenery.common.block.plant.floating
 import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
+import net.minecraft.item.Item
 import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
@@ -14,7 +15,7 @@ import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.Utils.applyOffset
 
-abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
+abstract class AbstractFloatingPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
 {
     companion object
     {
@@ -33,6 +34,12 @@ abstract class AbstractFloatingPlant(name: String) : GreeneryPlant()
         translationKey = "${Greenery.MODID}.$name"
         soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
+    }
+
+    override fun createItemBlock(): Item
+    {
+        itemBlock = FloatingItemBlock(name, this)
+        return itemBlock
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)

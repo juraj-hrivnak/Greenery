@@ -19,7 +19,7 @@ import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
-abstract class AbstractSinglePlant(name: String) : GreeneryPlant()
+abstract class AbstractSinglePlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
 {
     companion object
     {

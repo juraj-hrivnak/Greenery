@@ -16,24 +16,21 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import java.util.*
 
-abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
+abstract class AbstractTallPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
 {
-    companion object
-    {
-        val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
-        val GRASS_TOP_AABB = arrayOf(
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
-        )
-        val GRASS_BOTTOM_AABB = arrayOf(
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
-        )
-    }
+    val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
+    val GRASS_TOP_AABB = arrayOf(
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
+    )
+    val GRASS_BOTTOM_AABB = arrayOf(
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
+    )
 
     init
     {
@@ -49,7 +46,7 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
         val down2 = worldIn.getBlockState(pos.down(2))
 
         return ((down.material in ALLOWED_SOILS || down.block == Blocks.DIRT)
-                || (down.block == this && getAge(down) == this.maxAge && down2.material in ALLOWED_SOILS))
+                || (down.block == this && getAge(down) == maxAge && down2.material in ALLOWED_SOILS))
     }
 
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
@@ -67,8 +64,8 @@ abstract class AbstractTallPlant(val name: String) : GreeneryPlant()
         if (world.isAirBlock(pos))
         {
             val startingAge = rand.nextInt(maxAge)
-            val state = this.defaultState.withProperty(this.ageProperty, startingAge)
-            val maxState = this.defaultState.withProperty(this.ageProperty, maxAge)
+            val state = this.defaultState.withProperty(ageProperty, startingAge)
+            val maxState = this.defaultState.withProperty(ageProperty, maxAge)
 
             if (this.canBlockStay(world, pos, state))
             {

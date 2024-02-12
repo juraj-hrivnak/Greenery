@@ -30,27 +30,40 @@ import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
-abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidloggable
+abstract class EmergentPlantBase(val name: String, maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable
 {
     abstract var compatibleFluids: MutableList<String>
 
-    companion object
+    private val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
+    private val WATER_CROP_TOP_AABB = arrayOf(
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
+    )
+    private val WATER_CROP_BOTTOM_AABB = arrayOf(
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
+    )
+
+    // -- BLOCK STATE --
+
+    private val topProperty: PropertyBool = PropertyBool.create("top")
+
+    override fun createPlantContainer(): BlockStateContainer =
+        BlockStateContainer(this, ageProperty, topProperty)
+
+    init
     {
-        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
-        val WATER_CROP_TOP_AABB = arrayOf(
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
-        )
-        val WATER_CROP_BOTTOM_AABB = arrayOf(
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
-        )
-        val TOP: PropertyBool = PropertyBool.create("top")
+        initBlockState()
+        defaultState = blockState.baseState
+            .withProperty(ageProperty, 0)
+            .withProperty(topProperty, true)
     }
+
+    // -- BLOCK --
 
     init
     {
@@ -58,21 +71,14 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         translationKey = "${Greenery.MODID}.$name"
         soundType = GreenerySoundTypes.SEAWEED
         creativeTab = Greenery.creativeTab
-
-        defaultState = blockState.baseState.withProperty(AGE, 0).withProperty(TOP, true)
-    }
-
-    override fun createBlockState(): BlockStateContainer
-    {
-        return BlockStateContainer(this, AGE, TOP)
     }
 
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         return when
         {
-            worldIn.getBlockState(pos.down()).block == this -> state.withProperty(TOP, true)
-            worldIn.getBlockState(pos.up()).block == this -> state.withProperty(TOP, false)
+            worldIn.getBlockState(pos.down()).block == this -> state.withProperty(topProperty, true)
+            worldIn.getBlockState(pos.up()).block == this -> state.withProperty(topProperty, false)
             else -> state // Keep the same state when breaking the block.
         }
     }
@@ -81,9 +87,9 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(TOP, true) -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
-            actualState.withProperty(TOP, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
-            else -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(topProperty, true)  -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(topProperty, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            else                                         -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
         }
     }
 
@@ -137,7 +143,7 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
     override fun onBlockPlacedBy(worldIn: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack)
     {
         val down = worldIn.getBlockState(pos.down())
-        if (down.block != this) worldIn.setBlockState(pos, this.defaultState.withProperty(AGE, 3))
+        if (down.block != this) worldIn.setBlockState(pos, this.defaultState.withProperty(ageProperty, 3))
         if (this.canBlockStay(worldIn, pos.up(), state))
         {
             worldIn.setBlockState(pos.up(), this.defaultState, 2)
@@ -175,7 +181,7 @@ abstract class EmergentPlantBase(val name: String) : GreeneryPlant(), IFluidlogg
         {
             val state = this.defaultState
 
-            world.setBlockState(pos, state.withProperty(this.ageProperty, maxAge), flags)
+            world.setBlockState(pos, state.withProperty(ageProperty, maxAge), flags)
 
             if (this.canBlockStay(world, pos.up(), state))
             {

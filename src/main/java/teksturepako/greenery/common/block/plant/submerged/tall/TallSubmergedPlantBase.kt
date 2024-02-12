@@ -14,9 +14,11 @@ import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
-abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(name)
+abstract class TallSubmergedPlantBase(name: String, maxAge: Int) : AbstractSubmergedPlant(name, maxAge)
 {
-    enum class Variant : IStringSerializable
+    // -- BLOCK STATE --
+
+    private enum class Variant : IStringSerializable
     {
         SINGLE, BOTTOM, TOP;
 
@@ -31,27 +33,25 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
         }
     }
 
-    companion object
-    {
-        val VARIANT: PropertyEnum<Variant> = PropertyEnum.create("variant", Variant::class.java)
-    }
+    private val variantProperty: PropertyEnum<Variant> = PropertyEnum.create("variant", Variant::class.java)
+
+    override fun createPlantContainer(): BlockStateContainer =
+        BlockStateContainer(this, ageProperty, variantProperty)
 
     init
     {
+        initBlockState()
         defaultState = blockState.baseState
-                .withProperty(VARIANT, Variant.SINGLE)
-                .withProperty(AGE, 0)
+            .withProperty(ageProperty, 0)
+            .withProperty(variantProperty, Variant.SINGLE)
     }
 
-    override fun createBlockState(): BlockStateContainer
-    {
-        return BlockStateContainer(this, VARIANT, AGE)
-    }
+    // -- BLOCK --
 
     override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
     {
         return state.withProperty(
-            VARIANT, when
+            variantProperty, when
             {
                 worldIn.getBlockState(pos.down()).block == this -> Variant.TOP
                 worldIn.getBlockState(pos.up()).block == this -> Variant.BOTTOM
@@ -90,7 +90,7 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean
     {
         val actualState = state.getActualState(worldIn, pos)
-        return actualState.getValue(VARIANT) == Variant.SINGLE && canGenerateBlockAt(worldIn, pos.up())
+        return actualState.getValue(variantProperty) == Variant.SINGLE && canGenerateBlockAt(worldIn, pos.up())
     }
 
     override fun grow(worldIn: World, rand: Random, pos: BlockPos, state: IBlockState)
@@ -105,10 +105,10 @@ abstract class TallSubmergedPlantBase(name: String) : AbstractSubmergedPlant(nam
     {
         return when (val actualState = getActualState(state, source, pos))
         {
-            actualState.withProperty(VARIANT, Variant.TOP) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
-            actualState.withProperty(VARIANT, Variant.SINGLE) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
-            actualState.withProperty(VARIANT, Variant.BOTTOM) -> BOTTOM_AABB.applyOffset(hasOffset, state, source, pos)
-            else -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(variantProperty, Variant.TOP)    -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(variantProperty, Variant.SINGLE) -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
+            actualState.withProperty(variantProperty, Variant.BOTTOM) -> BOTTOM_AABB.applyOffset(hasOffset, state, source, pos)
+            else                                                      -> TOP_AABB.applyOffset(hasOffset, state, source, pos)
         }
     }
 }
