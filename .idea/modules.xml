@@ -6,12 +6,12 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.api.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.ideVirtualMain.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.ideVirtualMain.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.injectedTags.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.injectedTags.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.mcLauncher.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.mcLauncher.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.patchedMc.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.patchedMc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.ideVirtualMain.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.ideVirtualMain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.injectedTags.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.injectedTags.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.mcLauncher.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.mcLauncher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.patchedMc.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.patchedMc.iml" />
     </modules>
   </component>
 </project>
