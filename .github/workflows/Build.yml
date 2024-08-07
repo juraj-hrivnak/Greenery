@@ -44,12 +44,15 @@ jobs:
             *) rel_type="release" ;;
           esac
 
-          changelog_text=$(< NEW_CHANGELOG.md)
-
           echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
           echo "version=${latest_tag}#v" >> $GITHUB_OUTPUT
           echo "rel_type=$rel_type" >> $GITHUB_OUTPUT
-          echo "changelog_text=$changelog_text" >> $GITHUB_OUTPUT
+          
+          {
+            echo 'changelog_text<<EOF'
+            $(< NEW_CHANGELOG.md)
+            echo EOF
+          } >> $GITHUB_OUTPUT
 
       - name: Upload Changelog
         uses: actions/upload-artifact@v4
