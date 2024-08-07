@@ -47,7 +47,7 @@ jobs:
           echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
           echo "version=${latest_tag}#v" >> $GITHUB_OUTPUT
           echo "rel_type=$rel_type" >> $GITHUB_OUTPUT
-          
+
           {
             echo 'changelog_text<<EOF'
             cat ./NEW_CHANGELOG.md
@@ -144,7 +144,7 @@ jobs:
         with:
           token: ${{ secrets.CF_TOKEN }}
           project_id: 574029
-          file_path: Greenery-1.12.2-${{ needs.changelog.outputs.version }}.zip
+          file_path: jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.zip
           display_name: Greenery-1.12.2-${{ needs.changelog.outputs.version }}
           changelog: ${{ needs.changelog.outputs.changelog_text }}
           changelog_type: markdown
@@ -172,10 +172,16 @@ jobs:
             path: jar
 
       - name: Upload to Modrinth
-        uses: cloudnode-pro/modrinth-publish@1.0.0
+        uses: dsx137/modrinth-release-action@1.0.1
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MR_TOKEN }}
         with:
-         token: ${{ secrets.MR_TOKEN }}
-         project: EVaCo3rr
-         file: Greenery-1.12.2-${{ needs.changelog.outputs.version }}.zip
-         changelog: ${{ needs.changelog.outputs.changelog_text }}
-         loaders: "forge"
+          name: Greenery-1.12.2-${{ needs.changelog.outputs.version }}
+          project_id: EVaCo3rr
+          loaders: forge
+          game_versions: 1.12.2, 1.12.1, 1.12
+          version_number: ${{ needs.changelog.outputs.version }}
+          changelog: ${{ needs.changelog.outputs.changelog_text }}
+          version_type: ${{ needs.changelog.outputs.rel_type }}
+          files: |
+            jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.zip
