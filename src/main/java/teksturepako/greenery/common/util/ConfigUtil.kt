@@ -6,7 +6,6 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.world.WorldGenParser
 import teksturepako.greenery.common.world.gen.IPlantGenerator
-import java.util.*
 
 object ConfigUtil
 {

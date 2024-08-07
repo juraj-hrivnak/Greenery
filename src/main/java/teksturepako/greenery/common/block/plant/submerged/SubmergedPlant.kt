@@ -2,7 +2,6 @@ package teksturepako.greenery.common.block.plant.submerged
 
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.Entity
 import net.minecraft.entity.player.EntityPlayer
@@ -23,7 +22,6 @@ import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
-import teksturepako.greenery.common.util.MaterialUtil
 import java.util.*
 
 abstract class SubmergedPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable

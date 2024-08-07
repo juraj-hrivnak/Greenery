@@ -3,7 +3,6 @@
 package teksturepako.greenery.common.block.plant.upland.single
 
 import net.minecraft.block.SoundType
-import net.minecraft.block.material.Material
 import net.minecraft.block.state.IBlockState
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.init.Items
