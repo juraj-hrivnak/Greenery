@@ -7,12 +7,13 @@ import kotlinx.serialization.Transient
 @Serializable
 data class PlantData(
         @Transient var name: String = "",
-        val maxAge: Int? = null,
+        val maxAge: Int? = null, // Backward compat
         var canGrow: Boolean = true,
 
-        var worldGen: MutableList<String> = ArrayList(),
-        var drops: MutableList<String> = ArrayList(),
-        var compatibleFluids: MutableList<String> = ArrayList(),
+        var worldGen: List<String> = listOf(),
+        var drops: List<String> = listOf(),
+        val allowedSoils: List<String>? = null, // Backward compat
+        var compatibleFluids: List<String> = listOf(),
         var hasTintIndex: Boolean = false,
         var hasOffset: Boolean = true,
         var isSolid: Boolean = false,

@@ -7,12 +7,12 @@ import net.minecraftforge.fluids.Fluid
 
 object FluidUtil
 {
-    fun areFluidsValid(fluids: MutableList<String>, fluid: Fluid): Boolean
+    fun areFluidsValid(fluids: List<String>, fluid: Fluid): Boolean
     {
         return fluid.name in fluids
     }
 
-    fun canGenerateInFluids(fluids: MutableList<String>, world: World, pos: BlockPos): Boolean
+    fun canGenerateInFluids(fluids: List<String>, world: World, pos: BlockPos): Boolean
     {
         val block = world.getBlockState(pos).block
         return if (block is IFluidloggableFluid && (block as IFluidloggableFluid).isFluidloggableFluid)

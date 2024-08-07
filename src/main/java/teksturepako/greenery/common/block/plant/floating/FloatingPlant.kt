@@ -15,11 +15,10 @@ import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.Utils.applyOffset
 
-abstract class AbstractFloatingPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
+abstract class FloatingPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
 {
     companion object
     {
-        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
         val WATER_CROP_AABB = arrayOf(
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
@@ -27,6 +26,8 @@ abstract class AbstractFloatingPlant(val name: String, maxAge: Int) : GreeneryPl
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
         )
     }
+
+    // -- BLOCK --
 
     init
     {
@@ -52,18 +53,12 @@ abstract class AbstractFloatingPlant(val name: String, maxAge: Int) : GreeneryPl
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
         val down = worldIn.getBlockState(pos.down())
-        val down2 = worldIn.getBlockState(pos.down(2))
 
-        return if ((worldIn.isAirBlock(pos) || worldIn.getBlockState(pos).block == this) && down.material == Material.WATER)
-        {
-            down2.material in ALLOWED_SOILS
-        }
-        else false
+        return (worldIn.isAirBlock(pos) || worldIn.getBlockState(pos).block == this) && down.material == Material.WATER
     }
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
     {
         return WATER_CROP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
     }
-
 }

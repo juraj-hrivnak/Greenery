@@ -16,14 +16,14 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
+import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
-abstract class AbstractSinglePlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
+abstract class SingleUplandPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge)
 {
     companion object
     {
-        val ALLOWED_SOILS = setOf<Material>(Material.GRASS)
         val AABB = arrayOf(
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
@@ -31,6 +31,8 @@ abstract class AbstractSinglePlant(val name: String, maxAge: Int) : GreeneryPlan
             AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
         )
     }
+
+    // -- BLOCK --
 
     init
     {
@@ -42,8 +44,10 @@ abstract class AbstractSinglePlant(val name: String, maxAge: Int) : GreeneryPlan
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
+        val materials = MaterialUtil.materialsOf(allowedSoils)
+
         val down = worldIn.getBlockState(pos.down())
-        return down.material in ALLOWED_SOILS
+        return down.material in materials
     }
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB

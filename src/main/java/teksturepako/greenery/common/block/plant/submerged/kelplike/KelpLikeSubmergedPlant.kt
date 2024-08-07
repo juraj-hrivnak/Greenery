@@ -12,19 +12,20 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
-import teksturepako.greenery.common.block.plant.submerged.AbstractSubmergedPlant
+import teksturepako.greenery.common.block.plant.submerged.SubmergedPlant
+import teksturepako.greenery.common.block.plantContainer
+import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 import kotlin.math.min
 
-abstract class KelpLikePlantBase(name: String, maxAge: Int) : AbstractSubmergedPlant(name, maxAge)
+abstract class KelpLikeSubmergedPlant(name: String, maxAge: Int) : SubmergedPlant(name, maxAge)
 {
     // -- BLOCK STATE --
 
     private val topProperty: PropertyBool = PropertyBool.create("top")
 
-    override fun createPlantContainer(): BlockStateContainer =
-        BlockStateContainer(this, ageProperty, topProperty)
+    override fun createPlantContainer(): BlockStateContainer = plantContainer(ageProperty, topProperty)
 
     init
     {
@@ -71,7 +72,10 @@ abstract class KelpLikePlantBase(name: String, maxAge: Int) : AbstractSubmergedP
     {
         // Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
-        return if (down.block == this) true else down.material in ALLOWED_SOILS
+
+        val materials = MaterialUtil.materialsOf(allowedSoils)
+
+        return if (down.block == this) true else down.material in materials
     }
 
     override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)

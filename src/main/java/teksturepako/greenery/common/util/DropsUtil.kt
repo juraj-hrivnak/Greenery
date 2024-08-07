@@ -13,7 +13,7 @@ import teksturepako.greenery.common.util.Utils.isNotNull
 
 object DropsUtil
 {
-    fun getDrops(dropsList: MutableList<String>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int): List<ItemStack>
+    fun getDrops(dropsList: List<String>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int): List<ItemStack>
     {
         val drops: MutableList<ItemStack> = ArrayList()
         val random = (world as World).rand

@@ -34,7 +34,6 @@ import teksturepako.greenery.common.world.gen.PlantGenerator
 import teksturepako.greenery.proxy.IProxy
 import java.io.File
 
-
 @Mod(
     modid = Greenery.MODID,
     name = Greenery.NAME,
@@ -43,7 +42,6 @@ import java.io.File
     acceptedMinecraftVersions = Greenery.ACCEPTED_MINECRAFT_VERSIONS,
     modLanguageAdapter = Greenery.ADAPTER
 )
-
 @Mod.EventBusSubscriber
 object Greenery
 {

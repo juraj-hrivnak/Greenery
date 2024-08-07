@@ -4,7 +4,6 @@ package teksturepako.greenery.common.block.plant.emergent
 
 import git.jbredwards.fluidlogged_api.api.block.IFluidloggable
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import net.minecraft.block.material.Material
 import net.minecraft.block.properties.PropertyBool
 import net.minecraft.block.state.BlockStateContainer
 import net.minecraft.block.state.IBlockState
@@ -27,26 +26,29 @@ import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
+import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
-abstract class EmergentPlantBase(val name: String, maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable
+abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable
 {
-    abstract var compatibleFluids: MutableList<String>
+    abstract var compatibleFluids: List<String>
 
-    private val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
-    private val WATER_CROP_TOP_AABB = arrayOf(
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
-    )
-    private val WATER_CROP_BOTTOM_AABB = arrayOf(
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
-        AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
-    )
+    companion object
+    {
+        private val WATER_CROP_TOP_AABB = arrayOf(
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
+        )
+        private val WATER_CROP_BOTTOM_AABB = arrayOf(
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 1.0, 0.9)
+        )
+    }
 
     // -- BLOCK STATE --
 
@@ -169,10 +171,12 @@ abstract class EmergentPlantBase(val name: String, maxAge: Int) : GreeneryPlant(
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
+        val materials = MaterialUtil.materialsOf(allowedSoils)
+
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
-        return if (down.material in ALLOWED_SOILS) true
-        else down.block == this && down2.block != this
+
+        return if (down.material in materials) true else down.block == this && down2.block != this
     }
 
     override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)

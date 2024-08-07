@@ -34,6 +34,6 @@ object Deserializer
 
     private fun String.toSnakeCase(): String
     {
-        return camelRegex.replace(this) { "_${it.value}" }.lowercase(Locale.getDefault())
+        return camelRegex.replace(this) { "_${it.value}" }.lowercase()
     }
 }

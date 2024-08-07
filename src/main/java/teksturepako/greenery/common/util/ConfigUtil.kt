@@ -82,7 +82,7 @@ object ConfigUtil
             {
                 if (printErrors)
                 {
-                    Greenery.logger.error("    > Invalid biome dictionary type: \"${type.name.lowercase(Locale.getDefault())}\"")
+                    Greenery.logger.error("    > Invalid biome dictionary type: \"${type.name.lowercase()}\"")
                 }
                 return true
             }

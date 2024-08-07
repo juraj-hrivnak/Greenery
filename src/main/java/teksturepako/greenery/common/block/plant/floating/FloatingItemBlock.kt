@@ -1,8 +1,6 @@
 package teksturepako.greenery.common.block.plant.floating
 
 import net.minecraft.advancements.CriteriaTriggers
-import net.minecraft.block.Block
-import net.minecraft.block.material.Material
 import net.minecraft.entity.player.EntityPlayer
 import net.minecraft.entity.player.EntityPlayerMP
 import net.minecraft.init.SoundEvents
@@ -10,7 +8,6 @@ import net.minecraft.item.ItemBlock
 import net.minecraft.item.ItemStack
 import net.minecraft.stats.StatList
 import net.minecraft.util.*
-import net.minecraft.util.math.BlockPos
 import net.minecraft.util.math.RayTraceResult
 import net.minecraft.world.World
 import net.minecraftforge.client.event.ColorHandlerEvent
@@ -19,31 +16,15 @@ import net.minecraftforge.event.ForgeEventFactory
 import net.minecraftforge.fml.relauncher.Side
 import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.block.plant.GreeneryPlant
 
-class FloatingItemBlock(name: String, private val blockToUse: Block) : ItemBlock(blockToUse)
+class FloatingItemBlock(name: String, private val blockToUse: GreeneryPlant) : ItemBlock(blockToUse)
 {
-    companion object
-    {
-        val ALLOWED_SOILS = setOf<Material>(Material.GROUND, Material.SAND, Material.GRASS, Material.CLAY, Material.ROCK)
-    }
-
     init
     {
         setRegistryName("plant/floating/$name")
         translationKey = "${Greenery.MODID}.$name"
         creativeTab = Greenery.creativeTab
-    }
-
-    private fun canBlockStay(worldIn: World, pos: BlockPos): Boolean
-    {
-        val down = worldIn.getBlockState(pos.down())
-        val down2 = worldIn.getBlockState(pos.down(2))
-
-        return if (worldIn.isAirBlock(pos) && down.material == Material.WATER)
-        {
-            down2.material in ALLOWED_SOILS
-        }
-        else false
     }
 
     @SideOnly(Side.CLIENT)
@@ -58,59 +39,46 @@ class FloatingItemBlock(name: String, private val blockToUse: Block) : ItemBlock
         Greenery.proxy.registerItemColorHandler(this, event)
     }
 
-    override fun onItemRightClick(worldIn: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack>
+    override fun onItemRightClick(world: World, playerIn: EntityPlayer, handIn: EnumHand): ActionResult<ItemStack>
     {
-        val itemstack = playerIn.getHeldItem(handIn)
-        val raytraceresult = rayTrace(worldIn, playerIn, true)
-        return if (raytraceresult == null)
+        val heldItem = playerIn.getHeldItem(handIn)
+        val rayTraceResult = rayTrace(world, playerIn, true) ?: return ActionResult(EnumActionResult.PASS, heldItem)
+
+        if (rayTraceResult.typeOfHit != RayTraceResult.Type.BLOCK) return ActionResult(EnumActionResult.FAIL, heldItem)
+
+        val blockPos = rayTraceResult.blockPos
+
+        val isBlockModifiable = world.isBlockModifiable(playerIn, blockPos)
+        val canPlayerEdit = playerIn.canPlayerEdit(blockPos.offset(rayTraceResult.sideHit), rayTraceResult.sideHit, heldItem)
+
+        if (!isBlockModifiable || !canPlayerEdit) return ActionResult(EnumActionResult.FAIL, heldItem)
+
+        val up = blockPos.up()
+
+        if (!blockToUse.canBlockStay(world, up, world.getBlockState(up))) return ActionResult(EnumActionResult.FAIL, heldItem)
+
+        val blockSnapshot = BlockSnapshot.getBlockSnapshot(world, up)
+
+        if (ForgeEventFactory.onPlayerBlockPlace(playerIn, blockSnapshot, EnumFacing.UP, handIn).isCanceled)
         {
-            ActionResult(EnumActionResult.PASS, itemstack)
+            blockSnapshot.restore(true, false)
+            return ActionResult(EnumActionResult.FAIL, heldItem)
         }
-        else
+
+        world.setBlockState(up, blockToUse.defaultState, 8)
+
+        if (playerIn is EntityPlayerMP)
         {
-            if (raytraceresult.typeOfHit == RayTraceResult.Type.BLOCK)
-            {
-                val blockpos = raytraceresult.blockPos
-                if (!worldIn.isBlockModifiable(
-                        playerIn, blockpos
-                    ) || !playerIn.canPlayerEdit(
-                        blockpos.offset(raytraceresult.sideHit), raytraceresult.sideHit, itemstack
-                    ))
-                {
-                    return ActionResult(EnumActionResult.FAIL, itemstack)
-                }
-                val blockpos1 = blockpos.up()
-
-                if (canBlockStay(worldIn, blockpos1))
-                {
-                    // special case for handling block placement with water lilies
-                    val blocksnapshot = BlockSnapshot.getBlockSnapshot(worldIn, blockpos1)
-
-                    if (ForgeEventFactory.onPlayerBlockPlace(playerIn, blocksnapshot, EnumFacing.UP, handIn).isCanceled)
-                    {
-                        blocksnapshot.restore(true, false)
-                        return ActionResult(EnumActionResult.FAIL, itemstack)
-                    }
-
-                    worldIn.setBlockState(blockpos1, blockToUse.defaultState, 3)
-
-                    if (playerIn is EntityPlayerMP)
-                    {
-                        CriteriaTriggers.PLACED_BLOCK.trigger(playerIn, blockpos1, itemstack)
-                    }
-
-                    if (!playerIn.capabilities.isCreativeMode)
-                    {
-                        itemstack.shrink(1)
-                    }
-
-                    playerIn.addStat(StatList.getObjectUseStats(this))
-                    worldIn.playSound(playerIn, blockpos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f)
-                    return ActionResult(EnumActionResult.SUCCESS, itemstack)
-                }
-            }
-            ActionResult(EnumActionResult.FAIL, itemstack)
+            CriteriaTriggers.PLACED_BLOCK.trigger(playerIn, up, heldItem)
         }
+
+        if (!playerIn.capabilities.isCreativeMode)
+        {
+            heldItem.shrink(1)
+        }
+
+        StatList.getObjectUseStats(this)?.let { playerIn.addStat(it) }
+        world.playSound(playerIn, blockPos, SoundEvents.BLOCK_WATERLILY_PLACE, SoundCategory.BLOCKS, 1.0f, 1.0f)
+        return ActionResult(EnumActionResult.SUCCESS, heldItem)
     }
-
 }

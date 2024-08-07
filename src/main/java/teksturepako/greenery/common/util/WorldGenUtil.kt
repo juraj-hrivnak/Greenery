@@ -11,7 +11,7 @@ import java.util.*
 
 object WorldGenUtil
 {
-    fun removeUnwantedBOPGenerators(world: World)
+    fun removeUnwantedBopGenerators(world: World)
     {
         if (!Loader.isModLoaded("biomesoplenty") || world.isRemote) return
 

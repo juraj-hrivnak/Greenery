@@ -46,13 +46,16 @@ abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowabl
      * Contains world gen configuration.
      * Can be reassigned at runtime.
      */
-    abstract var worldGen: MutableList<String>
+    abstract var worldGen: List<String>
 
     /**
      * Contains drops configuration.
      * Can be reassigned at runtime.
      */
-    abstract var drops: MutableList<String>
+    abstract var drops: List<String>
+
+
+    abstract var allowedSoils: List<String>
 
     /**
      * Determines whether this block can grow.
@@ -86,7 +89,7 @@ abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowabl
 
     // -- BLOCK STATE --
 
-    /** Use [createPlantContainer] instead. */
+    @Deprecated("Use 'createPlantContainer' instead.", ReplaceWith("createPlantContainer()"))
     override fun createBlockState(): BlockStateContainer = BlockStateContainer(this)
 
     val ageProperty: PropertyInteger = PropertyInteger.create("age", 0, maxAge)
