@@ -29,6 +29,10 @@ plugins {
 
 val mod_version: String by project
 val maven_group: String by project
+
+version = mod_version
+group = maven_group
+
 val archives_base_name: String by project
 
 val use_access_transformer: String by project
@@ -130,9 +134,9 @@ dependencies {
     }
 
     // Kotlin
-    implementation ("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlinVersion.get()}")
-    implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
-    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:${libs.versions.kotlinVersion.get()}")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
 
     // Fluidlogged API
     implementation(rfg.deobf("com.github.jbredwards:fluidlogged-api:cecb9f6c34"))
@@ -177,10 +181,9 @@ dependencies {
 }
 
 // Adds Access Transformer files to tasks
-@Suppress("Deprecation")
 if (use_access_transformer.toBoolean()) {
     for (at in sourceSets.getByName("main").resources.files) {
-        if (at.name.toLowerCase().endsWith("_at.cfg")) {
+        if (at.name.lowercase().endsWith("_at.cfg")) {
             tasks.deobfuscateMergedJarToSrg.get().accessTransformerFiles.from(at)
             tasks.srgifyBinpatchedJar.get().accessTransformerFiles.from(at)
         }
@@ -207,6 +210,8 @@ tasks.withType<ProcessResources> {
 }
 
 tasks.withType<Jar> {
+    archiveBaseName.set("$archives_base_name-${minecraft.mcVersion.get()}")
+
     manifest {
         val attributeMap = mutableMapOf<String, String>()
         if (use_coremod.toBoolean()) {
