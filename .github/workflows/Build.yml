@@ -45,7 +45,7 @@ jobs:
           esac
 
           echo "latest_tag=$latest_tag" >> $GITHUB_OUTPUT
-          echo "version=${latest_tag}#v" >> $GITHUB_OUTPUT
+          echo "version=${latest_tag/v}" >> $GITHUB_OUTPUT
           echo "rel_type=$rel_type" >> $GITHUB_OUTPUT
 
           {
