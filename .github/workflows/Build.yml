@@ -146,6 +146,7 @@ jobs:
           changelog_type: markdown
           game_versions: "1.12.2,Forge"
           game_endpoint: minecraft
+          relations: "fluidlogged-api:requiredDependency,forgelin-continuous:requiredDependency"
           release_type: ${{ needs.changelog.outputs.rel_type }}
 
   release-modrinth:
@@ -176,6 +177,7 @@ jobs:
           project_id: EVaCo3rr
           loaders: forge
           game_versions: 1.12.2, 1.12.1, 1.12
+          dependencies: vVXPbodS:required, 1mPcAmuy:required
           version_number: ${{ needs.changelog.outputs.version }}
           changelog: |
             ${{ needs.changelog.outputs.changelog_text }}
