@@ -71,21 +71,6 @@ object PlantDefaults
 
     // -- FLOATING --
 
-    val floatingPlants = listOf(
-        PlantData(
-            name = "lily",
-            maxAge = 15,
-            worldGen = mutableListOf(
-                "0 | anywhere | 0.5 | 14 | 64",
-            ),
-            drops = mutableListOf("this | 1.0"),
-            compatibleFluids = mutableListOf("water"),
-            hasOffset = false,
-            isSolid = false,
-            isHarmful = false
-        )
-    )
-
     // -- SUBMERGED --
 
     val submergedKelpLikePlants = listOf(
