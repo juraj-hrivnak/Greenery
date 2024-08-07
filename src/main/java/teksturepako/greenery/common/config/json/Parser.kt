@@ -2,11 +2,13 @@ package teksturepako.greenery.common.config.json
 
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.emergent.EmergentPlant
+import teksturepako.greenery.common.block.plant.floating.FloatingPlant
 import teksturepako.greenery.common.block.plant.submerged.kelplike.KelpLikeSubmergedPlant
 import teksturepako.greenery.common.block.plant.submerged.tall.TallSubmergedPlant
 import teksturepako.greenery.common.block.plant.upland.tall.TallUplandPlant
 import teksturepako.greenery.common.config.json.Deserializer.canDoWork
 import teksturepako.greenery.common.config.json.PlantDefaults.emergentDir
+import teksturepako.greenery.common.config.json.PlantDefaults.floatingDir
 import teksturepako.greenery.common.config.json.PlantDefaults.submergedKelpLikeDir
 import teksturepako.greenery.common.config.json.PlantDefaults.submergedTallDir
 import teksturepako.greenery.common.config.json.PlantDefaults.uplandTallDir
@@ -36,6 +38,20 @@ object Parser
 
         emergentDir.getPlantDataFromFiles {
             Greenery.plants.add(object : EmergentPlant(it.name, it.maxAge ?: 3)
+            {
+                override var worldGen = it.worldGen
+                override var drops = it.drops
+                override var allowedSoils = it.allowedSoils ?: defMaterials
+                override var compatibleFluids = it.compatibleFluids
+                override var canGrow = it.canGrow
+                override var hasTintIndex = it.hasTintIndex
+                override var hasOffset = it.hasOffset
+                override var isSolid = it.isSolid
+                override var isHarmful = it.isHarmful
+            })
+        }
+        floatingDir.getPlantDataFromFiles {
+            Greenery.plants.add(object : FloatingPlant(it.name, it.maxAge ?: 15)
             {
                 override var worldGen = it.worldGen
                 override var drops = it.drops
@@ -101,6 +117,20 @@ object Parser
             when (plant)
             {
                 is EmergentPlant -> emergentDir.getPlantDataFromFiles {
+                    if (it.name == plant.name)
+                    {
+                        plant.worldGen = it.worldGen
+                        plant.drops = it.drops
+                        plant.allowedSoils = it.allowedSoils ?: defMaterials
+                        plant.compatibleFluids = it.compatibleFluids
+                        plant.canGrow = it.canGrow
+                        plant.hasOffset = it.hasOffset
+                        plant.isSolid = it.isSolid
+                        plant.isHarmful = it.isHarmful
+                    }
+                }
+
+                is FloatingPlant -> submergedKelpLikeDir.getPlantDataFromFiles {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen

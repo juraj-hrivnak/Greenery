@@ -24,6 +24,7 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.client.GreenerySoundTypes
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
+import teksturepako.greenery.common.block.plantContainer
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.util.MaterialUtil
@@ -54,8 +55,7 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
 
     private val topProperty: PropertyBool = PropertyBool.create("top")
 
-    override fun createPlantContainer(): BlockStateContainer =
-        BlockStateContainer(this, ageProperty, topProperty)
+    override fun createPlantContainer(): BlockStateContainer = plantContainer(ageProperty, topProperty)
 
     init
     {
@@ -75,25 +75,20 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
         creativeTab = Greenery.creativeTab
     }
 
-    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState
+    override fun getActualState(state: IBlockState, worldIn: IBlockAccess, pos: BlockPos): IBlockState = when
     {
-        return when
-        {
-            worldIn.getBlockState(pos.down()).block == this -> state.withProperty(topProperty, true)
-            worldIn.getBlockState(pos.up()).block == this -> state.withProperty(topProperty, false)
-            else -> state // Keep the same state when breaking the block.
-        }
+        worldIn.getBlockState(pos.down()).block == this -> state.withProperty(topProperty, true)
+        worldIn.getBlockState(pos.up()).block == this -> state.withProperty(topProperty, false)
+        else -> state // Keep the same state when breaking the block.
     }
 
-    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB
-    {
-        return when (val actualState = getActualState(state, source, pos))
+    override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB =
+        when (val actualState = getActualState(state, source, pos))
         {
             actualState.withProperty(topProperty, true)  -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
             actualState.withProperty(topProperty, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
             else                                         -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
         }
-    }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)
     {
@@ -117,12 +112,9 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
     /**
      * Determines whether the block can be generated on the position, based on [canBlockStay] and [FluidUtil.canGenerateInFluids].
      */
-    private fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean
-    {
-        return (FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)
-                && canBlockStay(worldIn, pos, defaultState))
-               && worldIn.isAirBlock(pos.up())
-    }
+    private fun canGenerateBlockAt(worldIn: World, pos: BlockPos): Boolean =
+        (FluidUtil.canGenerateInFluids(compatibleFluids, worldIn, pos)
+         && canBlockStay(worldIn, pos, defaultState)) && worldIn.isAirBlock(pos.up())
 
     /**
      * Checks if there is a compatible fluid block on the placing position.
@@ -131,6 +123,7 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean
     {
         val fluidState = FluidloggedUtils.getFluidState(worldIn, pos)
+
         return if (!fluidState.isEmpty && isFluidValid(defaultState, worldIn, pos, fluidState.fluid)
                    && FluidloggedUtils.isFluidloggableFluid(fluidState.state, worldIn, pos))
         {

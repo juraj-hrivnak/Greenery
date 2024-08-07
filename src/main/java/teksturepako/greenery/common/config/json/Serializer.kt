@@ -6,6 +6,8 @@ import kotlinx.serialization.json.encodeToStream
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.config.json.PlantDefaults.emergentDir
 import teksturepako.greenery.common.config.json.PlantDefaults.emergentPlants
+import teksturepako.greenery.common.config.json.PlantDefaults.floatingDir
+import teksturepako.greenery.common.config.json.PlantDefaults.floatingPlants
 import teksturepako.greenery.common.config.json.PlantDefaults.submergedKelpLikeDir
 import teksturepako.greenery.common.config.json.PlantDefaults.submergedKelpLikePlants
 import teksturepako.greenery.common.config.json.PlantDefaults.submergedTallDir
@@ -28,6 +30,7 @@ object Serializer
 
         mapOf(
             emergentPlants to emergentDir,
+            floatingPlants to floatingDir,
             submergedKelpLikePlants to submergedKelpLikeDir,
             submergedTallPlants to submergedTallDir,
             uplandTallPlants to uplandTallDir
