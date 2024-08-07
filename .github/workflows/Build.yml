@@ -139,7 +139,7 @@ jobs:
         with:
           token: ${{ secrets.CF_TOKEN }}
           project_id: 574029
-          file_path: jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.zip
+          file_path: jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.jar
           display_name: Greenery-1.12.2-${{ needs.changelog.outputs.version }}
           changelog: ${{ needs.changelog.outputs.changelog_text }}
           changelog_type: markdown
@@ -179,4 +179,4 @@ jobs:
           changelog: ${{ needs.changelog.outputs.changelog_text }}
           version_type: ${{ needs.changelog.outputs.rel_type }}
           files: |
-            jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.zip
+            jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.jar
