@@ -45,24 +45,22 @@ object EventBonemeal
         {
             for (input in generator.block.worldGen)
             {
-                val config = WorldGenParser(input, generator.block.worldGen)
+                val parser = WorldGenParser(input, generator.block.worldGen)
 
-                if (rand.nextDouble() < config.generationChance && config.canGenerate(
-                        world.getBiome(pos), event.world.provider.dimension
-                    ))
+                if (rand.nextDouble() >= parser.generationChance
+                    || !parser.canGenerate(world.getBiome(pos), event.world.provider.dimension)) continue
+
+                if (!world.isRemote)
                 {
-                    if (!world.isRemote)
-                    {
-                        event.result = Event.Result.ALLOW
-                        generator.generatePlants(
-                            config.plantAttempts / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
-                        )
-                    }
-                    else if (event.entityPlayer == Minecraft.getMinecraft().player)
-                    {
-                        Minecraft.getMinecraft().player.swingArm(event.hand!!)
-                        spawnParticles(config.patchAttempts / 4, world, pos, rand)
-                    }
+                    event.result = Event.Result.ALLOW
+                    generator.generatePlants(
+                        parser.plantAttempts / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
+                    )
+                }
+                else if (event.entityPlayer == Minecraft.getMinecraft().player)
+                {
+                    Minecraft.getMinecraft().player.swingArm(event.hand!!)
+                    spawnParticles(parser.patchAttempts / 4, world, pos, rand)
                 }
             }
         }

@@ -6,7 +6,7 @@ import net.minecraft.world.WorldType
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
 import teksturepako.greenery.common.block.plant.GreeneryPlant
-import teksturepako.greenery.common.block.plant.upland.tall.TallPlantBase
+import teksturepako.greenery.common.block.plant.upland.tall.TallUplandPlant
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.WorldGenUtil
 import teksturepako.greenery.common.world.WorldGenParser
@@ -27,34 +27,31 @@ class PlantGenerator(override val block: GreeneryPlant) : IPlantGenerator
         val chunkPos = world.getChunk(chunkX, chunkZ).pos
         val biome = WorldGenUtil.getBiomeInChunk(world, chunkX, chunkZ)
         val dimension = world.provider.dimension
-        val genModifier = if (block is TallPlantBase) 4 else 1
+        val genModifier = if (block is TallUplandPlant) 4 else 1
 
-        /* Handle super-flat worlds */
+        // Handle super-flat worlds
         if (!Config.global.genInSuperflat && world.worldType == WorldType.FLAT) return
 
-        /* Gets worldGen configuration from the block. */
+        // Gets worldGen configuration from the block
         for (input in block.worldGen)
         {
-            /* New instance of the worldGen parser class. */
-            val parser = WorldGenParser(
-                indexedInput = input, worldGenConfig = block.worldGen
-            )
+            // New instance of the worldGen parser class
+            val parser = WorldGenParser(currentConfig = input, allConfigs = block.worldGen)
 
-            /* Check if plant can generate. */
-            if (parser.canGenerate(biome, dimension) && random.nextDouble() < parser.generationChance)
+            // Check if plants can generate
+            if (random.nextDouble() >= parser.generationChance || !parser.canGenerate(biome, dimension)) continue
+
+            // Generate patches of the plant
+            for (i in 0..parser.patchAttempts(multiplyBy = genModifier))
             {
-                /* Generate patches of the plant. */
-                for (i in 0..parser.patchAttempts * genModifier / (block.worldGen.size - 1).coerceAtLeast(1))
-                {
-                    val x = random.nextInt(16) + 8
-                    val z = random.nextInt(16) + 8
+                val x = random.nextInt(16) + 8
+                val z = random.nextInt(16) + 8
 
-                    val yRange = world.getHeight(chunkPos.getBlock(0, 0, 0).add(x, 0, z)).y + 32
-                    val y = random.nextInt(yRange)
+                val yRange = world.getHeight(chunkPos.getBlock(0, 0, 0).add(x, 0, z)).y + 32
+                val y = random.nextInt(yRange)
 
-                    val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
-                    generatePlants(parser.plantAttempts, world, random, pos, 2)
-                }
+                val pos = chunkPos.getBlock(0, 0, 0).add(x, y, z)
+                generatePlants(parser.plantAttempts, world, random, pos, 2)
             }
         }
     }
