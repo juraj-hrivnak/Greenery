@@ -141,7 +141,8 @@ jobs:
           project_id: 574029
           file_path: jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.jar
           display_name: Greenery-1.12.2-${{ needs.changelog.outputs.version }}
-          changelog: ${{ needs.changelog.outputs.changelog_text }}
+          changelog: |
+            ${{ needs.changelog.outputs.changelog_text }}
           changelog_type: markdown
           game_versions: "Minecraft 1.12.2, Forge"
           game_endpoint: minecraft
@@ -176,7 +177,8 @@ jobs:
           loaders: forge
           game_versions: 1.12.2, 1.12.1, 1.12
           version_number: ${{ needs.changelog.outputs.version }}
-          changelog: ${{ needs.changelog.outputs.changelog_text }}
+          changelog: |
+            ${{ needs.changelog.outputs.changelog_text }}
           version_type: ${{ needs.changelog.outputs.rel_type }}
           files: |
             jar/Greenery-1.12.2-${{ needs.changelog.outputs.version }}.jar
