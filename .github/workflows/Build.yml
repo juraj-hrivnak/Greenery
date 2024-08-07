@@ -144,7 +144,7 @@ jobs:
           changelog: |
             ${{ needs.changelog.outputs.changelog_text }}
           changelog_type: markdown
-          game_versions: "Minecraft 1.12.2, Forge"
+          game_versions: "1.12.2,Forge"
           game_endpoint: minecraft
           release_type: ${{ needs.changelog.outputs.rel_type }}
 
