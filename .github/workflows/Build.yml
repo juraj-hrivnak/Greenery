@@ -50,7 +50,7 @@ jobs:
           
           {
             echo 'changelog_text<<EOF'
-            $(< NEW_CHANGELOG.md)
+            cat ./NEW_CHANGELOG.md
             echo EOF
           } >> $GITHUB_OUTPUT
 
