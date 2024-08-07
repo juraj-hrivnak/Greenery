@@ -72,18 +72,13 @@ jobs:
         with:
           distribution: 'zulu'
           java-version: 17
+          cache: 'gradle'
 
-      - name: 📦 Build JVM Jar
-        uses: burrunan/gradle-cache-action@v1
-        with:
-          gradle-version: wrapper
-          arguments: build
-          properties: |
-            org.gradle.vfs.watch=false
-            org.gradle.vfs.verbose=false
-          gradle-distribution-sha-256-sum-warning: false
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build the mod
+        run: ./gradlew --no-daemon build
 
       - name: Upload JVM Jar
         uses: actions/upload-artifact@v4
