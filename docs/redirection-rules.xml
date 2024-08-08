@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE rules SYSTEM "https://resources.jetbrains.com/writerside/1.0/redirection-rules.dtd">
+<rules>
+    <!-- format is as follows
+    <rule id="<unique id>">
+        <accepts>page.html</accepts>
+    </rule>
+    -->
+    <rule id="627e32fe">
+        <description>Created after removal of "Home" from Greenery</description>
+        <accepts>Home.html</accepts>
+    </rule>
+    <rule id="2b36aeb4">
+        <description>Created after removal of "KelpLike" from Greenery</description>
+        <accepts>KelpLike.html</accepts>
+    </rule>
+    <rule id="125796d5">
+        <description>Created after removal of "Floating" from Greenery</description>
+        <accepts>Floating.html</accepts>
+    </rule>
+    <rule id="32619b89">
+        <description>Created after removal of "Emergent" from Greenery</description>
+        <accepts>Emergent.html</accepts>
+    </rule>
+    <rule id="25ef3959">
+        <description>Created after removal of "Submerged" from Greenery</description>
+        <accepts>Submerged.html</accepts>
+    </rule>
+    <rule id="7ff323e">
+        <description>Created after removal of "Upland" from Greenery</description>
+        <accepts>Upland.html</accepts>
+    </rule>
+    <rule id="41882f8e">
+        <description>Created after removal of "Config" from Greenery</description>
+        <accepts>Config.html</accepts>
+    </rule>
+    <rule id="620f96f2">
+        <description>Created after removal of "Main" from Greenery</description>
+        <accepts>Main.html</accepts>
+    </rule>
+</rules>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE buildprofiles SYSTEM "https://resources.jetbrains.com/writerside/1.0/build-profiles.dtd">
+<buildprofiles xsi:noNamespaceSchemaLocation="https://resources.jetbrains.com/writerside/1.0/build-profiles.xsd"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <sitemap priority="0.35" change-frequency="monthly"/>
+    <variables>
+        <primary-color>forest</primary-color>
+        <custom-favicons>greenery.svg</custom-favicons>
+        <header-logo>greenery.svg</header-logo>
+        <product-web-url>https://juraj-hrivnak.github.io/Greenery/</product-web-url>
+<!--        <download-title>Get Pakku</download-title>-->
+<!--        <download-page>https://github.com/juraj-hrivnak/Pakku/releases/latest</download-page>-->
+<!--        <showDownloadButton>true</showDownloadButton>-->
+    </variables>
+    <build-profile instance="g">
+        <variables>
+            <noindex-content>false</noindex-content>
+        </variables>
+    </build-profile>
+    <footer>
+        <copyright>2024 Juraj Hrivnák</copyright>
+        <link href="https://github.com/juraj-hrivnak/Greenery">GitHub</link>
+        <link href="https://discord.gg/NXNXmdBUk5">Discord</link>
+    </footer>
+</buildprofiles>
