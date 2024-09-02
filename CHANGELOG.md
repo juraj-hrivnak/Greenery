@@ -1,5 +1,11 @@
 # Changelog
 
+## v5.1
+
+### Greenery🌿 changelog
+
+- Allowed items in `toolShears` OreDict to be used on upland plants as shears.
+
 ## v5.0
 
 ### Greenery🌿 changelog
