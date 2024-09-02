@@ -176,8 +176,8 @@ jobs:
           name: Greenery-1.12.2-${{ needs.changelog.outputs.version }}
           project_id: EVaCo3rr
           loaders: forge
-          game_versions: 1.12.2, 1.12.1, 1.12
-          dependencies: vVXPbodS:required, 1mPcAmuy:required
+          game_versions: "1.12.2,1.12.1,1.12"
+          dependencies: "vVXPbodS:required,1mPcAmuy:required"
           version_number: ${{ needs.changelog.outputs.version }}
           changelog: |
             ${{ needs.changelog.outputs.changelog_text }}
