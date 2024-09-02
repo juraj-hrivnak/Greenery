@@ -13,6 +13,7 @@ import net.minecraft.util.math.AxisAlignedBB
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
+import net.minecraftforge.oredict.OreDictionary
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.util.MaterialUtil
@@ -61,7 +62,8 @@ abstract class SingleUplandPlant(val name: String, maxAge: Int) : GreeneryPlant(
 
     override fun harvestBlock(worldIn: World, player: EntityPlayer, pos: BlockPos, state: IBlockState, te: TileEntity?, stack: ItemStack)
     {
-        if (!worldIn.isRemote && stack.item === Items.SHEARS)
+        val shearsOre = OreDictionary.getOres("toolShears").map { it.item }
+        if (!worldIn.isRemote && (stack.item === Items.SHEARS || stack.item in shearsOre))
         {
             StatList.getBlockStats(this)?.let { player.addStat(it) }
             spawnAsEntity(worldIn, pos, ItemStack(this, 1))
