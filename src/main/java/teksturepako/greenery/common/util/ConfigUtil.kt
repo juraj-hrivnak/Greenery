@@ -4,8 +4,7 @@ import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.BiomeDictionary
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
-import teksturepako.greenery.common.world.WorldGenParser
-import teksturepako.greenery.common.world.gen.IPlantGenerator
+import teksturepako.greenery.common.worldGen.WorldGenParser
 
 object ConfigUtil
 {
@@ -15,7 +14,7 @@ object ConfigUtil
      * IPlantGenerator Parser
      * @return true when errored
      */
-    fun parseGenerators(generators: MutableList<IPlantGenerator>, printParsing: Boolean): Boolean
+    fun parseGenerators(generators: List<Pair<String, List<String>>>, printParsing: Boolean): Boolean
     {
         if (printParsing)
         {
@@ -33,14 +32,14 @@ object ConfigUtil
 
         var errored = false
 
-        for (generator in generators)
+        for ((name, worldGen) in generators)
         {
             var types: List<BiomeDictionary.Type> = emptyList()
             var biomes: List<ResourceLocation> = emptyList()
 
-            for (input in generator.block.worldGen)
+            for (input in worldGen)
             {
-                val config = WorldGenParser(input, generator.block.worldGen)
+                val config = WorldGenParser(input, worldGen)
                 types = config.types
                 biomes = config.biomesResLocs
 
@@ -51,15 +50,15 @@ object ConfigUtil
             {
                 if (errored)
                 {
-                    Greenery.logger.warn("  ! ${generator.block.localizedName}")
-                    Greenery.logger.error("    > ${generator.block.worldGen}")
+                    Greenery.logger.warn("  ! $name")
+                    Greenery.logger.error("    > $worldGen")
                     parseBiomeDictionaries(types, true)
                     parseBiomes(biomes, true)
                 }
                 else
                 {
-                    Greenery.logger.info("  > ${generator.block.localizedName}")
-                    Greenery.logger.info("     > ${generator.block.worldGen}")
+                    Greenery.logger.info("  > $name")
+                    Greenery.logger.info("     > $worldGen")
                 }
             }
         }

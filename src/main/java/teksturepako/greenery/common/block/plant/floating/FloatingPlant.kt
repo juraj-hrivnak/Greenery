@@ -27,10 +27,10 @@ abstract class FloatingPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
     companion object
     {
         val WATER_CROP_AABB = arrayOf(
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.50, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.625, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.75, 0.9),
-            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.875, 0.9)
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.10, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.125, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.175, 0.9),
+            AxisAlignedBB(0.10, 0.025, 0.10, 0.9, 0.175, 0.9)
         )
     }
 

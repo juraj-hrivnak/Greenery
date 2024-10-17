@@ -6,14 +6,14 @@ import net.minecraft.client.Minecraft
 import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
-import net.minecraftforge.common.util.Constants
+import net.minecraftforge.common.util.Constants.BlockFlags.DEFAULT_AND_RERENDER
 import net.minecraftforge.event.entity.player.BonemealEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.Event
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.world.WorldGenParser
+import teksturepako.greenery.common.worldGen.WorldGenParser
 import java.util.*
 
 @Mod.EventBusSubscriber
@@ -31,7 +31,10 @@ object EventBonemeal
         val rand = world.rand
 
         event.isCanceled
-        if (blockState.material == Material.GRASS || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block) && blockState.block !in Greenery.plants)
+
+        if (blockState.material == Material.GRASS
+            || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block)
+            && blockState.block !in Greenery.plants)
         {
             useBonemeal(event, up, world, rand)
         }
@@ -39,13 +42,13 @@ object EventBonemeal
 
     private fun useBonemeal(event: BonemealEvent, pos: BlockPos, world: World, rand: Random)
     {
-        if (Greenery.generators.isEmpty()) return
+        if (Greenery.plantGenerators.isEmpty()) return
 
-        for (generator in Greenery.generators)
+        for (generator in Greenery.plantGenerators)
         {
-            for (input in generator.block.worldGen)
+            for (input in generator.plant.worldGen)
             {
-                val parser = WorldGenParser(input, generator.block.worldGen)
+                val parser = WorldGenParser(input, generator.plant.worldGen)
 
                 if (rand.nextDouble() >= parser.generationChance
                     || !parser.canGenerate(world.getBiome(pos), event.world.provider.dimension)) continue
@@ -53,9 +56,29 @@ object EventBonemeal
                 if (!world.isRemote)
                 {
                     event.result = Event.Result.ALLOW
-                    generator.generatePlants(
-                        parser.plantAttempts / 4, world, rand, pos, Constants.BlockFlags.DEFAULT_AND_RERENDER
-                    )
+                    generator.generatePlants(parser.plantAttempts / 4, world, rand, pos, DEFAULT_AND_RERENDER)
+                }
+                else if (event.entityPlayer == Minecraft.getMinecraft().player)
+                {
+                    Minecraft.getMinecraft().player.swingArm(event.hand!!)
+                    spawnParticles(parser.patchAttempts / 4, world, pos, rand)
+                }
+            }
+        }
+
+        for (generator in Greenery.arbBlockGenerators)
+        {
+            for (input in generator.worldGen)
+            {
+                val parser = WorldGenParser(input, generator.worldGen)
+
+                if (rand.nextDouble() >= parser.generationChance
+                    || !parser.canGenerate(world.getBiome(pos), event.world.provider.dimension)) continue
+
+                if (!world.isRemote)
+                {
+                    event.result = Event.Result.ALLOW
+                    generator.generateBlocks(parser.plantAttempts / 4, world, rand, pos, DEFAULT_AND_RERENDER)
                 }
                 else if (event.entityPlayer == Minecraft.getMinecraft().player)
                 {

@@ -1,6 +1,6 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package teksturepako.greenery.common.world
+package teksturepako.greenery.common.worldGen
 
 import net.minecraft.util.ResourceLocation
 import net.minecraft.world.biome.Biome

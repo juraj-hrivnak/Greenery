@@ -87,7 +87,7 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
         {
             actualState.withProperty(topProperty, true)  -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
             actualState.withProperty(topProperty, false) -> WATER_CROP_BOTTOM_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
-            else                                         -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
+            else -> WATER_CROP_TOP_AABB[getAge(state)].applyOffset(hasOffset, state, source, pos)
         }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)

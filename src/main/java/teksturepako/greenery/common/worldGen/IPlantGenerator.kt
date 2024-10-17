@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.world.gen
+package teksturepako.greenery.common.worldGen
 
 import net.minecraft.util.math.BlockPos
 import net.minecraft.world.World
@@ -9,7 +9,7 @@ import java.util.*
 interface IPlantGenerator : IWorldGenerator
 {
     /** The block to be generated. */
-    val block: GreeneryPlant
+    val plant: GreeneryPlant
 
     /** Plant generator */
     fun generatePlants(plantAttempts: Int, world: World, rand: Random, targetPos: BlockPos, flags: Int)

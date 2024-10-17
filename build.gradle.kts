@@ -139,7 +139,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
 
     // Fluidlogged API
-    implementation(rfg.deobf("com.github.jbredwards:fluidlogged-api:cecb9f6c34"))
+    implementation(rfg.deobf("com.github.jbredwards:fluidlogged-api:47f153989e"))
 
     // Biomes O' Plenty
     implementation(rfg.deobf("curse.maven:bop-220318:2842510"))

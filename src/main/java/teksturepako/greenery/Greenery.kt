@@ -18,8 +18,9 @@ import org.apache.logging.log4j.Logger
 import teksturepako.greenery.client.GreeneryCreativeTab
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.command.CommandGreenery
-import teksturepako.greenery.common.config.json.Parser.initPlantData
-import teksturepako.greenery.common.config.json.Serializer.initDefaults
+import teksturepako.greenery.common.config.json.arbBlock.ArbBlockData
+import teksturepako.greenery.common.config.json.arbBlock.ArbBlockParser
+import teksturepako.greenery.common.config.json.plant.PlantParser
 import teksturepako.greenery.common.event.EventOldContentLoad
 import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.recipe.ModRecipes
@@ -27,12 +28,10 @@ import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
 import teksturepako.greenery.common.util.ConfigUtil
-import teksturepako.greenery.common.util.FileUtils.div
-import teksturepako.greenery.common.world.WorldGenHook
-import teksturepako.greenery.common.world.gen.IPlantGenerator
-import teksturepako.greenery.common.world.gen.PlantGenerator
+import teksturepako.greenery.common.worldGen.*
 import teksturepako.greenery.proxy.IProxy
-import java.io.File
+import java.nio.file.Path
+import kotlin.io.path.Path
 
 @Mod(
     modid = Greenery.MODID,
@@ -56,13 +55,17 @@ object Greenery
     const val CLIENT_PROXY = "teksturepako.greenery.proxy.ClientProxy"
 
     val creativeTab = GreeneryCreativeTab()
-    val generators: MutableList<IPlantGenerator> = ArrayList()
-    val plants: MutableList<GreeneryPlant> = ArrayList()
+
+    val plants: MutableList<GreeneryPlant> = mutableListOf()
+    val arbBlocks: MutableList<ArbBlockData> = mutableListOf()
+
+    val plantGenerators: MutableList<IPlantGenerator> = mutableListOf()
+    val arbBlockGenerators: MutableList<IArbBlockGenerator> = mutableListOf()
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
     lateinit var logger: Logger
-    lateinit var configFolder: File
+    lateinit var configFolder: Path
 
     @Mod.EventHandler
     fun preInit(event: FMLPreInitializationEvent)
@@ -70,9 +73,11 @@ object Greenery
         logger = event.modLog
         proxy.preInit(event)
 
-        configFolder = event.modConfigurationDirectory / MODID
-        initDefaults()
-        initPlantData()
+        configFolder = Path(event.modConfigurationDirectory.path, MODID)
+        PlantParser.initDefaults()
+        PlantParser.decodeData()
+
+        ArbBlockParser.decodeOrReloadData()
     }
 
     @Mod.EventHandler
@@ -96,7 +101,7 @@ object Greenery
     @Mod.EventHandler
     fun serverLoad(event: FMLServerStartingEvent)
     {
-        loadGenerators(true)
+        loadPlantGenerators(true)
         event.registerServerCommand(CommandGreenery())
     }
 
@@ -129,24 +134,39 @@ object Greenery
         ModSoundEvents.register(event.registry)
     }
 
-    fun loadGenerators(printParsing: Boolean): MutableList<IPlantGenerator>
+    fun loadPlantGenerators(printParsing: Boolean): MutableList<IPlantGenerator>
     {
-        if (generators.isEmpty())
+        if (plantGenerators.isEmpty())
         {
             for (plant in plants)
             {
-                generators.add(PlantGenerator(plant))
+                plantGenerators.add(PlantGenerator(plant))
             }
 
-            ConfigUtil.parseGenerators(generators, printParsing)
+            ConfigUtil.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, printParsing)
         }
-        return generators
+        return plantGenerators
+    }
+
+    fun loadArbBlockGenerators(printParsing: Boolean): MutableList<IArbBlockGenerator>
+    {
+        if (arbBlockGenerators.isEmpty())
+        {
+            for (block in arbBlocks)
+            {
+                arbBlockGenerators.add(ArbBlockGenerator(block.name, block.blockStates, block.worldGen, block.allowedSoils))
+            }
+
+            ConfigUtil.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, printParsing)
+        }
+        return arbBlockGenerators
     }
 
     @Mod.EventHandler
     fun onServerStoppingEvent(event: FMLServerStoppingEvent?)
     {
         logger.info("Unloading world generators")
-        generators.clear()
+        plantGenerators.clear()
+        arbBlockGenerators.clear()
     }
 }

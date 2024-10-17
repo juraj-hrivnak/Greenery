@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.config.json
+package teksturepako.greenery.common.config.json.plant
 
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.emergent.EmergentPlant
@@ -6,37 +6,31 @@ import teksturepako.greenery.common.block.plant.floating.FloatingPlant
 import teksturepako.greenery.common.block.plant.submerged.kelplike.KelpLikeSubmergedPlant
 import teksturepako.greenery.common.block.plant.submerged.tall.TallSubmergedPlant
 import teksturepako.greenery.common.block.plant.upland.tall.TallUplandPlant
-import teksturepako.greenery.common.config.json.Deserializer.canDoWork
-import teksturepako.greenery.common.config.json.PlantDefaults.emergentDir
-import teksturepako.greenery.common.config.json.PlantDefaults.floatingDir
-import teksturepako.greenery.common.config.json.PlantDefaults.submergedKelpLikeDir
-import teksturepako.greenery.common.config.json.PlantDefaults.submergedTallDir
-import teksturepako.greenery.common.config.json.PlantDefaults.uplandTallDir
-import java.io.File
 
-object Parser
+object PlantParser
 {
     private var initialized = false
 
-    private inline fun File.getPlantDataFromFiles(action: (PlantData) -> Unit)
-    {
-        for (file in this.walk()) if (file.canDoWork())
-        {
-            action(Deserializer.getData(file))
-        }
-    }
+    val defMaterials = listOf("ground", "sand", "grass", "clay", "rock")
+    val defGrassMaterials = listOf("grass")
 
-    private val defMaterials = listOf("ground", "sand", "grass", "clay", "rock")
-    private val defGrassMaterials = listOf("grass")
+    fun initDefaults()
+    {
+        Emergent.encodeDefaults()
+        Floating.encodeDefaults()
+        Submerged.KelpLike.encodeDefaults()
+        Submerged.Tall.encodeDefaults()
+        Upland.Tall.encodeDefaults()
+    }
 
     /**
      * Reads JSON configs and initializes plant data.
      */
-    fun initPlantData()
+    fun decodeData()
     {
         if (initialized) return else initialized = true
 
-        emergentDir.getPlantDataFromFiles {
+        Emergent.path.decodePlantDataRecursive {
             Greenery.plants.add(object : EmergentPlant(it.name, it.maxAge ?: 3)
             {
                 override var worldGen = it.worldGen
@@ -50,7 +44,7 @@ object Parser
                 override var isHarmful = it.isHarmful
             })
         }
-        floatingDir.getPlantDataFromFiles {
+        Floating.path.decodePlantDataRecursive {
             Greenery.plants.add(object : FloatingPlant(it.name, it.maxAge ?: 15)
             {
                 override var worldGen = it.worldGen
@@ -64,7 +58,7 @@ object Parser
                 override var isHarmful = it.isHarmful
             })
         }
-        submergedKelpLikeDir.getPlantDataFromFiles {
+        Submerged.KelpLike.path.decodePlantDataRecursive {
             Greenery.plants.add(object : KelpLikeSubmergedPlant(it.name, it.maxAge ?: 15)
             {
                 override var worldGen = it.worldGen
@@ -78,7 +72,7 @@ object Parser
                 override var isHarmful = it.isHarmful
             })
         }
-        submergedTallDir.getPlantDataFromFiles {
+        Submerged.Tall.path.decodePlantDataRecursive {
             Greenery.plants.add(object : TallSubmergedPlant(it.name, it.maxAge ?: 1)
             {
                 override var worldGen = it.worldGen
@@ -92,7 +86,7 @@ object Parser
                 override var isHarmful = it.isHarmful
             })
         }
-        uplandTallDir.getPlantDataFromFiles {
+        Upland.Tall.path.decodePlantDataRecursive {
             Greenery.plants.add(object : TallUplandPlant(it.name, it.maxAge ?: 3)
             {
                 override var worldGen = it.worldGen
@@ -116,7 +110,7 @@ object Parser
         {
             when (plant)
             {
-                is EmergentPlant -> emergentDir.getPlantDataFromFiles {
+                is EmergentPlant -> Emergent.path.decodePlantDataRecursive {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
@@ -130,7 +124,7 @@ object Parser
                     }
                 }
 
-                is FloatingPlant -> submergedKelpLikeDir.getPlantDataFromFiles {
+                is FloatingPlant -> Floating.path.decodePlantDataRecursive {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
@@ -144,7 +138,7 @@ object Parser
                     }
                 }
 
-                is KelpLikeSubmergedPlant -> submergedKelpLikeDir.getPlantDataFromFiles {
+                is KelpLikeSubmergedPlant -> Submerged.KelpLike.path.decodePlantDataRecursive {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
@@ -158,7 +152,7 @@ object Parser
                     }
                 }
 
-                is TallSubmergedPlant -> submergedTallDir.getPlantDataFromFiles {
+                is TallSubmergedPlant -> Submerged.Tall.path.decodePlantDataRecursive {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen
@@ -172,7 +166,7 @@ object Parser
                     }
                 }
 
-                is TallUplandPlant -> uplandTallDir.getPlantDataFromFiles {
+                is TallUplandPlant -> Upland.Tall.path.decodePlantDataRecursive {
                     if (it.name == plant.name)
                     {
                         plant.worldGen = it.worldGen

@@ -6,6 +6,8 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.Greenery.arbBlockGenerators
+import teksturepako.greenery.Greenery.plantGenerators
 import teksturepako.greenery.common.util.ConfigUtil
 
 @Mod.EventBusSubscriber
@@ -21,12 +23,16 @@ object EventConfigChanged
         {
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
 
-            Greenery.generators.clear()
-            Greenery.loadGenerators(false)
+            Greenery.plantGenerators.clear()
+            Greenery.loadPlantGenerators(false)
+
+            Greenery.arbBlockGenerators.clear()
+            Greenery.loadArbBlockGenerators(false)
 
             printed = if (!printed)
             {
-                ConfigUtil.parseGenerators(Greenery.generators, true)
+                ConfigUtil.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, true)
+                ConfigUtil.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, true)
                 true
             }
             else false
