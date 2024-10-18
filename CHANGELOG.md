@@ -1,5 +1,34 @@
 # Changelog
 
+## v6.0
+
+### Greenery🌿 changelog
+
+- Added support for arbitrary block generation.
+  - Greenery can now generate non-Greenery blocks in the world and when using bonemeal based on configuration.
+  - To add configuration for these blocks create JSON files in the `greenery/blocks` directory.
+  - Properties of this new configuration are:
+    - `blocks` - A list of blocks you want to generate; syntax: `<resource_location>:[<meta>]`; example: `minecraft:cactus`
+    - `worldGen` and `allowedSoils` - The same as Greenery plants.
+  - Example configuration file for a cactus:
+    ```json
+    {
+      "blocks": [
+        "minecraft:cactus",
+        "minecraft:cactus",
+        "minecraft:cactus"
+      ],
+      "worldGen": [
+        "0 | type:dry | 1.0 | 16 | 32"
+      ],
+      "allowedSoils": [
+        "sand"
+      ]
+    }
+    ```
+
+Thanks to xkforce for commissioning this features!
+
 ## v5.1
 
 ### Greenery🌿 changelog
