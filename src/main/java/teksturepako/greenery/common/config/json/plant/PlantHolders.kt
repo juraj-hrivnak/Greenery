@@ -7,10 +7,7 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.config.json._json
 import java.nio.file.Path
-import kotlin.io.path.Path
-import kotlin.io.path.exists
-import kotlin.io.path.pathString
-import kotlin.io.path.writeText
+import kotlin.io.path.*
 
 interface PlantDataHolder
 {
@@ -25,7 +22,9 @@ interface PlantDataHolder
         {
             val plantDataFile = Path(path.pathString, "${plantData.name}.json")
             if (plantDataFile.exists()) continue
-            plantDataFile.writeText(_json.encodeToString(plantData))
+
+            runCatching { plantDataFile.createParentDirectories() }
+            runCatching { plantDataFile.writeText(_json.encodeToString(plantData)) }
         }
     }
 }
