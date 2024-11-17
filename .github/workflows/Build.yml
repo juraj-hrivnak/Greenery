@@ -35,7 +35,7 @@ jobs:
         shell: bash
         run: |
           latest_tag=$(git describe --tags --abbrev=0)
-          { grep --color=auto -Pzo "(?<=## $latest_tag)((?!\n## )[\s\S])*" ./CHANGELOG.md || true; } | sed '$ s/.$//' > ./NEW_CHANGELOG.md
+          { grep --color=auto -Pzo "(?<=## $latest_tag)((?!\n## )[\s\S])*" ./CHANGELOG.md || true; } | sed '$ s/.$//' > ./changelog/CHANGELOG.md
 
           rel_type="release"
           case $latest_tag in
@@ -58,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: changelog
-          path: ${{ github.workspace }}/changelog/CHANGELOG.md
+          path: ${{ github.workspace }}/changelog/**
 
   build-jvm-jar:
     name: Build JVM Jar
