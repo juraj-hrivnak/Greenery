@@ -1,5 +1,36 @@
 # Changelog
 
+## v7.0
+
+### Greenery🌿 changelog
+
+- Implemented improved `soil` configuration.
+- The `allowedSoils` config was deprecated. (Still works for backward compatibility.)
+
+Syntax:
+
+```
+{
+  "soil": [
+    "material:<material>",
+    "block:<resource_location>",
+    "block:<resource_location> | <blockstates>..."
+  ]
+}
+```
+
+Example:
+
+```
+{
+  "soil": [
+    "material:grass",
+    "block:minecraft:sand",
+    "block:minecraft:stone | variant=granite"
+  ]
+}
+```
+
 ## v6.0
 
 ### Greenery🌿 changelog
