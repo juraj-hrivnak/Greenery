@@ -127,3 +127,5 @@ jobs:
           dependencies: |
             fluidlogged-api
             forgelin-continuous
+
+          changelog-file: ./CHANGELOG.md
