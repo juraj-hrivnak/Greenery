@@ -35,6 +35,9 @@ jobs:
         shell: bash
         run: |
           latest_tag=$(git describe --tags --abbrev=0)
+          
+          mkdir changelog
+          
           { grep --color=auto -Pzo "(?<=## $latest_tag)((?!\n## )[\s\S])*" ./CHANGELOG.md || true; } | sed '$ s/.$//' > ./changelog/CHANGELOG.md
 
           rel_type="release"
