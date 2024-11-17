@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.util
+package teksturepako.greenery.common.config.parser
 
 import net.minecraft.block.state.IBlockState
 import net.minecraft.item.Item
@@ -11,9 +11,16 @@ import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.common.util.Utils.isNotNull
 
-object DropsUtil
+object DropsParser
 {
-    fun getDrops(dropsList: List<String>, world: IBlockAccess, pos: BlockPos, state: IBlockState, defaultItem: Item, fortune: Int): List<ItemStack>
+    fun getDrops(
+        dropsList: List<String>,
+        world: IBlockAccess,
+        pos: BlockPos,
+        state: IBlockState,
+        defaultItem: Item,
+        fortune: Int
+    ): List<ItemStack>
     {
         val drops: MutableList<ItemStack> = ArrayList()
         val random = (world as World).rand
@@ -78,12 +85,5 @@ object DropsUtil
             }
         }
         return drops
-    }
-
-    private fun isBlockStateValid(state: IBlockState, input: String): Boolean
-    {
-        return input.split(",").asSequence().map { it.split("=") }.all { (key, value) ->
-            state.properties.any { it.key.name == key && it.value.toString() == value }
-        }
     }
 }

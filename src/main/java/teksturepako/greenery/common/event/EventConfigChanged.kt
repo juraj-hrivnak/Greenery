@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.Greenery.arbBlockGenerators
 import teksturepako.greenery.Greenery.plantGenerators
-import teksturepako.greenery.common.util.ConfigUtil
+import teksturepako.greenery.common.config.parser.GeneratorParser
 
 @Mod.EventBusSubscriber
 object EventConfigChanged
@@ -31,8 +31,8 @@ object EventConfigChanged
 
             printed = if (!printed)
             {
-                ConfigUtil.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, true)
-                ConfigUtil.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, true)
+                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, true)
+                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, true)
                 true
             }
             else false

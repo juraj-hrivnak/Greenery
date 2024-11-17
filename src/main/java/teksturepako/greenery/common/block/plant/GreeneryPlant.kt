@@ -32,7 +32,7 @@ import net.minecraftforge.fml.relauncher.SideOnly
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Prickly
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.DropsUtil
+import teksturepako.greenery.common.config.parser.DropsParser
 import java.util.*
 
 /**
@@ -54,8 +54,9 @@ abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowabl
      */
     abstract var drops: List<String>
 
-
     abstract var allowedSoils: List<String>
+
+    abstract var soil: (IBlockState) -> Boolean
 
     /**
      * Determines whether this block can grow.
@@ -175,7 +176,7 @@ abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowabl
      */
     override fun getDrops(drops: NonNullList<ItemStack>, world: IBlockAccess, pos: BlockPos, state: IBlockState, fortune: Int)
     {
-        drops.addAll(DropsUtil.getDrops(this.drops, world, pos, state, itemBlock, 0))
+        drops.addAll(DropsParser.getDrops(this.drops, world, pos, state, itemBlock, 0))
     }
 
     override fun onEntityCollision(worldIn: World, pos: BlockPos, state: IBlockState, entityIn: Entity)

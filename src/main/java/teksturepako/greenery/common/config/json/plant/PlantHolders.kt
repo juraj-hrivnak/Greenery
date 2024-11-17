@@ -44,7 +44,7 @@ object Emergent : PlantDataHolder
                 "0 | type:swamp | 0.5 | 16 | 64",
                 "0 | type:lush | 0.5 | 16 | 64"
             ),
-            allowedSoils = listOf("ground", "sand", "grass", "clay", "rock"),
+            soil = listOf("material:ground", "material:sand", "material:grass", "material:clay", "material:rock"),
             compatibleFluids = mutableListOf("water"),
             isSolid = false,
             isHarmful = false
@@ -58,7 +58,7 @@ object Emergent : PlantDataHolder
                 "0 | type:swamp | 0.5 | 16 | 64",
                 "0 | type:lush | 0.5 | 16 | 64"
             ),
-            allowedSoils = listOf("ground", "sand", "grass", "clay", "rock"),
+            soil = listOf("material:ground", "material:sand", "material:grass", "material:clay", "material:rock"),
             compatibleFluids = mutableListOf("water"),
             hasTintIndex = true,
             isSolid = false,
@@ -73,7 +73,7 @@ object Emergent : PlantDataHolder
                 "0 | type:swamp | 0.5 | 16 | 64",
                 "0 | type:lush | 0.5 | 16 | 64"
             ),
-            allowedSoils = listOf("ground", "sand", "grass", "clay", "rock"),
+            soil = listOf("material:ground", "material:sand", "material:grass", "material:clay", "material:rock"),
             compatibleFluids = mutableListOf("water"),
             isSolid = false,
             isHarmful = false
@@ -103,7 +103,7 @@ object Submerged
                     "0 | type:beach | 0.5 | 14 | 64"
                 ),
                 drops = mutableListOf("this | 1.0"),
-                allowedSoils = listOf("ground", "sand", "grass", "clay", "rock"),
+                soil = listOf("material:ground", "material:sand", "material:grass", "material:clay", "material:rock"),
                 compatibleFluids = mutableListOf("water"),
                 hasOffset = false,
                 isSolid = false,
@@ -124,7 +124,7 @@ object Submerged
                     "0 | type:beach | 1.0 | 24 | 64"
                 ),
                 drops = mutableListOf("this | 1.0"),
-                allowedSoils = listOf("ground", "sand", "grass", "clay", "rock"),
+                soil = listOf("material:ground", "material:sand", "material:grass", "material:clay", "material:rock"),
                 compatibleFluids = mutableListOf("water"),
                 isSolid = false,
                 isHarmful = false
@@ -136,7 +136,7 @@ object Submerged
                     "0 | type:river | 1.0 | 32 | 64"
                 ),
                 drops = mutableListOf("this | 1.0"),
-                allowedSoils = listOf("ground", "sand", "grass", "clay", "rock"),
+                soil = listOf("material:ground", "material:sand", "material:grass", "material:clay", "material:rock"),
                 compatibleFluids = mutableListOf("water"),
                 isSolid = false,
                 isHarmful = false
@@ -170,7 +170,7 @@ object Upland
                     "0 | !type:jungle | 1.0 | 16 | 64"
                 ),
                 drops = mutableListOf("seeds | 0.2"),
-                allowedSoils = listOf("grass"),
+                soil = listOf("material:grass"),
                 hasTintIndex = true,
                 isSolid = false,
                 isHarmful = false
@@ -180,7 +180,7 @@ object Upland
                 maxAge = 3,
                 worldGen = mutableListOf("0 | anywhere | 1.0 | 16 | 32"),
                 drops = mutableListOf("seeds | 0.2"),
-                allowedSoils = listOf("grass"),
+                soil = listOf("material:grass"),
                 hasTintIndex = true,
                 isSolid = false,
                 isHarmful = false
@@ -196,7 +196,7 @@ object Upland
                     "0 | type:jungle | 1.0 | 32 | 64"
                 ),
                 drops = mutableListOf("seeds | 0.2"),
-                allowedSoils = listOf("grass"),
+                soil = listOf("material:grass"),
                 hasTintIndex = true,
                 isSolid = false,
                 isHarmful = false
@@ -205,7 +205,7 @@ object Upland
                 name = "nettle",
                 maxAge = 3,
                 worldGen = mutableListOf("0 | anywhere | 0.5 | 8 | 32"),
-                allowedSoils = listOf("grass"),
+                soil = listOf("material:grass"),
                 isSolid = false,
                 isHarmful = true
             ),
@@ -217,7 +217,7 @@ object Upland
                     "0 | type:sparse | 0.5 | 1 | 8",
                     "0 | biome:biomesoplenty:pasture | 1.0 | 128 | 64"
                 ),
-                allowedSoils = listOf("grass"),
+                soil = listOf("material:grass"),
                 isSolid = false,
                 isHarmful = false
             )

@@ -19,7 +19,6 @@ import net.minecraftforge.oredict.OreDictionary
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
 import teksturepako.greenery.common.block.plantContainer
-import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
@@ -98,10 +97,8 @@ abstract class TallUplandPlant(val name: String, maxAge: Int) : GreeneryPlant(ma
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        val materials = MaterialUtil.materialsOf(allowedSoils)
-
-        return ((down.material in materials || down.block == Blocks.DIRT)
-                || (down.block == this && getAge(down) == maxAge && down2.material in materials))
+        return ((soil.invoke(down) || down.block == Blocks.DIRT)
+                || (down.block == this && getAge(down) == maxAge && soil.invoke(down2)))
     }
 
     override fun canGrow(worldIn: World, pos: BlockPos, state: IBlockState, isClient: Boolean): Boolean

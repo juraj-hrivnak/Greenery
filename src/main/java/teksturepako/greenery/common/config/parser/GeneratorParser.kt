@@ -1,4 +1,4 @@
-package teksturepako.greenery.common.util
+package teksturepako.greenery.common.config.parser
 
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.common.BiomeDictionary
@@ -6,7 +6,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.worldGen.WorldGenParser
 
-object ConfigUtil
+object GeneratorParser
 {
     private val validTypes: MutableList<BiomeDictionary.Type> = ArrayList()
 

@@ -16,7 +16,6 @@ import net.minecraft.world.World
 import net.minecraftforge.oredict.OreDictionary
 import teksturepako.greenery.Greenery
 import teksturepako.greenery.common.block.plant.GreeneryPlant
-import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
@@ -44,10 +43,8 @@ abstract class SingleUplandPlant(val name: String, maxAge: Int) : GreeneryPlant(
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
-        val materials = MaterialUtil.materialsOf(allowedSoils)
-
         val down = worldIn.getBlockState(pos.down())
-        return down.material in materials
+        return soil.invoke(down)
     }
 
     override fun getBoundingBox(state: IBlockState, source: IBlockAccess, pos: BlockPos): AxisAlignedBB

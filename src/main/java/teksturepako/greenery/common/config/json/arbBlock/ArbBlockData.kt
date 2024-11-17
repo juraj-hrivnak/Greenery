@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.registry.ForgeRegistries
 import teksturepako.greenery.common.config.json._json
 import teksturepako.greenery.common.config.json.canDecode
 import teksturepako.greenery.common.config.json.toSnakeCase
+import teksturepako.greenery.common.config.parser.SoilParser
 import java.nio.file.Path
 import kotlin.io.path.ExperimentalPathApi
 import kotlin.io.path.nameWithoutExtension
@@ -21,9 +22,11 @@ data class ArbBlockData(
     private val blocks: List<String> = listOf(),
     val worldGen: List<String> = listOf(),
     val allowedSoils: List<String> = listOf(),
+    val soil: List<String>? = null,
 )
 {
     @Transient var blockStates: List<IBlockState> = listOf()
+    @Transient lateinit var soilFunc: (IBlockState) -> Boolean
 
     private fun parseBlockStates(): List<IBlockState>
     {
@@ -59,6 +62,9 @@ data class ArbBlockData(
 
             data.name = path.nameWithoutExtension.toSnakeCase()
             data.blockStates = data.parseBlockStates()
+
+            data.soilFunc = data.soil?.let { soils -> SoilParser.parse(soils) }
+                ?: SoilParser.parse(SoilParser.fromAllowedSoils(data.allowedSoils))
 
             return data
         }

@@ -14,7 +14,6 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.common.block.plant.submerged.SubmergedPlant
 import teksturepako.greenery.common.block.plantContainer
-import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 import kotlin.math.min
@@ -73,9 +72,7 @@ abstract class KelpLikeSubmergedPlant(name: String, maxAge: Int) : SubmergedPlan
         // Must have kelp or valid soil below
         val down = worldIn.getBlockState(pos.down())
 
-        val materials = MaterialUtil.materialsOf(allowedSoils)
-
-        return if (down.block == this) true else down.material in materials
+        return if (down.block == this) true else soil.invoke(down)
     }
 
     override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)

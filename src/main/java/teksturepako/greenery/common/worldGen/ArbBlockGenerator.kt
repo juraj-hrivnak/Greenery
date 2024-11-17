@@ -8,7 +8,6 @@ import net.minecraft.world.WorldType
 import net.minecraft.world.chunk.IChunkProvider
 import net.minecraft.world.gen.IChunkGenerator
 import teksturepako.greenery.common.config.Config
-import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.WorldGenUtil
 import java.util.*
 
@@ -16,7 +15,7 @@ class ArbBlockGenerator(
     override val name: String,
     override val blockStates: List<IBlockState>,
     override val worldGen: List<String>,
-    override val allowedSoils: List<String>,
+    override val soilFunc: (IBlockState) -> Boolean,
 ) : IArbBlockGenerator
 {
     override fun generate(
@@ -79,11 +78,10 @@ class ArbBlockGenerator(
     private fun placeBlocks(world: World, pos: BlockPos, flags: Int)
     {
         val down = world.getBlockState(pos.down())
-        val materials = MaterialUtil.materialsOf(allowedSoils)
 
         val here = world.getBlockState(pos)
 
-        if (down.material !in materials) return
+        if (!soilFunc.invoke(down)) return
         if (blockStates.firstOrNull()?.block?.canPlaceBlockAt(world, pos) != true) return
         if (here.material == Material.LAVA || here.material == Material.WATER) return
 

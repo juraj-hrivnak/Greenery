@@ -12,7 +12,6 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import teksturepako.greenery.common.block.plant.submerged.SubmergedPlant
 import teksturepako.greenery.common.block.plantContainer
-import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
@@ -67,13 +66,11 @@ abstract class TallSubmergedPlant(name: String, maxAge: Int) : SubmergedPlant(na
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        val materials = MaterialUtil.materialsOf(allowedSoils)
-
         return if (down.block == this)      // if block down is weed
         {
             down2.block != this             // if 2 block down is weed return false
         }
-        else down.material in materials     // if block down is not weed return if down is in ALLOWED_SOILS
+        else soil.invoke(down)               // if block down is not weed return if down is in ALLOWED_SOILS
     }
 
     override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)

@@ -13,7 +13,7 @@ interface IArbBlockGenerator : IWorldGenerator
     val blockStates: List<IBlockState>
 
     val worldGen: List<String>
-    val allowedSoils: List<String>
+    val soilFunc: (IBlockState) -> Boolean
 
     fun generateBlocks(plantAttempts: Int, world: World, rand: Random, targetPos: BlockPos, flags: Int)
 }

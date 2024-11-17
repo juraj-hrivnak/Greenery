@@ -21,6 +21,7 @@ data class PlantData(
     val worldGen: List<String> = listOf(),
     val drops: List<String> = listOf(),
     val allowedSoils: List<String>? = null, // Backward compat
+    val soil: List<String>? = null, // Backward compat
     val compatibleFluids: List<String> = listOf(),
     val hasTintIndex: Boolean = false,
     val hasOffset: Boolean = true,

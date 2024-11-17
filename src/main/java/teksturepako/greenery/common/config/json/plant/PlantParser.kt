@@ -6,6 +6,7 @@ import teksturepako.greenery.common.block.plant.floating.FloatingPlant
 import teksturepako.greenery.common.block.plant.submerged.kelplike.KelpLikeSubmergedPlant
 import teksturepako.greenery.common.block.plant.submerged.tall.TallSubmergedPlant
 import teksturepako.greenery.common.block.plant.upland.tall.TallUplandPlant
+import teksturepako.greenery.common.config.parser.SoilParser
 
 object PlantParser
 {
@@ -36,6 +37,9 @@ object PlantParser
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var allowedSoils = it.allowedSoils ?: defMaterials
+                override var soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                    ?: SoilParser.parse(SoilParser.fromAllowedSoils(allowedSoils))
+
                 override var compatibleFluids = it.compatibleFluids
                 override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
@@ -50,6 +54,9 @@ object PlantParser
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var allowedSoils = it.allowedSoils ?: defMaterials
+                override var soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                    ?: SoilParser.parse(SoilParser.fromAllowedSoils(allowedSoils))
+
                 override var compatibleFluids = it.compatibleFluids
                 override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
@@ -64,6 +71,9 @@ object PlantParser
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var allowedSoils = it.allowedSoils ?: defMaterials
+                override var soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                    ?: SoilParser.parse(SoilParser.fromAllowedSoils(allowedSoils))
+
                 override var compatibleFluids = it.compatibleFluids
                 override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
@@ -78,6 +88,9 @@ object PlantParser
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var allowedSoils = it.allowedSoils ?: defMaterials
+                override var soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                    ?: SoilParser.parse(SoilParser.fromAllowedSoils(allowedSoils))
+
                 override var compatibleFluids = it.compatibleFluids
                 override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
@@ -92,6 +105,9 @@ object PlantParser
                 override var worldGen = it.worldGen
                 override var drops = it.drops
                 override var allowedSoils = it.allowedSoils ?: defGrassMaterials
+                override var soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                    ?: SoilParser.parse(SoilParser.fromAllowedSoils(allowedSoils))
+
                 override var canGrow = it.canGrow
                 override var hasTintIndex = it.hasTintIndex
                 override var hasOffset = it.hasOffset
@@ -116,6 +132,9 @@ object PlantParser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.allowedSoils = it.allowedSoils ?: defMaterials
+                        plant.soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                            ?: SoilParser.parse(SoilParser.fromAllowedSoils(plant.allowedSoils))
+
                         plant.compatibleFluids = it.compatibleFluids
                         plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
@@ -130,6 +149,9 @@ object PlantParser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.allowedSoils = it.allowedSoils ?: defMaterials
+                        plant.soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                            ?: SoilParser.parse(SoilParser.fromAllowedSoils(plant.allowedSoils))
+
                         plant.compatibleFluids = it.compatibleFluids
                         plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
@@ -144,6 +166,9 @@ object PlantParser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.allowedSoils = it.allowedSoils ?: defMaterials
+                        plant.soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                            ?: SoilParser.parse(SoilParser.fromAllowedSoils(plant.allowedSoils))
+
                         plant.compatibleFluids = it.compatibleFluids
                         plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
@@ -158,6 +183,9 @@ object PlantParser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.allowedSoils = it.allowedSoils ?: defMaterials
+                        plant.soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                            ?: SoilParser.parse(SoilParser.fromAllowedSoils(plant.allowedSoils))
+
                         plant.compatibleFluids = it.compatibleFluids
                         plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
@@ -172,6 +200,9 @@ object PlantParser
                         plant.worldGen = it.worldGen
                         plant.drops = it.drops
                         plant.allowedSoils = it.allowedSoils ?: defGrassMaterials
+                        plant.soil = it.soil?.let { soils -> SoilParser.parse(soils) }
+                            ?: SoilParser.parse(SoilParser.fromAllowedSoils(plant.allowedSoils))
+
                         plant.canGrow = it.canGrow
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid

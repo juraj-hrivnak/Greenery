@@ -1,7 +1,6 @@
 package teksturepako.greenery.common.event
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
-import net.minecraft.block.material.Material
 import net.minecraft.client.Minecraft
 import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.math.BlockPos
@@ -32,7 +31,9 @@ object EventBonemeal
 
         event.isCanceled
 
-        if (blockState.material == Material.GRASS
+        val soilFunc = Greenery.plants.map { it.soil } + Greenery.arbBlocks.map { it.soilFunc }
+
+        if (soilFunc.any { it.invoke(blockState) }
             || FluidloggedUtils.isFluidloggableFluid(world.getBlockState(up).block)
             && blockState.block !in Greenery.plants)
         {

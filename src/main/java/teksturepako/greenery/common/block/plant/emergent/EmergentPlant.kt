@@ -27,7 +27,6 @@ import teksturepako.greenery.common.block.plant.PlantDamageSource.Companion.Pric
 import teksturepako.greenery.common.block.plantContainer
 import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.util.FluidUtil
-import teksturepako.greenery.common.util.MaterialUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
@@ -164,12 +163,10 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
 
     override fun canBlockStay(worldIn: World, pos: BlockPos, state: IBlockState): Boolean
     {
-        val materials = MaterialUtil.materialsOf(allowedSoils)
-
         val down = worldIn.getBlockState(pos.down())
         val down2 = worldIn.getBlockState(pos.down(2))
 
-        return if (down.material in materials) true else down.block == this && down2.block != this
+        return soil.invoke(down) || down.block == this && down2.block != this
     }
 
     override fun placePlant(world: World, pos: BlockPos, rand: Random, flags: Int)

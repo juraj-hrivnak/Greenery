@@ -21,13 +21,13 @@ import teksturepako.greenery.common.command.CommandGreenery
 import teksturepako.greenery.common.config.json.arbBlock.ArbBlockData
 import teksturepako.greenery.common.config.json.arbBlock.ArbBlockParser
 import teksturepako.greenery.common.config.json.plant.PlantParser
+import teksturepako.greenery.common.config.parser.GeneratorParser
 import teksturepako.greenery.common.event.EventOldContentLoad
 import teksturepako.greenery.common.event.EventWorldGen
 import teksturepako.greenery.common.recipe.ModRecipes
 import teksturepako.greenery.common.registry.ModBlocks
 import teksturepako.greenery.common.registry.ModItems
 import teksturepako.greenery.common.registry.ModSoundEvents
-import teksturepako.greenery.common.util.ConfigUtil
 import teksturepako.greenery.common.worldGen.*
 import teksturepako.greenery.proxy.IProxy
 import java.nio.file.Path
@@ -143,7 +143,7 @@ object Greenery
                 plantGenerators.add(PlantGenerator(plant))
             }
 
-            ConfigUtil.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, printParsing)
+            GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, printParsing)
         }
         return plantGenerators
     }
@@ -154,10 +154,10 @@ object Greenery
         {
             for (block in arbBlocks)
             {
-                arbBlockGenerators.add(ArbBlockGenerator(block.name, block.blockStates, block.worldGen, block.allowedSoils))
+                arbBlockGenerators.add(ArbBlockGenerator(block.name, block.blockStates, block.worldGen, block.soilFunc))
             }
 
-            ConfigUtil.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, printParsing)
+            GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, printParsing)
         }
         return arbBlockGenerators
     }
