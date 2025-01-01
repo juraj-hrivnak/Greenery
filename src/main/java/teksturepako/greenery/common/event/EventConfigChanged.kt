@@ -24,15 +24,15 @@ object EventConfigChanged
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
 
             Greenery.plantGenerators.clear()
-            Greenery.loadPlantGenerators(false)
+            Greenery.loadPlantGenerators(teksturepako.greenery.common.config.Config.global.printDebugInfo)
 
             Greenery.arbBlockGenerators.clear()
-            Greenery.loadArbBlockGenerators(false)
+            Greenery.loadArbBlockGenerators(teksturepako.greenery.common.config.Config.global.printDebugInfo)
 
             printed = if (!printed)
             {
-                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, true)
-                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, true)
+                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, teksturepako.greenery.common.config.Config.global.printDebugInfo)
+                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, teksturepako.greenery.common.config.Config.global.printDebugInfo)
                 true
             }
             else false

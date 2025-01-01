@@ -16,7 +16,7 @@ internal class WorldGenHook : IWorldGenerator
         val plantGenerators: MutableList<IPlantGenerator> = Greenery.loadPlantGenerators(true)
         for (generator in plantGenerators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
-        val arbBlockGenerators: MutableList<IArbBlockGenerator> = Greenery.loadArbBlockGenerators(true)
+        val arbBlockGenerators: MutableList<IArbBlockGenerator> = Greenery.loadArbBlockGenerators(Config.global.printDebugInfo)
         for (generator in arbBlockGenerators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
         if (Config.global.removeGrass) removeUnwantedBopGenerators(world)
