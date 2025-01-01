@@ -9,6 +9,7 @@ import net.minecraft.world.IBlockAccess
 import net.minecraft.world.World
 import net.minecraftforge.common.ForgeHooks
 import net.minecraftforge.fml.common.registry.ForgeRegistries
+import net.minecraftforge.oredict.OreDictionary
 import teksturepako.greenery.common.util.Utils.isNotNull
 
 object DropsParser
@@ -57,7 +58,14 @@ object DropsParser
             // Parsing itemStack
             val itemStack: ItemStack = if (itemStackRaw.isNotNull(0) && itemStackRaw.isNotNull(1))
             {
-                ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation("${itemStackRaw[0]}:${itemStackRaw[1]}"))!!)
+                if (itemStackRaw[0] == "ore")
+                {
+                    OreDictionary.getOres(itemStackRaw[1]).firstOrNull() ?: ItemStack.EMPTY
+                }
+                else
+                {
+                    ItemStack(ForgeRegistries.ITEMS.getValue(ResourceLocation("${itemStackRaw[0]}:${itemStackRaw[1]}"))!!)
+                }
             }
             else
             {
@@ -72,6 +80,16 @@ object DropsParser
                     else -> ItemStack.EMPTY
                 }
             }
+
+            // Setting metadata if it's not an oredict item
+            if (itemStackRaw[0] != "ore" && itemStackRaw.isNotNull(2))
+            {
+                itemStack.itemDamage = itemStackRaw[2].toInt()
+            }
+
+            // Fix itemDamage overflow
+            // Encountered when using 'ore:plankWood' or 'ore:logWood' as drop
+            if (itemStack.itemDamage == 32767) itemStack.itemDamage = 0
 
             // Setting count
             itemStack.count = amount + fortune
