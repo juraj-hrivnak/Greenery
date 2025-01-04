@@ -25,10 +25,10 @@ object EventConfigChanged
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
 
             Greenery.plantGenerators.clear()
-            Greenery.loadPlantGenerators(GreeneryConfig.global.printDebugInfo)
+            Greenery.loadPlantGenerators(false)
 
             Greenery.arbBlockGenerators.clear()
-            Greenery.loadArbBlockGenerators(GreeneryConfig.global.printDebugInfo)
+            Greenery.loadArbBlockGenerators(false)
 
             printed = if (!printed)
             {
