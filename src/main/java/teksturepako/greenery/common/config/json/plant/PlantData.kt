@@ -26,7 +26,8 @@ data class PlantData(
     val hasTintIndex: Boolean = false,
     val hasOffset: Boolean = true,
     val isSolid: Boolean = false,
-    val isHarmful: Boolean = false
+    val isHarmful: Boolean = false,
+    val isReplaceable: Boolean? = null,
 )
 {
     companion object

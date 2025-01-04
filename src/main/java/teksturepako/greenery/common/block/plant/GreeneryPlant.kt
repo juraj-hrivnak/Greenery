@@ -88,6 +88,12 @@ abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowabl
      */
     abstract var isHarmful: Boolean
 
+    /**
+     * Determines whether this block is replaceable.
+     * Can be reassigned at runtime.
+     */
+    abstract var isReplaceable: Boolean?
+
     // -- BLOCK STATE --
 
     @Deprecated("Use 'createPlantContainer' instead.", ReplaceWith("createPlantContainer()"))
@@ -234,7 +240,7 @@ abstract class GreeneryPlant(val maxAge: Int) : Block(Material.PLANTS), IGrowabl
     @SideOnly(Side.CLIENT)
     override fun getOffsetType(): EnumOffsetType = if (hasOffset) EnumOffsetType.XZ else EnumOffsetType.NONE
     override fun canPlaceBlockAt(worldIn: World, pos: BlockPos): Boolean = canBlockStay(worldIn, pos, defaultState)
-    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
+    override fun isReplaceable(worldIn: IBlockAccess, pos: BlockPos): Boolean = isReplaceable ?: !isSolid
     override fun isPassable(worldIn: IBlockAccess, pos: BlockPos): Boolean = !isSolid
     override fun isFlammable(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Boolean = true
     override fun getFlammability(world: IBlockAccess, pos: BlockPos, face: EnumFacing): Int = 300

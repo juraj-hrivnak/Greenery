@@ -46,6 +46,7 @@ object PlantParser
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
+                override var isReplaceable = it.isReplaceable
             })
         }
         Floating.path.decodePlantDataRecursive {
@@ -63,6 +64,7 @@ object PlantParser
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
+                override var isReplaceable = it.isReplaceable
             })
         }
         Submerged.KelpLike.path.decodePlantDataRecursive {
@@ -80,6 +82,7 @@ object PlantParser
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
+                override var isReplaceable: Boolean? = null
             })
         }
         Submerged.Tall.path.decodePlantDataRecursive {
@@ -97,6 +100,7 @@ object PlantParser
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
+                override var isReplaceable: Boolean? = null
             })
         }
         Upland.Tall.path.decodePlantDataRecursive {
@@ -113,6 +117,7 @@ object PlantParser
                 override var hasOffset = it.hasOffset
                 override var isSolid = it.isSolid
                 override var isHarmful = it.isHarmful
+                override var isReplaceable = it.isReplaceable
             })
         }
     }
@@ -140,6 +145,7 @@ object PlantParser
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
+                        plant.isReplaceable = it.isReplaceable
                     }
                 }
 
@@ -157,6 +163,7 @@ object PlantParser
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
+                        plant.isReplaceable = it.isReplaceable
                     }
                 }
 
@@ -207,6 +214,7 @@ object PlantParser
                         plant.hasOffset = it.hasOffset
                         plant.isSolid = it.isSolid
                         plant.isHarmful = it.isHarmful
+                        plant.isReplaceable = it.isReplaceable
                     }
                 }
             }
