@@ -21,15 +21,6 @@ object GeneratorParser
             Greenery.logger.info("Loading world generators:")
         }
 
-        if (generators.isEmpty())
-        {
-            if (printParsing)
-            {
-                Greenery.logger.error("No generators found!")
-            }
-            return true
-        }
-
         var errored = false
 
         for ((name, worldGen) in generators)

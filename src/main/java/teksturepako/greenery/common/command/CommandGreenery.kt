@@ -33,10 +33,8 @@ class CommandGreenery : CommandBase()
             PlantParser.reloadPlantData()
             ArbBlockParser.decodeOrReloadData()
 
-            Greenery.plantGenerators.clear()
+            Greenery.unloadGenerators()
             Greenery.loadPlantGenerators(Config.global.printDebugInfo)
-
-            Greenery.arbBlockGenerators.clear()
             Greenery.loadArbBlockGenerators(Config.global.printDebugInfo)
 
             sender.sendMessage(TextComponentString("Plant configuration reloaded!").setStyle(Style().setColor(TextFormatting.GREEN)))

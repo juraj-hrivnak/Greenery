@@ -13,7 +13,7 @@ internal class WorldGenHook : IWorldGenerator
 {
     override fun generate(rand: Random, chunkX: Int, chunkZ: Int, world: World, chunkGen: IChunkGenerator, chunkProv: IChunkProvider)
     {
-        val plantGenerators: MutableList<IPlantGenerator> = Greenery.loadPlantGenerators(true)
+        val plantGenerators: MutableList<IPlantGenerator> = Greenery.loadPlantGenerators(Config.global.printDebugInfo)
         for (generator in plantGenerators) generator.generate(rand, chunkX, chunkZ, world, chunkGen, chunkProv)
 
         val arbBlockGenerators: MutableList<IArbBlockGenerator> = Greenery.loadArbBlockGenerators(Config.global.printDebugInfo)

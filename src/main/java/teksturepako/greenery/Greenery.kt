@@ -60,7 +60,10 @@ object Greenery
     val arbBlocks: MutableList<ArbBlockData> = mutableListOf()
 
     val plantGenerators: MutableList<IPlantGenerator> = mutableListOf()
+    var plantGeneratorsLoaded = false
+
     val arbBlockGenerators: MutableList<IArbBlockGenerator> = mutableListOf()
+    var arbBlockGeneratorsLoaded = false
 
     @SidedProxy(serverSide = SERVER_PROXY, clientSide = CLIENT_PROXY)
     lateinit var proxy: IProxy
@@ -136,37 +139,55 @@ object Greenery
 
     fun loadPlantGenerators(printParsing: Boolean): MutableList<IPlantGenerator>
     {
-        if (plantGenerators.isEmpty())
+        if (plantGenerators.isEmpty() && !plantGeneratorsLoaded)
         {
             for (plant in plants)
             {
                 plantGenerators.add(PlantGenerator(plant))
             }
 
-            GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, printParsing)
+            if (plantGenerators.isNotEmpty())
+            {
+                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, printParsing)
+            }
+
+            plantGeneratorsLoaded = true
         }
         return plantGenerators
     }
 
     fun loadArbBlockGenerators(printParsing: Boolean): MutableList<IArbBlockGenerator>
     {
-        if (arbBlockGenerators.isEmpty())
+        if (arbBlockGenerators.isEmpty() && !arbBlockGeneratorsLoaded)
         {
             for (block in arbBlocks)
             {
                 arbBlockGenerators.add(ArbBlockGenerator(block.name, block.blockStates, block.worldGen, block.soilFunc))
             }
 
-            GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, printParsing)
+            if (arbBlockGenerators.isNotEmpty())
+            {
+                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, printParsing)
+            }
+
+            arbBlockGeneratorsLoaded = true
         }
         return arbBlockGenerators
+    }
+
+    fun unloadGenerators()
+    {
+        logger.info("Unloading world generators")
+        plantGenerators.clear()
+        arbBlockGenerators.clear()
+
+        plantGeneratorsLoaded = false
+        arbBlockGeneratorsLoaded = false
     }
 
     @Mod.EventHandler
     fun onServerStoppingEvent(event: FMLServerStoppingEvent?)
     {
-        logger.info("Unloading world generators")
-        plantGenerators.clear()
-        arbBlockGenerators.clear()
+        unloadGenerators()
     }
 }

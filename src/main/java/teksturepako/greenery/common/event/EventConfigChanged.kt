@@ -24,16 +24,20 @@ object EventConfigChanged
         {
             ConfigManager.sync(Greenery.MODID, Config.Type.INSTANCE)
 
-            Greenery.plantGenerators.clear()
-            Greenery.loadPlantGenerators(false)
-
-            Greenery.arbBlockGenerators.clear()
-            Greenery.loadArbBlockGenerators(false)
+            Greenery.unloadGenerators()
+            Greenery.loadPlantGenerators(printParsing =false)
+            Greenery.loadArbBlockGenerators(printParsing =false)
 
             printed = if (!printed)
             {
-                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, GreeneryConfig.global.printDebugInfo)
-                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, GreeneryConfig.global.printDebugInfo)
+                GeneratorParser.parseGenerators(
+                    generators = plantGenerators.map { it.plant.localizedName to it.plant.worldGen },
+                    printParsing = GreeneryConfig.global.printDebugInfo
+                )
+                GeneratorParser.parseGenerators(
+                    generators = arbBlockGenerators.map { it.name to it.worldGen },
+                    printParsing = GreeneryConfig.global.printDebugInfo
+                )
                 true
             }
             else false
