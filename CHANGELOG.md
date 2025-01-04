@@ -1,5 +1,17 @@
 # Changelog
 
+## v8.0
+
+- Merged pull request by @MasterEnderman in [#31](https://github.com/juraj-hrivnak/Greenery/pull/31).
+  - Added a new config option for disable printing debug messages to the log file
+  - Defining drops now allows:
+    - using metadata -> use `<resource_location>:<meta>`; example `minecraft:wool:5`,
+    - using oredicts -> use `ore:<oredict_name>`; example `ore:plankWood`.
+
+- Added "Override Other Bonemeal Events" config.
+- Added `isReplaceable` JSON config.
+- Implemented a safer way of loading and unloading generators. (Fixes [#30](https://github.com/juraj-hrivnak/Greenery/issues/30).)
+
 ## v7.0
 
 ### Greenery🌿 changelog
