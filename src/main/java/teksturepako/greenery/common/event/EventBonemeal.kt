@@ -29,8 +29,6 @@ object EventBonemeal
         val up = event.pos.up()
         val rand = world.rand
 
-        event.isCanceled
-
         val soilFunc = Greenery.plants.map { it.soil } + Greenery.arbBlocks.map { it.soilFunc }
 
         if (soilFunc.any { it.invoke(blockState) }
@@ -38,6 +36,11 @@ object EventBonemeal
             && blockState.block !in Greenery.plants)
         {
             useBonemeal(event, up, world, rand)
+        }
+
+        if (Config.global.overrideBonemealEvent)
+        {
+            event.isCanceled = true
         }
     }
 

@@ -38,5 +38,10 @@ object Config
         @Comment("Prints debug info to the log file.")
         @JvmField
         var printDebugInfo = true
+
+        @Name("[7] Override Other Bonemeal Events")
+        @Comment("Cancels the bonemeal event for other mods and vanilla plants.")
+        @JvmField
+        var overrideBonemealEvent = false
     }
 }
