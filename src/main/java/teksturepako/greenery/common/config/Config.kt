@@ -33,5 +33,10 @@ object Config
         @Comment("Whether to generate plants in the superflat world type.")
         @JvmField
         var genInSuperflat = true
+
+        @Name("[6] Print Debug Info")
+        @Comment("Prints debug info to the log file.")
+        @JvmField
+        var printDebugInfo = true
     }
 }

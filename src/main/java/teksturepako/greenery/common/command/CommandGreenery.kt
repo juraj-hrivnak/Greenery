@@ -10,6 +10,7 @@ import net.minecraft.util.text.Style
 import net.minecraft.util.text.TextComponentString
 import net.minecraft.util.text.TextFormatting
 import teksturepako.greenery.Greenery
+import teksturepako.greenery.common.config.Config
 import teksturepako.greenery.common.config.json.arbBlock.ArbBlockParser
 import teksturepako.greenery.common.config.json.plant.PlantParser
 
@@ -33,10 +34,10 @@ class CommandGreenery : CommandBase()
             ArbBlockParser.decodeOrReloadData()
 
             Greenery.plantGenerators.clear()
-            Greenery.loadPlantGenerators(true)
+            Greenery.loadPlantGenerators(Config.global.printDebugInfo)
 
             Greenery.arbBlockGenerators.clear()
-            Greenery.loadArbBlockGenerators(true)
+            Greenery.loadArbBlockGenerators(Config.global.printDebugInfo)
 
             sender.sendMessage(TextComponentString("Plant configuration reloaded!").setStyle(Style().setColor(TextFormatting.GREEN)))
         }

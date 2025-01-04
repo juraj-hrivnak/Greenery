@@ -9,6 +9,7 @@ import teksturepako.greenery.Greenery
 import teksturepako.greenery.Greenery.arbBlockGenerators
 import teksturepako.greenery.Greenery.plantGenerators
 import teksturepako.greenery.common.config.parser.GeneratorParser
+import teksturepako.greenery.common.config.Config as GreeneryConfig
 
 @Mod.EventBusSubscriber
 object EventConfigChanged
@@ -31,8 +32,8 @@ object EventConfigChanged
 
             printed = if (!printed)
             {
-                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, true)
-                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, true)
+                GeneratorParser.parseGenerators(plantGenerators.map { it.plant.localizedName to it.plant.worldGen }, GreeneryConfig.global.printDebugInfo)
+                GeneratorParser.parseGenerators(arbBlockGenerators.map { it.name to it.worldGen }, GreeneryConfig.global.printDebugInfo)
                 true
             }
             else false
