@@ -37,6 +37,6 @@ object Config
         @Name("[6] Print Debug Info")
         @Comment("Prints debug info to the log file.")
         @JvmField
-        var printDebugInfo = false
+        var printDebugInfo = true
     }
 }
