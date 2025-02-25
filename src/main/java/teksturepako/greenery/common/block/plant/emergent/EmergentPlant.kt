@@ -30,7 +30,7 @@ import teksturepako.greenery.common.util.FluidUtil
 import teksturepako.greenery.common.util.Utils.applyOffset
 import java.util.*
 
-abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable
+abstract class EmergentPlant(val name: String, val maxAge: Int) : GreeneryPlant(maxAge), IFluidloggable
 {
     abstract var compatibleFluids: List<String>
 
@@ -137,7 +137,7 @@ abstract class EmergentPlant(val name: String, maxAge: Int) : GreeneryPlant(maxA
     override fun onBlockPlacedBy(worldIn: World, pos: BlockPos, state: IBlockState, placer: EntityLivingBase, stack: ItemStack)
     {
         val down = worldIn.getBlockState(pos.down())
-        if (down.block != this) worldIn.setBlockState(pos, this.defaultState.withProperty(ageProperty, 3))
+        if (down.block != this) worldIn.setBlockState(pos, this.defaultState.withProperty(ageProperty, maxAge))
         if (this.canBlockStay(worldIn, pos.up(), state))
         {
             worldIn.setBlockState(pos.up(), this.defaultState, 2)
