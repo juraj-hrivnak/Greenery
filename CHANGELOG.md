@@ -1,5 +1,14 @@
 # Changelog
 
+## v9.0
+
+
+> [!WARNING]  
+> This update might require you to update the Fluidlogged API to v3.0.0.
+
+- Added support for Fluidlogged API 3.0.0
+- Fixed crash when `maxAge` of EmergentPlants was lower than 3.
+
 ## v8.0
 
 - Merged pull request by @MasterEnderman in [#31](https://github.com/juraj-hrivnak/Greenery/pull/31).
