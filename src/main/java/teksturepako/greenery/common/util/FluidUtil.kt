@@ -1,6 +1,6 @@
 package teksturepako.greenery.common.util
 
-import git.jbredwards.fluidlogged_api.api.block.IFluidloggableFluid
+import git.jbredwards.fluidlogged_api.api.fluid.IFluidloggableFluid
 import git.jbredwards.fluidlogged_api.api.util.FluidState
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
 import net.minecraft.util.math.BlockPos
@@ -18,9 +18,12 @@ object FluidUtil
     fun canGenerateInFluids(fluids: List<String>, world: World, pos: BlockPos): Boolean
     {
         val block = world.getBlockState(pos).block
-        return if (block is IFluidloggableFluid && (block as IFluidloggableFluid).isFluidloggableFluid)
+
+        val fluidState: FluidState = FluidloggedUtils.getFluidState(world as IBlockAccess, pos)
+
+        return if (block is IFluidloggableFluid && (block as IFluidloggableFluid).isFluidloggableFluid(fluidState))
         {
-            block.fluid.name in fluids
+            fluidState.fluid.name in fluids
         }
         else false
     }

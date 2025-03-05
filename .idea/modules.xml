@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.ideVirtualMain.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.ideVirtualMain.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.patchedMc.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.patchedMc.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Greenery.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Greenery.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.api.iml" />
@@ -12,6 +13,9 @@
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.injectedTags.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.injectedTags.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.mcLauncher.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.mcLauncher.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.patchedMc.iml" filepath="$PROJECT_DIR$/.idea/modules/IdeaProjects.Greenery.patchedMc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.api.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.main.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.test.iml" filepath="$PROJECT_DIR$/.idea/modules/teksturepako.Greenery.test.iml" />
     </modules>
   </component>
 </project>

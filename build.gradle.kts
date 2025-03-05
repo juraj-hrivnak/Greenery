@@ -139,7 +139,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2")
 
     // Fluidlogged API
-    implementation(rfg.deobf("com.github.jbredwards:fluidlogged-api:47f153989e"))
+    implementation(rfg.deobf("com.github.jbredwards:fluidlogged-api:1.12.2-Latest-SNAPSHOT"))
 
     // Biomes O' Plenty
     implementation(rfg.deobf("curse.maven:bop-220318:2842510"))
@@ -155,7 +155,7 @@ dependencies {
     compileOnly("curse.maven:dynamictrees-252818:3812474")
 
     // Simple Difficulty
-    runtimeOnly("curse.maven:simpledifficulty-for-underdog-574162:4434298")
+//    runtimeOnly("curse.maven:simpledifficulty-for-underdog-574162:4434298")
 
     if (use_assetmover.toBoolean()) {
         implementation("com.cleanroommc:assetmover:2.5")
