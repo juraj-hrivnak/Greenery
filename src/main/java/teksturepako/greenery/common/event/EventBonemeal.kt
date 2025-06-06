@@ -1,6 +1,8 @@
 package teksturepako.greenery.common.event
 
 import git.jbredwards.fluidlogged_api.api.util.FluidloggedUtils
+import net.minecraft.block.BlockMushroom
+import net.minecraft.block.BlockSapling
 import net.minecraft.client.Minecraft
 import net.minecraft.util.EnumParticleTypes
 import net.minecraft.util.math.BlockPos
@@ -40,8 +42,17 @@ object EventBonemeal
 
         if (Config.global.overrideBonemealEvent)
         {
-            event.isCanceled = true
+            onBonemealOverride(event)
         }
+    }
+
+    private fun onBonemealOverride(event: BonemealEvent)
+    {
+        val blockState = event.block
+
+        if (blockState.block is BlockSapling || blockState.block is BlockMushroom) return
+
+        event.isCanceled = true
     }
 
     private fun useBonemeal(event: BonemealEvent, pos: BlockPos, world: World, rand: Random)
