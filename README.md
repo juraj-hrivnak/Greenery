@@ -13,5 +13,11 @@ Greenery is a Minecraft Forge mod that makes the game more green and lively by a
 
 # Development
 
+## Setup
+
 1. Install the [MinecraftDev Plugin Fork](https://github.com/eigenraven/MinecraftDev/releases) for RetroFuturaGradle.
 2. Run `gradlew setupDecompWorkspace`
+
+## Build
+
+- Run `gradlew build`
