@@ -1,13 +1,17 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "xxx",
-    "xxx",
-    "xxx"
+    "x##",
+    "###",
+    "###"
   ],
   "key": {
     "x": {
       "item": "greenery:dried_kelp"
+    },
+    "#": {
+      "type": "forge:ore_dict",
+      "ore": "foodDriedKelp"
     }
   },
   "result": {
