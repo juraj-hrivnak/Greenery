@@ -33,7 +33,12 @@ object ModItems
 
     fun initOreDictionary()
     {
+        "plant/submerged/kelp".registerOreDict("cropKelp")
         "plant/submerged/kelp".registerOreDict("cropSeaweed")
+        "plant/submerged/seagrass".registerOreDict("cropSeagrass")
+        
+        "dried_kelp".registerOreDict("foodDriedKelp")
+        "dried_kelp_block".registerOreDict("blockDriedKelp")
     }
 
     /**

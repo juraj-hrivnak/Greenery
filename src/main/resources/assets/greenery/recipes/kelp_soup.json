@@ -2,22 +2,28 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "greenery:plant/submerged/kelp"
+      "type": "forge:ore_dict",
+      "ore": "cropKelp"
     },
     {
-      "item": "greenery:plant/submerged/kelp"
+      "type": "forge:ore_dict",
+      "ore": "cropKelp"
     },
     {
-      "item": "greenery:plant/submerged/kelp"
+      "type": "forge:ore_dict",
+      "ore": "cropKelp"
     },
     {
-      "item": "greenery:plant/submerged/kelp"
+      "type": "forge:ore_dict",
+      "ore": "cropKelp"
     },
     {
-      "item": "greenery:plant/submerged/kelp"
+      "type": "forge:ore_dict",
+      "ore": "cropKelp"
     },
     {
-      "item": "greenery:plant/submerged/kelp"
+      "type": "forge:ore_dict",
+      "ore": "cropKelp"
     },
     {
       "item": "minecraft:bowl"
